@@ -1,0 +1,183 @@
+---
+layout: default
+title: Tudu Lists
+---
+
+<h1>Tudu Lists</h1>
+<p>
+	<b>Currently, Tudu Lists is NOT in active development anymore.</b>
+</p>
+<p>
+	At the beginning, Tudu Lists was the example application of French book "Spring par la pratique"...
+</p>
+<p>
+	<i>"(...) the authors commitment to providing a realistic sample application (rather than the simplistic effort that mars many books), is shown by the fact that Tudu Lists has become a viable open source project in its own right"</i> -- Rod Johnson, Founder of the Spring Framework
+</p>
+<p>
+	If you are French and interested by "Spring par la pratique", please see this section of the Website : <a href="/book.html">Spring par la pratique</a>
+</p>
+<p>
+	Tudu Lists is an Open Source software, available on Github : <a href="https://github.com/jdubois/Tudu-Lists" target="_blank">https://github.com/jdubois/Tudu-Lists</a>.
+</p>
+
+<h2>Using Tudu Lists</h2>
+
+<p>
+	Tudu Lists is an on-line application for managing todo lists. With Tudu Lists, todo lists can be easily accessed, edited and shared on the Web. It is a simple but effective project management tool.
+</p>
+
+<p>
+	If you want to use Tudu Lists, go to <a href="http://tudu.rasc.ch/tudu/welcome.action" target="_blank">http://tudu.rasc.ch/tudu/welcome.action</a>, which provides a free installation for everyone to use. Many thanks to <a href="http://www.ess.ch/" target="_blank">ESS Development AG</a> for this service.
+</p>
+
+<h2>Installation</h2>
+
+<p>
+	The source code of Tudu Lists is available on Github : <a href="https://github.com/jdubois/Tudu-Lists" target="_blank">https://github.com/jdubois/Tudu-Lists</a>.
+</p>
+
+<h3>Introduction</h2>
+
+<p>
+	If you just want to use Tudu Lists online, you can use <a href="http://tudu.rasc.ch/tudu/welcome.action" target="_blank">http://tudu.rasc.ch/tudu/welcome.action</a>, which provides a free installation for everyone to use. This is hosted by ESS Development AG, so if you experience any problem with this installation please contact them directly.
+</p>
+
+<p>
+	Of course, you can easily have your own installation of Tudu Lists in your company. We have reports of 10 to 20 companies doing so, but this is far from being a complete list (as always with Open Source, you don't always know who is using your software!).
+</p>
+
+<h4>Step 1 : Download Tudu  Lists</h4>
+
+<p>
+	Tudu Lists is downloadable from SourceForge : <a href="https://sourceforge.net/project/showfiles.php?group_id=131842&package_id=144702" target="_blank">https://sourceforge.net/project/showfiles.php?group_id=131842&package_id=144702</a>
+</p>
+
+<h4>Step 2 : Database setup</h4>
+
+<p>
+	<b>WARNING</b> This section needs to be re-written for Tudu Lists 3.0 (if you're using an older version it is still acurate)
+</p>
+
+<h5>Introduction</h5>
+
+<p>
+	Tudu Lists uses the Hibernate persistence layer, so it should work seamlessly on most databases (in fact, we have seen it working with MySQL, Postgresql, MS SQL Server, HSQLDB and Oracle).
+</p>
+
+<p>
+	However, developement is focused on the HSLQDB and MySQL databases :
+</p>
+
+<ul>
+	<li>HSQLDB is used as an in-memroy database for developement. This means that all the data is lost each time the server is shut down.</li>
+	<li>MySQL is used in production. This time, of course, data is saved on the filesystem, and it survives the application shut down.</li>
+</ul>
+
+<h5>HSQLDB installation</h5>
+
+<p>
+	HSQLDB is bundled into Tudu Lists, and is automatically launched at application start up, if MySQL is not found.
+</p>
+
+<p>
+	So there is nothing to do (excepted shutting down MySQL if you also have a production database running).
+</p>
+
+<h5>MySQL installation</h5>
+
+<p>
+	Download MySQL at <a href="http://www.mysql.com/" target="_blank">http://www.mysql.com/</a>, and follow the instructions in order to install the database.
+</p>
+
+<p>
+	If you're using Windows or Mac OS X, an easy-to-use graphical installer is provided.
+</p>
+
+<p>
+	If you're running Linux, chances are that MySQL is already running on your system, or that a simple "apt-get install mysql" will do the trick.
+</p>
+
+<p>
+	Now that MySQL is installed, let's create the "tudu" database.
+</p>
+
+<p>
+	Using a graphical front-end could help for following the next steps. There are a lot of different front-ends for MySQL, but you could use :
+</p>
+
+<ul>
+	<li>MySQL Query Browser : <a href="http://www.mysql.com/products/tools/query-browser/" target="_blank">http://www.mysql.com/products/tools/query-browser/</a></li>
+	<li>CocoaMySQL (only works on Mac OS X, but is really great) : <a href="http://cocoamysql.sourceforge.net/" target="_blank">http://cocoamysql.sourceforge.net/</a></li>
+</ul>
+
+<p>
+Now follow the next steps :
+</p>
+
+<ol>
+	<li>Step 1 : create the "tudu" schema.</li>
+	<li>Step 2 : In the "tudu" database, open the create_schema_mysql.sql script. This script is provided in the "sql/" directory of the Tudu Lists distribution (Note that before Tudu Lists 2.0, it was located in the "src/sql" directory, and that before version 1.1.1, is was in stored in the "sql/" directory). If you want the latest version of this script, it is available in the Subversion repository.</li>
+	<li>Step 3 : Execute the script (with MySQL Query Browser, click on the green "Execute" icon).</li>
+</ol>
+
+<p>
+You should now have a ready-to-work version of the "tudu" database.
+</p>
+
+<p>
+Tudu Lists searches the MySQL instance in 2 different ways :
+</p>
+
+<ul>
+	<li>
+		Firstly, it looks for the "jdbc/tudu" JNDI name, and it will use this database if it finds it. For more information on how to configure a JNDI name in Tomcat, please read the Tomcat documentation.
+	</li>
+	<li>
+		Secondly, it tries to connect to MySQL using its default configuration (username = "root", password = "", schema = "tudu") : if you haven't modified the default settings, it will work automatically.
+	</li>
+</ul>
+<p>
+	If you want to use this second option, and if you have changed something in the default configuration (your password, for example), then you will have to edit the applicationContext-jpa.xml configuration file.
+</p>
+<p>
+	This file is located inside the Tudu Lists web application :
+</p>
+<ul>
+	<li>
+		if you're using the tudu-XX-XX.war file, unzip this file and look inside the WEB-INF/lib directory. This directory contains a tudu-core-XX-XX.jar file, which in turn contains the applicationContext-jpa.xml file inside its tudu/domain directory.
+	</li>
+	<li>
+		if you're building the War file yourself, have a look inside the tudu-core/src/main/resources/tudu/domain directory.
+	</li>
+	<li>
+		The datasource configuration is at the beginning of this file : it is a commons-dbcp datasource configuration, you can find information on all those settings on the Commons DBCP website.
+	</li>
+</ul>
+
+<h4>Step 3 : Application Server setup</h4>
+
+<p>
+	Tudu Lists is a standard WAR application, which should run on any Java EE 5-compliant application server (in fact, we have seen it working with Jetty, JBoss, Resin and Geronimo).
+</p>
+<p>
+	However, developement is focused on the Tomcat application server as it's the most commonly used application server.
+</p>
+
+<h5>JDK and Tomcat installation</h5>
+
+<ul>
+	<li>Tudu Lists is a JDK 6.0 application : download and install the JDK 6.0 from <a href="http://java.sun.com" target="_blank">http://java.sun.com</a>.</li>
+	<li>Tudu Lists works great with Tomcat 6.0 : download and install Tomcat 6.0 from <a href="http://tomcat.apache.org/" target="_blank">http://tomcat.apache.org/</a>.</li>
+</ul>
+
+<h5>Web application installation</h5>
+
+<p>
+	Copy the tudu-dwr.war file into the Tomcat webapps/ directory : cp $TUDU_HOME/tudu.war $TOMCAT_HOME/webapps
+</p>
+
+<h4>Step 4 : Testing the installation</h4>
+
+<p>
+	Connect to your Tudu Lists installation - the default URL is <a href="http://127.0.0.1:8080/tudu/" target="_blank">http://127.0.0.1:8080/tudu/</a>
+</p>
