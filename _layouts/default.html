@@ -49,9 +49,12 @@
                                   <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
+                                    <li {% if '/jhipster.html' == page.url %}class="active"{% endif %}>
+                                        <a href="/jhipster.html">jhipster</a>
+                                    </li>  
                                     <li {% if '/tatami.html' == page.url %}class="active"{% endif %}>
                                         <a href="/tatami.html">Tatami</a>
-                                    </li>  
+                                    </li> 
                                     <li {% if '/tudu-lists.html' == page.url %}class="active"{% endif %}>
                                         <a href="/tudu-lists.html">Tudu Lists</a>
                                     </li> 
