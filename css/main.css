@@ -79,6 +79,19 @@ a:hover {
     background-size: 100% 2px;
 }
 
+/* External link icon for content links that open in new tab */
+.container a[target="_blank"]::after {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-left: 4px;
+    vertical-align: middle;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'%3E%3C/path%3E%3Cpolyline points='15 3 21 3 21 9'%3E%3C/polyline%3E%3Cline x1='10' y1='14' x2='21' y2='3'%3E%3C/line%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
 /* Modern Navbar Styles */
 .navbar-inverse {
     background-color: var(--bg-white);
@@ -107,12 +120,27 @@ a:hover {
     transform: translateY(-1px);
 }
 
+/* Current/active page - use darker color with underline */
 .navbar-inverse .nav .active > a,
 .navbar-inverse .nav .active > a:hover,
 .navbar-inverse .nav .active > a:focus {
     background-color: transparent;
-    color: var(--primary-color) !important;
+    color: var(--text-primary) !important;
+    font-weight: 600;
     box-shadow: none;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 8px;
+}
+
+/* Active items in dropdown menus */
+.navbar-inverse .dropdown-menu .active > a,
+.navbar-inverse .dropdown-menu .active > a:hover {
+    background-color: var(--bg-light) !important;
+    color: var(--text-primary) !important;
+    font-weight: 600;
+    border-left: 3px solid var(--primary-color);
+    border-bottom: none;
+    padding-bottom: 3px;
 }
 
 .navbar .brand {
@@ -128,6 +156,19 @@ a:hover {
 .navbar-inverse .nav > li.dropdown.open > .dropdown-toggle {
     background-color: transparent;
     color: var(--primary-color) !important;
+}
+
+/* External link icon for links that open in new tab */
+.navbar .dropdown-menu a[target="_blank"]::after {
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-left: 5px;
+    vertical-align: middle;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'%3E%3C/path%3E%3Cpolyline points='15 3 21 3 21 9'%3E%3C/polyline%3E%3Cline x1='10' y1='14' x2='21' y2='3'%3E%3C/line%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 /* Hero Section */
@@ -246,11 +287,111 @@ hr {
     margin: 3rem 0;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Responsive Design - Mobile and Tablet */
+@media (max-width: 979px) {
     h1 {
         font-size: 2rem;
- 
+    }
+
+    /* Mobile Menu Button - Make it more visible */
+    .navbar-inverse .btn-navbar {
+        background-color: var(--primary-color) !important;
+        background-image: none !important;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 14px;
+        margin: 10px 15px 10px 0;
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition);
+        display: inline-block !important;
+    }
+
+    .navbar-inverse .btn-navbar:hover,
+    .navbar-inverse .btn-navbar:focus {
+        background-color: var(--primary-dark) !important;
+        box-shadow: var(--shadow-md);
+    }
+
+    .navbar-inverse .btn-navbar .icon-bar {
+        background-color: #ffffff !important;
+        box-shadow: none;
+        height: 3px;
+        border-radius: 2px;
+    }
+
+    /* Add "Menu" label next to hamburger icon */
+    .navbar-inverse .btn-navbar::after {
+        content: "Menu";
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 0.875rem;
+        margin-left: 8px;
+        vertical-align: middle;
+    }
+
+    /* Mobile/Tablet Dropdown Menus - Fix contrast */
+    .navbar-inverse .nav-collapse .nav > li > a,
+    .navbar-inverse .nav-collapse .dropdown-menu a {
+        color: var(--text-primary) !important;
+        background-color: var(--bg-white) !important;
+        padding: 12px 20px;
+        border-bottom: 1px solid var(--border-color);
+        font-weight: 500;
+    }
+
+    .navbar-inverse .nav-collapse .nav > li > a:hover,
+    .navbar-inverse .nav-collapse .nav > li > a:focus,
+    .navbar-inverse .nav-collapse .dropdown-menu a:hover,
+    .navbar-inverse .nav-collapse .dropdown-menu a:focus {
+        background-color: var(--bg-light) !important;
+        color: var(--primary-color) !important;
+    }
+
+    .navbar-inverse .nav-collapse .dropdown-menu {
+        background-color: var(--bg-white) !important;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .navbar-inverse .nav-collapse .dropdown-menu li a {
+        padding-left: 30px;
+        background-color: #f3f4f6 !important;
+    }
+
+    .navbar-inverse .nav-collapse .dropdown-menu li a:hover {
+        background-color: #e5e7eb !important;
+    }
+
+    .navbar-inverse .nav-collapse .nav .active > a {
+        background-color: var(--bg-light) !important;
+        color: var(--primary-color) !important;
+    }
+
+    /* Mobile nav collapse background */
+    .navbar-inverse .nav-collapse {
+        background-color: var(--bg-white);
+    }
+
+    .navbar-inverse .nav-collapse .nav {
+        margin: 0;
+    }
+
+    /* Remove double border on mobile/tablet */
+    .navbar-inverse {
+        border-bottom: none;
+    }
+
+    /* Show brand name on mobile next to menu */
+    .navbar-inverse .brand.visible-phone {
+        display: inline-block !important;
+        float: left;
+        padding: 15px 15px;
+        font-size: 1.1rem;
+        color: var(--text-primary) !important;
+    }
+}
 
 /* Fade-in animations */
 @keyframes fadeInUp {
