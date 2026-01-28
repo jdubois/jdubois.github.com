@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* ==========================================================================
-   Author's custom styles
+   Author's custom styles - Bootstrap 5 compatible
    ========================================================================== */
 
 /* Modern CSS Variables */
@@ -27,7 +27,8 @@ body {
     font-size: 16px;
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 60px);
+    min-height: 100vh;
+    padding-top: 70px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -67,7 +68,7 @@ a:hover {
 }
 
 /* Animated underline for content links */
-.container a:not(.btn) {
+.container a:not(.btn):not(.nav-link):not(.navbar-brand):not(.dropdown-item) {
     background-image: linear-gradient(var(--primary-color), var(--primary-color));
     background-size: 0% 2px;
     background-repeat: no-repeat;
@@ -75,12 +76,12 @@ a:hover {
     transition: background-size 0.3s ease;
 }
 
-.container a:not(.btn):hover {
+.container a:not(.btn):not(.nav-link):not(.navbar-brand):not(.dropdown-item):hover {
     background-size: 100% 2px;
 }
 
 /* External link icon for content links that open in new tab */
-.container a[target="_blank"]::after {
+.container a[target="_blank"]:not(.nav-link):not(.navbar-brand):not(.dropdown-item)::after {
     content: "";
     display: inline-block;
     width: 12px;
@@ -92,74 +93,73 @@ a:hover {
     background-repeat: no-repeat;
 }
 
-/* Modern Navbar Styles */
-.navbar-inverse {
-    background-color: var(--bg-white);
+/* Bootstrap 5 Navbar Styles */
+.navbar {
+    background-color: var(--bg-white) !important;
     border-bottom: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
 }
 
-.navbar-inverse .navbar-inner {
-    background: var(--bg-white);
-    border: none;
-    box-shadow: none;
-}
-
-.navbar-inverse .brand,
-.navbar-inverse .nav > li > a {
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.25rem;
     color: var(--text-primary) !important;
-    font-weight: 500;
-    text-shadow: none;
     transition: var(--transition);
 }
 
-.navbar-inverse .nav > li > a:hover,
-.navbar-inverse .nav > li > a:focus {
+.navbar-brand:hover {
     color: var(--primary-color) !important;
-    background: transparent;
-    transform: translateY(-1px);
+    transform: scale(1.02);
 }
 
-/* Current/active page - use darker color with underline */
-.navbar-inverse .nav .active > a,
-.navbar-inverse .nav .active > a:hover,
-.navbar-inverse .nav .active > a:focus {
-    background-color: transparent;
+.navbar-nav .nav-link {
+    color: var(--text-primary) !important;
+    font-weight: 500;
+    transition: var(--transition);
+    padding: 0.5rem 1rem !important;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+    color: var(--primary-color) !important;
+}
+
+/* Current/active page - use underline indicator */
+.navbar-nav .nav-link.active {
     color: var(--text-primary) !important;
     font-weight: 600;
-    box-shadow: none;
     border-bottom: 2px solid var(--primary-color);
-    padding-bottom: 8px;
+}
+
+/* Dropdown menus */
+.dropdown-menu {
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    border-radius: 8px;
+}
+
+.dropdown-item {
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    transition: var(--transition);
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: var(--bg-light);
+    color: var(--primary-color);
 }
 
 /* Active items in dropdown menus */
-.navbar-inverse .dropdown-menu .active > a,
-.navbar-inverse .dropdown-menu .active > a:hover {
+.dropdown-item.active {
     background-color: var(--bg-light) !important;
     color: var(--text-primary) !important;
     font-weight: 600;
     border-left: 3px solid var(--primary-color);
-    border-bottom: none;
-    padding-bottom: 3px;
 }
 
-.navbar .brand {
-    font-weight: 700;
-    font-size: 1.25rem;
-    transition: var(--transition);
-}
-
-.navbar .brand:hover {
-    transform: scale(1.02);
-}
-
-.navbar-inverse .nav > li.dropdown.open > .dropdown-toggle {
-    background-color: transparent;
-    color: var(--primary-color) !important;
-}
-
-/* External link icon for links that open in new tab */
-.navbar .dropdown-menu a[target="_blank"]::after {
+/* External link icon for dropdown links that open in new tab */
+.dropdown-menu a[target="_blank"]::after {
     content: "";
     display: inline-block;
     width: 12px;
@@ -171,11 +171,23 @@ a:hover {
     background-repeat: no-repeat;
 }
 
+/* Mobile navbar toggler */
+.navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
 /* Hero Section */
 .hero-section {
     padding: 3rem 0;
     background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
     margin: -20px -20px 3rem -20px;
+    padding-left: 20px;
+    padding-right: 20px;
     border-bottom: 1px solid var(--border-color);
 }
 
@@ -198,12 +210,12 @@ a:hover {
 }
 
 .social-cards .row {
-    display: flex;
-    flex-wrap: wrap;
+    align-items: stretch;
 }
 
-.social-cards .span4 {
+.social-cards .col-md-4 {
     display: flex;
+    margin-bottom: 1.5rem;
 }
 
 .social-card {
@@ -218,7 +230,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    justify-content: flex-start;
 }
 
 .social-card:hover {
@@ -229,9 +241,10 @@ a:hover {
 
 .social-card img {
     max-width: 80px;
-    height: auto;
+    height: 80px;
+    object-fit: contain;
     margin: 1rem 0;
-    transitiar(--transition);
+    transition: var(--transition);
 }
 
 .social-card:hover img {
@@ -240,6 +253,7 @@ a:hover {
 
 .social-card p {
     margin: 0;
+    margin-top: auto;
     color: var(--text-secondary);
     font-size: 0.95rem;
     max-width: 100%;
@@ -265,12 +279,11 @@ ul li {
 
 /* Footer */
 footer {
-    margin-top: 3rem;
+    margin-top: auto;
     padding: 1.5rem 0;
     border-top: 1px solid var(--border-color);
     background-color: var(--bg-light);
     width: 100%;
-    flex-shrink: 0;
 }
 
 footer p {
@@ -288,108 +301,43 @@ hr {
 }
 
 /* Responsive Design - Mobile and Tablet */
-@media (max-width: 979px) {
+@media (max-width: 991.98px) {
     h1 {
         font-size: 2rem;
     }
 
-    /* Mobile Menu Button - Make it more visible */
-    .navbar-inverse .btn-navbar {
-        background-color: var(--primary-color) !important;
-        background-image: none !important;
-        border: none;
-        border-radius: 8px;
-        padding: 10px 14px;
-        margin: 10px 15px 10px 0;
-        box-shadow: var(--shadow-sm);
-        transition: var(--transition);
-        display: inline-block !important;
+    .hero-section {
+        padding: 2rem 0;
     }
 
-    .navbar-inverse .btn-navbar:hover,
-    .navbar-inverse .btn-navbar:focus {
-        background-color: var(--primary-dark) !important;
-        box-shadow: var(--shadow-md);
-    }
-
-    .navbar-inverse .btn-navbar .icon-bar {
-        background-color: #ffffff !important;
-        box-shadow: none;
-        height: 3px;
-        border-radius: 2px;
-    }
-
-    /* Add "Menu" label next to hamburger icon */
-    .navbar-inverse .btn-navbar::after {
-        content: "Menu";
-        color: #ffffff;
-        font-weight: 600;
-        font-size: 0.875rem;
-        margin-left: 8px;
-        vertical-align: middle;
-    }
-
-    /* Mobile/Tablet Dropdown Menus - Fix contrast */
-    .navbar-inverse .nav-collapse .nav > li > a,
-    .navbar-inverse .nav-collapse .dropdown-menu a {
-        color: var(--text-primary) !important;
-        background-color: var(--bg-white) !important;
-        padding: 12px 20px;
-        border-bottom: 1px solid var(--border-color);
-        font-weight: 500;
-    }
-
-    .navbar-inverse .nav-collapse .nav > li > a:hover,
-    .navbar-inverse .nav-collapse .nav > li > a:focus,
-    .navbar-inverse .nav-collapse .dropdown-menu a:hover,
-    .navbar-inverse .nav-collapse .dropdown-menu a:focus {
-        background-color: var(--bg-light) !important;
-        color: var(--primary-color) !important;
-    }
-
-    .navbar-inverse .nav-collapse .dropdown-menu {
-        background-color: var(--bg-white) !important;
-        border: none;
-        box-shadow: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .navbar-inverse .nav-collapse .dropdown-menu li a {
-        padding-left: 30px;
-        background-color: #f3f4f6 !important;
-    }
-
-    .navbar-inverse .nav-collapse .dropdown-menu li a:hover {
-        background-color: #e5e7eb !important;
-    }
-
-    .navbar-inverse .nav-collapse .nav .active > a {
-        background-color: var(--bg-light) !important;
-        color: var(--primary-color) !important;
-    }
-
-    /* Mobile nav collapse background */
-    .navbar-inverse .nav-collapse {
+    /* Mobile navbar styling */
+    .navbar-collapse {
         background-color: var(--bg-white);
+        padding: 1rem 0;
+        border-top: 1px solid var(--border-color);
+        margin-top: 0.5rem;
     }
 
-    .navbar-inverse .nav-collapse .nav {
-        margin: 0;
+    .navbar-nav .nav-link {
+        padding: 0.75rem 1rem !important;
+        border-bottom: 1px solid var(--border-color);
     }
 
-    /* Remove double border on mobile/tablet */
-    .navbar-inverse {
-        border-bottom: none;
+    .navbar-nav .nav-link.active {
+        border-bottom: 1px solid var(--border-color);
+        border-left: 3px solid var(--primary-color);
+        background-color: var(--bg-light);
     }
 
-    /* Show brand name on mobile next to menu */
-    .navbar-inverse .brand.visible-phone {
-        display: inline-block !important;
-        float: left;
-        padding: 15px 15px;
-        font-size: 1.1rem;
-        color: var(--text-primary) !important;
+    .dropdown-menu {
+        border: none;
+        box-shadow: none;
+        padding-left: 1rem;
+        background-color: var(--bg-light);
+    }
+
+    .dropdown-item {
+        padding: 0.75rem 1rem;
     }
 }
 
@@ -422,29 +370,20 @@ hr {
     animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
-.social-cards .span4 {
+.social-cards .col-md-4 {
     animation: fadeInUp 0.8s ease-out both;
 }
 
-.social-cards .span4:nth-child(1) {
+.social-cards .col-md-4:nth-child(1) {
     animation-delay: 0.3s;
 }
 
-.social-cards .span4:nth-child(2) {
+.social-cards .col-md-4:nth-child(2) {
     animation-delay: 0.4s;
 }
 
-.social-cards .span4:nth-child(3) {
+.social-cards .col-md-4:nth-child(3) {
     animation-delay: 0.5s;
-}   }
-    
-    .hero-section {
-        padding: 2rem 0;
-    }
-    
-    .social-card {
-        margin-bottom: 1.5rem;
-    }
 }
 
 /* Smooth Scroll */
