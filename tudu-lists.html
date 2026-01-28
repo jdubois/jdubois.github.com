@@ -3,81 +3,91 @@ layout: default
 title: Tudu Lists
 ---
 
-<h1>Tudu Lists</h1>
-<p>
-<b>Currently, Tudu Lists is NOT in active development anymore.</b>
-</p>
-<p>
-	At the beginning, Tudu Lists was the example application of French book "Spring par la pratique"...
-</p>
-<p>
-	<i>"(...) the authors commitment to providing a realistic sample application (rather than the simplistic effort that mars many books), is shown by the fact that Tudu Lists has become a viable open source project in its own right"</i> -- Rod Johnson, Founder of the Spring Framework
-</p>
-<p>
-	If you are French and interested by "Spring par la pratique", please see this section of the Website : <a href="/book.html">Spring par la pratique</a>
-</p>
-<p>
-	Tudu Lists is an Open Source software, available on Github : <a href="https://github.com/jdubois/Tudu-Lists" target="_blank">https://github.com/jdubois/Tudu-Lists</a>.
-</p>
+<div class="content-section">
+    <h1>Tudu Lists</h1>
+    
+    <p>
+        <strong>Currently, Tudu Lists is NOT in active development anymore.</strong>
+    </p>
+    
+    <p>
+        At the beginning, Tudu Lists was the example application of French book "Spring par la pratique"...
+    </p>
+    
+    <p>
+        <em>"(...) the authors commitment to providing a realistic sample application (rather than the simplistic effort that mars many books), is shown by the fact that Tudu Lists has become a viable open source project in its own right"</em> -- Rod Johnson, Founder of the Spring Framework
+    </p>
+    
+    <p>
+        If you are French and interested by "Spring par la pratique", please see this section of the Website: <a href="/book.html">Spring par la pratique</a>
+    </p>
+    
+    <p>
+        Tudu Lists is an Open Source software, available on Github: <a href="https://github.com/jdubois/Tudu-Lists" target="_blank">https://github.com/jdubois/Tudu-Lists</a>.
+    </p>
 
-<h2>Using Tudu Lists</h2>
+    <h2>Using Tudu Lists</h2>
 
-<p>
-	Tudu Lists is an on-line application for managing todo lists. With Tudu Lists, todo lists can be easily accessed, edited and shared on the Web. It is a simple but effective project management tool.
-</p>
+    <p>
+        Tudu Lists is an on-line application for managing todo lists. With Tudu Lists, todo lists can be easily accessed, edited and shared on the Web. It is a simple but effective project management tool.
+    </p>
 
-<img src="img/tudu-lists-login.png"/>
-	<br/>
-<h2>Installation</h2>
+    <img src="img/tudu-lists-login.png" class="profile-image" alt="Tudu Lists login" />
+    <br/>
+    
+    <h2>Installation</h2>
 
-<p>
-	The source code of Tudu Lists is available on Github : <a href="https://github.com/jdubois/Tudu-Lists" target="_blank">https://github.com/jdubois/Tudu-Lists</a>.
-</p>
+    <p>
+        The source code of Tudu Lists is available on Github: <a href="https://github.com/jdubois/Tudu-Lists" target="_blank">https://github.com/jdubois/Tudu-Lists</a>.
+    </p>
 
-<h3>Introduction</h2>
+    <h3>Introduction</h3>
 
-<p>
-	You can have your own installation of Tudu Lists in your company. We have reports of 10 to 20 companies doing so, but this is far from being a complete list (as always with Open Source, you don't always know who is using your software!).
-</p>
-<img src="img/tudu-lists-mytodos.png"/>
-	<br/>
-<h4>Step 1 : Download Tudu  Lists</h4>
+    <p>
+        You can have your own installation of Tudu Lists in your company. We have reports of 10 to 20 companies doing so, but this is far from being a complete list (as always with Open Source, you don't always know who is using your software!).
+    </p>
+    
+    <img src="img/tudu-lists-mytodos.png" class="profile-image" alt="Tudu Lists my todos" />
+    <br/>
+    
+    <h4>Step 1: Download Tudu Lists</h4>
 
-<p>
-	Tudu Lists is downloadable from SourceForge : <a href="https://sourceforge.net/project/showfiles.php?group_id=131842&package_id=144702" target="_blank">https://sourceforge.net/project/showfiles.php?group_id=131842&package_id=144702</a>
-</p>
+    <p>
+        Tudu Lists is downloadable from SourceForge: <a href="https://sourceforge.net/project/showfiles.php?group_id=131842&package_id=144702" target="_blank">https://sourceforge.net/project/showfiles.php?group_id=131842&package_id=144702</a>
+    </p>
 
-<h4>Step 2 : Database setup</h4>
+    <h4>Step 2: Database setup</h4>
 
-<p>
-	<b>WARNING</b> This section needs to be re-written for Tudu Lists 3.0 (if you're using an older version it is still acurate)
-</p>
+    <p>
+        <strong>WARNING</strong> This section needs to be re-written for Tudu Lists 3.0 (if you're using an older version it is still acurate)
+    </p>
 
-<h5>Introduction</h5>
+    <h5>Introduction</h5>
 
-<p>
-	Tudu Lists uses the Hibernate persistence layer, so it should work seamlessly on most databases (in fact, we have seen it working with MySQL, Postgresql, MS SQL Server, HSQLDB and Oracle).
-</p>
+    <p>
+        Tudu Lists uses the Hibernate persistence layer, so it should work seamlessly on most databases (in fact, we have seen it working with MySQL, Postgresql, MS SQL Server, HSQLDB and Oracle).
+    </p>
 
-<p>
-	However, developement is focused on the HSLQDB and MySQL databases :
-</p>
+    <p>
+        However, developement is focused on the HSLQDB and MySQL databases:
+    </p>
 
-<ul>
-	<li>HSQLDB is used as an in-memroy database for developement. This means that all the data is lost each time the server is shut down.</li>
-	<li>MySQL is used in production. This time, of course, data is saved on the filesystem, and it survives the application shut down.</li>
-</ul>
+    <ul>
+        <li>HSQLDB is used as an in-memroy database for developement. This means that all the data is lost each time the server is shut down.</li>
+        <li>MySQL is used in production. This time, of course, data is saved on the filesystem, and it survives the application shut down.</li>
+    </ul>
 
-<h5>HSQLDB installation</h5>
+    <h5>HSQLDB installation</h5>
 
-<p>
-	HSQLDB is bundled into Tudu Lists, and is automatically launched at application start up, if MySQL is not found.
-</p>
+    <p>
+        HSQLDB is bundled into Tudu Lists, and is automatically launched at application start up, if MySQL is not found.
+    </p>
 
-<p>
-	So there is nothing to do (excepted shutting down MySQL if you also have a production database running).
-</p>
-<img src="img/tudu-lists-myinfo.png"/>
+    <p>
+        So there is nothing to do (excepted shutting down MySQL if you also have a production database running).
+    </p>
+    
+    <img src="img/tudu-lists-myinfo.png" class="profile-image" alt="Tudu Lists my info" />
 <br/>
 <h5>MySQL installation</h5>
 

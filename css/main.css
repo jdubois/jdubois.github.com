@@ -57,12 +57,26 @@ p {
 a {
     color: var(--primary-color);
     text-decoration: none;
+    position: relative;
     transition: var(--transition);
 }
 
 a:hover {
     color: var(--primary-dark);
     text-decoration: none;
+}
+
+/* Animated underline for content links */
+.container a:not(.btn) {
+    background-image: linear-gradient(var(--primary-color), var(--primary-color));
+    background-size: 0% 2px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    transition: background-size 0.3s ease;
+}
+
+.container a:not(.btn):hover {
+    background-size: 100% 2px;
 }
 
 /* Modern Navbar Styles */
@@ -90,6 +104,7 @@ a:hover {
 .navbar-inverse .nav > li > a:focus {
     color: var(--primary-color) !important;
     background: transparent;
+    transform: translateY(-1px);
 }
 
 .navbar-inverse .nav .active > a,
@@ -103,6 +118,11 @@ a:hover {
 .navbar .brand {
     font-weight: 700;
     font-size: 1.25rem;
+    transition: var(--transition);
+}
+
+.navbar .brand:hover {
+    transform: scale(1.02);
 }
 
 .navbar-inverse .nav > li.dropdown.open > .dropdown-toggle {
@@ -230,7 +250,52 @@ hr {
 @media (max-width: 768px) {
     h1 {
         font-size: 2rem;
+ 
+
+/* Fade-in animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.hero-section {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.content-section {
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.social-cards .span4 {
+    animation: fadeInUp 0.8s ease-out both;
+}
+
+.social-cards .span4:nth-child(1) {
+    animation-delay: 0.3s;
+}
+
+.social-cards .span4:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.social-cards .span4:nth-child(3) {
+    animation-delay: 0.5s;
+}   }
     
     .hero-section {
         padding: 2rem 0;
