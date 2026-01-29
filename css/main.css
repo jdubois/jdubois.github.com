@@ -293,6 +293,17 @@ footer p {
     font-size: 0.9rem;
 }
 
+footer a {
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+footer a:focus,
+footer a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
 /* Horizontal Rules */
 hr {
     border: 0;
