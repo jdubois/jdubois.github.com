@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>L'IA et la génération de code Java — Julien Dubois</title>
+
+    <!-- Reveal.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/reveal.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/theme/white.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/plugin/highlight/monokai.css" />
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ── Design tokens (same as julien-dubois.com) ─────────────────── */
+        :root {
+            --primary:        #2563eb;
+            --primary-dark:   #1e40af;
+            --primary-light:  #dbeafe;
+            --accent-green:   #059669;
+            --accent-amber:   #d97706;
+            --accent-purple:  #7c3aed;
+            --accent-rose:    #db2777;
+            --text-primary:   #1f2937;
+            --text-secondary: #6b7280;
+            --bg-light:       #f9fafb;
+            --border:         #e5e7eb;
+            --shadow-sm:  0 1px 2px 0 rgba(0,0,0,.05);
+            --shadow-md:  0 4px 6px -1px rgba(0,0,0,.10);
+            --shadow-lg:  0 10px 15px -3px rgba(0,0,0,.10);
+            --radius:     12px;
+            --transition: all .3s ease;
+        }
+
+        /* ── Base ─────────────────────────────────────────────────────── */
+        .reveal {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 28px;
+            color: var(--text-primary);
+        }
+        .reveal .slides section {
+            text-align: left;
+            padding: 0 0.5em;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.25;
+            text-transform: none;
+            letter-spacing: -0.01em;
+        }
+
+        /* ── Section heading ─────────────────────────────────────────── */
+        .reveal h2 {
+            font-size: 1.25em;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 0.3em;
+            margin-bottom: 0.6em;
+            margin-top: 0;
+        }
+
+        /* ── Progress bar ─────────────────────────────────────────────── */
+        .reveal .progress span { background: var(--primary); }
+        .reveal .progress { height: 4px; }
+
+        /* ── Slide number ─────────────────────────────────────────────── */
+        .reveal .slide-number { color: var(--text-secondary); font-size: 0.45em; }
+
+        /* ── Cards ─────────────────────────────────────────────────────── */
+        .card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.9em 1.1em;
+            box-shadow: var(--shadow-sm);
+        }
+        .card h3 {
+            color: var(--primary);
+            font-size: 0.68em;
+            font-weight: 600;
+            margin: 0 0 0.4em;
+        }
+        .card p { margin: 0; }
+
+        /* ── Grids ──────────────────────────────────────────────────────── */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8em; }
+
+        /* ── Highlight box ─────────────────────────────────────────────── */
+        .box-blue   { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; border-radius: var(--radius); padding: 0.9em 1.2em; }
+        .box-green  { background: linear-gradient(135deg, var(--accent-green), #047857); color: #fff; border-radius: var(--radius); padding: 0.9em 1.2em; }
+        .box-amber  { background: linear-gradient(135deg, var(--accent-amber), #b45309); color: #fff; border-radius: var(--radius); padding: 0.9em 1.2em; }
+        .box-purple { background: linear-gradient(135deg, var(--accent-purple), #6d28d9); color: #fff; border-radius: var(--radius); padding: 0.9em 1.2em; }
+        .box-dark   { background: linear-gradient(135deg, #1f2937, #111827); color: #fff; border-radius: var(--radius); padding: 0.9em 1.2em; }
+        .box-blue *, .box-green *, .box-amber *, .box-purple *, .box-dark * { color: #fff !important; }
+
+        /* ── Lists ─────────────────────────────────────────────────────── */
+        .reveal ul { list-style: none; margin: 0; padding: 0; }
+        .reveal ul li {
+            font-size: 0.72em;
+            color: var(--text-secondary);
+            padding: 0.22em 0 0.22em 1.4em;
+            position: relative;
+        }
+        .reveal ul li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        .reveal ul.white-list li { color: #d1d5db; }
+        .reveal ul.white-list li::before { color: #60a5fa; }
+
+        /* ── Tags / badges ─────────────────────────────────────────────── */
+        .tag {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: 20px;
+            padding: 3px 12px;
+            font-size: 0.52em;
+            font-weight: 500;
+        }
+        .tag-green  { background: #dcfce7; color: #166534; }
+        .tag-amber  { background: #fef3c7; color: #92400e; }
+        .tag-purple { background: #ede9fe; color: #5b21b6; }
+
+        .badge-demo {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: #fff;
+            border-radius: 8px;
+            padding: 0.35em 0.8em;
+            font-size: 0.52em;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* ── Github pill ────────────────────────────────────────────────── */
+        .github-pill {
+            display: inline-block;
+            background: #1f2937;
+            color: #e5e7eb !important;
+            border-radius: 8px;
+            padding: 0.3em 0.75em;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.52em;
+            font-weight: 600;
+        }
+
+        /* ── Quote ─────────────────────────────────────────────────────── */
+        .quote {
+            border-left: 4px solid var(--primary);
+            padding-left: 0.9em;
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.72em;
+        }
+
+        /* ── Timeline ───────────────────────────────────────────────────── */
+        .timeline-item {
+            display: flex;
+            gap: 0.7em;
+            margin: 0.4em 0;
+            align-items: flex-start;
+        }
+        .t-dot {
+            width: 11px; height: 11px;
+            background: var(--primary);
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 0.35em;
+        }
+        .t-content { font-size: 0.62em; color: var(--text-secondary); }
+        .t-content strong { color: var(--text-primary); }
+
+        /* ── Tool card ──────────────────────────────────────────────────── */
+        .tool-row {
+            display: flex;
+            align-items: center;
+            gap: 1em;
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(255,255,255,.12);
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            padding: 0.65em 1em;
+            margin: 0.45em 0;
+        }
+        .tool-row .t-icon { font-size: 1.4em; flex-shrink: 0; }
+        .tool-row .t-title { font-size: 0.62em; font-weight: 600; color: #f9fafb; }
+        .tool-row .t-desc  { font-size: 0.52em; color: #9ca3af; }
+
+        /* ── Section divider ────────────────────────────────────────────── */
+        .sec-num {
+            font-size: 5.5em;
+            font-weight: 800;
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 3px;
+        }
+
+        /* ── Bio layout ─────────────────────────────────────────────────── */
+        .bio-layout {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2em;
+            align-items: center;
+        }
+        .bio-photo {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+        }
+        .bio-tags { display: flex; flex-wrap: wrap; gap: 0.4em; margin-bottom: 0.7em; }
+
+        /* ── SLIDE-SPECIFIC BACKGROUNDS ─────────────────────────────────── */
+
+        /* Title */
+        .slide-cover {
+            background: linear-gradient(150deg, #1e40af 0%, #2563eb 55%, #3b82f6 100%);
+        }
+
+        /* Conclusion */
+        .slide-outro {
+            background: linear-gradient(150deg, #111827 0%, #1f2937 100%);
+        }
+
+        /* Section dividers */
+        .div-blue   { background: linear-gradient(135deg, #f9fafb, #dbeafe); }
+        .div-green  { background: linear-gradient(135deg, #f9fafb, #dcfce7); }
+        .div-amber  { background: linear-gradient(135deg, #f9fafb, #fef3c7); }
+        .div-rose   { background: linear-gradient(135deg, #f9fafb, #fce7f3); }
+        .div-purple { background: linear-gradient(135deg, #f9fafb, #ede9fe); }
+
+        /* Demo dark */
+        .slide-demo { background: linear-gradient(150deg, #111827 0%, #1f2937 100%); }
+
+        /* ── Utility ─────────────────────────────────────────────────────── */
+        .txt-sm   { font-size: 0.62em; }
+        .txt-xs   { font-size: 0.52em; }
+        .txt-muted { color: var(--text-secondary); }
+        .txt-primary { color: var(--text-primary); }
+        .txt-blue  { color: var(--primary); }
+        .txt-white { color: #fff; }
+        .fw-600 { font-weight: 600; }
+        .fw-700 { font-weight: 700; }
+        .mt-sm  { margin-top: 0.5em; }
+        .mt-md  { margin-top: 0.9em; }
+        .mt-lg  { margin-top: 1.4em; }
+        .center { text-align: center; }
+        .flex-center { display: flex; justify-content: center; align-items: center; }
+        .flex-col    { display: flex; flex-direction: column; }
+        .gap-sm { gap: 0.5em; }
+
+        /* ── Custom animation helpers ─────────────────────────────────── */
+        @keyframes floatY {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-8px); }
+        }
+        .float { animation: floatY 4s ease-in-out infinite; }
+
+        @keyframes pulse-ring {
+            0%   { box-shadow: 0 0 0 0 rgba(37,99,235,.4); }
+            70%  { box-shadow: 0 0 0 12px rgba(37,99,235,0); }
+            100% { box-shadow: 0 0 0 0 rgba(37,99,235,0); }
+        }
+        .pulse { animation: pulse-ring 2.5s infinite; }
+
+        /* ── Terminal card (demo prompt slides) ───────────────────────── */
+        .terminal-card {
+            background: #0d0d0d;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04) inset;
+            font-family: 'SF Mono', Menlo, Monaco, 'Courier New', monospace;
+            overflow: hidden;
+            margin: 0.6em auto 0;
+            max-width: 92%;
+        }
+        .terminal-header {
+            background: #1a1a1a;
+            padding: 0.5em 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 0.4em;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        .terminal-dot {
+            width: 12px; height: 12px; border-radius: 50%;
+            display: inline-block;
+        }
+        .terminal-title {
+            color: #888; font-size: 0.55em; margin-left: 0.6em;
+            font-family: inherit;
+        }
+        .terminal-body {
+            padding: 1.4em 1.2em;
+            color: #e6e6e6;
+            font-size: 0.7em;
+            line-height: 1.6;
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6em;
+            flex-wrap: nowrap;
+        }
+        .terminal-prompt {
+            color: #27c93f;
+            font-weight: 700;
+            margin-right: 0.4em;
+            animation: blink 1.2s steps(1) infinite;
+        }
+        @keyframes blink {
+            0%, 50%  { opacity: 1; }
+            50.01%, 100% { opacity: 0.25; }
+        }
+        .terminal-text {
+            color: #f1f1f1;
+            flex: 1 1 auto;
+            min-width: 0;
+            word-break: break-word;
+        }
+        .copy-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.5em 0.9em;
+            font-family: inherit;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4em;
+            transition: transform .15s ease, box-shadow .15s ease, background .25s ease;
+            box-shadow: 0 4px 14px rgba(37,99,235,.35);
+            position: relative;
+            overflow: hidden;
+            margin-left: auto;
+            flex: 0 0 auto;
+            align-self: flex-start;
+        }
+        .copy-btn:hover  { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37,99,235,.5); }
+        .copy-btn:active { transform: translateY(0); }
+        .copy-btn.copied {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            animation: copy-pop 0.4s ease;
+        }
+        @keyframes copy-pop {
+            0%   { transform: scale(1); }
+            40%  { transform: scale(1.12); }
+            100% { transform: scale(1); }
+        }
+        .copy-btn.copied::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 6px;
+            box-shadow: 0 0 0 0 rgba(34,197,94,.6);
+            animation: copy-ring 0.7s ease-out;
+        }
+        @keyframes copy-ring {
+            0%   { box-shadow: 0 0 0 0 rgba(34,197,94,.6); }
+            100% { box-shadow: 0 0 0 16px rgba(34,197,94,0); }
+        }
+    </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 1 — TITLE
+══════════════════════════════════════════════════════════════ -->
+<section data-background="linear-gradient(150deg,#1e40af 0%,#2563eb 55%,#3b82f6 100%)">
+    <div style="display:flex;flex-direction:column;justify-content:center;height:100%;padding:1.5em 0.5em;">
+
+        <div style="margin-bottom:1em;display:flex;gap:0.5em;flex-wrap:wrap;">
+            <span style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:0.5em;color:#fff;">GitHub Copilot</span>
+            <span style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:0.5em;color:#fff;">21 mai 2026</span>
+        </div>
+
+        <h1 style="color:#fff;font-size:1.85em;font-weight:800;line-height:1.15;margin:0 0 0.5em;">
+            L'IA et la génération<br/>de code Java
+        </h1>
+
+        <p style="color:rgba(255,255,255,.8);font-size:0.68em;margin:0 0 1.5em;line-height:1.5;">
+            Comment l'IA générative a bouleversé le développement
+        </p>
+
+        <div style="display:flex;align-items:center;gap:1.1em;">
+            <img src="https://www.julien-dubois.com/img/photos/julien-dubois.png"
+                 alt="Julien Dubois"
+                 style="width:72px;height:72px;border-radius:50%;object-fit:cover;
+                        border:3px solid rgba(255,255,255,.5);flex-shrink:0;" />
+            <div>
+                <div style="font-weight:700;font-size:0.7em;color:#fff;">Julien Dubois</div>
+                <div style="font-size:0.55em;color:rgba(255,255,255,.75);">
+                    Java Champion &nbsp;•&nbsp; Principal Manager @ Microsoft / GitHub
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 2 — BIO
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate>
+    <h2>Qui suis-je ?</h2>
+    <div class="bio-layout">
+
+        <div class="fragment zoom-in">
+            <img src="https://www.julien-dubois.com/img/photos/julien-dubois.png"
+                 alt="Julien Dubois" class="bio-photo" />
+        </div>
+
+        <div>
+            <div style="font-size:0.9em;font-weight:700;color:var(--text-primary);margin-bottom:0.4em;">
+                Julien Dubois
+            </div>
+            <div class="bio-tags">
+                <span class="tag">☕ Java Champion</span>
+                <span class="tag">🏢 Microsoft / GitHub</span>
+                <span class="tag tag-green">⭐ JHipster</span>
+                <span class="tag tag-purple">🤖 AI × Java</span>
+            </div>
+            <ul>
+                <li class="fragment fade-left">
+                    <strong class="txt-primary">Principal Manager</strong>,
+                    Java Developer Relations @ Microsoft / GitHub
+                </li>
+                <li class="fragment fade-left">
+                    Créateur de <strong class="txt-primary">JHipster</strong> —
+                    plateforme Open Source <strong class="txt-primary">22 000+ ⭐</strong>
+                </li>
+                <li class="fragment fade-left">
+                    Contributeur <strong class="txt-primary">LangChain4j</strong>
+                    &amp; <strong class="txt-primary">Spring AI</strong>
+                </li>
+                <li class="fragment fade-left">
+                    <strong class="txt-primary">200+ conférences</strong> internationales
+                    (Devoxx, SpringOne, Microsoft Build…)
+                </li>
+                <li class="fragment fade-left">
+                    Auteur de <em>"Spring par la pratique"</em> — 1er livre français sur Spring
+                </li>
+                <li class="fragment fade-left">
+                    25+ ans d'expérience dans l'écosystème Java
+                </li>
+            </ul>
+            <div class="fragment fade-up mt-sm txt-xs txt-muted">
+                🌐 julien-dubois.com &nbsp;&nbsp; 𝕏 @juliendubois &nbsp;&nbsp; 🐙 github.com/jdubois &nbsp;&nbsp; 💼 linkedin.com/in/juliendubois
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 3 — ÉVOLUTION RAPIDE
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate>
+    <h2>L'évolution des agents IA</h2>
+
+    <div style="display:flex;flex-direction:column;gap:0.7em;margin-top:0.4em;">
+
+        <div class="card fragment fade-up" style="border-left:4px solid #94a3b8;">
+            <div style="display:flex;align-items:center;gap:0.9em;">
+                <div style="font-size:1.8em;">📅</div>
+                <div>
+                    <div class="txt-sm fw-600 txt-primary">Les débuts — limités</div>
+                    <div class="txt-xs txt-muted mt-sm">
+                        Dates d'entraînement anciennes &nbsp;•&nbsp;
+                        Complétion de code uniquement &nbsp;•&nbsp;
+                        Un fichier à la fois
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card fragment fade-up" style="border-left:4px solid #f59e0b;">
+            <div style="display:flex;align-items:center;gap:0.9em;">
+                <div style="font-size:1.8em;">💡</div>
+                <div>
+                    <div class="txt-sm fw-600 txt-primary">La maturité — multi-fichiers</div>
+                    <div class="txt-xs txt-muted mt-sm">
+                        Compréhension du projet &nbsp;•&nbsp;
+                        Contexte étendu &nbsp;•&nbsp;
+                        Génération complète de fonctionnalités
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box-blue fragment fade-up">
+            <div style="display:flex;align-items:center;gap:0.9em;">
+                <div style="font-size:1.8em;">🤖</div>
+                <div>
+                    <div class="txt-sm fw-700">Aujourd'hui — assistants autonomes</div>
+                    <div class="txt-xs mt-sm" style="opacity:.9;">
+                        Mode agent &nbsp;•&nbsp; Mode plan &nbsp;•&nbsp;
+                        Skills &nbsp;•&nbsp; MCP &nbsp;•&nbsp; Intégration IDE complète
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 4 — MODE AGENT, MODE PLAN & GIT WORKTREES
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate>
+    <h2>Mode Agent, Mode Plan &amp; Git Worktrees</h2>
+    <div class="grid-3" style="gap:1em;margin-top:0.4em;">
+
+        <div class="card fragment fade-up" style="border-top:4px solid var(--primary);">
+            <h3>🤖 Mode Agent</h3>
+            <p class="txt-xs txt-muted" style="margin-bottom:0.5em;">
+                L'IA agit <strong>de manière autonome</strong> :
+            </p>
+            <ul>
+                <li>Lit les fichiers du projet</li>
+                <li>Écrit et modifie du code</li>
+                <li>Exécute des commandes shell</li>
+                <li>Lance les tests automatiquement</li>
+                <li>Corrige les erreurs seul</li>
+            </ul>
+            <div class="mt-sm" style="background:#eff6ff;border-radius:8px;padding:0.45em 0.7em;font-size:0.5em;color:var(--primary-dark);font-weight:600;">
+                💡 GitHub Copilot Agent Mode
+            </div>
+        </div>
+
+        <div class="card fragment fade-up" style="border-top:4px solid var(--primary);">
+            <h3>📋 Mode Plan</h3>
+            <p class="txt-xs txt-muted" style="margin-bottom:0.5em;">
+                L'IA <strong>planifie avant d'agir</strong> :
+            </p>
+            <ul>
+                <li>Analyse la demande en profondeur</li>
+                <li>Génère un plan d'action détaillé</li>
+                <li>Demande votre validation</li>
+                <li>Exécute étape par étape</li>
+                <li>Revient en arrière si besoin</li>
+            </ul>
+            <div class="mt-sm" style="background:#eff6ff;border-radius:8px;padding:0.45em 0.7em;font-size:0.5em;color:var(--primary-dark);font-weight:600;">
+                💡 Moins d'erreurs grâce à la réflexion préalable
+            </div>
+        </div>
+
+        <div class="card fragment fade-up" style="border-top:4px solid var(--primary);">
+            <h3>🌳 Git Worktrees</h3>
+            <p class="txt-xs txt-muted" style="margin-bottom:0.5em;">
+                <strong>Plusieurs agents en parallèle</strong>, sans conflit :
+            </p>
+            <ul>
+                <li>Un répertoire par branche</li>
+                <li>Un agent par worktree</li>
+                <li>Plusieurs tâches simultanées</li>
+                <li>Isolation complète des changements</li>
+                <li>Merge final maîtrisé</li>
+            </ul>
+            <div class="mt-sm" style="background:#eff6ff;border-radius:8px;padding:0.45em 0.7em;font-size:0.5em;color:var(--primary-dark);font-weight:600;">
+                💡 <code>git worktree add</code> + 1 agent par dossier
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 5 — MODEL CONTEXT PROTOCOL (MCP)
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate data-transition="zoom-in none-out">
+    <h2>
+        Model Context Protocol (MCP)
+    </h2>
+
+    <div class="card fragment fade-up" style="margin-bottom:0.8em;">
+        <h3 class="txt-primary">🔌 Protocole standard ouvert</h3>
+        <p class="txt-xs txt-muted" style="line-height:1.55;">
+            MCP permet aux agents IA de <strong class="txt-primary">se connecter à
+            des outils externes</strong> : bases de données, APIs, systèmes de fichiers,
+            services cloud — en temps réel.
+        </p>
+    </div>
+
+    <div class="grid-3 fragment fade-up" style="margin-bottom:0.8em;">
+        <div class="card center" style="border-top:3px solid var(--primary);">
+            <div style="font-size:1.6em;margin-bottom:0.2em;">🗄️</div>
+            <div class="txt-xs fw-600 txt-primary">Bases de données</div>
+            <div class="txt-xs txt-muted mt-sm">PostgreSQL, MySQL, MongoDB…</div>
+        </div>
+        <div class="card center" style="border-top:3px solid var(--primary);">
+            <div style="font-size:1.6em;margin-bottom:0.2em;">☁️</div>
+            <div class="txt-xs fw-600 txt-primary">Cloud &amp; APIs</div>
+            <div class="txt-xs txt-muted mt-sm">GitHub, Azure, AWS, REST…</div>
+        </div>
+        <div class="card center" style="border-top:3px solid var(--primary);">
+            <div style="font-size:1.6em;margin-bottom:0.2em;">🔍</div>
+            <div class="txt-xs fw-600 txt-primary">Docs &amp; Recherche</div>
+            <div class="txt-xs txt-muted mt-sm">Javadoc, Stack Overflow…</div>
+        </div>
+    </div>
+
+    <div class="box-blue fragment fade-up">
+        <span style="font-size:0.62em;">
+            💡 L'agent gagne accès à un <strong>contexte enrichi en temps réel</strong>
+            pour générer du code plus précis et plus pertinent
+        </span>
+    </div>
+
+    <div class="box-blue fragment fade-up mt-sm">
+        <span style="font-size:0.62em;">
+            🚀 <strong>Demo :</strong>
+            Utiliser le serveur MCP de GitHub
+        </span>
+    </div>
+
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 5b — DEMO PROMPT : SERVEUR MCP GITHUB
+══════════════════════════════════════════════════════════════ -->
+<section data-background="#000000" data-transition="none" data-background-transition="none">
+    <h2 style="color:#fff;border-color:rgba(255,255,255,.25);">
+        Demo : Utiliser le serveur MCP de GitHub
+    </h2>
+
+    <div class="terminal-card">
+        <div class="terminal-header">
+            <span class="terminal-dot" style="background:#ff5f56;"></span>
+            <span class="terminal-dot" style="background:#ffbd2e;"></span>
+            <span class="terminal-dot" style="background:#27c93f;"></span>
+            <span class="terminal-title">copilot — prompt</span>
+        </div>
+        <div class="terminal-body" style="align-items:flex-start;">
+            <span class="terminal-prompt">&gt;</span>
+            <pre id="demo-prompt-mcp" class="terminal-text" style="margin:0;white-space:pre-wrap;font-family:inherit;font-size:1em;line-height:1.55;">Use the GitHub official MCP server to find:
+- In repositories coded in Java, with more than 100 stars
+- 10 tickets with the "good first issue" label
+- Tickets should have a title, GitHub repository, link</pre>
+            <button class="copy-btn" type="button"
+                    onclick="copyPrompt(this, 'demo-prompt-mcp')"
+                    aria-label="Copier le prompt"
+                    style="align-self:flex-start;">
+                <span class="copy-icon">📋</span>
+                <span class="copy-label">Copier</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 6 — LES SKILLS (dr-jskill)
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate data-transition="none">
+    <h2>Les Skills</h2>
+
+    <div class="card fragment fade-up" style="margin-bottom:0.8em;">
+        <h3 class="txt-primary">🎯 Qu'est-ce qu'un Skill ?</h3>
+        <p class="txt-xs txt-muted" style="line-height:1.55;">
+            Un skill permet de <strong class="txt-primary">spécialiser</strong> un agent IA
+            avec des <strong class="txt-primary">instructions métier précises</strong>,
+            des fichiers de contexte et des outils dédiés &mdash; pour un domaine particulier.
+            <br/>
+            <span style="color:var(--text-primary);">Standard ouvert <strong>Agent Skills</strong>
+            (<a href="https://agentskills.io" target="_blank" style="color:var(--primary);text-decoration:none;">agentskills.io</a>)
+            — compatible Copilot CLI, Claude Code, Windsurf…</span>
+        </p>
+    </div>
+
+    <div class="grid-2 fragment fade-up" style="gap:1em;margin-bottom:0.8em;">
+        <div class="card" style="border-left:4px solid var(--primary);">
+            <h3 class="txt-primary">📦 dr-jskill</h3>
+            <p class="txt-xs txt-muted" style="margin-bottom:0.5em;">
+                Mon skill pour créer des applications <strong class="txt-primary">Spring Boot 4.x</strong>
+                avec <strong class="txt-primary">Java 25</strong>, PostgreSQL, Docker, et un front-end
+                Vue / React / Angular au choix.
+            </p>
+            <span class="github-pill">github.com/jdubois/dr-jskill</span>
+        </div>
+        <div class="card">
+            <h3>💡 Pourquoi des skills ?</h3>
+            <ul>
+                <li>Conventions de code personnalisées</li>
+                <li>Architecture définie à l'avance</li>
+                <li>Résultats reproductibles</li>
+                <li>Partage en équipe</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="box-blue fragment fade-up">
+        <span style="font-size:0.62em;">
+            🚀 <strong>Demo :</strong>
+            Génération d'une application Spring Boot 4 + Java 25 + Vue.js avec dr-jskill
+        </span>
+    </div>
+
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 6b — DEMO PROMPT : DR-JSKILL
+══════════════════════════════════════════════════════════════ -->
+<section data-background="#000000" data-transition="none" data-background-transition="none">
+    <h2 style="color:#fff;border-color:rgba(255,255,255,.25);">
+        Demo : Spring Boot 4 + Java 25 + Vue.js avec dr-jskill
+    </h2>
+
+    <div class="terminal-card">
+        <div class="terminal-header">
+            <span class="terminal-dot" style="background:#ff5f56;"></span>
+            <span class="terminal-dot" style="background:#ffbd2e;"></span>
+            <span class="terminal-dot" style="background:#27c93f;"></span>
+            <span class="terminal-title">copilot — prompt</span>
+        </div>
+        <div class="terminal-body" style="align-items:flex-start;">
+            <span class="terminal-prompt">&gt;</span>
+<pre id="demo-prompt-skill" class="terminal-text" style="margin:0;white-space:pre-wrap;font-family:inherit;font-size:1em;line-height:1.55;">Create a ticket management application with Dr JSkill.
+    
+Here are the specifications:
+
+- the application's goal is to find good tickets to help Java Open Source projects
+- tickets are GitHub tickets, as discovered with the MCP prompt from the previous demo
+- add/edit/remove tickets with a title, GitHub repository, link and status
+- store them in a database, and initialize the database with the tickets from the previous command
+- it has have a fancy UI with Vue.js</pre>
+            <button class="copy-btn" type="button"
+                    onclick="copyPrompt(this, 'demo-prompt-skill')"
+                    aria-label="Copier le prompt"
+                    style="align-self:flex-start;">
+                <span class="copy-icon">📋</span>
+                <span class="copy-label">Copier</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 7 — INTÉGRATION DANS LES IDEs (VS Code & IntelliJ)
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate data-transition="none-in zoom-out">
+    <h2>
+        Intégration dans les IDEs
+    </h2>
+    <p class="txt-sm txt-muted" style="margin:0 0 0.4em;">
+        Les IDEs Java intègrent l'IA nativement.
+    </p>
+    <div class="grid-2" style="gap:1em;margin-top:0.2em;">
+
+        <!-- VS Code -->
+        <div class="card fragment fade-right" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">🟦 VS Code</h3>
+            <ul>
+                <li><strong class="txt-primary">GitHub Copilot natif</strong> — réalisé par Microsoft, intégration la plus poussée</li>
+                <li><strong class="txt-primary">Agent mode</strong> — complétion, chat et agent mode</li>
+                <li><strong class="txt-primary">Java Extension Pack</strong> — JDTLS, debug, tests, Maven/Gradle — utilisé par l'agent</li>
+                <li>Choix du modèle (GPT, Claude, ...) au sein de Copilot</li>
+            </ul>
+        </div>
+
+        <!-- IntelliJ IDEA -->
+        <div class="card fragment fade-left" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">🟥 IntelliJ IDEA</h3>
+            <ul>
+                <li><strong class="txt-primary">Plugin GitHub Copilot</strong> — complétion, chat et mode agent</li>
+                <li><strong class="txt-primary">Plugin ACP</strong> (Agent Client Protocol, standard ouvert lancé par Zed) — brancher un agent externe (GitHub Copilot CLI…) directement dans l'IDE</li>
+                <li><strong class="txt-primary">Serveur MCP IntelliJ</strong> — expose l'index PSI, le refactoring et les inspections aux agents externes</li>
+                <li><strong class="txt-primary">JetBrains Junie</strong> — l'agent de JetBrains</li>
+                <li>Accès aux refactorings sémantiques d'IntelliJ (rename, extract, change signature…) <em>depuis l'agent</em></li>
+            </ul>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 8 — BEST PRACTICE #1 — AGENTS.md
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate data-transition="zoom-in none-out">
+    <h2>
+        <code>AGENTS.md</code> — le brief du projet
+    </h2>
+    <p class="txt-sm txt-muted" style="margin:0 0 0.4em;">
+        Un seul fichier, à la racine, lu par <strong class="txt-primary">tous</strong> les agents :
+        le standard ouvert <a href="https://agents.md" target="_blank" style="color:var(--primary);">AGENTS.md</a>.
+    </p>
+    <div class="grid-3" style="gap:0.8em;">
+
+        <div class="card fragment fade-up" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">🧭 Ce qu'il contient</h3>
+            <ul>
+                <li><em>Overview</em> du projet, stack, ports</li>
+                <li>Commandes exactes : <code>./mvnw verify</code>, <code>./mvnw spring-boot:run</code></li>
+                <li>Version JDK, framework, BOM</li>
+                <li>Conventions de code, tests, coverage</li>
+                <li>Convention de commits &amp; PR</li>
+                <li>Actions <strong class="txt-primary">interdites</strong> (prod, secrets, <code>--force</code>&hellip;)</li>
+            </ul>
+        </div>
+
+        <div class="card fragment fade-up" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">🚀 Comment le créer</h3>
+            <ul>
+                <li><code>/init</code> dans Copilot CLI &mdash; l'agent <em>lit</em> votre repo et propose un draft</li>
+                <li>Relire, élaguer : <strong class="txt-primary">court vaut mieux que long</strong> (context rot)</li>
+                <li>Itérer : chaque fois que l'agent se trompe, corriger <code>AGENTS.md</code> &mdash; pas le prompt</li>
+                <li>Versionné, revu en PR comme du code</li>
+            </ul>
+        </div>
+
+        <div class="card fragment fade-up" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">🗂️ Monorepo &amp; modules</h3>
+            <ul>
+                <li><code>AGENTS.md</code> à la racine = règles globales</li>
+                <li>Un <code>AGENTS.md</code> par sous-module pour les spécificités <em>(le plus proche gagne)</em></li>
+                <li>Pointer vers les skills et serveurs MCP attendus</li>
+                <li>Renvoyer vers <code>docs/</code> plutôt que de tout dupliquer</li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="fragment fade-up mt-sm"
+         style="background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:8px;
+                padding:0.5em 0.9em;text-align:center;">
+        <span style="font-size:0.6em;font-weight:700;color:#fff;">
+            💡 Pas d'<code style="color:#fff;background:rgba(255,255,255,0.18);">AGENTS.md</code> = l'agent redécouvre le projet à chaque session, et se trompe à chaque fois aux mêmes endroits
+        </span>
+    </div>
+
+    <div class="box-blue fragment fade-up mt-sm">
+        <span style="font-size:0.62em;">
+            🚀 <strong>Demo :</strong>
+            Génération d'un <code>copilot-instructions.md</code> avec <code>/init</code>
+        </span>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 8b — DEMO PROMPT : /init
+══════════════════════════════════════════════════════════════ -->
+<section data-background="#000000" data-transition="none" data-background-transition="none">
+    <h2 style="color:#fff;border-color:rgba(255,255,255,.25);">
+        Demo : Génération d'un <code>copilot-instructions.md</code> avec <code>/init</code>
+    </h2>
+
+    <div class="terminal-card">
+        <div class="terminal-header">
+            <span class="terminal-dot" style="background:#ff5f56;"></span>
+            <span class="terminal-dot" style="background:#ffbd2e;"></span>
+            <span class="terminal-dot" style="background:#27c93f;"></span>
+            <span class="terminal-title">copilot — prompt</span>
+        </div>
+        <div class="terminal-body">
+            <span class="terminal-prompt">&gt;</span>
+            <span id="demo-prompt-init" class="terminal-text">/init</span>
+            <button class="copy-btn" type="button"
+                    onclick="copyPrompt(this, 'demo-prompt-init')"
+                    aria-label="Copier le prompt">
+                <span class="copy-icon">📋</span>
+                <span class="copy-label">Copier</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="terminal-card" style="margin-top:0.6em;">
+        <div class="terminal-header">
+            <span class="terminal-dot" style="background:#ff5f56;"></span>
+            <span class="terminal-dot" style="background:#ffbd2e;"></span>
+            <span class="terminal-dot" style="background:#27c93f;"></span>
+            <span class="terminal-title">copilot — prompt</span>
+        </div>
+        <div class="terminal-body">
+            <span class="terminal-prompt">&gt;</span>
+            <span id="demo-prompt-gh-repo" class="terminal-text">Create a public GitHub repo called jdubois/2026-demo and push the code there</span>
+            <button class="copy-btn" type="button"
+                    onclick="copyPrompt(this, 'demo-prompt-gh-repo')"
+                    aria-label="Copier le prompt">
+                <span class="copy-icon">📋</span>
+                <span class="copy-label">Copier</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 9 — BEST PRACTICE #2 — JAVA LSP (JDTLS) & HYGIÈNE PROJET
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate data-transition="none-in zoom-out">
+    <h2>
+        Bonnes pratiques pour Java
+    </h2>
+    <p class="txt-sm txt-muted" style="margin:0 0 0.4em;">
+        Les CLIs agentiques modernes (Copilot CLI, Claude Code…) intègrent le
+        <strong class="txt-primary">protocole LSP</strong>. Pour Java, c'est
+        <strong class="txt-primary">JDTLS</strong> (Eclipse JDT Language Server).
+    </p>
+    <div class="grid-2" style="gap:1em;">
+        <div class="card fragment fade-right" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">☕ JDTLS — Eclipse JDT Language Server</h3>
+            <ul>
+                <li>Le <strong class="txt-primary">même moteur</strong> que VS Code Java &amp; Eclipse, exposé via LSP</li>
+                <li>Analyse sémantique complète : AST, type system, classpath Maven/Gradle</li>
+                <li>Refactorings sûrs : <em>rename</em>, <em>extract method</em>, <em>change signature</em> &mdash; propagés à tout le projet</li>
+                <li>Navigation : go-to-definition, find-references, hiérarchie de types</li>
+                <li>Quick-fix &amp; organize imports pilotés par l'agent</li>
+                <li>Diagnostics temps réel : erreurs de compilation, warnings, nullability</li>
+            </ul>
+        </div>
+        <div class="card fragment fade-left" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">✅ Hygiène projet</h3>
+            <ul>
+                <li><strong class="txt-primary">Pinner le JDK</strong></li>
+                <li><code>./mvnw compile</code> doit être <strong class="txt-primary">rapide</strong></li>
+                <li>Garder <code>main</code> <strong class="txt-primary">vert</strong> &mdash; c'est la vérité-terrain de l'agent</li>
+                <li>Boucle : générer &rarr; <code>verify</code> &rarr; lire les erreurs &rarr; corriger</li>
+            </ul>
+        </div>
+        <div class="card fragment fade-up" style="grid-column:1/-1;background:#eff6ff;border-color:#bfdbfe;">
+            <h3 class="txt-primary">🚫 Déconseillé dans une boucle d'agent</h3>
+            <p class="txt-xs txt-muted" style="margin:0;">
+                <code>-DskipTests</code>, les tests <strong class="txt-primary">doivent</strong> tourner.
+            </p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 10 — BEST PRACTICE #3 — HARNESS > MODEL
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate>
+    <h2>
+        Harness &gt; model
+    </h2>
+    <p class="txt-sm txt-muted" style="margin:0 0 0.4em;">
+        Un agent = <strong class="txt-primary">tools in a loop</strong>. À modèle égal, c'est
+        le <strong class="txt-primary">harness</strong> autour du modèle qui fait la différence
+        entre un agent qui livre et un agent qui hallucine.
+    </p>
+    <div class="grid-2" style="gap:0.8em;">
+
+        <div class="card fragment fade-right" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">🔁 La boucle</h3>
+            <ul>
+                <li>Observer → décider → agir → vérifier, en continu</li>
+                <li><strong class="txt-primary">Plan mode</strong> avant <em>agent mode</em> sur tout sujet non trivial</li>
+                <li>Sub-agents : isoler les contextes, paralléliser</li>
+            </ul>
+        </div>
+
+        <div class="card fragment fade-left" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">🛠️ Les outils</h3>
+            <ul>
+                <li>Skills, MCP servers, LSP, sandbox shell — <strong class="txt-primary">capacités déterministes</strong></li>
+                <li>Au-delà de ~20 outils chargés, le modèle se trompe de cible</li>
+            </ul>
+        </div>
+
+        <div class="card fragment fade-right" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">🧠 Le contexte</h3>
+            <ul>
+                <li><code>AGENTS.md</code> + skills : briefer une bonne fois pour toutes</li>
+                <li>Éviter le <em>context rot</em> : poisoning, distraction, confusion, clash</li>
+                <li><em>Context offloading</em> : <code>plan.md</code>, mémoire, résumés &mdash; pas tout dans la fenêtre</li>
+            </ul>
+        </div>
+
+        <div class="card fragment fade-left" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">✅ Le verdict (evals)</h3>
+            <ul>
+                <li>Critère <strong class="txt-primary">vérifiable par la machine</strong> : <code>./mvnw verify</code></li>
+                <li>L'agent lit les erreurs (LSP, tests) et corrige <em>tout seul</em></li>
+                <li>Sans verdict net, l'agent tourne en rond &mdash; et le modèle n'y pourra rien</li>
+            </ul>
+        </div>
+
+        <div class="card fragment fade-up" style="grid-column:1/-1;background:#eff6ff;border-color:#bfdbfe;">
+            <h3 class="txt-primary">💡 Conséquence pratique</h3>
+            <p class="txt-xs txt-muted" style="margin:0;">
+                Le même modèle, dans deux harness différents, donne des résultats très éloignés
+                (cf. classements SWE-bench). <strong class="txt-primary">Investir dans le harness</strong>
+                — skills, MCP, AGENTS.md, LSP, boucle de vérification —
+                rapporte plus que de courir après le dernier modèle.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 11 — GITHUB COPILOT APP (TECHNICAL PREVIEW)
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate data-transition="zoom-in none-out">
+    <h2>GitHub Copilot App</h2>
+    <p class="txt-sm txt-muted" style="margin:0 0 0.4em;">
+        <em>Technical preview</em> &mdash; une app desktop native GitHub : démarrer une session agentique,
+        l'isoler, la piloter, et merger la PR finale.
+    </p>
+
+    <div class="grid-3" style="gap:0.8em;">
+
+        <div class="card fragment fade-up" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">🧭 Partir du contexte GitHub</h3>
+            <ul>
+                <li>Démarrer depuis une <strong class="txt-primary">issue, PR, prompt</strong> ou session précédente</li>
+                <li>Inbox unifiée sur tous les repos connectés</li>
+                <li>Détails, reviews et checks restent attachés à la session</li>
+            </ul>
+        </div>
+
+        <div class="card fragment fade-up" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">⚡ Sessions isolées</h3>
+            <ul>
+                <li>Chaque session : son git worktree, ses fichiers, sa conversation</li>
+                <li><strong class="txt-primary">Pause / reprise</strong>, en parallèle sur plusieurs repos</li>
+            </ul>
+        </div>
+
+        <div class="card fragment fade-up" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">✅ Piloter, valider, livrer</h3>
+            <ul>
+                <li>Relire le <strong class="txt-primary">plan et le diff</strong>, guider l'itération</li>
+                <li>Valider via terminal et navigateur intégrés</li>
+                <li>Ouvrir la PR &mdash; mêmes reviews, mêmes checks</li>
+                <li><strong class="txt-primary">Agent Merge</strong> : reviews, checks, merge automatique</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="box-blue fragment fade-up mt-sm">
+        <span style="font-size:0.62em;">
+            🚀 <strong>Demo :</strong>
+            GitHub Copilot App &mdash; 3 sessions et 3 PR mergées, sans quitter l'app
+        </span>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 11b — DEMO PROMPTS : COPILOT APP (3 sessions parallèles)
+══════════════════════════════════════════════════════════════ -->
+<section data-background="#000000" data-transition="none" data-background-transition="none">
+    <h2 style="color:#fff;border-color:rgba(255,255,255,.25);">
+        Demo : 3 sessions en parallèle avec GitHub Copilot App
+    </h2>
+
+    <div class="terminal-card">
+        <div class="terminal-header">
+            <span class="terminal-dot" style="background:#ff5f56;"></span>
+            <span class="terminal-dot" style="background:#ffbd2e;"></span>
+            <span class="terminal-dot" style="background:#27c93f;"></span>
+            <span class="terminal-title">session 1 — prompt</span>
+        </div>
+        <div class="terminal-body">
+            <span class="terminal-prompt">&gt;</span>
+            <span id="demo-prompt-app-1" class="terminal-text">Transform the UI to be entreprise-like.</span>
+            <button class="copy-btn" type="button"
+                    onclick="copyPrompt(this, 'demo-prompt-app-1')"
+                    aria-label="Copier le prompt">
+                <span class="copy-icon">📋</span>
+                <span class="copy-label">Copier</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="terminal-card" style="margin-top:0.6em;">
+        <div class="terminal-header">
+            <span class="terminal-dot" style="background:#ff5f56;"></span>
+            <span class="terminal-dot" style="background:#ffbd2e;"></span>
+            <span class="terminal-dot" style="background:#27c93f;"></span>
+            <span class="terminal-title">session 2 — prompt</span>
+        </div>
+        <div class="terminal-body">
+            <span class="terminal-prompt">&gt;</span>
+            <span id="demo-prompt-app-2" class="terminal-text">Translate the UI to French.</span>
+            <button class="copy-btn" type="button"
+                    onclick="copyPrompt(this, 'demo-prompt-app-2')"
+                    aria-label="Copier le prompt">
+                <span class="copy-icon">📋</span>
+                <span class="copy-label">Copier</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="terminal-card" style="margin-top:0.6em;">
+        <div class="terminal-header">
+            <span class="terminal-dot" style="background:#ff5f56;"></span>
+            <span class="terminal-dot" style="background:#ffbd2e;"></span>
+            <span class="terminal-dot" style="background:#27c93f;"></span>
+            <span class="terminal-title">session 3 — prompt</span>
+        </div>
+        <div class="terminal-body" style="align-items:flex-start;">
+            <span class="terminal-prompt">&gt;</span>
+<pre id="demo-prompt-app-3" class="terminal-text" style="margin:0;white-space:pre-wrap;font-family:inherit;font-size:1em;line-height:1.55;">I want to assign tickets to users. There are 3 users, stored in a database table: julien, alice, bob. Update the database, the Java code and the front-end code accordingly.</pre>
+            <button class="copy-btn" type="button"
+                    onclick="copyPrompt(this, 'demo-prompt-app-3')"
+                    aria-label="Copier le prompt"
+                    style="align-self:flex-start;">
+                <span class="copy-icon">📋</span>
+                <span class="copy-label">Copier</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 12 — CONCLUSION
+══════════════════════════════════════════════════════════════ -->
+<section data-background="linear-gradient(150deg,#1e40af 0%,#2563eb 55%,#3b82f6 100%)">
+    <h2 style="color:#fff;border-color:rgba(255,255,255,.25);">Conclusion</h2>
+    <div class="grid-2" style="gap:1.4em;margin-top:0.4em;">
+
+        <div>
+            <div class="card fragment fade-right"
+                 style="background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.4);
+                        margin-bottom:0.8em;">
+                <h3 style="color:#fff !important;">🚀 Ce qui a changé</h3>
+                <ul class="white-list">
+                    <li>De la complétion à l'<strong>autonomie</strong> (agent + plan mode)</li>
+                    <li>L'importance du <strong>harness</strong> : MCP &amp; Skills, LSP, AGENTS.md</li>
+                    <li><strong>GitHub Copilot App</strong> &amp; Git worktrees = agents en parallèle</li>
+                    <li>Intégration avancée dans VS Code &amp; IntelliJ</li>
+                </ul>
+            </div>
+
+            <div class="card fragment fade-right"
+                 style="background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.4);">
+                <h3 style="color:#fff !important;">✅ Ce qui reste vrai</h3>
+                <ul class="white-list">
+                    <li>Le développeur reste <strong>maître du code</strong></li>
+                    <li>La compréhension technique est clé</li>
+                    <li>JHipster est toujours pertinent ! 😄</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;align-items:center;
+                    justify-content:center;text-align:center;gap:0.5em;">
+            <img src="https://www.julien-dubois.com/img/photos/julien-dubois.png"
+                 alt="Julien Dubois" class="fragment zoom-in"
+                 style="width:110px;height:110px;border-radius:50%;object-fit:cover;
+                        border:3px solid #fff;" />
+            <div class="fragment fade-up" style="font-size:0.7em;color:#fff;font-weight:700;">Julien Dubois</div>
+            <div class="fragment fade-up txt-xs">
+                <a href="https://www.julien-dubois.com" target="_blank"
+                   style="color:#fff;text-decoration:none;">
+                    🌐 julien-dubois.com
+                </a>
+            </div>
+            <div class="fragment fade-up txt-xs">
+                <a href="https://x.com/juliendubois" target="_blank"
+                   style="color:#fff;text-decoration:none;">
+                    𝕏 @juliendubois
+                </a>
+            </div>
+            <div class="fragment fade-up txt-xs">
+                <a href="https://linkedin.com/in/juliendubois" target="_blank"
+                   style="color:#fff;text-decoration:none;">
+                    🔗 linkedin.com/in/juliendubois
+                </a>
+            </div>
+            <div class="fragment fade-up txt-xs">
+                <a href="https://github.com/jdubois" target="_blank"
+                   style="color:#fff;text-decoration:none;">
+                    🐙 github.com/jdubois
+                </a>
+            </div>
+            <div class="fragment fade-up mt-sm">
+                <span class="github-pill">github.com/jdubois/dr-jskill</span>
+            </div>
+            <div class="fragment zoom-in mt-md" style="font-size:2em;">🙏</div>
+            <div class="fragment fade-up"
+                 style="font-size:0.85em;color:#fff;font-weight:800;">Merci !</div>
+        </div>
+
+    </div>
+</section>
+
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<!-- ── Reveal.js ─────────────────────────────────────────────────── -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/plugin/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/plugin/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/plugin/zoom.js"></script>
+
+<script>
+// Remove all in-slide animations: strip every fragment class so elements
+// appear immediately, with no step-by-step reveal on click.
+document.querySelectorAll('.slides .fragment').forEach(function(frag) {
+    frag.classList.remove(
+        'fragment',
+        'fade-up', 'fade-down', 'fade-left', 'fade-right',
+        'fade-in', 'fade-out', 'fade-in-then-out',
+        'zoom-in', 'grow', 'shrink', 'highlight-red',
+        'highlight-green', 'highlight-blue', 'current-visible',
+        'semi-fade-out'
+    );
+});
+
+Reveal.initialize({
+    hash:                 true,
+    slideNumber:          'c/t',
+    transition:           'zoom',
+    transitionSpeed:      'default',
+    backgroundTransition: 'none',
+    center:               false,
+    width:                1280,
+    height:               720,
+    margin:               0.04,
+    autoAnimate:          true,
+    autoAnimateEasing:    'ease-out',
+    autoAnimateDuration:  0.6,
+    autoAnimateUnmatched: false,
+    plugins: [ RevealHighlight, RevealNotes, RevealZoom ],
+});
+
+// Copy-to-clipboard for demo prompt slides
+function copyPrompt(btn, textId) {
+    const el = document.getElementById(textId);
+    if (!el) return;
+    const text = el.textContent.trim();
+    const done = () => {
+        const label = btn.querySelector('.copy-label');
+        const icon  = btn.querySelector('.copy-icon');
+        const oldLabel = label ? label.textContent : '';
+        const oldIcon  = icon  ? icon.textContent  : '';
+        if (label) label.textContent = 'Copié !';
+        if (icon)  icon.textContent  = '✅';
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.classList.remove('copied');
+            if (label) label.textContent = oldLabel;
+            if (icon)  icon.textContent  = oldIcon;
+        }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(() => {
+            // Fallback
+            const ta = document.createElement('textarea');
+            ta.value = text; document.body.appendChild(ta);
+            ta.select(); document.execCommand('copy'); ta.remove();
+            done();
+        });
+    } else {
+        const ta = document.createElement('textarea');
+        ta.value = text; document.body.appendChild(ta);
+        ta.select(); document.execCommand('copy'); ta.remove();
+        done();
+    }
+}
+</script>
+</body>
+</html>
