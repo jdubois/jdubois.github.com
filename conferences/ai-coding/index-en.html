@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Building a production app with AI — Julien Dubois</title>
+
+    <!-- Reveal.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/reveal.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/theme/white.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/plugin/highlight/monokai.css" />
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ── Design tokens (same as julien-dubois.com) ─────────────────── */
+        :root {
+            --primary:        #2563eb;
+            --primary-dark:   #1e40af;
+            --primary-light:  #dbeafe;
+            --accent-green:   #059669;
+            --accent-amber:   #d97706;
+            --accent-purple:  #7c3aed;
+            --accent-rose:    #db2777;
+            --text-primary:   #1f2937;
+            --text-secondary: #6b7280;
+            --bg-light:       #f9fafb;
+            --border:         #e5e7eb;
+            --shadow-sm:  0 1px 2px 0 rgba(0,0,0,.05);
+            --shadow-md:  0 4px 6px -1px rgba(0,0,0,.10);
+            --shadow-lg:  0 10px 15px -3px rgba(0,0,0,.10);
+            --radius:     12px;
+            --transition: all .3s ease;
+        }
+
+        /* ── Base ─────────────────────────────────────────────────────── */
+        .reveal {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 28px;
+            color: var(--text-primary);
+        }
+        .reveal .slides section {
+            text-align: left;
+            padding: 0 0.5em;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.25;
+            text-transform: none;
+            letter-spacing: -0.01em;
+        }
+
+        /* ── Section heading ─────────────────────────────────────────── */
+        .reveal h2 {
+            font-size: 1.25em;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 0.3em;
+            margin-bottom: 0.6em;
+            margin-top: 0;
+        }
+
+        /* ── Progress bar ─────────────────────────────────────────────── */
+        .reveal .progress span { background: var(--primary); }
+        .reveal .progress { height: 4px; }
+
+        /* ── Slide number ─────────────────────────────────────────────── */
+        .reveal .slide-number { color: var(--text-secondary); font-size: 0.45em; }
+
+        /* ── Cards ─────────────────────────────────────────────────────── */
+        .card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.9em 1.1em;
+            box-shadow: var(--shadow-sm);
+        }
+        .card h3 {
+            color: var(--primary);
+            font-size: 0.68em;
+            font-weight: 600;
+            margin: 0 0 0.4em;
+        }
+        .card p { margin: 0; }
+
+        /* ── Grids ──────────────────────────────────────────────────────── */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8em; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.7em; }
+
+        /* ── Highlight box ─────────────────────────────────────────────── */
+        .box-blue   { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; border-radius: var(--radius); padding: 0.9em 1.2em; }
+        .box-green  { background: linear-gradient(135deg, var(--accent-green), #047857); color: #fff; border-radius: var(--radius); padding: 0.9em 1.2em; }
+        .box-amber  { background: linear-gradient(135deg, var(--accent-amber), #b45309); color: #fff; border-radius: var(--radius); padding: 0.9em 1.2em; }
+        .box-purple { background: linear-gradient(135deg, var(--accent-purple), #6d28d9); color: #fff; border-radius: var(--radius); padding: 0.9em 1.2em; }
+        .box-dark   { background: linear-gradient(135deg, #1f2937, #111827); color: #fff; border-radius: var(--radius); padding: 0.9em 1.2em; }
+        .box-blue *, .box-green *, .box-amber *, .box-purple *, .box-dark * { color: #fff !important; }
+
+        /* ── Lists ─────────────────────────────────────────────────────── */
+        .reveal ul { list-style: none; margin: 0; padding: 0; }
+        .reveal ul li {
+            font-size: 0.72em;
+            color: var(--text-secondary);
+            padding: 0.22em 0 0.22em 1.4em;
+            position: relative;
+        }
+        .reveal ul li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        .reveal ul.white-list li { color: #d1d5db; }
+        .reveal ul.white-list li::before { color: #60a5fa; }
+
+        /* ── Tags / badges ─────────────────────────────────────────────── */
+        .tag {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: 20px;
+            padding: 3px 12px;
+            font-size: 0.52em;
+            font-weight: 500;
+        }
+        .tag-green  { background: #dcfce7; color: #166534; }
+        .tag-amber  { background: #fef3c7; color: #92400e; }
+        .tag-purple { background: #ede9fe; color: #5b21b6; }
+
+        /* ── Github pill ────────────────────────────────────────────────── */
+        .github-pill {
+            display: inline-block;
+            background: #1f2937;
+            color: #e5e7eb !important;
+            border-radius: 8px;
+            padding: 0.3em 0.75em;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.52em;
+            font-weight: 600;
+        }
+
+        /* ── Quote ─────────────────────────────────────────────────────── */
+        .quote {
+            border-left: 4px solid var(--primary);
+            padding-left: 0.9em;
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.72em;
+        }
+
+        /* ── Stat cards (measured facts / hero numbers) ────────────────── */
+        .stat-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 0.7em 0.85em;
+            box-shadow: var(--shadow-sm);
+        }
+        .stat-num   { font-size: 1.45em; font-weight: 800; color: var(--primary); line-height: 1; }
+        .stat-label { font-size: 0.5em; color: var(--text-secondary); margin-top: 0.4em; line-height: 1.35; }
+        .stat-card.green  { border-top-color: var(--accent-green); }
+        .stat-card.green  .stat-num { color: var(--accent-green); }
+        .stat-card.amber  { border-top-color: var(--accent-amber); }
+        .stat-card.amber  .stat-num { color: var(--accent-amber); }
+
+        /* ── Data table (comparison / phase breakdown) ─────────────────── */
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.5em; }
+        .data-table th {
+            background: var(--primary);
+            color: #fff;
+            text-align: left;
+            padding: 0.55em 0.75em;
+            font-weight: 600;
+        }
+        .data-table th.green { background: var(--accent-green); }
+        .data-table th.amber { background: var(--accent-amber); }
+        .data-table td {
+            padding: 0.45em 0.75em;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+            vertical-align: top;
+            line-height: 1.4;
+        }
+        .data-table tr:nth-child(even) td { background: var(--bg-light); }
+        .data-table .num { font-weight: 700; color: var(--text-primary); white-space: nowrap; }
+        .data-table tr.total td { background: var(--primary-light); color: var(--primary-dark); font-weight: 700; }
+
+        /* ── Section divider ────────────────────────────────────────────── */
+        .sec-num {
+            font-size: 5.5em;
+            font-weight: 800;
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 3px;
+        }
+
+        /* ── Bio layout ─────────────────────────────────────────────────── */
+        .bio-layout {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2em;
+            align-items: center;
+        }
+        .bio-photo {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+        }
+        .bio-tags { display: flex; flex-wrap: wrap; gap: 0.4em; margin-bottom: 0.7em; }
+
+        /* ── SLIDE-SPECIFIC BACKGROUNDS ─────────────────────────────────── */
+
+        /* Title */
+        .slide-cover {
+            background: linear-gradient(150deg, #1e40af 0%, #2563eb 55%, #3b82f6 100%);
+        }
+
+        /* Conclusion */
+        .slide-outro {
+            background: linear-gradient(150deg, #111827 0%, #1f2937 100%);
+        }
+
+        /* Section dividers */
+        .div-blue   { background: linear-gradient(135deg, #f9fafb, #dbeafe); }
+        .div-green  { background: linear-gradient(135deg, #f9fafb, #dcfce7); }
+        .div-amber  { background: linear-gradient(135deg, #f9fafb, #fef3c7); }
+        .div-rose   { background: linear-gradient(135deg, #f9fafb, #fce7f3); }
+        .div-purple { background: linear-gradient(135deg, #f9fafb, #ede9fe); }
+
+        /* ── Utility ─────────────────────────────────────────────────────── */
+        .txt-sm   { font-size: 0.62em; }
+        .txt-xs   { font-size: 0.52em; }
+        .txt-muted { color: var(--text-secondary); }
+        .txt-primary { color: var(--text-primary); }
+        .txt-blue  { color: var(--primary); }
+        .txt-green { color: var(--accent-green); }
+        .txt-amber { color: var(--accent-amber); }
+        .txt-white { color: #fff; }
+        .fw-600 { font-weight: 600; }
+        .fw-700 { font-weight: 700; }
+        .mt-sm  { margin-top: 0.5em; }
+        .mt-md  { margin-top: 0.9em; }
+        .mt-lg  { margin-top: 1.4em; }
+        .center { text-align: center; }
+        .flex-center { display: flex; justify-content: center; align-items: center; }
+        .flex-col    { display: flex; flex-direction: column; }
+        .gap-sm { gap: 0.5em; }
+
+        /* ── Custom animation helpers ─────────────────────────────────── */
+        @keyframes floatY {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-8px); }
+        }
+        .float { animation: floatY 4s ease-in-out infinite; }
+
+        @keyframes pulse-ring {
+            0%   { box-shadow: 0 0 0 0 rgba(37,99,235,.4); }
+            70%  { box-shadow: 0 0 0 12px rgba(37,99,235,0); }
+            100% { box-shadow: 0 0 0 0 rgba(37,99,235,0); }
+        }
+        .pulse { animation: pulse-ring 2.5s infinite; }
+    </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 1 — TITLE
+══════════════════════════════════════════════════════════════ -->
+<section data-background="linear-gradient(150deg,#1e40af 0%,#2563eb 55%,#3b82f6 100%)">
+    <div style="display:flex;flex-direction:column;justify-content:center;height:100%;padding:1.5em 0.5em;">
+
+        <div style="margin-bottom:1em;display:flex;gap:0.5em;flex-wrap:wrap;">
+            <span style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:0.5em;color:#fff;">Case study</span>
+            <span style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:0.5em;color:#fff;">BootUI 1.0.0</span>
+            <span style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:0.5em;color:#fff;">June 2026</span>
+        </div>
+
+        <h1 style="color:#fff;font-size:1.85em;font-weight:800;line-height:1.15;margin:0 0 0.5em;">
+            Building a production app with AI
+        </h1>
+
+        <p style="color:rgba(255,255,255,.85);font-size:0.68em;margin:0 0 1.5em;line-height:1.5;">
+            <strong style="color:#fff;">BootUI</strong>, a real-world measurement:
+            ~11&nbsp;days with AI vs. ~7.5&nbsp;months without
+        </p>
+
+        <div style="display:flex;align-items:center;gap:1.1em;">
+            <img src="https://www.julien-dubois.com/img/photos/julien-dubois.png"
+                 alt="Julien Dubois"
+                 style="width:72px;height:72px;border-radius:50%;object-fit:cover;
+                        border:3px solid rgba(255,255,255,.5);flex-shrink:0;" />
+            <div>
+                <div style="font-weight:700;font-size:0.7em;color:#fff;">Julien Dubois</div>
+                <div style="font-size:0.55em;color:rgba(255,255,255,.75);">
+                    Java Champion &nbsp;•&nbsp; Principal Manager @ Microsoft / GitHub
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 2 — BIO
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate>
+    <h2>Who am I?</h2>
+    <div class="bio-layout">
+
+        <div class="fragment zoom-in">
+            <img src="https://www.julien-dubois.com/img/photos/julien-dubois.png"
+                 alt="Julien Dubois" class="bio-photo" />
+        </div>
+
+        <div>
+            <div style="font-size:0.9em;font-weight:700;color:var(--text-primary);margin-bottom:0.4em;">
+                Julien Dubois
+            </div>
+            <div class="bio-tags">
+                <span class="tag">☕ Java Champion</span>
+                <span class="tag">🏢 Microsoft / GitHub</span>
+                <span class="tag tag-green">⭐ JHipster</span>
+                <span class="tag tag-purple">🤖 AI × Java</span>
+            </div>
+            <ul>
+                <li class="fragment fade-left">
+                    <strong class="txt-primary">Principal Manager</strong>,
+                    Java Developer Relations @ Microsoft / GitHub
+                </li>
+                <li class="fragment fade-left">
+                    Creator of <strong class="txt-primary">JHipster</strong> —
+                    Open Source platform with <strong class="txt-primary">22,000+ ⭐</strong>
+                </li>
+                <li class="fragment fade-left">
+                    Author of <strong class="txt-primary">BootUI</strong> —
+                    the Spring Boot 4 starter analysed in this talk
+                </li>
+                <li class="fragment fade-left">
+                    <strong class="txt-primary">200+ international talks</strong>
+                    (Devoxx, SpringOne, Microsoft Build…)
+                </li>
+                <li class="fragment fade-left">
+                    25+ years of experience in the Java ecosystem
+                </li>
+            </ul>
+            <div class="fragment fade-up mt-sm txt-xs txt-muted">
+                🌐 julien-dubois.com &nbsp;&nbsp; 𝕏 @juliendubois &nbsp;&nbsp; 🐙 github.com/jdubois &nbsp;&nbsp; 💼 linkedin.com/in/juliendubois
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 3 — WHAT IS BOOTUI?
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate>
+    <h2>What is BootUI?</h2>
+    <p class="txt-sm txt-muted" style="margin:0 0 0.5em;">
+        A production-grade <strong class="txt-primary">Spring Boot 4 starter</strong> that adds an
+        embedded, <strong class="txt-primary">local-only developer console</strong> to your app.
+    </p>
+
+    <div class="grid-2" style="gap:1em;">
+        <div class="card fragment fade-right" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">🧩 Multi-module &amp; deeply integrated</h3>
+            <ul>
+                <li>5-module Maven build: <em>core, autoconfigure, starter, ui, sample-app</em></li>
+                <li>Spring Boot 4 / Java 17, Maven Central publishing, full CI</li>
+                <li>Actuator, Spring Security, Flyway/Liquibase, Hibernate</li>
+                <li>Micrometer/OTLP tracing, GraalVM, OSV scanning, ArchUnit</li>
+            </ul>
+        </div>
+        <div class="card fragment fade-left" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">🖥️ ~40 feature panels</h3>
+            <ul>
+                <li>An embedded <strong class="txt-primary">Vue 3 SPA</strong>, packaged in the starter</li>
+                <li>Each panel = backend endpoints + frontend view + tests</li>
+                <li>Health, metrics, security advisor, vulnerabilities, tracing…</li>
+                <li>The single biggest source of <strong class="txt-primary">structural repetition</strong></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="box-blue fragment fade-up mt-sm">
+        <span style="font-size:0.62em;">
+            📦 Open source &mdash;
+            <span class="github-pill" style="background:rgba(255,255,255,.15);">github.com/jdubois/boot-ui</span>
+            &nbsp;•&nbsp; docs at <strong>julien-dubois.com/boot-ui</strong>
+        </span>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 4 — THE MEASURED FACTS
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate>
+    <h2>The measured facts (v1.0.0)</h2>
+    <p class="txt-xs txt-muted" style="margin:0 0 0.6em;">
+        Derived from git history, PR metadata and code metrics &mdash; not time-tracking logs.
+    </p>
+
+    <div class="grid-4" style="margin-bottom:0.7em;">
+        <div class="stat-card fragment fade-up">
+            <div class="stat-num">~10.8</div>
+            <div class="stat-label">calendar days<br/>25 May → 5 Jun 2026 (1.0.0)</div>
+        </div>
+        <div class="stat-card fragment fade-up">
+            <div class="stat-num">~264</div>
+            <div class="stat-label">commits on <code>main</code></div>
+        </div>
+        <div class="stat-card fragment fade-up">
+            <div class="stat-num">~223</div>
+            <div class="stat-label">squash-merged PRs (up to #239)</div>
+        </div>
+        <div class="stat-card fragment fade-up">
+            <div class="stat-num">~83k</div>
+            <div class="stat-label">total tracked source lines</div>
+        </div>
+        <div class="stat-card fragment fade-up">
+            <div class="stat-num">~50k</div>
+            <div class="stat-label">Java lines / ~461 files / ~81 test classes</div>
+        </div>
+        <div class="stat-card fragment fade-up">
+            <div class="stat-num">~52</div>
+            <div class="stat-label">Vue components / ~40 panels / ~35 e2e specs</div>
+        </div>
+        <div class="stat-card fragment fade-up">
+            <div class="stat-num">~5,800</div>
+            <div class="stat-label">doc lines + a VuePress site on GitHub Pages</div>
+        </div>
+        <div class="stat-card fragment fade-up">
+            <div class="stat-num">5</div>
+            <div class="stat-label">Maven modules · Spring Boot 4 / Java 17</div>
+        </div>
+    </div>
+
+    <div class="box-dark fragment fade-up">
+        <span style="font-size:0.6em;">
+            👥 Built by <strong>one human driver</strong> (Julien Dubois) + the
+            <strong>Copilot agent</strong> (~44 commits), with dependabot, github-actions &amp; 1 collaborator.
+        </span>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 5 — DIVIDER: PART 1 — WITH AI
+══════════════════════════════════════════════════════════════ -->
+<section data-background="linear-gradient(135deg,#f9fafb,#dcfce7)">
+    <div style="display:flex;flex-direction:column;justify-content:center;height:100%;">
+        <div class="sec-num" style="-webkit-text-stroke:3px var(--accent-green);">01</div>
+        <h2 style="border:none;font-size:1.7em;margin:0.1em 0 0.2em;color:var(--accent-green);">
+            Built with AI
+        </h2>
+        <p class="txt-sm txt-muted" style="margin:0;">
+            How long it actually took
+        </p>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 6 — WITH AI: EXECUTIVE SUMMARY
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate>
+    <h2>With AI &mdash; the bottom line</h2>
+    <p class="txt-sm txt-muted" style="margin:0 0 0.5em;">
+        Built through a tagged <strong class="txt-primary">1.0.0 release</strong> by
+        <strong class="txt-primary">one developer driving the GitHub Copilot coding agent</strong>.
+    </p>
+
+    <div class="grid-3" style="margin-bottom:0.7em;">
+        <div class="stat-card green fragment fade-up">
+            <div class="stat-num">~11 days</div>
+            <div class="stat-label">calendar time, to 1.0.0</div>
+        </div>
+        <div class="stat-card green fragment fade-up">
+            <div class="stat-num">~80–110 h</div>
+            <div class="stat-label">actual human hands-on effort (≈ 2 intense solo weeks)</div>
+        </div>
+        <div class="stat-card green fragment fade-up">
+            <div class="stat-num">~20 PRs/day</div>
+            <div class="stat-label">~223 merged PRs in ~11 days</div>
+        </div>
+    </div>
+
+    <div class="box-green fragment fade-up">
+        <span style="font-size:0.62em;">
+            ⚡ A cadence of <strong>~20 PRs/day</strong> with an AI agent co-authoring commits is
+            <strong>impossible to achieve by hand</strong>. The agent did the overwhelming majority of
+            the typing, scaffolding and test writing &mdash; the human dispatched many
+            <strong>asynchronous tasks in parallel</strong>.
+        </span>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 7 — WITH AI: THE EVIDENCE
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate>
+    <h2>With AI &mdash; the evidence</h2>
+    <div class="grid-2" style="gap:0.8em;">
+
+        <div class="card fragment fade-up" style="border-left:4px solid var(--accent-green);">
+            <h3 style="color:var(--accent-green);">📈 Velocity</h3>
+            <ul>
+                <li>~223 merged PRs / ~10.8 days (~264 commits)</li>
+                <li>Commit clock runs ~05:00 → midnight most days</li>
+                <li>Consistent with <strong class="txt-primary">parallel async agent tasks</strong>, not continuous typing</li>
+            </ul>
+        </div>
+
+        <div class="card fragment fade-up" style="border-left:4px solid var(--accent-green);">
+            <h3 style="color:var(--accent-green);">🤖 Authorship pattern</h3>
+            <ul>
+                <li>"Copilot" is a named commit/PR author (~44 commits)</li>
+                <li>Repo ships <code>.github/copilot-instructions.md</code> + per-panel conventions</li>
+                <li>The workflow was <strong class="txt-primary">explicitly agent-oriented</strong></li>
+            </ul>
+        </div>
+
+        <div class="card fragment fade-up" style="border-left:4px solid var(--accent-green);">
+            <h3 style="color:var(--accent-green);">🚢 Even on release day</h3>
+            <ul>
+                <li>VuePress docs site + Overview scanner dashboard</li>
+                <li>Copilot token charts, a proxied-Hikari fix, README/docs refactor</li>
+                <li>A volume of polish that is itself <strong class="txt-primary">several days of solo work</strong></li>
+            </ul>
+        </div>
+
+        <div class="card fragment fade-up" style="border-left:4px solid var(--accent-green);">
+            <h3 style="color:var(--accent-green);">🧭 Where the human time went</h3>
+            <ul>
+                <li>Writing prompts, reviewing &amp; merging ~223 PRs</li>
+                <li>Resolving CI failures (Spring Boot 4, Flyway 11, OTLP renames)</li>
+                <li><strong class="txt-primary">Review-and-orchestrate</strong>, not write-every-line</li>
+            </ul>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 8 — DIVIDER: PART 2 — WITHOUT AI
+══════════════════════════════════════════════════════════════ -->
+<section data-background="linear-gradient(135deg,#f9fafb,#fef3c7)">
+    <div style="display:flex;flex-direction:column;justify-content:center;height:100%;">
+        <div class="sec-num" style="-webkit-text-stroke:3px var(--accent-amber);">02</div>
+        <h2 style="border:none;font-size:1.7em;margin:0.1em 0 0.2em;color:var(--accent-amber);">
+            Without AI
+        </h2>
+        <p class="txt-sm txt-muted" style="margin:0;">
+            The same scope, by a single developer, by hand
+        </p>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 9 — WITHOUT AI: EXECUTIVE SUMMARY
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate>
+    <h2>Without AI &mdash; the bottom line</h2>
+    <p class="txt-sm txt-muted" style="margin:0 0 0.5em;">
+        One experienced <strong class="txt-primary">Spring Boot + Vue</strong> developer, no AI codegen,
+        through a polished 1.0.0 with a published docs site.
+    </p>
+
+    <div class="grid-3" style="margin-bottom:0.7em;">
+        <div class="stat-card amber fragment fade-up">
+            <div class="stat-num">6.5–8.5</div>
+            <div class="stat-label">months of full-time work (~28–36 weeks)</div>
+        </div>
+        <div class="stat-card amber fragment fade-up">
+            <div class="stat-num">~1,100–1,450</div>
+            <div class="stat-label">hours of hands-on effort</div>
+        </div>
+        <div class="stat-card amber fragment fade-up">
+            <div class="stat-num">~40</div>
+            <div class="stat-label">feature panels = the dominant cost</div>
+        </div>
+    </div>
+
+    <div class="box-amber fragment fade-up">
+        <span style="font-size:0.6em;">
+            🧮 <strong>Cross-check:</strong> a COCOMO "organic" estimate on ~50&nbsp;KLOC yields
+            <strong>100+ person-months</strong> &mdash; unrealistically high, because much of the code is
+            repetitive panel scaffolding. A domain-expert solo figure of <strong>~7.5 months</strong> is the
+            defensible middle ground.
+        </span>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 10 — WITHOUT AI: PHASE BREAKDOWN
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate>
+    <h2>Without AI &mdash; phase breakdown</h2>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width:62%;">Phase &amp; work (single senior developer)</th>
+                <th class="amber" style="width:38%;">Est. time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>1. Project setup &amp; architecture &mdash; 5-module Maven layout, auto-config skeleton, panel-registration framework, access-filter design</td><td class="num">1–1.5 weeks</td></tr>
+            <tr><td>2. Frontend foundation &mdash; Vue 3 + Vite SPA, app shell, routing, grouped menu, build packaged into the starter</td><td class="num">1.5–2 weeks</td></tr>
+            <tr><td>3. Core "easy" panels (~15) &mdash; Health, Metrics, Beans, Mappings, Loggers, Caches… mostly Actuator-backed</td><td class="num">5–6 weeks</td></tr>
+            <tr><td>4. Complex deep-integration panels (~20) &mdash; Security filter chains, Pentesting, Vulnerabilities (OSV), Hibernate/Flyway, GraalVM, Tracing/OTLP, ArchUnit…</td><td class="num">12–16 weeks</td></tr>
+            <tr><td>5. Safety &amp; security model &mdash; local-only enforcement, action gating, secret masking, access filter</td><td class="num">1–1.5 weeks</td></tr>
+            <tr><td>6. Testing &mdash; ~81 Java test classes + ~35 Playwright e2e specs, by hand</td><td class="num">3–4 weeks</td></tr>
+            <tr><td>7. CI/CD &amp; release engineering &mdash; build/CodeQL/release workflows, GPG signing, Maven Central</td><td class="num">1–1.5 weeks</td></tr>
+            <tr><td>8. Documentation &mdash; ~5,800 lines + a published VuePress GitHub Pages site</td><td class="num">2.5–3.5 weeks</td></tr>
+            <tr><td>9. Integration, polish, Spring Boot 4 migration, 1.0.0 hardening &amp; buffer</td><td class="num">2–3 weeks</td></tr>
+            <tr class="total"><td>Total</td><td class="num">~28–36 weeks ≈ 6.5–8.5 months</td></tr>
+        </tbody>
+    </table>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 11 — FULL COMPARISON
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate>
+    <h2>With AI vs. without AI</h2>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width:24%;">Aspect</th>
+                <th class="green" style="width:38%;">With AI (actual)</th>
+                <th class="amber" style="width:38%;">Without AI (estimated)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="num">Calendar time</td><td>~11 days (to 1.0.0)</td><td>~6.5–8.5 months</td></tr>
+            <tr><td class="num">Human effort</td><td>~80–110 hours</td><td>~1,100–1,450 hours</td></tr>
+            <tr><td class="num">Throughput</td><td>~20 PRs/day, parallel agent tasks</td><td>A few features/week, serial</td></tr>
+            <tr><td class="num">Human's role</td><td>Architect + prompt-writer + reviewer</td><td>Architect + author of every line</td></tr>
+            <tr><td class="num">Bottleneck</td><td>PR review &amp; steering</td><td>Typing, debugging, learning each subsystem</td></tr>
+            <tr><td class="num">40 panels</td><td>Near-free to replicate</td><td>Repetitive &mdash; the single biggest cost</td></tr>
+            <tr class="total"><td class="num">Effective speed-up</td><td colspan="2">~17–23× calendar &nbsp;•&nbsp; ~12–17× human-hours</td></tr>
+        </tbody>
+    </table>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 12 — WHY THE MULTIPLIER IS SO LARGE
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate>
+    <h2>Why the multiplier is so large</h2>
+    <p class="txt-sm txt-muted" style="margin:0 0 0.5em;">
+        This codebase is unusually well-suited to AI assistance &mdash; three reasons:
+    </p>
+    <div class="grid-3" style="gap:0.8em;">
+
+        <div class="card fragment fade-up" style="border-top:4px solid var(--accent-green);">
+            <h3 style="color:var(--accent-green);">🔁 Massive repetition</h3>
+            <p class="txt-xs txt-muted" style="margin:0;">
+                ~40 structurally similar panels that an agent <strong class="txt-primary">clones cheaply</strong> —
+                the part that is most expensive to hand-write.
+            </p>
+        </div>
+
+        <div class="card fragment fade-up" style="border-top:4px solid var(--accent-green);">
+            <h3 style="color:var(--accent-green);">🔌 Broad-but-shallow integration</h3>
+            <p class="txt-xs txt-muted" style="margin:0;">
+                Many Spring subsystems, each shallow. Without AI the cost is mostly
+                <strong class="txt-primary">looking things up</strong> — exactly what the agent absorbs.
+            </p>
+        </div>
+
+        <div class="card fragment fade-up" style="border-top:4px solid var(--accent-green);">
+            <h3 style="color:var(--accent-green);">🛡️ Strong guardrails</h3>
+            <p class="txt-xs txt-muted" style="margin:0;">
+                Multi-module CI, CodeQL, e2e tests, explicit copilot-instructions — they let the human
+                <strong class="txt-primary">safely accept high agent throughput</strong>.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="box-green fragment fade-up mt-sm">
+        <span style="font-size:0.62em;">
+            🚀 Net effect: an estimated <strong>6.5–8.5 month</strong> solo effort compressed into
+            <strong>~11 calendar days</strong> and ~2 weeks of human attention &mdash;
+            ~12–17× fewer human-hours, ~17–23× faster calendar.
+        </span>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 13 — WORKFLOW & TOKEN USAGE
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate>
+    <h2>Workflow &amp; token usage</h2>
+    <div class="grid-2" style="gap:0.8em;">
+
+        <div class="card fragment fade-up" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">💻 GitHub Copilot App (MacBook Pro)</h3>
+            <ul>
+                <li>Run <strong class="txt-primary">many agents in parallel</strong></li>
+                <li>Test changes live before validating</li>
+            </ul>
+        </div>
+
+        <div class="card fragment fade-up" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">📱 GitHub mobile app</h3>
+            <ul>
+                <li>Agents in <strong class="txt-primary">Dockerized containers</strong> — prototype on the go</li>
+                <li>Inflates the commit count (quick ideas typed from a phone) — real hours/day are lower</li>
+            </ul>
+        </div>
+
+        <div class="card fragment fade-up" style="grid-column:1/-1;border-top:4px solid var(--accent-purple);">
+            <h3 style="color:var(--accent-purple);">🧠 Models used</h3>
+            <ul>
+                <li><strong class="txt-primary">GPT-5.5 Extra High Reasoning</strong> — most of the work, ~1.5M tokens (90% cached)</li>
+                <li><strong class="txt-primary">Claude Opus 4.8</strong> &amp; <strong class="txt-primary">Gemini 3.1 Pro High</strong> — the trickiest parts, 3 models complementing each other</li>
+                <li>A smaller model / "Auto" mode for simpler tasks</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="box-dark fragment fade-up mt-sm">
+        <span style="font-size:0.6em;">
+            💰 Total: <strong>120M input</strong> + <strong>15M output</strong> + <strong>2,500M cached</strong>
+            = <strong>~2,700M tokens</strong>, for a total cost of <strong>~$2,000</strong>.
+        </span>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 14 — CONCLUSION
+══════════════════════════════════════════════════════════════ -->
+<section data-background="linear-gradient(150deg,#1e40af 0%,#2563eb 55%,#3b82f6 100%)">
+    <h2 style="color:#fff;border-color:rgba(255,255,255,.25);">Conclusion</h2>
+    <div class="grid-2" style="gap:1.4em;margin-top:0.4em;">
+
+        <div>
+            <div class="card fragment fade-right"
+                 style="background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.4);
+                        margin-bottom:0.7em;">
+                <h3 style="color:#fff !important;">📊 The numbers</h3>
+                <ul class="white-list">
+                    <li>~83k lines, 5 modules, ~40 panels, ~116 test suites, 1.0.0 + docs site</li>
+                    <li><strong>With AI:</strong> ~11 days, ~80–110 h of human effort</li>
+                    <li><strong>Without AI:</strong> ~6.5–8.5 months, ~1,100–1,450 h</li>
+                </ul>
+            </div>
+
+            <div class="card fragment fade-right"
+                 style="background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.4);">
+                <h3 style="color:#fff !important;">💡 The lasting lesson</h3>
+                <ul class="white-list">
+                    <li>AI changed the role from <strong>author</strong> to <strong>architect-and-reviewer</strong></li>
+                    <li>Biggest leverage: <strong>large-surface, pattern-heavy, well-tested</strong> code — not hard algorithms</li>
+                    <li>Human judgment stays the <strong>irreplaceable bottleneck</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;align-items:center;
+                    justify-content:center;text-align:center;gap:0.5em;">
+            <img src="https://www.julien-dubois.com/img/photos/julien-dubois.png"
+                 alt="Julien Dubois" class="fragment zoom-in"
+                 style="width:110px;height:110px;border-radius:50%;object-fit:cover;
+                        border:3px solid #fff;" />
+            <div class="fragment fade-up" style="font-size:0.7em;color:#fff;font-weight:700;">Julien Dubois</div>
+            <div class="fragment fade-up txt-xs">
+                <a href="https://www.julien-dubois.com" target="_blank"
+                   style="color:#fff;text-decoration:none;">
+                    🌐 julien-dubois.com
+                </a>
+            </div>
+            <div class="fragment fade-up txt-xs">
+                <a href="https://x.com/juliendubois" target="_blank"
+                   style="color:#fff;text-decoration:none;">
+                    𝕏 @juliendubois
+                </a>
+            </div>
+            <div class="fragment fade-up txt-xs">
+                <a href="https://github.com/jdubois" target="_blank"
+                   style="color:#fff;text-decoration:none;">
+                    🐙 github.com/jdubois
+                </a>
+            </div>
+            <div class="fragment fade-up mt-sm">
+                <span class="github-pill">github.com/jdubois/boot-ui</span>
+            </div>
+            <div class="fragment zoom-in mt-md" style="font-size:2em;">🙏</div>
+            <div class="fragment fade-up"
+                 style="font-size:0.85em;color:#fff;font-weight:800;">Thank you!</div>
+        </div>
+
+    </div>
+</section>
+
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<!-- ── Reveal.js ─────────────────────────────────────────────────── -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/plugin/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/plugin/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/plugin/zoom.js"></script>
+
+<script>
+// Remove all in-slide animations: strip every fragment class so elements
+// appear immediately, with no step-by-step reveal on click.
+document.querySelectorAll('.slides .fragment').forEach(function(frag) {
+    frag.classList.remove(
+        'fragment',
+        'fade-up', 'fade-down', 'fade-left', 'fade-right',
+        'fade-in', 'fade-out', 'fade-in-then-out',
+        'zoom-in', 'grow', 'shrink', 'highlight-red',
+        'highlight-green', 'highlight-blue', 'current-visible',
+        'semi-fade-out'
+    );
+});
+
+Reveal.initialize({
+    hash:                 true,
+    slideNumber:          'c/t',
+    transition:           'zoom',
+    transitionSpeed:      'default',
+    backgroundTransition: 'none',
+    center:               false,
+    width:                1280,
+    height:               720,
+    margin:               0.04,
+    autoAnimate:          true,
+    autoAnimateEasing:    'ease-out',
+    autoAnimateDuration:  0.6,
+    autoAnimateUnmatched: false,
+    plugins: [ RevealHighlight, RevealNotes, RevealZoom ],
+});
+</script>
+</body>
+</html>
