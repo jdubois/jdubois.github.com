@@ -9,7 +9,7 @@
 
         <!-- Bootstrap 5 CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="/css/main.css">
     </head>
     <body>
         <!-- Bootstrap 5 Navbar -->
@@ -37,14 +37,20 @@
                                 Projects
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item {% if '/dr-jskill.html' == page.url %}active{% endif %}" href="/dr-jskill">Dr JSkill</a></li>
-                                <li><a class="dropdown-item {% if '/bootui.html' == page.url %}active{% endif %}" href="/bootui">BootUI</a></li>
-                                <li><a class="dropdown-item {% if '/langchain4j.html' == page.url %}active{% endif %}" href="/langchain4j">LangChain4j</a></li>
-                                <li><a class="dropdown-item {% if '/spring-ai.html' == page.url %}active{% endif %}" href="/spring-ai">Spring AI</a></li>
-                                <li><a class="dropdown-item {% if '/jhipster.html' == page.url %}active{% endif %}" href="/jhipster">JHipster</a></li>
-                                <li><a class="dropdown-item {% if '/nubesgen.html' == page.url %}active{% endif %}" href="/nubesgen">NubesGen</a></li>
-                                <li><a class="dropdown-item {% if '/tatami.html' == page.url %}active{% endif %}" href="/tatami">Tatami</a></li>
-                                <li><a class="dropdown-item {% if '/tudu-lists.html' == page.url %}active{% endif %}" href="/tudu-lists">Tudu Lists</a></li>
+                                <li><a class="dropdown-item {% if '/project/dr-jskill.html' == page.url %}active{% endif %}" href="/project/dr-jskill">Dr JSkill</a></li>
+                                <li><a class="dropdown-item {% if '/project/bootui.html' == page.url %}active{% endif %}" href="/project/bootui">BootUI</a></li>
+                                <li><a class="dropdown-item {% if '/project/coffilot.html' == page.url %}active{% endif %}" href="/project/coffilot">Coffilot</a></li>
+                                <li><a class="dropdown-item {% if '/project/langchain4j.html' == page.url %}active{% endif %}" href="/project/langchain4j">LangChain4j</a></li>
+                                <li><a class="dropdown-item {% if '/project/spring-ai.html' == page.url %}active{% endif %}" href="/project/spring-ai">Spring AI</a></li>
+                                <li><a class="dropdown-item {% if '/project/jhipster.html' == page.url %}active{% endif %}" href="/project/jhipster">JHipster</a></li>
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle {% if '/project/nubesgen.html' == page.url or '/project/tatami.html' == page.url or '/project/tudu-lists.html' == page.url %}active{% endif %}" href="#" role="button" aria-expanded="false">Past projects</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item {% if '/project/nubesgen.html' == page.url %}active{% endif %}" href="/project/nubesgen">NubesGen</a></li>
+                                        <li><a class="dropdown-item {% if '/project/tatami.html' == page.url %}active{% endif %}" href="/project/tatami">Tatami</a></li>
+                                        <li><a class="dropdown-item {% if '/project/tudu-lists.html' == page.url %}active{% endif %}" href="/project/tudu-lists">Tudu Lists</a></li>
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -78,7 +84,7 @@
         <!-- Bootstrap 5 JS Bundle (includes Popper) - No jQuery needed -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-        <script src="js/main.js"></script>
+        <script src="/js/main.js"></script>
 
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-92TRR0HJMQ"></script>
