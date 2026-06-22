@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>from coder to manager of agents — Julien Dubois</title>
+    <title>From coder to manager of agents — Julien Dubois</title>
 
     <!-- Reveal.js -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/reveal.css" />
@@ -286,7 +286,7 @@
         </div>
 
         <h1 style="color:#fff;font-size:1.95em;font-weight:800;line-height:1.12;margin:0 0 0.5em;">
-            from coder to<br/>manager of agents
+            From coder to<br/>manager of agents
         </h1>
 
         <p style="color:rgba(255,255,255,.85);font-size:0.7em;margin:0 0 1.5em;line-height:1.5;">
@@ -312,7 +312,81 @@
 
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 2 — WHO AM I + RECEIPTS
+     SLIDE 2 — MY MONTH WITH COPILOT (stats + charts)
+══════════════════════════════════════════════════════════════ -->
+<section data-auto-animate>
+    <h2>My month with GitHub Copilot</h2>
+    <p class="txt-xs txt-muted" style="margin:-0.3em 0 0.55em;">
+        One developer · ~30 days (22 May → 22 Jun 2026) · measured from GitHub + local Copilot data
+    </p>
+
+    <!-- Hero numbers -->
+    <div class="grid-4" style="margin-bottom:0.7em;">
+        <div class="stat-card"><div class="stat-num">759</div><div class="stat-label">commits authored</div></div>
+        <div class="stat-card green"><div class="stat-num">406</div><div class="stat-label">PRs merged <span style="opacity:.7;">(419 opened)</span></div></div>
+        <div class="stat-card amber"><div class="stat-num">~443k</div><div class="stat-label">lines changed <span style="opacity:.7;">+347k / −96k</span></div></div>
+        <div class="stat-card"><div class="stat-num">3.85<span style="font-size:0.55em;">B</span></div><div class="stat-label">AI tokens used <sup style="color:var(--primary);font-weight:700;">*</sup></div></div>
+    </div>
+
+    <div class="grid-2" style="gap:1em;align-items:stretch;">
+
+        <!-- Bar chart: merged PRs by repo -->
+        <div class="card" style="border-top:4px solid var(--primary);">
+            <h3 class="txt-primary">Merged PRs by repo <span class="txt-muted" style="font-weight:400;">· 406 total</span></h3>
+            <div style="display:flex;flex-direction:column;gap:0.5em;margin-top:0.5em;">
+                <div style="display:flex;align-items:center;gap:0.6em;font-size:0.5em;">
+                    <span style="width:130px;color:var(--text-primary);font-weight:600;">boot-ui</span>
+                    <span style="flex:1;height:14px;background:#eef2f7;border-radius:7px;overflow:hidden;"><span style="display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--primary),var(--primary-dark));border-radius:7px;"></span></span>
+                    <span style="width:34px;text-align:right;font-weight:700;color:var(--text-primary);">275</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:0.6em;font-size:0.5em;">
+                    <span style="width:130px;color:var(--text-primary);font-weight:600;">coffilot</span>
+                    <span style="flex:1;height:14px;background:#eef2f7;border-radius:7px;overflow:hidden;"><span style="display:block;height:100%;width:22%;background:linear-gradient(90deg,var(--primary),var(--primary-dark));border-radius:7px;"></span></span>
+                    <span style="width:34px;text-align:right;font-weight:700;color:var(--text-primary);">61</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:0.6em;font-size:0.5em;">
+                    <span style="width:130px;color:var(--text-primary);font-weight:600;">spring-fast</span>
+                    <span style="flex:1;height:14px;background:#eef2f7;border-radius:7px;overflow:hidden;"><span style="display:block;height:100%;width:17%;background:linear-gradient(90deg,var(--primary),var(--primary-dark));border-radius:7px;"></span></span>
+                    <span style="width:34px;text-align:right;font-weight:700;color:var(--text-primary);">46</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:0.6em;font-size:0.5em;">
+                    <span style="width:130px;color:var(--text-secondary);">+8 more repos</span>
+                    <span style="flex:1;height:14px;background:#eef2f7;border-radius:7px;overflow:hidden;"><span style="display:block;height:100%;width:9%;background:#9ca3af;border-radius:7px;"></span></span>
+                    <span style="width:34px;text-align:right;font-weight:700;color:var(--text-secondary);">24</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Donut: token mix + mini stats -->
+        <div class="card" style="border-top:4px solid var(--accent-green);">
+            <h3 class="txt-green">Tokens: 95% served from cache</h3>
+            <div style="display:flex;align-items:center;gap:1em;margin-top:0.3em;">
+                <svg viewBox="0 0 200 200" style="width:120px;height:120px;flex-shrink:0;">
+                    <circle cx="100" cy="100" r="78" fill="none" stroke="#e5e7eb" stroke-width="26"/>
+                    <circle cx="100" cy="100" r="78" fill="none" stroke="var(--accent-green)" stroke-width="26"
+                            stroke-dasharray="465.6 490.1" transform="rotate(-90 100 100)"/>
+                    <text x="100" y="96" text-anchor="middle" font-size="40" font-weight="800" fill="#1f2937" font-family="Inter,sans-serif">95%</text>
+                    <text x="100" y="124" text-anchor="middle" font-size="17" fill="#6b7280" font-family="Inter,sans-serif">cache reads</text>
+                </svg>
+                <ul style="margin:0;">
+                    <li><strong class="txt-primary">3,650M</strong> cache reads · <strong class="txt-primary">67M</strong> fresh input</li>
+                    <li><strong class="txt-primary">26M</strong> output · <strong class="txt-primary">104M</strong> cache writes</li>
+                    <li><strong class="txt-primary">~21,500</strong> premium requests</li>
+                    <li><strong class="txt-primary">692</strong> agent sessions <span class="txt-muted">(~23/day)</span></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <p class="txt-xs txt-muted center" style="margin:0.5em 0 0;">
+        <strong style="color:var(--primary);">*</strong> Token totals are local Copilot App sessions on one Mac — mobile &amp; cloud agents not included, so the real numbers are higher.
+    </p>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 3 — WHO AM I + RECEIPTS
 ══════════════════════════════════════════════════════════════ -->
 <section data-auto-animate>
     <h2>Who am I?</h2>
@@ -354,7 +428,7 @@
 
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 3 — THE SHIFT + WHAT COPILOT APP IS
+     SLIDE 4 — THE SHIFT + WHAT COPILOT APP IS
 ══════════════════════════════════════════════════════════════ -->
 <section data-auto-animate>
     <h2>From autocomplete to a team of agents</h2>
@@ -391,7 +465,7 @@
 
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 4 — THE UNLOCK: PARALLELISM
+     SLIDE 5 — THE UNLOCK: PARALLELISM
 ══════════════════════════════════════════════════════════════ -->
 <section data-auto-animate>
     <h2>The unlock: run agents in parallel</h2>
@@ -427,7 +501,7 @@
 
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 5 — PRACTICE 1: WRITE THE RULES DOWN
+     SLIDE 6 — PRACTICE 1: WRITE THE RULES DOWN
 ══════════════════════════════════════════════════════════════ -->
 <section data-auto-animate>
     <h2>Practice 1 — Write the rules down</h2>
@@ -459,7 +533,7 @@
 
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 6 — PRACTICE 2: GIVE IT THE HARNESS
+     SLIDE 7 — PRACTICE 2: GIVE IT THE HARNESS
 ══════════════════════════════════════════════════════════════ -->
 <section data-auto-animate>
     <h2>Practice 2 — Give it the harness</h2>
@@ -489,7 +563,7 @@
 
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 7 — PRACTICE 3: GUARDRAILS
+     SLIDE 8 — PRACTICE 3: GUARDRAILS
 ══════════════════════════════════════════════════════════════ -->
 <section data-auto-animate>
     <h2>Practice 3 — Guardrails let you say "yes" fast</h2>
@@ -515,7 +589,7 @@
 
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 8 — PRACTICE 4: SMALL PRS + RIGHT MODEL
+     SLIDE 9 — PRACTICE 4: SMALL PRS + RIGHT MODEL
 ══════════════════════════════════════════════════════════════ -->
 <section data-auto-animate>
     <h2>Practice 4 — Small PRs, right model</h2>
@@ -545,7 +619,7 @@
 
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 9 — CAPTURE & REUSE: SKILLS + EXTENSIONS
+     SLIDE 10 — CAPTURE & REUSE: SKILLS + EXTENSIONS
 ══════════════════════════════════════════════════════════════ -->
 <section data-auto-animate>
     <h2>Capture &amp; reuse your expertise</h2>
@@ -575,7 +649,7 @@
 
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 10 — PAYOFF + HACKATHON PLAYBOOK
+     SLIDE 11 — PAYOFF + HACKATHON PLAYBOOK
 ══════════════════════════════════════════════════════════════ -->
 <section data-auto-animate>
     <h2>The payoff &amp; your playbook</h2>
@@ -601,7 +675,7 @@
 
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 11 — GET STARTED: CREDITS & PRIZE  (generic placeholders)
+     SLIDE 12 — GET STARTED: CREDITS & PRIZE  (generic placeholders)
 ══════════════════════════════════════════════════════════════ -->
 <section data-background="linear-gradient(150deg,#1e40af 0%,#2563eb 55%,#3b82f6 100%)">
     <h2 style="color:#fff;border-color:rgba(255,255,255,.25);">Get started — and win 🏆</h2>
