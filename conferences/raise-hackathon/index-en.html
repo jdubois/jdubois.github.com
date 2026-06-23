@@ -17,7 +17,7 @@
         :root {
             --ink:#0f172a;
             --ink-soft:#334155;
-            --muted:#64748b;
+            --muted:#475569;
             --line:#e6e9f2;
             --track:#eef1f8;
             --blue:#2563eb;
@@ -71,7 +71,6 @@
         }
         .reveal .slides section {
             text-align:left;
-            height:100%;
             box-sizing:border-box;
             padding:0.85em 0.7em;
         }
@@ -124,6 +123,12 @@
         .card.t-cyan h3    { color:var(--cyan); }
         .card.t-amber h3   { color:var(--amber); }
         .card.t-emerald h3 { color:var(--emerald); }
+
+        /* Slide 3 — demote the token-detail charts so the 4 headline stats lead the eye */
+        .detail-demote { font-size:.9em; }
+        .detail-demote .card   { box-shadow:none; border-top:2px solid var(--line); background:#fbfcff; }
+        .detail-demote .card h3 { color:var(--ink-soft); font-weight:600; }
+        .detail-demote .bar-fill { background:linear-gradient(90deg,#9db8f0,#bdb0ec); }
 
         /* ── Grids ────────────────────────────────────────────────────── */
         .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:.8em; }
@@ -344,7 +349,7 @@
         <div class="card t-violet"><div class="stat-num violet">~14<span style="font-size:.55em;">B</span></div><div class="stat-label">AI tokens / month <sup class="indigo fw-700">*</sup></div></div>
     </div>
 
-    <div class="grid-2" style="align-items:stretch;">
+    <div class="grid-2 detail-demote" style="align-items:stretch;">
         <div class="card t-blue">
             <h3 class="blue">Tokens by model <span class="muted" style="font-weight:400;">· ~14B / month</span></h3>
             <div style="display:flex;flex-direction:column;gap:.5em;margin-top:.5em;">
@@ -360,9 +365,9 @@
         <div class="card t-emerald">
             <h3 class="emerald">Tokens: 95% served from cache</h3>
             <div style="display:flex;align-items:center;gap:1em;margin-top:.3em;">
-                <svg viewBox="0 0 200 200" style="width:118px;height:118px;flex-shrink:0;">
+                <svg viewBox="0 0 200 200" style="width:96px;height:96px;flex-shrink:0;">
                     <circle cx="100" cy="100" r="78" fill="none" stroke="#e5e7eb" stroke-width="26"/>
-                    <circle cx="100" cy="100" r="78" fill="none" stroke="var(--emerald)" stroke-width="26"
+                    <circle cx="100" cy="100" r="78" fill="none" stroke="#34d399" stroke-width="26"
                             stroke-dasharray="465.6 490.1" transform="rotate(-90 100 100)"/>
                     <text x="100" y="96" text-anchor="middle" font-size="40" font-weight="700" fill="#0f172a" font-family="Inter,sans-serif">95%</text>
                     <text x="100" y="124" text-anchor="middle" font-size="17" fill="#64748b" font-family="Inter,sans-serif">cache reads</text>
@@ -484,7 +489,7 @@
 
     <div class="grid-3 mt-md">
         <div class="card t-blue"><h3 class="blue">Evening</h3><div class="txt-xs muted">2 hours of prep buys you 8 hours of unattended building.</div></div>
-        <div class="card t-violet"><h3 class="violet">Overnight</h3><div class="txt-xs muted">Agents work in parallel while during the night. Your runway doubles.</div></div>
+        <div class="card t-violet"><h3 class="violet">Overnight</h3><div class="txt-xs muted">Agents work in parallel during the night. Your runway doubles.</div></div>
         <div class="card t-teal"><h3 class="teal">Morning</h3><div class="txt-xs muted">Triage the overnight haul, merge the wins, re-brief for the day.</div></div>
     </div>
 </section>
@@ -699,7 +704,7 @@ Reveal.initialize({
     transition:           'slide',
     transitionSpeed:      'default',
     backgroundTransition: 'none',
-    center:               false,
+    center:               true,
     width:                1280,
     height:               720,
     margin:               0.04,
