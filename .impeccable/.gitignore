@@ -1,0 +1,3 @@
+config.local.json
+hook.cache.json
+*.cache.json
