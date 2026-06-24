@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "reason": "Intentional deck brand (matches other conference decks)",
+        "createdAt": "2026-06-23T18:51:47.762Z"
+      },
+      {
+        "rule": "overused-font",
+        "value": "space grotesk",
+        "reason": "Intentional deck brand (matches other conference decks)",
+        "createdAt": "2026-06-23T18:51:47.840Z"
+      },
+      {
+        "rule": "overused-font",
+        "value": "jetbrains mono",
+        "reason": "Intentional deck brand (matches other conference decks)",
+        "createdAt": "2026-06-23T18:51:47.937Z"
+      }
+    ]
+  }
+}

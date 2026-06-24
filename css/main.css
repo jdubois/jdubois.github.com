@@ -306,6 +306,100 @@ ul li {
     color: var(--text-secondary);
 }
 
+/* Collapsible talks (native <details>/<summary>) */
+.talk {
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 1.5rem;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.talk:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.talk[open] {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-md);
+}
+
+.talk > summary {
+    display: block;
+    list-style: none;
+    cursor: pointer;
+    position: relative;
+    padding: 1.5rem 3.5rem 1.5rem 1.75rem;
+    border-radius: 12px;
+}
+
+.talk > summary::-webkit-details-marker {
+    display: none;
+}
+
+.talk > summary:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.talk > summary h2 {
+    margin: 0 0 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.talk > summary:hover h2 {
+    color: var(--primary-color);
+}
+
+.talk > summary p:last-child {
+    margin-bottom: 0;
+}
+
+/* Chevron indicator */
+.talk > summary::after {
+    content: "";
+    position: absolute;
+    top: 1.9rem;
+    right: 1.85rem;
+    width: 13px;
+    height: 13px;
+    border-right: 2px solid var(--text-secondary);
+    border-bottom: 2px solid var(--text-secondary);
+    transform: rotate(45deg);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.talk:hover > summary::after,
+.talk[open] > summary::after {
+    border-color: var(--primary-color);
+}
+
+.talk[open] > summary::after {
+    transform: rotate(-135deg);
+}
+
+.talk[open] > summary {
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 12px 12px 0 0;
+}
+
+.talk-body {
+    padding: 0.5rem 1.75rem 1.75rem;
+}
+
+.talk-body > :first-child {
+    margin-top: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .talk,
+    .talk > summary h2,
+    .talk > summary::after {
+        transition: none;
+    }
+}
+
 /* Footer */
 footer {
     margin-top: auto;

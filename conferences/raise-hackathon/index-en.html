@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Winning the RAISE Hackathon — Julien Dubois</title>
+
+    <!-- Reveal.js (vendored locally — no CDN dependency) -->
+    <link rel="stylesheet" href="vendor/reveal/reveal.css" />
+    <link rel="stylesheet" href="vendor/reveal/theme/white.css" />
+
+    <!-- Fonts (vendored locally — no Google Fonts dependency) -->
+    <link rel="stylesheet" href="vendor/fonts/fonts.local.css" />
+
+    <style>
+        /* ── Tokens ───────────────────────────────────────────────────── */
+        :root {
+            --ink:#0b1f3a;
+            --ink-soft:#243b59;
+            --muted:#4a6076;
+            --line:#cdd7e6;
+            --track:#d7e0ee;
+            --blue:#1d4ed8;
+            --indigo:#1e40af;
+            --violet:#6d28d9;
+            --teal:#0e7490;
+            --cyan:#0369a1;
+            --amber:#b45309;
+            --emerald:#047857;
+            --surface:#ffffff;
+            --radius:16px;
+            --shadow:0 16px 38px -18px rgba(11,31,58,.30);
+            --shadow-sm:0 4px 14px -5px rgba(11,31,58,.16);
+            --grad:linear-gradient(120deg,#1d4ed8 0%,#3730a3 55%,#6d28d9 100%);
+            --grad-night:linear-gradient(120deg,#1e3a8a,#4338ca);
+            --grad-dawn:linear-gradient(120deg,#b45309,#c2410c);
+
+            /* Type scale — modular (~1.2 ratio), em-based so it scales with reveal's zoom */
+            --t-display:2.5em;   /* cover / outro title          */
+            --t-stat:1.5em;      /* hero stat numbers            */
+            --t-h2:1.2em;        /* slide titles                 */
+            --t-lead:.82em;      /* lead / banner emphasis       */
+            --t-body:.7em;       /* primary body, list items     */
+            --t-sm:.6em;         /* secondary text               */
+            --t-xs:.5em;         /* captions, small labels       */
+            --t-2xs:.42em;       /* micro labels, timestamps     */
+
+            /* Letter-spacing — reveal uppercases headings, so caps get positive tracking
+               (more for smaller caps), display can run tight. */
+            --track-display:-.01em;
+            --track-title:.012em;
+            --track-label:.04em;
+        }
+
+        /* ── Base ─────────────────────────────────────────────────────── */
+        .reveal-viewport {
+            background:
+                linear-gradient(rgba(29,78,216,.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(29,78,216,.05) 1px, transparent 1px),
+                radial-gradient(1000px 560px at 12% -8%, #dce7f8 0%, transparent 55%),
+                radial-gradient(920px 520px at 96% 0%, #d8e3f6 0%, transparent 50%),
+                radial-gradient(1000px 680px at 52% 122%, #cfe0f2 0%, transparent 55%),
+                #e4ebf5;
+            background-size:36px 36px, 36px 36px, auto, auto, auto, auto;
+        }
+        .reveal {
+            font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size:28px;
+            color:var(--ink);
+            font-kerning:normal;
+            text-rendering:optimizeLegibility;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+        }
+        .reveal .slides section {
+            text-align:left;
+            box-sizing:border-box;
+            padding:0.85em 0.7em;
+        }
+
+        /* ── Headings ─────────────────────────────────────────────────── */
+        .reveal h1 { font-family:'Space Grotesk', sans-serif; font-weight:700; line-height:1.04; letter-spacing:var(--track-display); color:var(--ink); text-wrap:balance; }
+        .reveal h2 {
+            font-family:'Space Grotesk', sans-serif; font-weight:700;
+            font-size:var(--t-h2); color:var(--ink); letter-spacing:var(--track-title);
+            margin:0 0 .5em; padding-bottom:.25em;
+            border-bottom:3px solid transparent;
+            border-image:linear-gradient(90deg,var(--blue),var(--violet)) 1;
+            display:flex; align-items:center; gap:.4em;
+        }
+        .reveal h3 {
+            font-family:'Space Grotesk', sans-serif; font-weight:600;
+            color:var(--indigo); font-size:var(--t-body); margin:0 0 .35em; letter-spacing:var(--track-label);
+        }
+
+        /* ── Gradient text ────────────────────────────────────────────── */
+        .grad { background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+        /* ── Lists ────────────────────────────────────────────────────── */
+        .reveal ul { list-style:none; margin:0; padding:0; }
+        .reveal ul li {
+            font-size:var(--t-body); color:var(--ink-soft);
+            padding:.22em 0 .22em 1.45em; position:relative; line-height:1.4;
+        }
+        .reveal ul li::before {
+            content:""; position:absolute; left:0; top:.62em;
+            width:.5em; height:.5em; border-radius:3px; background:var(--grad);
+        }
+
+        /* ── Cards ────────────────────────────────────────────────────── */
+        .card {
+            background:var(--surface); border:1px solid var(--line);
+            border-radius:var(--radius); padding:.8em 1em;
+            box-shadow:var(--shadow-sm); position:relative;
+        }
+        .card.t-blue    { border-top:4px solid var(--blue); }
+        .card.t-indigo  { border-top:4px solid var(--indigo); }
+        .card.t-violet  { border-top:4px solid var(--violet); }
+        .card.t-teal    { border-top:4px solid var(--teal); }
+        .card.t-cyan    { border-top:4px solid var(--cyan); }
+        .card.t-amber   { border-top:4px solid var(--amber); }
+        .card.t-emerald { border-top:4px solid var(--emerald); }
+        .card.t-blue h3    { color:var(--blue); }
+        .card.t-violet h3  { color:var(--violet); }
+        .card.t-teal h3    { color:var(--teal); }
+        .card.t-cyan h3    { color:var(--cyan); }
+        .card.t-amber h3   { color:var(--amber); }
+        .card.t-emerald h3 { color:var(--emerald); }
+
+        /* Slide 3 — demote the token-detail charts so the 4 headline stats lead the eye */
+        .detail-demote { font-size:.9em; }
+        .detail-demote .card   { box-shadow:none; border-top:2px solid var(--line); background:#f3f7fc; }
+        .detail-demote .card h3 { color:var(--ink-soft); font-weight:600; }
+        .detail-demote .bar-fill { background:linear-gradient(90deg,#9db8f0,#bdb0ec); }
+
+        /* ── Grids ────────────────────────────────────────────────────── */
+        .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:.8em; }
+        .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:.75em; }
+        .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:.65em; }
+
+        /* ── Chips ────────────────────────────────────────────────────── */
+        .chip {
+            display:inline-block; border-radius:999px;
+            padding:5px 14px; font-size:var(--t-2xs); font-weight:600;
+            background:#e2ebfb; color:var(--indigo);
+        }
+        .chip.blue  { background:#dbe8fe; color:var(--blue); }
+        .chip.teal  { background:#d6eef3; color:var(--teal); }
+        .chip.slate { background:#d4dcea; color:var(--ink-soft); }
+
+        /* ── Hero banner box ──────────────────────────────────────────── */
+        .banner {
+            background:var(--grad); color:#fff; border-radius:var(--radius);
+            padding:.75em 1.1em; font-weight:600; font-size:var(--t-lead);
+            box-shadow:var(--shadow);
+        }
+        .banner * { color:#fff !important; }
+        .banner.night { background:var(--grad-night); }
+        .banner.dawn  { background:var(--grad-dawn); }
+        /* first-light payoff — the climax banner on the night slide */
+        .banner.sunrise {
+            background:linear-gradient(118deg,#c2410c 0%,#be123c 46%,#6d28d9 100%);
+            box-shadow:0 0 0 1px rgba(255,255,255,.14), 0 24px 64px -20px rgba(217,70,30,.6);
+        }
+
+        /* ── Night slide — Step 2 "overnight" goes full-bleed dark ────── */
+        /* The one tentpole: light → DARK → light across the three steps.
+           The surface is painted by data-background-gradient on the section;
+           here we re-tone the content and let the white agent cards glow
+           like lit windows against the night. */
+        .night-slide h2 { color:#eef3ff; }
+        .night-slide h2 .muted { color:#9db1d8 !important; }
+        .night-slide > .txt-sm.muted { color:#bccbea; }
+        .night-slide > .txt-sm.muted .ink { color:#ffffff; }
+        .night-slide .agent {
+            background:#fbfcff; border-color:rgba(150,166,224,.22);
+            box-shadow:0 0 0 1px rgba(142,162,255,.16), 0 22px 54px -18px rgba(91,104,235,.78);
+        }
+        .night-slide .agent .task { min-height:2.7em; }   /* reserve 2 lines so all four pills share one baseline */
+
+        /* ── Stats ────────────────────────────────────────────────────── */
+        .stat-num { font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:var(--t-stat); line-height:1; color:var(--ink); font-variant-numeric:tabular-nums; letter-spacing:-.01em; }
+        .stat-label { font-size:var(--t-2xs); color:var(--muted); margin-top:.35em; line-height:1.3; font-weight:500; }
+
+        /* ── Bio ──────────────────────────────────────────────────────── */
+        .bio { display:grid; grid-template-columns:165px 1fr; gap:1.4em; align-items:center; }
+        .bio-photo { width:100%; border-radius:18px; box-shadow:var(--shadow); }
+        .bio-tags { display:flex; flex-wrap:wrap; gap:.4em; margin-bottom:.55em; }
+
+
+        /* ── Slide 4 — Thesis: the new org chart (hero) ───────────────── */
+        .thesis-lede {
+            text-align:center; font-family:'Space Grotesk', sans-serif; font-weight:600;
+            font-size:var(--t-lead); color:var(--ink); letter-spacing:-.01em;
+            margin:.2em 0 1.2em; text-wrap:balance;
+        }
+        .orgchart { display:flex; flex-direction:column; align-items:center; }
+        .org-mgr {
+            display:inline-flex; align-items:center; gap:.4em;
+            background:var(--grad); color:#fff;
+            font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:var(--t-lead);
+            letter-spacing:-.005em; padding:.5em 1.3em; border-radius:999px;
+            box-shadow:0 16px 32px -14px rgba(55,48,163,.7), 0 0 0 6px rgba(99,102,241,.10);
+        }
+        .org-fan { width:100%; max-width:900px; height:54px; display:block; }
+        .org-fan path { fill:none; stroke:#8497c6; stroke-width:2; }
+        .org-row { display:grid; grid-template-columns:repeat(4,1fr); gap:0; width:100%; max-width:900px; }
+        .org-node {
+            margin:0 .35em; background:#fff; border:1px solid var(--line);
+            border-radius:14px; padding:.6em .5em .62em; text-align:center; box-shadow:var(--shadow-sm);
+        }
+        .org-node .role {
+            display:block; font-family:'Space Grotesk', sans-serif; font-weight:700;
+            font-size:var(--t-sm); color:var(--ink); letter-spacing:-.005em;
+        }
+        .org-node .does { font-size:var(--t-2xs); color:var(--muted); margin-top:.3em; line-height:1.3; }
+        .org-node.r-blue    .role { color:var(--blue); }
+        .org-node.r-emerald .role { color:var(--emerald); }
+        .org-node.r-violet  .role { color:var(--violet); }
+        .org-node.r-teal    .role { color:var(--teal); }
+        .org-cap { text-align:center; font-size:var(--t-xs); color:var(--muted); margin:.9em 0 0; }
+        .thesis-close {
+            text-align:center; font-family:'Space Grotesk', sans-serif; font-weight:700;
+            font-size:1.02em; letter-spacing:-.015em; color:var(--ink);
+            margin:1.05em 0 0; text-wrap:balance;
+        }
+        .thesis-close .win { color:var(--blue); }
+
+        /* ── Agent task cards (overnight) ─────────────────────────────── */
+        .agent {
+            border:1px solid var(--line); border-radius:14px; background:#fff;
+            padding:.6em .75em; box-shadow:var(--shadow-sm);
+        }
+        .agent .who { font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:var(--t-sm); color:var(--ink); }
+        .agent .task { font-size:var(--t-xs); color:var(--muted); margin-top:.25em; line-height:1.35; }
+        .agent .pill {
+            display:inline-block; margin-top:.45em; font-family:'JetBrains Mono', monospace;
+            font-size:var(--t-2xs); font-weight:600; padding:2px 8px; border-radius:999px;
+            background:#ecfdf5; color:#047857; font-variant-numeric:tabular-nums;
+        }
+        .agent .pill.run { background:#eff6ff; color:#1d4ed8; }
+
+        /* ── Timeline ─────────────────────────────────────────────────── */
+        .tl { position:relative; padding:.5em 0 .2em; }
+        .tl-band {
+            position:absolute; top:1.55em; bottom:1.1em; left:17.5%; width:41%;
+            background:linear-gradient(180deg, rgba(79,70,229,.12), rgba(124,58,237,.05));
+            border:1px dashed rgba(79,70,229,.4); border-radius:14px; z-index:0;
+        }
+        .tl-band-label {
+            position:absolute; top:-1.3em; left:0; right:0; text-align:center;
+            font-family:'Space Grotesk', sans-serif; font-weight:600;
+            font-size:var(--t-2xs); color:var(--violet); letter-spacing:var(--track-label);
+        }
+        .tl-times, .tl-dots, .tl-info { display:flex; justify-content:space-between; position:relative; z-index:1; }
+        .tl-times > span, .tl-dots > span, .tl-info > div { width:15.5%; text-align:center; }
+        .tl-times > span { font-family:'JetBrains Mono', monospace; font-size:var(--t-2xs); color:var(--muted); font-weight:600; font-variant-numeric:tabular-nums; }
+        .tl-dots { align-items:center; margin:.4em 0; }
+        .tl-dots::before {
+            content:''; position:absolute; left:6%; right:6%; top:50%; transform:translateY(-50%);
+            height:3px; background:linear-gradient(90deg,var(--blue),var(--indigo),var(--violet)); z-index:0; border-radius:3px;
+        }
+        .tl-dot {
+            display:inline-block; width:18px; height:18px; border-radius:50%;
+            background:var(--blue); position:relative; z-index:1;
+            box-shadow:0 0 0 4px #fff, 0 0 0 6px var(--blue);
+        }
+        .tl-dot.night { background:var(--violet); box-shadow:0 0 0 4px #fff, 0 0 0 6px var(--violet); }
+        .tl-dot.dawn  { background:var(--amber); box-shadow:0 0 0 4px #fff, 0 0 0 6px var(--amber); }
+        .tl-dot.ship  { background:var(--teal);  box-shadow:0 0 0 4px #fff, 0 0 0 6px var(--teal); }
+        .tl-info > div .nm { font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:var(--t-xs); color:var(--ink); display:block; }
+        .tl-info > div .ds { font-size:var(--t-2xs); color:var(--muted); margin-top:.25em; display:block; line-height:1.3; }
+
+        /* ── Charts ───────────────────────────────────────────────────── */
+        .bar-row { display:flex; align-items:center; gap:.6em; font-size:var(--t-xs); }
+        .bar-name { width:120px; color:var(--ink); font-weight:600; }
+        .bar-name.muted { color:var(--muted); font-weight:500; }
+        .bar-track { flex:1; height:14px; background:var(--track); border-radius:7px; overflow:hidden; }
+        .bar-fill { display:block; height:100%; background:linear-gradient(90deg,var(--blue),var(--violet)); border-radius:7px; }
+        .bar-val { width:34px; text-align:right; font-weight:700; color:var(--ink); font-variant-numeric:tabular-nums; }
+        .bar-val.muted { color:var(--muted); }
+
+        /* ── Playbook numbered list ───────────────────────────────────── */
+        .pb-item { display:flex; gap:.7em; align-items:baseline; padding:.28em 0; border-bottom:1px solid var(--line); }
+        .pb-item:last-child { border-bottom:none; }
+        .pb-num { font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:var(--t-sm); min-width:1.5em; font-variant-numeric:tabular-nums; }
+        .pb-text { font-size:var(--t-sm); color:var(--ink-soft); line-height:1.3; }
+        .pb-text b { color:var(--ink); }
+
+        /* ── Slide number ─────────────────────────────────────────────── */
+        .reveal .slide-number { background:transparent; color:var(--muted); font-family:'JetBrains Mono', monospace; font-size:var(--t-xs); right:14px; bottom:12px; font-variant-numeric:tabular-nums; }
+
+        /* ── Progress bar (tint reveal's default link-blue to brand blue) ─ */
+        .reveal .progress { color:var(--blue); background-color:rgba(11,31,58,.08); }
+        /* On the dark night slide, lift the corner pagination so it stays crisp */
+        .reveal.has-dark-background .slide-number { color:#93a7cf; }
+
+        /* ── Utilities ────────────────────────────────────────────────── */
+        .txt-sm { font-size:var(--t-sm); }
+        .txt-xs { font-size:var(--t-xs); }
+        .muted  { color:var(--muted); }
+        .ink    { color:var(--ink); }
+        .blue   { color:var(--blue); }
+        .indigo { color:var(--indigo); }
+        .violet { color:var(--violet); }
+        .teal   { color:var(--teal); }
+        .amber  { color:var(--amber); }
+        .emerald{ color:var(--emerald); }
+        .mono   { font-family:'JetBrains Mono', monospace; }
+        .sg     { font-family:'Space Grotesk', sans-serif; }
+        .fw-700 { font-weight:700; }
+        .mt-sm  { margin-top:.5em; }
+        .mt-md  { margin-top:.9em; }
+        .center { text-align:center; }
+
+        /* ── Cover / outro ────────────────────────────────────────────── */
+        .cover-wrap, .outro-wrap { display:flex; flex-direction:column; justify-content:center; height:100%; }
+    </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 1 — COVER
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="cover-wrap">
+        <div style="display:flex;gap:.5em;flex-wrap:wrap;margin-bottom:1em;">
+            <span class="chip">Builder's playbook</span>
+            <span class="chip blue">GitHub Copilot App</span>
+            <a class="chip teal" href="https://www.raisesummit.com/fr/hackathon" target="_blank" rel="noopener" style="text-decoration:none;color:var(--teal);">RAISE Summit · Paris ↗</a>
+        </div>
+
+        <h1 style="font-size:var(--t-display);margin:0;">Winning the<br/><span class="grad">RAISE Hackathon</span></h1>
+
+        <div class="sg" style="font-size:.8em;font-weight:600;margin-top:.7em;color:var(--ink-soft);">
+            Ship more than any team in the room, using GitHub Copilot.
+        </div>
+        <div class="txt-sm muted" style="margin-top:.3em;">
+            Prepare your agents in the evening. Let them build all night. Merge over coffee tomorrow. ☕
+        </div>
+
+        <div class="mono muted" style="font-size:.5em;margin-top:1.6em;letter-spacing:.02em;">
+            Julien Dubois&nbsp;&nbsp;·&nbsp;&nbsp;github.com/jdubois&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://www.raisesummit.com/fr/hackathon" target="_blank" rel="noopener" style="color:var(--indigo);text-decoration:none;">raisesummit.com/hackathon</a>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:1.3em;margin-top:1.7em;">
+            <span style="display:inline-flex;align-items:center;gap:.5em;">
+                <svg height="24" viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="GitHub"><path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.014 7.822 5.014 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" fill="#181717"/></svg>
+                <span class="sg" style="font-size:18px;font-weight:700;color:#181717;letter-spacing:-.01em;">GitHub</span>
+            </span>
+            <span style="width:1px;height:22px;background:var(--line);"></span>
+            <span style="display:inline-flex;align-items:center;gap:.55em;">
+                <svg width="22" height="22" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Microsoft"><rect x="1" y="1" width="10" height="10" fill="#F25022"/><rect x="12" y="1" width="10" height="10" fill="#7FBA00"/><rect x="1" y="12" width="10" height="10" fill="#00A4EF"/><rect x="12" y="12" width="10" height="10" fill="#FFB900"/></svg>
+                <span class="sg" style="font-size:18px;font-weight:600;color:#5E5E5E;letter-spacing:-.005em;">Microsoft</span>
+            </span>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 2 — WHO AM I (bio)
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>👋 Who am I?</h2>
+
+    <div class="bio">
+        <div>
+            <img src="https://www.julien-dubois.com/img/photos/julien-dubois.png" alt="Julien Dubois" class="bio-photo" />
+        </div>
+        <div>
+            <div class="bio-tags">
+                <span class="chip">☕ Java Champion</span>
+                <span class="chip blue">🏢 Microsoft / GitHub</span>
+                <span class="chip teal">⭐ JHipster 22k+</span>
+                <span class="chip slate">🤖 AI × code</span>
+            </div>
+            <ul>
+                <li><span class="ink fw-700">Principal Manager</span>, Developer Relations @ Microsoft / GitHub</li>
+                <li>Creator of <span class="ink fw-700">JHipster</span> · 22,000+ ⭐</li>
+                <li><span class="ink fw-700">200+ international talks</span> (Devoxx, SpringOne, MS Build…)</li>
+                <li>Today: shipping real projects by <span class="ink fw-700">managing AI agents</span></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 3 — MY MONTH WITH COPILOT (score card)
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>📊 My month with Copilot</h2>
+    <p class="txt-xs muted" style="margin:-0.25em 0 .55em;">
+        One developer · ~30 days · real GitHub activity + Copilot usage data
+    </p>
+
+    <div class="grid-4" style="margin-bottom:.7em;">
+        <div class="card t-indigo"><div class="stat-num indigo">759</div><div class="stat-label">commits authored</div></div>
+        <div class="card t-teal"><div class="stat-num teal">406</div><div class="stat-label">PRs merged <span style="opacity:.7;">(419 opened)</span></div></div>
+        <div class="card t-amber"><div class="stat-num amber">~443k</div><div class="stat-label">lines changed <span style="opacity:.7;">+347k / −96k</span></div></div>
+        <div class="card t-violet"><div class="stat-num violet">~14<span style="font-size:.55em;">B</span></div><div class="stat-label">AI tokens / month <sup class="indigo fw-700">*</sup></div></div>
+    </div>
+
+    <div class="grid-2 detail-demote" style="align-items:stretch;">
+        <div class="card t-blue">
+            <h3 class="blue">Tokens by model <span class="muted" style="font-weight:400;">· ~14B / month</span></h3>
+            <div style="display:flex;flex-direction:column;gap:.5em;margin-top:.5em;">
+                <div class="bar-row"><span class="bar-name">Claude Opus 4.8</span><span class="bar-track"><span class="bar-fill" style="width:100%;"></span></span><span class="bar-val">45%</span></div>
+                <div class="bar-row"><span class="bar-name">GPT-5.3-Codex</span><span class="bar-track"><span class="bar-fill" style="width:36%;"></span></span><span class="bar-val">16%</span></div>
+                <div class="bar-row"><span class="bar-name">GPT-5.5</span><span class="bar-track"><span class="bar-fill" style="width:29%;"></span></span><span class="bar-val">13%</span></div>
+                <div class="bar-row"><span class="bar-name">Gemini 3.1 Pro</span><span class="bar-track"><span class="bar-fill" style="width:27%;"></span></span><span class="bar-val">12%</span></div>
+                <div class="bar-row"><span class="bar-name">Claude Haiku 4.5</span><span class="bar-track"><span class="bar-fill" style="width:22%;"></span></span><span class="bar-val">10%</span></div>
+                <div class="bar-row"><span class="bar-name muted">+6 more models</span><span class="bar-track"><span class="bar-fill" style="width:9%;background:#cbd5e1;"></span></span><span class="bar-val muted">4%</span></div>
+            </div>
+        </div>
+
+        <div class="card t-emerald">
+            <h3 class="emerald">Tokens: 95% served from cache</h3>
+            <div style="display:flex;align-items:center;gap:1em;margin-top:.3em;">
+                <svg viewBox="0 0 200 200" style="width:96px;height:96px;flex-shrink:0;">
+                    <circle cx="100" cy="100" r="78" fill="none" stroke="#e5e7eb" stroke-width="26"/>
+                    <circle cx="100" cy="100" r="78" fill="none" stroke="#34d399" stroke-width="26"
+                            stroke-dasharray="465.6 490.1" transform="rotate(-90 100 100)"/>
+                    <text x="100" y="96" text-anchor="middle" font-size="40" font-weight="700" fill="#0f172a" font-family="Inter,sans-serif">95%</text>
+                    <text x="100" y="124" text-anchor="middle" font-size="17" fill="#64748b" font-family="Inter,sans-serif">cache reads</text>
+                </svg>
+                <ul style="margin:0;">
+                    <li><span class="ink fw-700">13.3B</span> cache reads · <span class="ink fw-700">113M</span> fresh input</li>
+                    <li><span class="ink fw-700">90M</span> output · <span class="ink fw-700">423M</span> cache writes</li>
+                    <li><span class="ink fw-700">~14B</span> tokens / month total</li>
+                    <li>spread across <span class="ink fw-700">11 models</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <p class="txt-xs muted center" style="margin:.5em 0 0;">
+        <span class="indigo fw-700">*</span> Token usage extrapolated from 7 days of real Copilot data across all integrations (CLI, app, mobile, PR reviews); 95% is cache reads.
+    </p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 4 — THE MINDSET SHIFT
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🚀 The mindset shift</h2>
+
+    <p class="thesis-lede">You're not the developer, you're the manager now.</p>
+
+    <div class="orgchart">
+        <span class="org-mgr">🧑‍✈️ You · the manager</span>
+        <svg class="org-fan" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+            <path vector-effect="non-scaling-stroke"
+                  d="M500 4 V40 M125 40 H875 M125 40 V96 M375 40 V96 M625 40 V96 M875 40 V96"/>
+        </svg>
+        <div class="org-row">
+            <div class="org-node r-blue">
+                <span class="role">🚀 Feature 1</span>
+                <div class="does">the winning demo</div>
+            </div>
+            <div class="org-node r-emerald">
+                <span class="role">🧩 Feature 2</span>
+                <div class="does">more depth to win</div>
+            </div>
+            <div class="org-node r-violet">
+                <span class="role">🎨 UI</span>
+                <div class="does">polish &amp; landing</div>
+            </div>
+            <div class="org-node r-teal">
+                <span class="role">🏗️ Infra</span>
+                <div class="does">deploy &amp; plumbing</div>
+            </div>
+        </div>
+    </div>
+
+    <p class="org-cap">Many agents in parallel. You brief, review, merge.</p>
+
+    <p class="thesis-close">You don't type faster. <span class="win">You ship wider.</span></p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 5 — THE RULES
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🏁 The rules</h2>
+
+    <div class="banner">
+        Build something real, polished, and demo-proof before the buzzer, and ship more than anyone else.
+    </div>
+
+    <div class="grid-2 mt-md">
+        <div class="card t-amber">
+            <h3>⏱️ The constraint</h3>
+            <ul>
+                <li>2 days, hard stop</li>
+                <li>You need to ship a real product</li>
+                <li>You can't code all night and still ship on time</li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3>⚡ Your advantage</h3>
+            <ul>
+                <li>You have GitHub Copilot</li>
+                <li>A fleet of agents in parallel, not one chat window</li>
+                <li>They keep building while you sleep</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="txt-sm muted mt-md center">
+        Same tools, same clock for everyone. The team that <span class="violet fw-700">uses them best</span> ships wider and wins.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 6 — THE 24-HOUR PLAYBOOK (timeline)
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🗓️ The 24-hour playbook</h2>
+
+    <div class="tl">
+        <div class="tl-band"><span class="tl-band-label">🌙 while you sleep</span></div>
+
+        <div class="tl-times">
+            <span>6pm</span><span>10pm</span><span>12am</span><span>7am</span><span>10am</span><span>12pm</span>
+        </div>
+        <div class="tl-dots">
+            <span><span class="tl-dot"></span></span>
+            <span><span class="tl-dot"></span></span>
+            <span><span class="tl-dot night"></span></span>
+            <span><span class="tl-dot dawn"></span></span>
+            <span><span class="tl-dot"></span></span>
+            <span><span class="tl-dot ship"></span></span>
+        </div>
+        <div class="tl-info">
+            <div><span class="nm">Prep</span><span class="ds">Scope it, brief your agents</span></div>
+            <div><span class="nm">Launch</span><span class="ds">Split into parallel tasks, go</span></div>
+            <div><span class="nm">🌙 Overnight</span><span class="ds">Agents build, test, open PRs</span></div>
+            <div><span class="nm">☀️ Morning</span><span class="ds">Merge wins, drop the rest</span></div>
+            <div><span class="nm">Final push</span><span class="ds">Polish, integrate, demo-proof</span></div>
+            <div><span class="nm">🏁 Ship</span><span class="ds">Submit &amp; present</span></div>
+        </div>
+    </div>
+
+    <div class="grid-3 mt-md">
+        <div class="card t-blue"><h3 class="blue">Evening</h3><div class="txt-xs muted">2 hours of prep buys you 8 hours of unattended building.</div></div>
+        <div class="card t-violet"><h3 class="violet">Overnight</h3><div class="txt-xs muted">Agents work in parallel during the night. Your runway doubles.</div></div>
+        <div class="card t-teal"><h3 class="teal">Morning</h3><div class="txt-xs muted">Triage the overnight haul, merge the wins, re-brief for the day.</div></div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 7 — STEP 1: PREP YOUR AGENTS
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🛠️ Step 1: Prep your agents <span class="sg muted" style="font-size:.5em;font-weight:600;border:none;">· evening</span></h2>
+
+    <div class="grid-2">
+        <div class="card t-indigo">
+            <h3>📜 Write it down · AGENTS.md</h3>
+            <ul>
+                <li>Set the house rules <span class="ink fw-700">once</span></li>
+                <li>What you're building · conventions · how to build &amp; test</li>
+                <li>Every agent reads it first, no re-explaining</li>
+            </ul>
+        </div>
+        <div class="card t-violet">
+            <h3>✅ Give them a test harness</h3>
+            <ul>
+                <li>A real <span class="ink fw-700">build + test</span> command they can run</li>
+                <li>They verify their own work before reporting back</li>
+                <li>No tests = you can't trust the output</li>
+            </ul>
+        </div>
+        <div class="card t-blue">
+            <h3>🛡️ Set guardrails</h3>
+            <ul>
+                <li>One branch / worktree per task</li>
+                <li>Small scope, clear goal</li>
+                <li>Nothing hits main without your review</li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3>🧩 Split the work</h3>
+            <ul>
+                <li>Break the build into independent pieces</li>
+                <li>One task each: two features, UI, infra</li>
+                <li>Parallel-ready = night-ready</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="txt-sm muted mt-sm center">
+        <span class="indigo fw-700">Tip:</span> the better the brief, the less you babysit at 2am.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 8 — STEP 2: OVERNIGHT
+══════════════════════════════════════════════════════════════ -->
+<section class="night-slide" data-background-color="#0c1838" data-background-gradient="radial-gradient(820px 520px at 83% -14%, rgba(129,140,248,.42), transparent 60%), radial-gradient(740px 560px at 2% 122%, rgba(20,184,166,.20), transparent 55%), linear-gradient(180deg,#0a1330 0%,#0d1940 56%,#10224f 100%)">
+    <h2>🌙 Step 2: Let them build overnight <span class="sg muted" style="font-size:.5em;font-weight:600;border:none;">· while you sleep</span></h2>
+
+    <div class="txt-sm muted" style="margin-bottom:.7em;">
+        Kick off several agents at once. Each runs <span class="ink fw-700">in a loop</span> on its own branch/worktree: build, test, open a PR, pick up the next task. One agent repeats this loop many times before dawn.
+    </div>
+
+    <div class="grid-4">
+        <div class="agent">
+            <div class="who">🚀 Agent 1</div>
+            <div class="task">Core feature: the thing that wins the demo</div>
+            <div class="pill run">loop ×6 · 6 PRs</div>
+        </div>
+        <div class="agent">
+            <div class="who">🧩 Agent 2</div>
+            <div class="task">Second core feature, built in parallel</div>
+            <div class="pill">loop ×5 · 5 PRs</div>
+        </div>
+        <div class="agent">
+            <div class="who">🎨 Agent 3</div>
+            <div class="task">UI, polish &amp; landing page</div>
+            <div class="pill run">loop ×7 · 7 PRs</div>
+        </div>
+        <div class="agent">
+            <div class="who">🏗️ Agent 4</div>
+            <div class="task">Infrastructure: deploy, CI &amp; data</div>
+            <div class="pill">loop ×4 · 4 PRs</div>
+        </div>
+    </div>
+
+    <div class="banner sunrise mt-md">
+        4 agents looping all night → <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.6);">tens of PRs by morning.</span> Your throughput isn't your keyboard anymore. It's how well you briefed them.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 9 — STEP 3: MORNING REVIEW
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>☀️ Step 3: Review over coffee <span class="sg muted" style="font-size:.5em;font-weight:600;border:none;">· morning</span></h2>
+
+    <div class="grid-2">
+        <div class="card t-teal">
+            <h3>Your morning routine</h3>
+            <ul>
+                <li><span class="ink fw-700">Triage</span> the overnight haul: <span class="ink fw-700">tens of PRs</span></li>
+                <li><span class="ink fw-700">Merge</span> the good ones fast</li>
+                <li><span class="ink fw-700">Drop or re-task</span> what didn't land</li>
+                <li><span class="ink fw-700">Cherry-pick</span> the good parts of the rest</li>
+                <li><span class="ink fw-700">Re-brief</span> and relaunch for the day</li>
+            </ul>
+        </div>
+        <div>
+            <div class="card t-indigo" style="margin-bottom:.7em;">
+                <h3>Wake up to progress</h3>
+                <div class="txt-sm muted">
+                    <span class="ink fw-700">Tens of PRs</span> are waiting as every agent looped all night. The build moved while you didn't. Then the loop repeats: brief → build → review.
+                </div>
+            </div>
+            <div class="banner dawn" style="font-size:.74em;">
+                If your loops work well, you can run them again several times before noon.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 10 — THE ONE-PAGE PLAYBOOK
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>📋 The one-page playbook</h2>
+
+    <div class="card t-violet">
+        <div class="pb-item"><span class="pb-num grad">1</span><span class="pb-text"><b>Write the house rules</b> (AGENTS.md) before you start a single agent.</span></div>
+        <div class="pb-item"><span class="pb-num grad">2</span><span class="pb-text"><b>No agent without a test harness</b>: give it a build + test it can run itself.</span></div>
+        <div class="pb-item"><span class="pb-num grad">3</span><span class="pb-text"><b>One task per agent.</b> Small scope, clear goal, own branch.</span></div>
+        <div class="pb-item"><span class="pb-num grad">4</span><span class="pb-text"><b>Run them in parallel</b>: that's the whole point. Don't babysit one.</span></div>
+        <div class="pb-item"><span class="pb-num grad">5</span><span class="pb-text"><b>Let them build overnight</b> while you sleep.</span></div>
+        <div class="pb-item"><span class="pb-num grad">6</span><span class="pb-text"><b>Review in the morning:</b> merge wins, drop failures, re-task fast.</span></div>
+        <div class="pb-item"><span class="pb-num grad">7</span><span class="pb-text"><b>Pick the right model for each task;</b> save what works as reusable skills.</span></div>
+    </div>
+
+    <div class="txt-sm muted mt-sm center">If there's one slide to screenshot, this is it.</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 11 — WATCH OUT FOR
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>⚠️ Watch out for</h2>
+
+    <div class="grid-2">
+        <div class="card t-amber">
+            <h3>Scope creep</h3>
+            <div class="txt-sm muted">"Build the whole app" makes an agent wander.<br><span class="ink fw-700">Fix:</span> one tight goal per task.</div>
+        </div>
+        <div class="card t-amber">
+            <h3>No tests, no trust</h3>
+            <div class="txt-sm muted">You can't read every line of <span class="ink fw-700">tens of PRs</span>.<br><span class="ink fw-700">Fix:</span> harness first, green build before merge.</div>
+        </div>
+        <div class="card t-amber">
+            <h3>Giant PRs</h3>
+            <div class="txt-sm muted">A 2,000-line PR is impossible to review.<br><span class="ink fw-700">Fix:</span> small, reviewable chunks.</div>
+        </div>
+        <div class="card t-amber">
+            <h3>Wrong model</h3>
+            <div class="txt-sm muted">A weak model won't solve the hard tasks; a strong one is slow and costly.<br><span class="ink fw-700">Fix:</span> choose the right model for the job.</div>
+        </div>
+    </div>
+
+    <div class="txt-sm muted mt-md center">
+        Most failed runs aren't the agent's fault. They're a <span class="indigo fw-700">briefing problem.</span>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 12 — GO BUILD (CTA)
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="outro-wrap">
+        <div class="sg indigo" style="font-size:.8em;font-weight:600;letter-spacing:.02em;">That's the playbook.</div>
+        <h1 style="font-size:var(--t-display);margin:.1em 0 0;">Now go <span class="grad">build.</span> 🚀</h1>
+
+        <div class="sg" style="font-size:.8em;font-weight:600;margin-top:.6em;color:var(--ink-soft);">
+            Prep in the evening · build all night · merge over coffee.
+        </div>
+        <div class="txt-sm muted" style="margin-top:.3em;">
+            Brief them well, run them wide, and out-ship the room.
+        </div>
+
+        <div class="mono muted" style="font-size:.5em;margin-top:1.5em;letter-spacing:.02em;">
+            🌐 julien-dubois.com&nbsp;&nbsp;·&nbsp;&nbsp;𝕏 @juliendubois&nbsp;&nbsp;·&nbsp;&nbsp;🐙 github.com/jdubois
+        </div>
+    </div>
+</section>
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<!-- ── Reveal.js ─────────────────────────────────────────────────── -->
+<script src="vendor/reveal/reveal.js"></script>
+<script src="vendor/reveal/plugin/notes.js"></script>
+
+<script>
+document.querySelectorAll('.slides .fragment').forEach(function(frag) {
+    frag.classList.remove(
+        'fragment',
+        'fade-up', 'fade-down', 'fade-left', 'fade-right',
+        'fade-in', 'fade-out', 'fade-in-then-out',
+        'zoom-in', 'grow', 'shrink', 'highlight-red',
+        'highlight-green', 'highlight-blue', 'current-visible',
+        'semi-fade-out'
+    );
+});
+
+Reveal.initialize({
+    hash:                 true,
+    slideNumber:          'c/t',
+    transition:           'slide',
+    transitionSpeed:      'default',
+    backgroundTransition: 'none',
+    center:               true,
+    width:                1280,
+    height:               720,
+    margin:               0.04,
+    autoAnimate:          false,
+    plugins: [ RevealNotes ],
+});
+</script>
+</body>
+</html>
