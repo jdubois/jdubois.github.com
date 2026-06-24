@@ -228,12 +228,23 @@ a:hover {
 }
 
 /* ===== Home hero (Engineering Notebook) ===== */
+/* Home page fills the viewport between navbar and footer, vertically centered */
+main.container:has(.home-hero) {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
 .home-hero {
-    padding: 1.5rem 0 1rem;
+    width: 100%;
 }
 
 .home-hero .row {
     align-items: center;
+    row-gap: 2rem;
 }
 
 .hero-name {
@@ -243,20 +254,6 @@ a:hover {
     line-height: 1.02;
     margin: 0 0 1.25rem;
     color: var(--ink);
-}
-
-.hero-lede {
-    font-size: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
-    line-height: 1.5;
-    color: var(--text-body);
-    max-width: 34ch;
-    margin-bottom: 1.5rem;
-    font-weight: 500;
-}
-
-.hero-lede strong {
-    color: var(--ink);
-    font-weight: 700;
 }
 
 .hero-meta {
@@ -275,6 +272,19 @@ a:hover {
     margin: 0 0.55rem;
     color: var(--primary-color);
     font-weight: 700;
+}
+
+.hero-intro {
+    margin-bottom: 1.75rem;
+}
+
+.hero-intro p {
+    max-width: 54ch;
+    margin-bottom: 1rem;
+}
+
+.hero-intro p:last-child {
+    margin-bottom: 0;
 }
 
 .hero-actions {
@@ -328,46 +338,16 @@ a:hover {
     border-radius: 18px;
     box-shadow: var(--shadow-lg);
     transition: var(--transition);
+    display: block;
+    margin-left: auto;
+    width: auto;
     max-width: 100%;
-    height: auto;
+    max-height: min(66vh, 560px);
 }
 
 .profile-image:hover {
     transform: translateY(-4px);
     box-shadow: 0 24px 48px -12px rgba(15, 20, 25, 0.22);
-}
-
-/* Stat strip (editorial ruled figures, not metric cards) */
-.stat-strip {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.25rem 2.75rem;
-    padding: 1.4rem 0;
-    margin: 2.75rem 0 0;
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-}
-
-.stat {
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-}
-
-.stat-num {
-    font-family: var(--font-mono);
-    font-size: clamp(1.5rem, 1.2rem + 1vw, 1.95rem);
-    font-weight: 700;
-    color: var(--ink);
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-}
-
-.stat-label {
-    font-size: 0.82rem;
-    color: var(--text-secondary);
-    max-width: none;
-    margin: 0;
 }
 
 /* Unified monochrome social row */
@@ -523,8 +503,8 @@ ul li {
     }
 
     .home-hero .hero-name,
-    .home-hero .hero-lede,
     .home-hero .hero-meta,
+    .home-hero .hero-intro,
     .home-hero .hero-actions,
     .home-hero .social-row,
     .home-hero .profile-image,
@@ -583,27 +563,29 @@ hr {
 
 /* Responsive Design - Mobile and Tablet */
 @media (max-width: 991.98px) {
+    main.container:has(.home-hero) {
+        display: block;
+    }
+
     .home-hero {
         padding: 1rem 0 0.5rem;
         text-align: center;
     }
 
-    .home-hero .hero-lede {
-        max-width: none;
+    .home-hero .hero-actions,
+    .home-hero .social-row {
+        justify-content: center;
+    }
+
+    .home-hero .hero-intro p {
         margin-left: auto;
         margin-right: auto;
     }
 
-    .home-hero .hero-actions,
-    .home-hero .social-row,
-    .stat-strip {
-        justify-content: center;
-    }
-
     .home-hero .profile-image {
-        display: block;
-        margin: 0 auto 2rem;
-        max-width: 260px;
+        margin: 0 auto 1.5rem;
+        max-width: 240px;
+        max-height: none;
     }
 
     /* Mobile navbar styling */
@@ -670,18 +652,18 @@ hr {
 }
 
 .home-hero .hero-name,
-.home-hero .hero-lede,
 .home-hero .hero-meta,
+.home-hero .hero-intro,
 .home-hero .hero-actions,
 .home-hero .social-row {
     animation: fadeInUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .home-hero .hero-name { animation-delay: 0.05s; }
-.home-hero .hero-lede { animation-delay: 0.13s; }
 .home-hero .hero-meta { animation-delay: 0.21s; }
-.home-hero .hero-actions { animation-delay: 0.29s; }
-.home-hero .social-row { animation-delay: 0.37s; }
+.home-hero .hero-intro { animation-delay: 0.29s; }
+.home-hero .hero-actions { animation-delay: 0.37s; }
+.home-hero .social-row { animation-delay: 0.45s; }
 
 .home-hero .profile-image {
     animation: fadeIn 0.9s ease-out 0.1s both;
