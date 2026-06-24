@@ -343,17 +343,28 @@ ul li {
     outline-offset: 2px;
 }
 
-.talk > summary h2 {
+.talk > summary h3 {
     margin: 0 0 0.5rem;
     transition: color 0.3s ease;
 }
 
-.talk > summary:hover h2 {
+.talk > summary:hover h3 {
     color: var(--primary-color);
 }
 
 .talk > summary p:last-child {
     margin-bottom: 0;
+}
+
+.talk-slides {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.talk-slides a {
+    margin-left: 0.85rem;
 }
 
 /* Chevron indicator */
