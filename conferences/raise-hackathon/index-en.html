@@ -15,25 +15,25 @@
     <style>
         /* ── Tokens ───────────────────────────────────────────────────── */
         :root {
-            --ink:#0f172a;
-            --ink-soft:#334155;
-            --muted:#475569;
-            --line:#e6e9f2;
-            --track:#eef1f8;
-            --blue:#2563eb;
-            --indigo:#4f46e5;
-            --violet:#7c3aed;
-            --teal:#0d9488;
-            --cyan:#0891b2;
-            --amber:#d97706;
-            --emerald:#059669;
+            --ink:#0b1f3a;
+            --ink-soft:#243b59;
+            --muted:#4a6076;
+            --line:#cdd7e6;
+            --track:#d7e0ee;
+            --blue:#1d4ed8;
+            --indigo:#1e40af;
+            --violet:#6d28d9;
+            --teal:#0e7490;
+            --cyan:#0369a1;
+            --amber:#b45309;
+            --emerald:#047857;
             --surface:#ffffff;
             --radius:16px;
-            --shadow:0 10px 30px -14px rgba(15,23,42,.28);
-            --shadow-sm:0 2px 10px -3px rgba(15,23,42,.12);
-            --grad:linear-gradient(120deg,#2563eb 0%,#4f46e5 52%,#7c3aed 100%);
-            --grad-night:linear-gradient(120deg,#3730a3,#6d28d9);
-            --grad-dawn:linear-gradient(120deg,#d97706,#ea580c);
+            --shadow:0 16px 38px -18px rgba(11,31,58,.30);
+            --shadow-sm:0 4px 14px -5px rgba(11,31,58,.16);
+            --grad:linear-gradient(120deg,#1d4ed8 0%,#3730a3 55%,#6d28d9 100%);
+            --grad-night:linear-gradient(120deg,#1e3a8a,#4338ca);
+            --grad-dawn:linear-gradient(120deg,#b45309,#c2410c);
 
             /* Type scale — modular (~1.2 ratio), em-based so it scales with reveal's zoom */
             --t-display:2.5em;   /* cover / outro title          */
@@ -55,10 +55,13 @@
         /* ── Base ─────────────────────────────────────────────────────── */
         .reveal-viewport {
             background:
-                radial-gradient(900px 520px at 10% -8%, #eef2ff 0%, transparent 55%),
-                radial-gradient(820px 480px at 96% 0%, #eaf1ff 0%, transparent 50%),
-                radial-gradient(900px 620px at 52% 118%, #ecfeff 0%, transparent 55%),
-                #ffffff;
+                linear-gradient(rgba(29,78,216,.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(29,78,216,.05) 1px, transparent 1px),
+                radial-gradient(1000px 560px at 12% -8%, #dce7f8 0%, transparent 55%),
+                radial-gradient(920px 520px at 96% 0%, #d8e3f6 0%, transparent 50%),
+                radial-gradient(1000px 680px at 52% 122%, #cfe0f2 0%, transparent 55%),
+                #e4ebf5;
+            background-size:36px 36px, 36px 36px, auto, auto, auto, auto;
         }
         .reveal {
             font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -126,7 +129,7 @@
 
         /* Slide 3 — demote the token-detail charts so the 4 headline stats lead the eye */
         .detail-demote { font-size:.9em; }
-        .detail-demote .card   { box-shadow:none; border-top:2px solid var(--line); background:#fbfcff; }
+        .detail-demote .card   { box-shadow:none; border-top:2px solid var(--line); background:#f3f7fc; }
         .detail-demote .card h3 { color:var(--ink-soft); font-weight:600; }
         .detail-demote .bar-fill { background:linear-gradient(90deg,#9db8f0,#bdb0ec); }
 
@@ -139,11 +142,11 @@
         .chip {
             display:inline-block; border-radius:999px;
             padding:5px 14px; font-size:var(--t-2xs); font-weight:600;
-            background:#eef2ff; color:var(--indigo);
+            background:#e2ebfb; color:var(--indigo);
         }
-        .chip.blue  { background:#e7f0ff; color:var(--blue); }
-        .chip.teal  { background:#d6f3ee; color:var(--teal); }
-        .chip.slate { background:#eef1f6; color:var(--ink-soft); }
+        .chip.blue  { background:#dbe8fe; color:var(--blue); }
+        .chip.teal  { background:#d6eef3; color:var(--teal); }
+        .chip.slate { background:#e6ecf4; color:var(--ink-soft); }
 
         /* ── Hero banner box ──────────────────────────────────────────── */
         .banner {
@@ -241,6 +244,9 @@
 
         /* ── Slide number ─────────────────────────────────────────────── */
         .reveal .slide-number { background:transparent; color:var(--muted); font-family:'JetBrains Mono', monospace; font-size:var(--t-xs); right:14px; bottom:12px; font-variant-numeric:tabular-nums; }
+
+        /* ── Progress bar (tint reveal's default link-blue to brand blue) ─ */
+        .reveal .progress { color:var(--blue); background-color:rgba(11,31,58,.08); }
 
         /* ── Utilities ────────────────────────────────────────────────── */
         .txt-sm { font-size:var(--t-sm); }
