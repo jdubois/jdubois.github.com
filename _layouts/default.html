@@ -53,18 +53,8 @@
                                 <li><a class="dropdown-item {% if '/photos.html' == page.url %}active{% endif %}" href="/photos">Photos</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Projects
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item {% if '/project/dr-jskill.html' == page.url %}active{% endif %}" href="/project/dr-jskill">Dr JSkill</a></li>
-                                <li><a class="dropdown-item {% if '/project/bootui.html' == page.url %}active{% endif %}" href="/project/bootui">BootUI</a></li>
-                                <li><a class="dropdown-item {% if '/project/coffilot.html' == page.url %}active{% endif %}" href="/project/coffilot">Coffilot</a></li>
-                                <li><a class="dropdown-item {% if '/project/langchain4j.html' == page.url %}active{% endif %}" href="/project/langchain4j">LangChain4j</a></li>
-                                <li><a class="dropdown-item {% if '/project/spring-ai.html' == page.url %}active{% endif %}" href="/project/spring-ai">Spring AI</a></li>
-                                <li><a class="dropdown-item {% if '/project/jhipster.html' == page.url %}active{% endif %}" href="/project/jhipster">JHipster</a></li>
-                            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link {% if '/projects.html' == page.url or '/project/dr-jskill.html' == page.url or '/project/bootui.html' == page.url or '/project/coffilot.html' == page.url or '/project/langchain4j.html' == page.url or '/project/spring-ai.html' == page.url or '/project/jhipster.html' == page.url %}active{% endif %}" href="/projects">Projects</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% if '/conferences.html' == page.url %}active{% endif %}" href="/conferences">Conferences</a>

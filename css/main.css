@@ -437,8 +437,9 @@ ul li {
     color: var(--text-secondary);
 }
 
-/* Attic — archive of past projects */
-.attic-intro {
+/* Section intro lead (Attic, Projects) */
+.attic-intro,
+.projects-intro {
     font-size: 1.15rem;
     color: var(--text-secondary);
     max-width: 60ch;
