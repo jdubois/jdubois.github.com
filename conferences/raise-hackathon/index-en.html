@@ -157,6 +157,27 @@
         .banner * { color:#fff !important; }
         .banner.night { background:var(--grad-night); }
         .banner.dawn  { background:var(--grad-dawn); }
+        /* first-light payoff — the climax banner on the night slide */
+        .banner.sunrise {
+            background:linear-gradient(118deg,#c2410c 0%,#be123c 46%,#6d28d9 100%);
+            box-shadow:0 0 0 1px rgba(255,255,255,.14), 0 24px 64px -20px rgba(217,70,30,.6);
+        }
+
+        /* ── Night slide — Step 2 "overnight" goes full-bleed dark ────── */
+        /* The one tentpole: light → DARK → light across the three steps.
+           The surface is painted by data-background-gradient on the section;
+           here we re-tone the content and let the white agent cards glow
+           like lit windows against the night. */
+        .night-slide h2 { color:#eef3ff; }
+        .night-slide h2 .muted { color:#9db1d8 !important; }
+        .night-slide > .txt-sm.muted { color:#bccbea; }
+        .night-slide > .txt-sm.muted .ink { color:#ffffff; }
+        .night-slide .agent {
+            background:#fbfcff; border-color:rgba(150,166,224,.22);
+            box-shadow:0 0 0 1px rgba(142,162,255,.16), 0 22px 54px -18px rgba(91,104,235,.78);
+        }
+        .night-slide .agent .who  { color:var(--ink); }
+        .night-slide .agent .task { color:var(--muted); }
 
         /* ── Stats ────────────────────────────────────────────────────── */
         .stat-num { font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:var(--t-stat); line-height:1; color:var(--ink); font-variant-numeric:tabular-nums; letter-spacing:-.01em; }
@@ -247,6 +268,8 @@
 
         /* ── Progress bar (tint reveal's default link-blue to brand blue) ─ */
         .reveal .progress { color:var(--blue); background-color:rgba(11,31,58,.08); }
+        /* On the dark night slide, lift the corner pagination so it stays crisp */
+        .reveal.has-dark-background .slide-number { color:#93a7cf; }
 
         /* ── Utilities ────────────────────────────────────────────────── */
         .txt-sm { font-size:var(--t-sm); }
@@ -549,7 +572,7 @@
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 8 — STEP 2: OVERNIGHT
 ══════════════════════════════════════════════════════════════ -->
-<section>
+<section class="night-slide" data-background-color="#0c1838" data-background-gradient="radial-gradient(820px 520px at 83% -14%, rgba(129,140,248,.42), transparent 60%), radial-gradient(740px 560px at 2% 122%, rgba(20,184,166,.20), transparent 55%), linear-gradient(180deg,#0a1330 0%,#0d1940 56%,#10224f 100%)">
     <h2>🌙 Step 2: Let them build overnight <span class="sg muted" style="font-size:.5em;font-weight:600;border:none;">· while you sleep</span></h2>
 
     <div class="txt-sm muted" style="margin-bottom:.7em;">
@@ -579,7 +602,7 @@
         </div>
     </div>
 
-    <div class="banner night mt-md">
+    <div class="banner sunrise mt-md">
         4 agents looping all night → <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.6);">tens of PRs by morning.</span> Your throughput isn't your keyboard anymore. It's how well you briefed them.
     </div>
 </section>
