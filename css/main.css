@@ -437,6 +437,14 @@ ul li {
     color: var(--text-secondary);
 }
 
+/* Attic — archive of past projects */
+.attic-intro {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    max-width: 60ch;
+    margin-bottom: 2.5rem;
+}
+
 /* Collapsible talks (native <details>/<summary>) */
 .talk {
     background-color: var(--bg-white);
@@ -487,14 +495,16 @@ ul li {
     margin-bottom: 0;
 }
 
-.talk-slides {
+.talk-slides,
+.talk-links {
     margin-top: 1rem;
     font-size: 0.9rem;
     font-weight: 500;
     color: var(--text-secondary);
 }
 
-.talk-slides a {
+.talk-slides a,
+.talk-links a {
     margin-left: 0.85rem;
 }
 
