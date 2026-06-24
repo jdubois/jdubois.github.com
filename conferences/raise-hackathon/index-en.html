@@ -188,18 +188,43 @@
         .bio-tags { display:flex; flex-wrap:wrap; gap:.4em; margin-bottom:.55em; }
 
 
-        /* ── Org-chart mini diagram (mindset) ─────────────────────────── */
-        .lead-pill {
-            display:inline-block; background:var(--grad); color:#fff;
-            font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:var(--t-sm);
-            padding:.45em 1.1em; border-radius:999px; box-shadow:var(--shadow-sm);
+        /* ── Slide 4 — Thesis: the new org chart (hero) ───────────────── */
+        .thesis-lede {
+            text-align:center; font-family:'Space Grotesk', sans-serif; font-weight:600;
+            font-size:var(--t-lead); color:var(--ink); letter-spacing:-.01em;
+            margin:.2em 0 1.2em; text-wrap:balance;
         }
-        .tree-line { width:2px; height:20px; background:var(--line); margin:.45em auto; }
-        .agent-pill {
-            display:inline-block; background:#fff; border:1px solid var(--line);
-            border-radius:11px; font-size:var(--t-2xs); font-weight:600; color:var(--ink-soft);
-            padding:.45em .55em; box-shadow:var(--shadow-sm);
+        .orgchart { display:flex; flex-direction:column; align-items:center; }
+        .org-mgr {
+            display:inline-flex; align-items:center; gap:.4em;
+            background:var(--grad); color:#fff;
+            font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:var(--t-lead);
+            letter-spacing:-.005em; padding:.5em 1.3em; border-radius:999px;
+            box-shadow:0 16px 32px -14px rgba(55,48,163,.7), 0 0 0 6px rgba(99,102,241,.10);
         }
+        .org-fan { width:100%; max-width:900px; height:54px; display:block; }
+        .org-fan path { fill:none; stroke:#8497c6; stroke-width:2; }
+        .org-row { display:grid; grid-template-columns:repeat(4,1fr); gap:0; width:100%; max-width:900px; }
+        .org-node {
+            margin:0 .35em; background:#fff; border:1px solid var(--line);
+            border-radius:14px; padding:.6em .5em .62em; text-align:center; box-shadow:var(--shadow-sm);
+        }
+        .org-node .role {
+            display:block; font-family:'Space Grotesk', sans-serif; font-weight:700;
+            font-size:var(--t-sm); color:var(--ink); letter-spacing:-.005em;
+        }
+        .org-node .does { font-size:var(--t-2xs); color:var(--muted); margin-top:.3em; line-height:1.3; }
+        .org-node.r-blue    .role { color:var(--blue); }
+        .org-node.r-emerald .role { color:var(--emerald); }
+        .org-node.r-violet  .role { color:var(--violet); }
+        .org-node.r-teal    .role { color:var(--teal); }
+        .org-cap { text-align:center; font-size:var(--t-xs); color:var(--muted); margin:.9em 0 0; }
+        .thesis-close {
+            text-align:center; font-family:'Space Grotesk', sans-serif; font-weight:700;
+            font-size:1.02em; letter-spacing:-.015em; color:var(--ink);
+            margin:1.05em 0 0; text-wrap:balance;
+        }
+        .thesis-close .win { color:var(--blue); }
 
         /* ── Agent task cards (overnight) ─────────────────────────────── */
         .agent {
@@ -421,34 +446,37 @@
 <section>
     <h2>🚀 The mindset shift</h2>
 
-    <div class="grid-2">
-        <div class="card t-indigo" style="height:100%;">
-            <h3>You're the manager now</h3>
-            <ul>
-                <li>Writing all the code yourself won't win. You need to <span class="ink fw-700">delegate</span></li>
-                <li>1 dev + N agents = a whole <span class="ink fw-700">team</span></li>
-                <li>Your job: set direction, review the work, merge the wins</li>
-                <li>Throughput scales with how well you brief, not how fast you type</li>
-            </ul>
-            <div class="sg violet txt-sm mt-sm" style="font-weight:600;">
-                "You don't type faster. You ship wider."
+    <p class="thesis-lede">You're the manager now.</p>
+
+    <div class="orgchart">
+        <span class="org-mgr">🧑‍✈️ You · the manager</span>
+        <svg class="org-fan" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+            <path vector-effect="non-scaling-stroke"
+                  d="M500 4 V40 M125 40 H875 M125 40 V96 M375 40 V96 M625 40 V96 M875 40 V96"/>
+        </svg>
+        <div class="org-row">
+            <div class="org-node r-blue">
+                <span class="role">🚀 Feature</span>
+                <div class="does">the winning demo</div>
             </div>
-        </div>
-        <div class="card t-violet center" style="height:100%;display:flex;flex-direction:column;justify-content:center;">
-            <h3 class="violet" style="text-align:left;">The new org chart</h3>
-            <div class="mt-sm">
-                <span class="lead-pill">🧑‍✈️ You · the manager</span>
-                <div class="tree-line"></div>
-                <div style="display:flex;gap:.45em;justify-content:center;flex-wrap:wrap;">
-                    <span class="agent-pill">🤖 Agent</span>
-                    <span class="agent-pill">🤖 Agent</span>
-                    <span class="agent-pill">🤖 Agent</span>
-                    <span class="agent-pill">🤖 Agent</span>
-                </div>
+            <div class="org-node r-emerald">
+                <span class="role">✅ Tests</span>
+                <div class="does">green before merge</div>
             </div>
-            <div class="txt-xs muted mt-md">You set direction. They do the work. You review &amp; merge.</div>
+            <div class="org-node r-violet">
+                <span class="role">🎨 UI</span>
+                <div class="does">polish &amp; landing</div>
+            </div>
+            <div class="org-node r-teal">
+                <span class="role">🔌 Glue</span>
+                <div class="does">integrations</div>
+            </div>
         </div>
     </div>
+
+    <p class="org-cap">Four agents in parallel. You brief, review, merge.</p>
+
+    <p class="thesis-close">You don't type faster. <span class="win">You ship wider.</span></p>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
