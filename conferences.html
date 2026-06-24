@@ -15,14 +15,81 @@ title: Conferences
                 My main topics are on Java, JHipster, Spring, Azure and AI: most of my talks are live-coding sessions or workshops, where I show how to build applications using the Open Source projects I contribute to.
             </p>
 
-            <h2>Current talks</h2>
+            <h2>Contact me</h2>
 
-            <p>
-                Here is a list of my current talks: <a href="/current-talks">current talks by Julien Dubois</a>.
-            </p>
             <p>
                 If you would like me to talk at one of your events, please <a href="/contact">contact me</a>.
             </p>
+
+            <h2>Current talks</h2>
+
+            <p>
+                <em>My talks are always adapted to the audience, and updated until the last minute, so these are just general abstracts. They can be delivered in English or French.</em>
+            </p>
+
+            <p>
+                <a href="/conferences/qr-code-www.julien-dubois.com-current-talks.png" target="_blank">
+                    <img src="/conferences/qr-code-www.julien-dubois.com-current-talks.png" alt="QR code to current talks" style="max-width: 200px;" />
+                </a>
+            </p>
+
+            <details class="talk">
+                <summary>
+                    <h2>From coder to manager of agents</h2>
+                    <p>
+                        At a hackathon, the winner isn't whoever types fastest &mdash; it's whoever ships the most. This talk shows how to flip from writing every line yourself to managing a fleet of GitHub Copilot agents that build in parallel while you sleep, and how to out-ship the room because of it.
+                    </p>
+                </summary>
+                <div class="talk-body">
+                    <p>
+                        Drawing on a month of real GitHub activity &mdash; hundreds of merged pull requests and billions of tokens across 11 models &mdash; we'll walk through a concrete 24-hour playbook:
+                    </p>
+                    <ul>
+                        <li>The mindset shift: from developer to <em>manager of agents</em> &mdash; you don't type faster, you ship wider</li>
+                        <li>Prep in the evening: write the house rules in <code>AGENTS.md</code>, give every agent a build + test harness, and set clear guardrails</li>
+                        <li>Build overnight: run several agents in parallel, each looping on its own branch / worktree &mdash; build, test, open a PR, pick up the next task</li>
+                        <li>Review over coffee: triage tens of PRs, merge the wins, drop or re-task the rest, then relaunch for the day</li>
+                        <li>Guardrails that keep it safe: tests before trust, small reviewable PRs, the right model for each task, and reusable skills</li>
+                    </ul>
+                    <p>
+                        Language-agnostic and demo-driven: the playbook applies whatever your stack. Expect concrete, opinionated advice from really shipping with parallel AI agents.
+                    </p>
+
+                    <h3>Slides</h3>
+                    <ul>
+                        <li><a href="/conferences/winning-the-hackathon/index-en.html" target="_blank">English version</a></li>
+                        <li><a href="/conferences/winning-the-hackathon/index-fr.html" target="_blank">French version</a></li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="talk">
+                <summary>
+                    <h2>AI code generation in Java</h2>
+                    <p>
+                        Generative AI has transformed software development. In just a few years, we've moved from basic code completion to fully autonomous coding agents that read your project, write code, run tests, and fix their own mistakes.
+                    </p>
+                </summary>
+                <div class="talk-body">
+                    <p>In this session, we'll cover:</p>
+                    <ul>
+                        <li>The rapid evolution of AI agents: from completion to autonomy, with agent mode, plan mode, and parallel agents using Git worktrees</li>
+                        <li>The Model Context Protocol (MCP): how agents connect to databases, APIs, and external tools in real time</li>
+                        <li>Agent Skills: how to specialize an agent for a specific domain &mdash; with a live demo of <code>dr-jskill</code>, generating a full Spring Boot 4 + Java 25 + Vue.js application</li>
+                        <li>IDE integration: GitHub Copilot in VS Code and IntelliJ IDEA, plus the new GitHub Copilot desktop app for running multiple agentic sessions in parallel</li>
+                        <li>Best practices for Java: <code>AGENTS.md</code>, JDTLS (Eclipse JDT Language Server), and why the <em>harness</em> around the model matters more than the model itself</li>
+                    </ul>
+                    <p>
+                        Expect plenty of live demos and concrete, opinionated advice drawn from real-world experience building and shipping with AI agents.
+                    </p>
+
+                    <h3>Slides</h3>
+                    <ul>
+                        <li><a href="/conferences/code-generation/index-en.html" target="_blank">English version</a></li>
+                        <li><a href="/conferences/code-generation/index-fr.html" target="_blank">French version</a></li>
+                    </ul>
+                </div>
+            </details>
 
             <h2>Videos</h2>
 
