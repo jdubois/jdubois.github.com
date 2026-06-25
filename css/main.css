@@ -446,6 +446,15 @@ ul li {
     margin-bottom: 2.5rem;
 }
 
+/* Biography opening lead */
+.bio-lead {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 62ch;
+    margin-bottom: 1.75rem;
+}
+
 /* Collapsible talks (native <details>/<summary>) */
 .talk {
     background-color: var(--bg-white);
