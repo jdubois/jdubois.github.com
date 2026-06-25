@@ -1,17 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ page.lang | default: 'en' }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{{ page.title }}</title>
+        <title>{{ page.title }}{% unless page.url == '/' %} · Julien Dubois{% endunless %}</title>
         <meta name="author" content="Julien Dubois" />
-        <meta name="description" content="Julien Dubois is the creator of JHipster and a Java Champion, currently working as a Principal manager at Microsoft">
+        <meta name="description" content="{{ page.description | default: site.description | escape }}">
+        <link rel="canonical" href="{{ page.url | replace: '.html', '' | absolute_url }}">
+
+        <!-- Open Graph / social sharing -->
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Julien Dubois">
+        <meta property="og:title" content="{{ page.title | escape }}">
+        <meta property="og:description" content="{{ page.description | default: site.description | escape }}">
+        <meta property="og:url" content="{{ page.url | replace: '.html', '' | absolute_url }}">
+        <meta property="og:image" content="{{ '/img/photos/julien-dubois-medium.png' | absolute_url }}">
+        <meta property="og:locale" content="{% if page.lang == 'fr' %}fr_FR{% else %}en_US{% endif %}">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="{{ page.title | escape }}">
+        <meta name="twitter:description" content="{{ page.description | default: site.description | escape }}">
+        <meta name="twitter:image" content="{{ '/img/photos/julien-dubois-medium.png' | absolute_url }}">
+        <meta name="twitter:creator" content="@juliendubois">
+
+        <!-- Fonts: Schibsted Grotesk (display) + Hanken Grotesk (body) + JetBrains Mono (meta) -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 
         <!-- Bootstrap 5 CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" href="/css/main.css?v={{ site.github.build_revision | default: site.time | date: '%s' }}">
     </head>
     <body>
+        <a class="skip-link" href="#main">Skip to main content</a>
         <!-- Bootstrap 5 Navbar -->
         <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
             <div class="container">
@@ -32,32 +53,14 @@
                                 <li><a class="dropdown-item {% if '/photos.html' == page.url %}active{% endif %}" href="/photos">Photos</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Projects
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item {% if '/project/dr-jskill.html' == page.url %}active{% endif %}" href="/project/dr-jskill">Dr JSkill</a></li>
-                                <li><a class="dropdown-item {% if '/project/bootui.html' == page.url %}active{% endif %}" href="/project/bootui">BootUI</a></li>
-                                <li><a class="dropdown-item {% if '/project/coffilot.html' == page.url %}active{% endif %}" href="/project/coffilot">Coffilot</a></li>
-                                <li><a class="dropdown-item {% if '/project/langchain4j.html' == page.url %}active{% endif %}" href="/project/langchain4j">LangChain4j</a></li>
-                                <li><a class="dropdown-item {% if '/project/spring-ai.html' == page.url %}active{% endif %}" href="/project/spring-ai">Spring AI</a></li>
-                                <li><a class="dropdown-item {% if '/project/jhipster.html' == page.url %}active{% endif %}" href="/project/jhipster">JHipster</a></li>
-                                <li class="dropdown-submenu">
-                                    <a class="dropdown-item dropdown-toggle {% if '/project/nubesgen.html' == page.url or '/project/tatami.html' == page.url or '/project/tudu-lists.html' == page.url %}active{% endif %}" href="#" role="button" aria-expanded="false">Past projects</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item {% if '/project/nubesgen.html' == page.url %}active{% endif %}" href="/project/nubesgen">NubesGen</a></li>
-                                        <li><a class="dropdown-item {% if '/project/tatami.html' == page.url %}active{% endif %}" href="/project/tatami">Tatami</a></li>
-                                        <li><a class="dropdown-item {% if '/project/tudu-lists.html' == page.url %}active{% endif %}" href="/project/tudu-lists">Tudu Lists</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link {% if '/projects.html' == page.url %}active{% endif %}" href="/projects">Projects</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% if '/conferences.html' == page.url %}active{% endif %}" href="/conferences">Conferences</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {% if '/book.html' == page.url %}active{% endif %}" href="/book">Book</a>
+                            <a class="nav-link {% if '/attic.html' == page.url or '/book.html' == page.url %}active{% endif %}" href="/attic">Attic</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% if '/contact.html' == page.url %}active{% endif %}" href="/contact">Contact</a>
@@ -67,7 +70,7 @@
             </div>
         </nav>
 
-        <main class="container" role="main">
+        <main id="main" class="container" role="main" tabindex="-1">
 
             {{ content }}
 

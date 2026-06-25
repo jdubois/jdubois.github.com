@@ -1,3 +1,6 @@
+url: "https://www.julien-dubois.com"
+title: "Julien Dubois"
+description: "Julien Dubois — Java Champion, creator of JHipster, and Principal Manager at Microsoft, working at the intersection of Java, Open Source, and AI."
 safe:        true
 markdown: kramdown
 exclude: [node_modules, bower_components]
@@ -12,3 +15,4 @@ defaults:
       path: "" # an empty string here means all files in the project
     values:
       layout: "default"
+      lang: "en"
