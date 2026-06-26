@@ -22,7 +22,7 @@
 - Ruby ≥ 3.0 (rbenv recommended).
 - Install deps: `bundle install`
 - Run locally: `./serve.sh` (runs `bundle exec jekyll serve --livereload`).
-- `_config.yml` already excludes `node_modules` and `bower_components`.
+- `_config.yml` excludes `node_modules`, `bower_components`, `PRODUCT.md`, `DESIGN.md`, and `.impeccable` from the build.
 
 ## Content & assets
 - Images: `img/photos/`.
@@ -34,3 +34,10 @@
 - ✅ `jekyll serve` builds cleanly locally.
 - ✅ Match site tone: concise, professional, developer-focused.
 - ✅ Reuse existing CSS variables and components.
+
+## Design Context
+- **`PRODUCT.md`** (repo root) — design strategy: register (`brand`), users, purpose, brand personality, anti-references, and design principles. Read it before UX or content decisions.
+- **`DESIGN.md`** (repo root) — the visual system in Stitch format ("The Engineering Notebook": cobalt-on-ink palette, Schibsted/Hanken/JetBrains Mono type, flat-at-rest elevation). Read it before any visual or styling change; the tokens mirror `css/main.css` variables.
+- Core rule: cobalt (`--primary-color`) is the only accent — use it sparingly for interactive/important elements; ink + neutrals carry the surface. Avoid generic AI "SaaS landing" patterns (gradient blobs, identical card grids, per-section eyebrows, gradient text).
+- These files (and `.impeccable/`) are excluded from the Jekyll build and are project context only, never published.
+

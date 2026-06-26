@@ -3,7 +3,7 @@ title: "Julien Dubois"
 description: "Julien Dubois — Java Champion, creator of JHipster, and Principal Manager at Microsoft, working at the intersection of Java, Open Source, and AI."
 safe:        true
 markdown: kramdown
-exclude: [node_modules, bower_components]
+exclude: [node_modules, bower_components, PRODUCT.md, DESIGN.md, .impeccable]
 kramdown:
   input: GFM
 plugins:
