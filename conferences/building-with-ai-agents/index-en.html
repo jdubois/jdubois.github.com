@@ -841,7 +841,50 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 18 — INGREDIENT 3: PARALLEL
+     SLIDE 18 — THE HARNESS, IN NUMBERS
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>📏 The harness, in numbers</h2>
+
+    <p class="txt-sm muted" style="margin:-.1em 0 .55em;">
+        Ingredients 1 and 2, measured. Everything an agent reads, runs and has to satisfy before its code reaches <span class="mono">main</span>.
+    </p>
+
+    <div class="grid-4" style="margin-bottom:.55em;">
+        <div class="card t-blue"><div class="stat-num blue">63</div><div class="stat-label">lines of always-on house rules <span style="opacity:.7;">copilot-instructions.md</span></div></div>
+        <div class="card t-cyan"><div class="stat-num cyan">6</div><div class="stat-label">path-scoped rule files <span style="opacity:.7;">156 lines, glob-attached</span></div></div>
+        <div class="card t-teal"><div class="stat-num teal">2,083</div><div class="stat-label">lines of CI <span style="opacity:.7;">8 workflows · 121 steps</span></div></div>
+        <div class="card t-violet"><div class="stat-num violet">641</div><div class="stat-label">test files <span style="opacity:.7;">536 Java · 105 Playwright</span></div></div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card t-indigo">
+            <h3 class="indigo">📋 Keep the always-on file short</h3>
+            <ul>
+                <li><span class="ink fw-700">Static</span> — 63 lines sent on <em>every</em> call. You pay for it every time, so it stays short</li>
+                <li><span class="ink fw-700">Dynamic</span> — 6 rule files attach only when their glob matches. Quarkus rules never load for a Vue change</li>
+            </ul>
+        </div>
+        <div class="card t-amber">
+            <h3 class="amber">📐 Put the detail in the spec</h3>
+            <ul>
+                <li><span class="ink fw-700">2,670 lines</span> in <span class="mono">SPECIFICATION.md</span> — the behaviour contract</li>
+                <li>~13,700 doc lines total, reviewed in PRs exactly like code</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner night mt-md" style="font-size:.72em;">
+        On <span class="ink fw-700" style="color:inherit;">Terminal Bench 2.0</span>, a team moved a coding agent from outside the Top 30 to the <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">Top 5 by changing only the harness</span> — no model change at all.
+    </div>
+
+    <div class="txt-sm muted mt-sm center">
+        ~220 lines of instructions steer 2,083 lines of CI and 641 test files. Context is a budget, not a document.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 19 — INGREDIENT 3: PARALLEL
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="ingredient"><span class="ix">3</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Split the work, run agents in parallel</h2></div></div>
@@ -871,7 +914,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 19 — INGREDIENT 4: DEEP PLANS OVERNIGHT (night slide)
+     SLIDE 20 — INGREDIENT 4: DEEP PLANS OVERNIGHT (night slide)
 ══════════════════════════════════════════════════════════════ -->
 <section class="night-slide" data-background-color="#0c1838" data-background-gradient="radial-gradient(820px 520px at 83% -14%, rgba(129,140,248,.42), transparent 60%), radial-gradient(740px 560px at 2% 122%, rgba(20,184,166,.20), transparent 55%), linear-gradient(180deg,#0a1330 0%,#0d1940 56%,#10224f 100%)">
     <div class="ingredient"><span class="ix">4</span><div><span class="ix-label" style="color:#9db1d8;">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Let a few deep plans run overnight</h2></div></div>
@@ -904,7 +947,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 20 — INGREDIENT 5: MERGE OVER COFFEE
+     SLIDE 21 — INGREDIENT 5: MERGE OVER COFFEE
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="ingredient"><span class="ix">5</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Merge the results over coffee</h2></div></div>
@@ -935,7 +978,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 21 — INGREDIENT 6: PICK THE RIGHT MODEL
+     SLIDE 22 — INGREDIENT 6: PICK THE RIGHT MODEL
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="ingredient"><span class="ix">6</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Pick the right model for the task</h2></div></div>
@@ -967,7 +1010,46 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 22 — WHY IT WORKED HERE
+     SLIDE 23 — YOU DON'T HAVE TO BUILD THE LOOP
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🐙 You don't have to build this loop</h2>
+
+    <p class="txt-sm muted" style="margin:-.1em 0 .55em;">
+        Every ingredient above is something the platform already does. The agent is one step in a chain it never leaves — so nothing gets glued together by hand.
+    </p>
+
+    <div class="grid-3">
+        <div class="card t-blue">
+            <h3 class="blue">🎫 The brief lives with the code</h3>
+            <ul>
+                <li>Issues and a board carry the spec, labels and acceptance criteria</li>
+                <li>Assign one to an agent — no copy-paste into a chat window</li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">⚙️ The gate runs itself</h3>
+            <ul>
+                <li><span class="ink fw-700">11 checks per PR</span>: build, tests, CodeQL, cross-platform, JDK matrix</li>
+                <li>Agent code is judged by <span class="ink fw-700">the same gates as mine</span></li>
+            </ul>
+        </div>
+        <div class="card t-violet">
+            <h3 class="violet">☁️ The laptop is optional</h3>
+            <ul>
+                <li>Assign an issue from the <span class="ink fw-700">mobile app</span>, get a PR back</li>
+                <li>It provisions its own environment, works on a branch, opens the PR</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md" style="font-size:.73em;">
+        Of BootUI's last 300 merged PRs, <span class="ink fw-700" style="color:inherit;">two in five never touched my laptop</span> — 19% from cloud agents, 20% from Dependabot fixing its own broken bumps. <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">The runners are the machine.</span>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 24 — WHY IT WORKED HERE
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>🧨 Why the multiplier was so large</h2>
@@ -996,7 +1078,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 23 — WATCH OUT FOR
+     SLIDE 25 — WATCH OUT FOR
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>⚠️ Watch out for</h2>
@@ -1026,7 +1108,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 24 — THE ONE-PAGE RECIPE
+     SLIDE 26 — THE ONE-PAGE RECIPE
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>📋 The one-page recipe</h2>
@@ -1045,7 +1127,41 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 25 — THE BONUS: BOOTUI
+     SLIDE 27 — PAY NOW OR PAY LATER
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>💰 Pay now or pay later</h2>
+
+    <p class="txt-sm muted" style="margin:-.1em 0 .6em;">
+        ~$2,000 of tokens across the sprint — about <span class="ink fw-700">$9 per merged PR</span>. That's the cheap part. The real question is <em>when</em> you pay for the code.
+    </p>
+
+    <div class="grid-2">
+        <div class="card t-amber">
+            <h3 class="amber">🎲 Vibe coding — low up front</h3>
+            <ul>
+                <li>No specs, no harness: you start shipping <span class="ink fw-700">immediately</span></li>
+                <li>You pay in retry loops, and again six months later reverse-engineering code nobody understands</li>
+                <li>That's the <span class="ink fw-700">maintenance tax</span> — invisible on day one</li>
+            </ul>
+        </div>
+        <div class="card t-emerald">
+            <h3 class="emerald">🏗️ Agentic engineering — pay first</h3>
+            <ul>
+                <li>Specs, tests and CI cost you real days <span class="ink fw-700">before</span> the first agent runs</li>
+                <li>They're what makes the tokens land first time, not on the fourth attempt</li>
+                <li>The harness is <span class="ink fw-700">cheap to write and expensive to skip</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md" style="font-size:.73em;">
+        12 weeks and <span class="ink fw-700" style="color:inherit;">552 more merged PRs</span> later, the maintenance tax still hasn't come due. <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">That's the harness paying back its up-front cost.</span>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 28 — THE BONUS: BOOTUI
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>🎁 And the bonus: a new Spring Boot console</h2>
@@ -1063,12 +1179,12 @@
     </div>
 
     <div class="banner mt-md" style="font-size:.72em;">
-        <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">And it didn't rot.</span> 12 weeks on: <b>552</b> more PRs merged, <b>v1.14.1</b>, ~67 panels, <b>273 ⭐</b>, <b>0</b> open issues. &nbsp;📦 <span class="mono">github.com/jdubois/boot-ui</span>
+        <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">Still shipping, 12 weeks on:</span> <b>v1.14.1</b> · ~67 panels · <b>273 ⭐</b> · <b>0</b> open issues. &nbsp;📦 <span class="mono">github.com/jdubois/boot-ui</span>
     </div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 26 — OUTRO / CTA
+     SLIDE 29 — OUTRO / CTA
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="outro-wrap">
