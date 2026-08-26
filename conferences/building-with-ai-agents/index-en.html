@@ -34,6 +34,7 @@
             --grad:linear-gradient(120deg,#1d4ed8 0%,#3730a3 55%,#6d28d9 100%);
             --grad-night:linear-gradient(120deg,#1e3a8a,#4338ca);
             --grad-dawn:linear-gradient(120deg,#b45309,#c2410c);
+            --grad-green:linear-gradient(120deg,#047857,#0e7490);
 
             /* Type scale — modular (~1.2 ratio), em-based so it scales with reveal's zoom */
             --t-display:2.5em;   /* cover / outro title          */
@@ -93,6 +94,27 @@
             color:var(--indigo); font-size:var(--t-body); margin:0 0 .35em; letter-spacing:var(--track-label);
         }
 
+        /* ── BootUI mark in a slide title ─────────────────────────────── */
+        .h2-logo { height:1em; width:1em; flex:0 0 auto; display:block; }
+
+        /* ── Mono pill (repo handle) ──────────────────────────────────── */
+        .repo-pill {
+            display:inline-block; font-family:'JetBrains Mono', monospace;
+            font-size:var(--t-2xs); font-weight:600; padding:3px 10px;
+            border-radius:999px; background:#eff6ff; color:var(--blue);
+        }
+        .banner .repo-pill { background:rgba(255,255,255,.16); }
+
+        /* ── Code snippet ─────────────────────────────────────────────── */
+        .snippet {
+            font-family:'JetBrains Mono', monospace; font-size:var(--t-xs);
+            background:var(--ink); color:#e2e8f0; border-radius:12px;
+            padding:.7em 1.1em; text-align:left; line-height:1.65;
+            box-shadow:var(--shadow-sm); white-space:pre;
+        }
+        .snippet .k { color:#7dd3fc; }
+        .snippet .c { color:#94a3b8; }
+
         /* ── Gradient text ────────────────────────────────────────────── */
         .grad { background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
 
@@ -106,6 +128,8 @@
             content:""; position:absolute; left:0; top:.62em;
             width:.5em; height:.5em; border-radius:3px; background:var(--grad);
         }
+        .reveal ul.compact li { font-size:var(--t-sm); padding-top:.14em; padding-bottom:.14em; }
+        .reveal ul.compact li::before { top:.52em; }
 
         /* ── Cards ────────────────────────────────────────────────────── */
         .card {
@@ -157,6 +181,7 @@
         .banner * { color:#fff !important; }
         .banner.night { background:var(--grad-night); }
         .banner.dawn  { background:var(--grad-dawn); }
+        .banner.green { background:var(--grad-green); }
         /* first-light payoff — the climax banner on the night slide */
         .banner.sunrise {
             background:linear-gradient(118deg,#c2410c 0%,#be123c 46%,#6d28d9 100%);
@@ -425,7 +450,7 @@
                 <span class="chip slate">🤖 AI × code</span>
             </div>
             <ul>
-                <li><span class="ink fw-700">Principal Manager</span>, Developer Relations @ Microsoft / GitHub</li>
+                <li><span class="ink fw-700">Principal Manager</span>, Java Developer Relations @ Microsoft / GitHub</li>
                 <li>Creator of <span class="ink fw-700">JHipster</span> · 22,000+ ⭐</li>
                 <li><span class="ink fw-700">200+ international talks</span> (Devoxx, SpringOne, MS Build…)</li>
                 <li>Today: shipping real projects by <span class="ink fw-700">managing fleets of AI agents</span></li>
@@ -841,7 +866,50 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 18 — INGREDIENT 3: PARALLEL
+     SLIDE 18 — THE HARNESS, IN NUMBERS
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>📏 The harness, in numbers</h2>
+
+    <p class="txt-sm muted" style="margin:-.1em 0 .55em;">
+        Ingredients 1 and 2, measured. Everything an agent reads, runs and has to satisfy before its code reaches <span class="mono">main</span>.
+    </p>
+
+    <div class="grid-4" style="margin-bottom:.55em;">
+        <div class="card t-blue"><div class="stat-num blue">63</div><div class="stat-label">lines of always-on house rules <span style="opacity:.7;">copilot-instructions.md</span></div></div>
+        <div class="card t-cyan"><div class="stat-num cyan">6</div><div class="stat-label">path-scoped rule files <span style="opacity:.7;">156 lines, glob-attached</span></div></div>
+        <div class="card t-teal"><div class="stat-num teal">2,083</div><div class="stat-label">lines of CI <span style="opacity:.7;">8 workflows · 121 steps</span></div></div>
+        <div class="card t-violet"><div class="stat-num violet">641</div><div class="stat-label">test files <span style="opacity:.7;">536 Java · 105 Playwright</span></div></div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card t-indigo">
+            <h3 class="indigo">📋 Keep the always-on file short</h3>
+            <ul>
+                <li><span class="ink fw-700">Static</span> — 63 lines sent on <em>every</em> call. You pay for it every time, so it stays short</li>
+                <li><span class="ink fw-700">Dynamic</span> — 6 rule files attach only when their glob matches. Quarkus rules never load for a Vue change</li>
+            </ul>
+        </div>
+        <div class="card t-amber">
+            <h3 class="amber">📐 Put the detail in the spec</h3>
+            <ul>
+                <li><span class="ink fw-700">2,670 lines</span> in <span class="mono">SPECIFICATION.md</span> — the behaviour contract</li>
+                <li>~13,700 doc lines total, reviewed in PRs exactly like code</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner night mt-md" style="font-size:.72em;">
+        On <span class="ink fw-700" style="color:inherit;">Terminal Bench 2.0</span>, a team moved a coding agent from outside the Top 30 to the <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">Top 5 by changing only the harness</span> — no model change at all.
+    </div>
+
+    <div class="txt-sm muted mt-sm center">
+        ~220 lines of instructions steer 2,083 lines of CI and 641 test files. Context is a budget, not a document.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 19 — INGREDIENT 3: PARALLEL
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="ingredient"><span class="ix">3</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Split the work, run agents in parallel</h2></div></div>
@@ -871,7 +939,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 19 — INGREDIENT 4: DEEP PLANS OVERNIGHT (night slide)
+     SLIDE 20 — INGREDIENT 4: DEEP PLANS OVERNIGHT (night slide)
 ══════════════════════════════════════════════════════════════ -->
 <section class="night-slide" data-background-color="#0c1838" data-background-gradient="radial-gradient(820px 520px at 83% -14%, rgba(129,140,248,.42), transparent 60%), radial-gradient(740px 560px at 2% 122%, rgba(20,184,166,.20), transparent 55%), linear-gradient(180deg,#0a1330 0%,#0d1940 56%,#10224f 100%)">
     <div class="ingredient"><span class="ix">4</span><div><span class="ix-label" style="color:#9db1d8;">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Let a few deep plans run overnight</h2></div></div>
@@ -904,7 +972,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 20 — INGREDIENT 5: MERGE OVER COFFEE
+     SLIDE 21 — INGREDIENT 5: MERGE OVER COFFEE
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="ingredient"><span class="ix">5</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Merge the results over coffee</h2></div></div>
@@ -935,7 +1003,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 21 — INGREDIENT 6: PICK THE RIGHT MODEL
+     SLIDE 22 — INGREDIENT 6: PICK THE RIGHT MODEL
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="ingredient"><span class="ix">6</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Pick the right model for the task</h2></div></div>
@@ -967,12 +1035,51 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 22 — WHY IT WORKED HERE
+     SLIDE 23 — YOU DON'T HAVE TO BUILD THE LOOP
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🐙 You don't have to build this loop</h2>
+
+    <p class="txt-sm muted" style="margin:-.1em 0 .55em;">
+        Every ingredient above is something the platform already does. The agent is one step in a chain it never leaves — so nothing gets glued together by hand.
+    </p>
+
+    <div class="grid-3">
+        <div class="card t-blue">
+            <h3 class="blue">🎫 The brief lives with the code</h3>
+            <ul>
+                <li>Issues and a board carry the spec, labels and acceptance criteria</li>
+                <li>Assign one to an agent — no copy-paste into a chat window</li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">⚙️ The gate runs itself</h3>
+            <ul>
+                <li><span class="ink fw-700">11 checks per PR</span>: build, tests, CodeQL, cross-platform, JDK matrix</li>
+                <li>Agent code is judged by <span class="ink fw-700">the same gates as mine</span></li>
+            </ul>
+        </div>
+        <div class="card t-violet">
+            <h3 class="violet">☁️ The laptop is optional</h3>
+            <ul>
+                <li>Assign an issue from the <span class="ink fw-700">mobile app</span>, get a PR back</li>
+                <li>It provisions its own environment, works on a branch, opens the PR</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md" style="font-size:.73em;">
+        Of BootUI's last 300 merged PRs, <span class="ink fw-700" style="color:inherit;">two in five never touched my laptop</span> — 19% from cloud agents, 20% from Dependabot fixing its own broken bumps. <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">The runners are the machine.</span>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 24 — WHY IT WORKED HERE
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>🧨 Why the multiplier was so large</h2>
     <p class="txt-sm muted" style="margin:-.1em 0 .55em;">
-        This codebase is unusually well-suited to AI, for three reasons. Not every project gets 15×.
+        This codebase is unusually well-suited to AI, for three reasons. Not every project gets 17–23×.
     </p>
 
     <div class="grid-3">
@@ -996,7 +1103,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 23 — WATCH OUT FOR
+     SLIDE 25 — WATCH OUT FOR
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>⚠️ Watch out for</h2>
@@ -1026,7 +1133,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 24 — THE ONE-PAGE RECIPE
+     SLIDE 26 — THE ONE-PAGE RECIPE
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>📋 The one-page recipe</h2>
@@ -1045,30 +1152,98 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 25 — THE BONUS: BOOTUI
+     SLIDE 27 — PAY NOW OR PAY LATER
 ══════════════════════════════════════════════════════════════ -->
 <section>
-    <h2>🎁 And the bonus: a new Spring Boot console</h2>
+    <h2>💰 Pay now or pay later</h2>
+
     <p class="txt-sm muted" style="margin:-.1em 0 .6em;">
-        The recipe was the point, but it left behind a real, open-source product: <span class="ink fw-700">BootUI</span>.
+        ~$2,000 of tokens across the sprint — about <span class="ink fw-700">$9 per merged PR</span>. That's the cheap part. The real question is <em>when</em> you pay for the code.
     </p>
 
-    <div class="feat-grid">
-        <div class="feat"><b>❤️ Health &amp; metrics</b><br>live Actuator, memory, threads</div>
-        <div class="feat"><b>🔐 Security advisor</b><br>filter chains, 37 rules, pentesting</div>
-        <div class="feat"><b>🐞 Vulnerabilities</b><br>OSV scan of your dependencies</div>
-        <div class="feat"><b>🗃️ Data</b><br>Flyway/Liquibase, Hibernate advisor</div>
-        <div class="feat"><b>🛰️ Tracing</b><br>Micrometer / OTLP insight</div>
-        <div class="feat"><b>🏛️ Architecture</b><br>ArchUnit, GraalVM reachability</div>
+    <div class="grid-2">
+        <div class="card t-amber">
+            <h3 class="amber">🎲 Vibe coding — low up front</h3>
+            <ul>
+                <li>No specs, no harness: you start shipping <span class="ink fw-700">immediately</span></li>
+                <li>You pay in retry loops, and again six months later reverse-engineering code nobody understands</li>
+                <li>That's the <span class="ink fw-700">maintenance tax</span> — invisible on day one</li>
+            </ul>
+        </div>
+        <div class="card t-emerald">
+            <h3 class="emerald">🏗️ Agentic engineering — pay first</h3>
+            <ul>
+                <li>Specs, tests and CI cost you real days <span class="ink fw-700">before</span> the first agent runs</li>
+                <li>They're what makes the tokens land first time, not on the fourth attempt</li>
+                <li>The harness is <span class="ink fw-700">cheap to write and expensive to skip</span></li>
+            </ul>
+        </div>
     </div>
 
-    <div class="banner mt-md" style="font-size:.72em;">
-        Add one starter to your <span class="mono">pom.xml</span>, run locally, open the console. &nbsp;📦 <span class="mono">github.com/jdubois/boot-ui</span>
+    <div class="banner mt-md" style="font-size:.73em;">
+        12 weeks and <span class="ink fw-700" style="color:inherit;">552 more merged PRs</span> later, the maintenance tax still hasn't come due. <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">That's the harness paying back its up-front cost.</span>
     </div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 26 — OUTRO / CTA
+     SLIDE 28 — ONE MORE THING (BOOTUI)
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="sg indigo center" style="font-size:.75em;font-weight:600;letter-spacing:.03em;margin-bottom:.15em;">
+        One more thing…
+    </div>
+
+    <h2 class="center" style="justify-content:center;margin:0 0 .1em;">
+        <svg class="h2-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="BootUI"><rect width="32" height="32" rx="10" fill="#198754"/><g transform="translate(7 7) scale(1.125)" fill="#fff"><path fill-rule="evenodd" d="M.5 6a.5.5 0 0 0-.488.608l1.652 7.434A2.5 2.5 0 0 0 4.104 16h5.792a2.5 2.5 0 0 0 2.44-1.958l.131-.59a3 3 0 0 0 1.3-5.854l.221-.99A.5.5 0 0 0 13.5 6zM13 12.5a2 2 0 0 1-.316-.025l.867-3.898A2.001 2.001 0 0 1 13 12.5"/><path d="m4.4.8-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 3.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 3.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 3 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 4.4.8m3 0-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 6.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 6.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 6 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 7.4.8m3 0-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.252.382l-.019.025-.005.008-.002.002A.5.5 0 0 1 9.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 9.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 9 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 10.4.8"/></g></svg>BootUI isn't just my case study
+    </h2>
+
+    <p class="txt-sm muted center" style="margin:0 0 .7em;">
+        The recipe was the point, but it left behind a real tool. If you write Java, you should be running it:
+        <span class="ink fw-700">one dependency, zero configuration</span>, then open <span class="mono">/bootui</span>.
+    </p>
+
+    <div class="grid-3">
+        <div class="card t-blue">
+            <h3 class="blue">🔎 See inside your app</h3>
+            <ul class="compact">
+                <li>~67 panels: HTTP routes, beans, config, caches, JPA &amp; SQL trace, Kafka/JMS, tracing</li>
+                <li>Everything Actuator exposes, but as a UI you'd actually want to look at</li>
+            </ul>
+        </div>
+        <div class="card t-amber">
+            <h3 class="amber">🩺 Advisors that tell you what's wrong</h3>
+            <ul class="compact">
+                <li>Security, performance, Hibernate, REST, architecture, pentest, GraalVM &amp; CRaC readiness</li>
+                <li>Live CVE checks against the OSV feed for your actual dependency tree</li>
+            </ul>
+        </div>
+        <div class="card t-emerald">
+            <h3 class="emerald">🤖 And it makes your agents smarter</h3>
+            <ul class="compact">
+                <li>A local <span class="ink fw-700">MCP server</span>: Copilot can read your app's real runtime state while fixing it</li>
+                <li>Spring Boot (MVC &amp; WebFlux) and Quarkus · local-only, never in production</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt-md" style="display:flex;justify-content:center;">
+        <div class="snippet"><span class="c">&lt;!-- that's the whole install --&gt;</span>
+<span class="k">&lt;dependency&gt;</span>
+  <span class="k">&lt;groupId&gt;</span>com.julien-dubois.bootui<span class="k">&lt;/groupId&gt;</span>
+  <span class="k">&lt;artifactId&gt;</span>bootui-spring-boot-starter<span class="k">&lt;/artifactId&gt;</span>
+  <span class="k">&lt;version&gt;</span>1.14.1<span class="k">&lt;/version&gt;</span>
+<span class="k">&lt;/dependency&gt;</span></div>
+    </div>
+
+    <div class="banner green mt-sm">
+        <span class="txt-sm">
+            ⭐ <span class="repo-pill">github.com/jdubois/boot-ui</span> &nbsp;·&nbsp; <b>273 stars</b> &nbsp;·&nbsp; Apache 2.0 &nbsp;·&nbsp; docs at <b>julien-dubois.com/boot-ui</b>
+        </span>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 29 — OUTRO / CTA
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="outro-wrap">
