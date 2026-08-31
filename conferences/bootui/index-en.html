@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BootUI — Make your running app legible — Julien Dubois</title>
+
+    <!-- Reveal.js (vendored locally — no CDN dependency) -->
+    <link rel="stylesheet" href="vendor/reveal/reveal.css" />
+    <link rel="stylesheet" href="vendor/reveal/theme/white.css" />
+
+    <!-- Fonts (vendored locally — no Google Fonts dependency) -->
+    <link rel="stylesheet" href="vendor/fonts/fonts.local.css" />
+
+    <style>
+        /* ── Tokens ───────────────────────────────────────────────────── */
+        :root {
+            --ink:#0b1f3a;
+            --ink-soft:#243b59;
+            --muted:#4a6076;
+            --line:#cdd7e6;
+            --track:#d7e0ee;
+            --blue:#1d4ed8;
+            --indigo:#1e40af;
+            --violet:#6d28d9;
+            --teal:#0e7490;
+            --cyan:#0369a1;
+            --amber:#b45309;
+            --emerald:#047857;
+            --rose:#be123c;
+            --surface:#ffffff;
+            --radius:16px;
+            --shadow:0 16px 38px -18px rgba(11,31,58,.30);
+            --shadow-sm:0 4px 14px -5px rgba(11,31,58,.16);
+            --grad:linear-gradient(120deg,#1d4ed8 0%,#3730a3 55%,#6d28d9 100%);
+            --grad-night:linear-gradient(120deg,#1e3a8a,#4338ca);
+            --grad-dawn:linear-gradient(120deg,#b45309,#c2410c);
+
+            /* Type scale — modular (~1.2 ratio), em-based so it scales with reveal's zoom */
+            --t-display:2.5em;   /* cover / outro title          */
+            --t-stat:1.5em;      /* hero stat numbers            */
+            --t-h2:1.2em;        /* slide titles                 */
+            --t-lead:.82em;      /* lead / banner emphasis       */
+            --t-body:.7em;       /* primary body, list items     */
+            --t-sm:.6em;         /* secondary text               */
+            --t-xs:.5em;         /* captions, small labels       */
+            --t-2xs:.42em;       /* micro labels, timestamps     */
+
+            --track-display:-.01em;
+            --track-title:.012em;
+            --track-label:.04em;
+        }
+
+        /* ── Base ─────────────────────────────────────────────────────── */
+        .reveal-viewport {
+            background:
+                linear-gradient(rgba(29,78,216,.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(29,78,216,.05) 1px, transparent 1px),
+                radial-gradient(1000px 560px at 12% -8%, #dce7f8 0%, transparent 55%),
+                radial-gradient(920px 520px at 96% 0%, #d8e3f6 0%, transparent 50%),
+                radial-gradient(1000px 680px at 52% 122%, #cfe0f2 0%, transparent 55%),
+                #e4ebf5;
+            background-size:36px 36px, 36px 36px, auto, auto, auto, auto;
+        }
+        .reveal {
+            font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size:28px;
+            color:var(--ink);
+            font-kerning:normal;
+            text-rendering:optimizeLegibility;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+        }
+        .reveal .slides section {
+            text-align:left;
+            box-sizing:border-box;
+            padding:0.85em 0.7em;
+        }
+
+        /* ── Headings ─────────────────────────────────────────────────── */
+        .reveal h1 { font-family:'Space Grotesk', sans-serif; font-weight:700; line-height:1.04; letter-spacing:var(--track-display); color:var(--ink); text-wrap:balance; }
+        .reveal h2 {
+            font-family:'Space Grotesk', sans-serif; font-weight:700;
+            font-size:var(--t-h2); color:var(--ink); letter-spacing:var(--track-title);
+            margin:0 0 .5em; padding-bottom:.25em;
+            border-bottom:3px solid transparent;
+            border-image:linear-gradient(90deg,var(--blue),var(--violet)) 1;
+            display:flex; align-items:center; gap:.4em;
+        }
+        .reveal h3 {
+            font-family:'Space Grotesk', sans-serif; font-weight:600;
+            color:var(--indigo); font-size:var(--t-body); margin:0 0 .35em; letter-spacing:var(--track-label);
+        }
+
+        /* ── Gradient text ────────────────────────────────────────────── */
+        .grad { background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+        /* ── Lists ────────────────────────────────────────────────────── */
+        .reveal ul { list-style:none; margin:0; padding:0; }
+        .reveal ul li {
+            font-size:var(--t-body); color:var(--ink-soft);
+            padding:.22em 0 .22em 1.45em; position:relative; line-height:1.4;
+        }
+        .reveal ul li::before {
+            content:""; position:absolute; left:0; top:.62em;
+            width:.5em; height:.5em; border-radius:3px; background:var(--grad);
+        }
+        .reveal ul.tight li { font-size:var(--t-sm); padding:.14em 0 .14em 1.3em; }
+        .reveal ul.tight li::before { top:.5em; width:.42em; height:.42em; }
+
+        /* ── Cards ────────────────────────────────────────────────────── */
+        .card {
+            background:var(--surface); border:1px solid var(--line);
+            border-radius:var(--radius); padding:.8em 1em;
+            box-shadow:var(--shadow-sm); position:relative;
+        }
+        .card.t-blue    { border-top:4px solid var(--blue); }
+        .card.t-indigo  { border-top:4px solid var(--indigo); }
+        .card.t-violet  { border-top:4px solid var(--violet); }
+        .card.t-teal    { border-top:4px solid var(--teal); }
+        .card.t-cyan    { border-top:4px solid var(--cyan); }
+        .card.t-amber   { border-top:4px solid var(--amber); }
+        .card.t-emerald { border-top:4px solid var(--emerald); }
+        .card.t-rose    { border-top:4px solid var(--rose); }
+        .card.t-blue h3    { color:var(--blue); }
+        .card.t-violet h3  { color:var(--violet); }
+        .card.t-teal h3    { color:var(--teal); }
+        .card.t-cyan h3    { color:var(--cyan); }
+        .card.t-amber h3   { color:var(--amber); }
+        .card.t-emerald h3 { color:var(--emerald); }
+        .card.t-rose h3    { color:var(--rose); }
+
+        /* ── Grids ────────────────────────────────────────────────────── */
+        .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:.8em; }
+        .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:.75em; }
+        .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:.65em; }
+
+        /* ── Chips ────────────────────────────────────────────────────── */
+        .chip {
+            display:inline-block; border-radius:999px;
+            padding:5px 14px; font-size:var(--t-2xs); font-weight:600;
+            background:#e2ebfb; color:var(--indigo);
+        }
+        .chip.blue  { background:#dbe8fe; color:var(--blue); }
+        .chip.teal  { background:#d6eef3; color:var(--teal); }
+        .chip.slate { background:#d4dcea; color:var(--ink-soft); }
+
+        /* ── Hero banner box ──────────────────────────────────────────── */
+        .banner {
+            background:var(--grad); color:#fff; border-radius:var(--radius);
+            padding:.75em 1.1em; font-weight:600; font-size:var(--t-lead);
+            box-shadow:var(--shadow);
+        }
+        .banner * { color:#fff !important; }
+        .banner.sm { font-size:var(--t-sm); padding:.6em 1em; }
+        .banner.night { background:var(--grad-night); }
+        .banner.dawn  { background:var(--grad-dawn); }
+        .banner.sunrise {
+            background:linear-gradient(118deg,#c2410c 0%,#be123c 46%,#6d28d9 100%);
+            box-shadow:0 0 0 1px rgba(255,255,255,.14), 0 24px 64px -20px rgba(217,70,30,.6);
+        }
+
+        /* ── Night slide ──────────────────────────────────────────────── */
+        .night-slide h2 { color:#eef3ff; }
+        .night-slide h2 .muted { color:#9db1d8 !important; }
+        .night-slide .txt-sm.muted, .night-slide .txt-xs.muted { color:#bccbea; }
+        .night-slide .txt-sm.muted .ink, .night-slide .txt-xs.muted .ink { color:#ffffff; }
+        .night-slide .card {
+            background:#fbfcff; border-color:rgba(150,166,224,.22);
+            box-shadow:0 0 0 1px rgba(142,162,255,.16), 0 22px 54px -18px rgba(91,104,235,.78);
+        }
+        .night-slide .proof {
+            background:rgba(255,255,255,.06); border:1px solid rgba(150,170,230,.26);
+            border-radius:12px; padding:.5em .7em; font-size:var(--t-2xs);
+            color:#cbd8f2; line-height:1.4;
+        }
+        .night-slide .proof b { color:#ffffff; font-family:'Space Grotesk',sans-serif; font-weight:600; display:block; margin-bottom:.15em; }
+
+        /* Demo fallback screenshot slides (vertical sub-slides under the demo) */
+        .shot-head { display:flex; align-items:baseline; gap:.6em; margin:0 0 .4em; }
+        .shot-eyebrow {
+            font-family:'JetBrains Mono', monospace; font-size:var(--t-2xs); font-weight:700;
+            letter-spacing:.06em; text-transform:uppercase; color:var(--violet);
+            border:1px solid rgba(124,58,237,.28); background:rgba(124,58,237,.07);
+            border-radius:999px; padding:.18em .7em; white-space:nowrap;
+        }
+        .shot-title { font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:var(--t-sm); color:var(--ink); }
+        .reveal section img.shot {
+            display:block; margin:0 auto; max-height:584px; max-width:100%; height:auto; width:auto;
+            border-radius:12px; border:1px solid var(--line);
+            box-shadow:0 14px 38px -14px rgba(11,31,58,.30), 0 2px 6px rgba(11,31,58,.06);
+            background:none;
+        }
+        .shot-cap { font-size:var(--t-xs); color:var(--muted); text-align:center; margin-top:.5em; }
+
+        /* ── Stats ────────────────────────────────────────────────────── */
+        .stat-num { font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:var(--t-stat); line-height:1; color:var(--ink); font-variant-numeric:tabular-nums; letter-spacing:-.01em; }
+        .stat-label { font-size:var(--t-2xs); color:var(--muted); margin-top:.35em; line-height:1.3; font-weight:500; }
+        .stat-strip { display:flex; gap:1.6em; align-items:baseline; }
+        .stat-inline { font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:var(--t-lg); line-height:1; font-variant-numeric:tabular-nums; }
+
+        /* ── Bio ──────────────────────────────────────────────────────── */
+        .bio { display:grid; grid-template-columns:165px 1fr; gap:1.4em; align-items:center; }
+        .bio-photo { width:100%; border-radius:18px; box-shadow:var(--shadow); }
+        .bio-tags { display:flex; flex-wrap:wrap; gap:.4em; margin-bottom:.55em; }
+
+        /* ── Thesis lede ──────────────────────────────────────────────── */
+        .thesis-lede {
+            text-align:center; font-family:'Space Grotesk', sans-serif; font-weight:600;
+            font-size:var(--t-lead); color:var(--ink); letter-spacing:-.01em;
+            margin:.2em 0 .9em; text-wrap:balance;
+        }
+
+        /* ── Playbook numbered list ───────────────────────────────────── */
+        .pb-item { display:flex; gap:.7em; align-items:baseline; padding:.32em 0; border-bottom:1px solid var(--line); }
+        .pb-item:last-child { border-bottom:none; }
+        .pb-num { font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:var(--t-sm); min-width:1.5em; font-variant-numeric:tabular-nums; color:var(--blue); }
+        .pb-text { font-size:var(--t-sm); color:var(--ink-soft); line-height:1.35; }
+        .pb-text b { color:var(--ink); }
+
+        /* ── Slide number / progress ──────────────────────────────────── */
+        .reveal .slide-number { background:transparent; color:var(--muted); font-family:'JetBrains Mono', monospace; font-size:var(--t-xs); right:14px; bottom:12px; font-variant-numeric:tabular-nums; }
+        .reveal .progress { color:var(--blue); background-color:rgba(11,31,58,.08); }
+        .reveal.has-dark-background .slide-number { color:#93a7cf; }
+
+        /* ── Utilities ────────────────────────────────────────────────── */
+        .txt-sm { font-size:var(--t-sm); }
+        .txt-xs { font-size:var(--t-xs); }
+        .muted  { color:var(--muted); }
+        .ink    { color:var(--ink); }
+        .blue   { color:var(--blue); }
+        .indigo { color:var(--indigo); }
+        .violet { color:var(--violet); }
+        .teal   { color:var(--teal); }
+        .cyan   { color:var(--cyan); }
+        .amber  { color:var(--amber); }
+        .emerald{ color:var(--emerald); }
+        .rose   { color:var(--rose); }
+        .mono   { font-family:'JetBrains Mono', monospace; }
+        .sg     { font-family:'Space Grotesk', sans-serif; }
+        .fw-700 { font-weight:700; }
+        .mt-xs  { margin-top:.35em; }
+        .mt-sm  { margin-top:.5em; }
+        .mt-md  { margin-top:.9em; }
+        .center { text-align:center; }
+
+        /* ── Cover / outro ────────────────────────────────────────────── */
+        .cover-wrap, .outro-wrap { display:flex; flex-direction:column; justify-content:center; height:100%; }
+
+        /* ── Section dividers ─────────────────────────────────────────── */
+        .divider-wrap { display:flex; flex-direction:column; justify-content:center; height:100%; }
+        .divider-kicker {
+            font-family:'JetBrains Mono', monospace; font-size:var(--t-sm); font-weight:600;
+            letter-spacing:.14em; text-transform:uppercase; color:var(--violet); margin-bottom:.1em;
+        }
+        .divider-num {
+            font-family:'Space Grotesk', sans-serif; font-weight:700; line-height:.86;
+            font-size:6.4em; letter-spacing:-.04em;
+            color:transparent; -webkit-text-stroke:3px var(--blue);
+        }
+        .divider h1 { font-size:2.1em; margin:.06em 0 .14em; }
+        .divider .sub { font-size:var(--t-lead); color:var(--muted); font-family:'Space Grotesk',sans-serif; font-weight:500; text-wrap:balance; }
+
+        /* ── Data table ───────────────────────────────────────────────── */
+        .dtable { width:100%; border-collapse:collapse; font-size:var(--t-sm); }
+        .dtable th, .dtable td { text-align:left; padding:.38em .7em; border-bottom:1px solid var(--line); vertical-align:top; }
+        .dtable thead th {
+            font-family:'Space Grotesk',sans-serif; font-weight:700; color:var(--ink);
+            font-size:var(--t-xs); letter-spacing:var(--track-label); text-transform:uppercase;
+            border-bottom:2px solid var(--ink-soft);
+        }
+        .dtable td { color:var(--ink-soft); line-height:1.3; }
+        .dtable td.num { font-family:'JetBrains Mono',monospace; font-weight:600; color:var(--ink); white-space:nowrap; font-variant-numeric:tabular-nums; }
+        .dtable td.nm { font-family:'Space Grotesk',sans-serif; font-weight:600; color:var(--ink); white-space:nowrap; }
+        .dtable tr:last-child td { border-bottom:none; }
+
+        /* ── Feature grid ─────────────────────────────────────────────── */
+        .feat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.5em; }
+        .feat-grid.c5 { grid-template-columns:repeat(5,1fr); }
+        .feat { background:#f3f7fc; border:1px solid var(--line); border-radius:12px; padding:.5em .65em; font-size:var(--t-2xs); color:var(--muted); line-height:1.35; }
+        .feat b { color:var(--ink); font-family:'Space Grotesk',sans-serif; font-weight:600; display:block; font-size:1.12em; margin-bottom:.15em; }
+
+        /* ── Architecture stack ───────────────────────────────────────── */
+        .arch { display:flex; flex-direction:column; gap:.32em; }
+        .arch-layer {
+            border:1px solid var(--line); border-radius:12px; background:#fff;
+            box-shadow:var(--shadow-sm); padding:.45em .8em; text-align:center;
+        }
+        .arch-layer .nm { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:var(--t-sm); color:var(--ink); }
+        .arch-layer .ds { font-size:var(--t-2xs); color:var(--muted); margin-top:.14em; line-height:1.3; }
+        .arch-layer.top { background:var(--grad); border-color:transparent; box-shadow:var(--shadow); }
+        .arch-layer.top .nm, .arch-layer.top .ds { color:#fff; }
+        .arch-layer.core { background:#f3f7fc; }
+        .arch-adapters { display:grid; grid-template-columns:repeat(3,1fr); gap:.4em; }
+        .arch-adapters .arch-layer { border-top:4px solid var(--blue); }
+        .arch-adapters .arch-layer:nth-child(2) { border-top-color:var(--teal); }
+        .arch-adapters .arch-layer:nth-child(3) { border-top-color:var(--violet); }
+        .arch-tie {
+            text-align:center; font-family:'JetBrains Mono',monospace; font-size:var(--t-2xs);
+            color:var(--blue); font-weight:600; letter-spacing:.03em;
+        }
+
+        /* ── Signature strip (divider 03) ─────────────────────────────── */
+        .sig { display:grid; grid-template-columns:repeat(3,1fr); gap:.6em; margin-top:1.1em; max-width:1000px; }
+        .sig-item {
+            background:#fff; border:1px solid var(--line); border-radius:14px;
+            padding:.55em .75em; box-shadow:var(--shadow-sm);
+        }
+        .sig-item .st { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:var(--t-xs); color:var(--ink); }
+        .sig-item .sd { font-size:var(--t-2xs); color:var(--muted); margin-top:.2em; line-height:1.35; }
+
+        /* ── Tags ─────────────────────────────────────────────────────── */
+        .tag {
+            display:inline-block; font-family:'JetBrains Mono',monospace; font-size:var(--t-2xs);
+            font-weight:600; padding:2px 9px; border-radius:999px;
+            background:#eef3fb; color:var(--indigo); border:1px solid var(--line);
+        }
+        .tag.green { background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
+        .tag.amber { background:#fff7ed; color:#b45309; border-color:#fed7aa; }
+        .tag.rose  { background:#fef2f2; color:#be123c; border-color:#fecdd3; }
+        .tag.slate { background:#eef2f7; color:var(--muted); border-color:var(--line); }
+        .tagrow { display:flex; flex-wrap:wrap; gap:.35em; }
+
+        /* ── Tier rows ────────────────────────────────────────────────── */
+        .tier { display:flex; align-items:center; gap:.55em; font-size:var(--t-xs); padding:.2em 0; color:var(--ink-soft); }
+        .tier .tn { font-family:'Space Grotesk',sans-serif; font-weight:600; color:var(--ink); min-width:6.4em; }
+
+        /* ── Code block ───────────────────────────────────────────────── */
+        .codeblock {
+            font-family:'JetBrains Mono',monospace; font-size:var(--t-2xs);
+            background:#0f1b36; color:#dbe6ff; border-radius:12px;
+            padding:.65em .85em; line-height:1.55; white-space:pre; overflow:hidden;
+            box-shadow:var(--shadow-sm);
+        }
+        .codeblock .k { color:#8fb8ff; }
+        .codeblock .s { color:#9fe6c0; }
+        .codeblock .c { color:#7f92bb; }
+
+        /* ── Score bands ──────────────────────────────────────────────── */
+        .band { display:flex; align-items:center; gap:.5em; font-size:var(--t-xs); padding:.15em 0; color:var(--ink-soft); }
+        .band .dot { width:.62em; height:.62em; border-radius:50%; flex-shrink:0; }
+    </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 1 — COVER
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="cover-wrap">
+        <div style="display:flex;gap:.5em;flex-wrap:wrap;margin-bottom:1em;">
+            <span class="chip">Developer console</span>
+            <span class="chip blue">Spring Boot 4 · Quarkus</span>
+            <span class="chip teal">Local-only · fail-closed</span>
+        </div>
+
+        <h1 style="font-size:var(--t-display);margin:0;">Introduction to<br/><span class="grad">BootUI</span></h1>
+
+        <div class="sg" style="font-size:.8em;font-weight:600;margin-top:.7em;color:var(--ink-soft);">
+            Your app is a black box. BootUI turns the lights on.
+        </div>
+        <div class="txt-sm muted" style="margin-top:.3em;">
+            An embedded developer console for Spring Boot 4 and Quarkus. One codebase, three stacks, 58 panels. 🔦
+        </div>
+
+        <div class="mono muted" style="font-size:.5em;margin-top:1.6em;letter-spacing:.02em;">
+            Julien Dubois&nbsp;&nbsp;·&nbsp;&nbsp;github.com/jdubois/boot-ui&nbsp;&nbsp;·&nbsp;&nbsp;julien-dubois.com
+        </div>
+
+        <div style="display:flex;align-items:center;gap:1.3em;margin-top:1.7em;">
+            <span style="display:inline-flex;align-items:center;gap:.5em;">
+                <svg height="24" viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="GitHub"><path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.014 7.822 5.014 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" fill="#181717"/></svg>
+                <span class="sg" style="font-size:18px;font-weight:700;color:#181717;letter-spacing:-.01em;">GitHub</span>
+            </span>
+            <span style="width:1px;height:22px;background:var(--line);"></span>
+            <span style="display:inline-flex;align-items:center;gap:.55em;">
+                <svg width="22" height="22" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Microsoft"><rect x="1" y="1" width="10" height="10" fill="#F25022"/><rect x="12" y="1" width="10" height="10" fill="#7FBA00"/><rect x="1" y="12" width="10" height="10" fill="#00A4EF"/><rect x="12" y="12" width="10" height="10" fill="#FFB900"/></svg>
+                <span class="sg" style="font-size:18px;font-weight:600;color:#5E5E5E;letter-spacing:-.005em;">Microsoft</span>
+            </span>
+        </div>
+    </div>
+
+    <aside class="notes">
+        25 minutes. Product talk. Thesis: your running app is a black box, BootUI makes it legible — and it is honest
+        about what it does and doesn't know.
+    </aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 2 — WHO AM I (reused from the template deck)
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>👋 Who am I?</h2>
+
+    <div class="bio">
+        <div>
+            <img src="https://www.julien-dubois.com/img/photos/julien-dubois.png" alt="Julien Dubois" class="bio-photo" />
+        </div>
+        <div>
+            <div class="bio-tags">
+                <span class="chip">☕ Java Champion</span>
+                <span class="chip blue">🏢 Microsoft / GitHub</span>
+                <span class="chip teal">⭐ JHipster 22k+</span>
+                <span class="chip slate">🤖 AI × code</span>
+            </div>
+            <ul>
+                <li><span class="ink fw-700">Principal Manager</span>, Developer Relations @ Microsoft / GitHub</li>
+                <li>Creator of <span class="ink fw-700">JHipster</span> · 22,000+ ⭐</li>
+                <li><span class="ink fw-700">200+ international talks</span> (Devoxx, SpringOne, MS Build…)</li>
+                <li>Today: shipping real projects by <span class="ink fw-700">managing fleets of AI agents</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <aside class="notes">30 seconds. Don't linger.</aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 3 — DIVIDER 01 · THE PROBLEM
+══════════════════════════════════════════════════════════════ -->
+<section data-background-color="#e8eef9" data-background-gradient="radial-gradient(900px 540px at 14% -6%, #d6e3f7 0%, transparent 56%), radial-gradient(820px 540px at 102% 104%, #e7ddf6 0%, transparent 55%), #e8eef9">
+    <div class="divider divider-wrap">
+        <div class="divider-kicker">Part 01 · The problem</div>
+        <div class="divider-num" style="-webkit-text-stroke:3px var(--blue);">01</div>
+        <h1>Why are Java applications opaque?</h1>
+        <div class="sub">Spring Boot and Quarkus are missing a good developer console.</div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 4 — THE DAILY REALITY
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🕳️ Every answer lives in a different tool</h2>
+
+    <div class="grid-2">
+        <div class="card t-amber">
+            <h3 class="amber">The questions you actually ask</h3>
+            <ul class="tight">
+                <li>What configuration is <span class="ink fw-700">actually effective</span> right now?</li>
+                <li>Did that <span class="mono">@Transactional</span> method really commit — or quietly
+                    <span class="ink fw-700">join someone else's</span> transaction?</li>
+                <li>Is this exception <span class="ink fw-700">new</span>, or has it been failing all week?</li>
+                <li>Why was <span class="ink fw-700">that</span> request slow — and what SQL did it run?</li>
+            </ul>
+        </div>
+        <div class="card t-blue">
+            <h3 class="blue">What you do instead</h3>
+            <ul class="tight">
+                <li><span class="mono">curl</span> an Actuator endpoint, read raw JSON</li>
+                <li>Attach jconsole / VisualVM for the JVM half</li>
+                <li>Tail the logs in another terminal</li>
+                <li>Grep the codebase to guess the wiring</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="feat-grid mt-md">
+        <div class="feat"><b>Hosted dashboards</b>Another service to run, for one local app</div>
+        <div class="feat"><b>Admin servers</b>Outside the app, shaped for production fleets</div>
+        <div class="feat"><b>APM</b>Right idea, wrong scale — and wrong loop</div>
+    </div>
+
+    <div class="txt-xs muted mt-sm center">
+        None of them live where the work happens: <span class="ink fw-700">inside the inner loop, on localhost, for one running app</span>.
+    </div>
+
+    <aside class="notes">
+        Land the pain first. You already have the data — the JVM knows everything. You just can't read it.
+        These four questions are deliberate: each one is answered by a panel we see later — Configuration,
+        Transactions, Exceptions, SQL Trace. Plant them here and call back when we get there.
+    </aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 5 — WHAT BOOTUI PROVIDES
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🧰 What BootUI actually provides</h2>
+
+    <p class="thesis-lede">One dependency. One local URL. <span class="grad">Three ways to read your app.</span></p>
+
+    <div class="grid-3">
+        <div class="card t-blue">
+            <h3 class="blue">🩺 Advisors</h3>
+            <ul class="tight">
+                <li><span class="ink fw-700">437 rules</span> across 10 advisors — architecture, security,
+                    Hibernate, memory, dependencies</li>
+                <li>Every finding names the cause and the <span class="ink fw-700">fix</span></li>
+                <li>One score out of 100, on demand — never on page load</li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">📊 A live console</h3>
+            <ul class="tight">
+                <li><span class="ink fw-700">58 panels</span> in 9 groups, in your browser</li>
+                <li>Requests, SQL, transactions, exceptions and the JVM —
+                    <span class="ink fw-700">as they happen</span></li>
+                <li>Explains what it means first; raw JSON one click away</li>
+            </ul>
+        </div>
+        <div class="card t-violet">
+            <h3 class="violet">🤖 An MCP server</h3>
+            <ul class="tight">
+                <li>The same data, <span class="ink fw-700">≈79 tools</span>, for your coding agent</li>
+                <li>Opt-in and loopback only — off until you turn it on</li>
+                <li>Your agent stops guessing and <span class="ink fw-700">reads the running app</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <aside class="notes">
+        The map for the rest of the talk: advisors are Part 03's opening, the console is all of Part 03, the MCP server
+        is Part 04. Don't detail anything here — just plant the three pillars so people know where we're going.
+        Say the zero-config line out loud instead of putting it on the slide — one dependency, open /bootui, no agent,
+        no sidecar, nothing to configure — then move straight to the coordinates on the next slide.
+    </aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 6 — DIVIDER 02 · THE PRODUCT
+══════════════════════════════════════════════════════════════ -->
+<section data-background-color="#e8eef9" data-background-gradient="radial-gradient(900px 540px at 86% -6%, #dde6f9 0%, transparent 56%), radial-gradient(820px 540px at 0% 104%, #d8eef0 0%, transparent 55%), #e8eef9">
+    <div class="divider divider-wrap">
+        <div class="divider-kicker">Part 02 · The product</div>
+        <div class="divider-num" style="-webkit-text-stroke:3px var(--teal);">02</div>
+        <h1>One console, three stacks</h1>
+        <div class="sub">Spring MVC, Spring WebFlux and Quarkus — from a single codebase.</div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 7 — THE PITCH
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🖥️ Add a dependency. Open <span class="mono" style="font-size:.8em;">/bootui</span>.</h2>
+
+    <div class="grid-2">
+        <div class="card t-blue">
+            <h3 class="blue">Spring Boot 4 — servlet or WebFlux</h3>
+<div class="codeblock">&lt;<span class="k">dependency</span>&gt;
+  &lt;<span class="k">groupId</span>&gt;<span class="s">com.julien-dubois.bootui</span>&lt;/<span class="k">groupId</span>&gt;
+  &lt;<span class="k">artifactId</span>&gt;<span class="s">bootui-spring-boot-starter</span>&lt;/<span class="k">artifactId</span>&gt;
+  &lt;<span class="k">version</span>&gt;<span class="s">1.15.0</span>&lt;/<span class="k">version</span>&gt;
+&lt;/<span class="k">dependency</span>&gt;</div>
+            <div class="txt-xs muted mt-xs"><span class="mono">-reactive</span> for WebFlux.</div>
+        </div>
+        <div class="card t-violet">
+            <h3 class="violet">Quarkus</h3>
+<div class="codeblock">&lt;<span class="k">dependency</span>&gt;
+  &lt;<span class="k">groupId</span>&gt;<span class="s">com.julien-dubois.bootui</span>&lt;/<span class="k">groupId</span>&gt;
+  &lt;<span class="k">artifactId</span>&gt;<span class="s">bootui-quarkus</span>&lt;/<span class="k">artifactId</span>&gt;
+  &lt;<span class="k">version</span>&gt;<span class="s">1.15.0</span>&lt;/<span class="k">version</span>&gt;
+&lt;/<span class="k">dependency</span>&gt;</div>
+            <div class="txt-xs muted mt-xs">A real Quarkus extension — runtime + deployment.</div>
+        </div>
+    </div>
+
+    <div class="grid-3 mt-md">
+        <div class="feat"><b>Activates in dev</b><span class="mono">dev</span> / <span class="mono">local</span> profiles, or devtools on the classpath</div>
+        <div class="feat"><b>Serves two things</b>The console at <span class="mono">/bootui</span>, the JSON at <span class="mono">/bootui/api/**</span></div>
+        <div class="feat"><b>Dark in production</b>Ambiguous activation leaves it <span class="ink fw-700">disabled</span></div>
+    </div>
+
+    <aside class="notes">
+        Do not oversell the install. The point is that it's one dependency and there is no separate process to run.
+    </aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 8 — THE NUMBERS + THE MAP
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🧭 58 panels, 9 groups, one question each</h2>
+
+    <div class="grid-4" style="margin:0 0 .7em;">
+        <div class="card t-indigo"><div class="stat-num indigo">58</div><div class="stat-label">panels across 9 groups</div></div>
+        <div class="card t-teal"><div class="stat-num teal">3</div><div class="stat-label">stacks · one codebase</div></div>
+        <div class="card t-violet"><div class="stat-num violet">1</div><div class="stat-label">Vue UI · one JSON contract</div></div>
+        <div class="card t-emerald"><div class="stat-num emerald">0</div><div class="stat-label">extra processes to run</div></div>
+    </div>
+
+    <div class="feat-grid c5">
+        <div class="feat"><b>Overview</b>Is my app healthy — and what did it just do?</div>
+        <div class="feat"><b>Advisors</b>What is wrong, and how do I fix it?</div>
+        <div class="feat"><b>Runtime</b>How is the JVM behaving right now?</div>
+        <div class="feat"><b>Configuration</b>What config and wiring is <em>effective</em>?</div>
+        <div class="feat"><b>Database</b>What is my app doing to the database?</div>
+        <div class="feat"><b>Security</b>How is access actually enforced?</div>
+        <div class="feat"><b>Services</b>What is my app talking to?</div>
+        <div class="feat"><b>Diagnostics</b>Why did that request fail?</div>
+        <div class="feat"><b>Developer tools</b>What is my toolchain doing locally?</div>
+        <div class="feat" style="background:#eef3fb;border-color:#bfd0ea;"><b>Every group</b>…answers one question, not "here is some data"</div>
+    </div>
+
+    <aside class="notes">
+        Read two or three of the questions out loud — that framing is the product. Don't read all nine.
+    </aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 9 — ARCHITECTURE
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🧱 How one codebase serves three stacks</h2>
+
+    <div class="arch">
+        <div class="arch-layer top">
+            <div class="nm">Vue 3 single-page console — <span class="mono">/bootui</span></div>
+            <div class="ds">One UI. It does not know which framework is underneath it.</div>
+        </div>
+        <div class="arch-tie">▲ &nbsp; one JSON contract &nbsp;·&nbsp; <span class="mono">/bootui/api/**</span> &nbsp; ▲</div>
+        <div class="arch-adapters">
+            <div class="arch-layer"><div class="nm">Spring MVC</div><div class="ds">Reference stack</div></div>
+            <div class="arch-layer"><div class="nm">Spring WebFlux</div><div class="ds">Reactive adapter</div></div>
+            <div class="arch-layer"><div class="nm">Quarkus</div><div class="ds">Runtime + deployment</div></div>
+        </div>
+        <div class="arch-tie">▲ &nbsp; thin, and native to their framework &nbsp; ▲</div>
+        <div class="arch-layer">
+            <div class="nm">bootui-engine</div>
+            <div class="ds">All reusable behaviour and policy — capture, buffers, masking, advisors, scoring, MCP</div>
+        </div>
+        <div class="arch-layer core">
+            <div class="nm">bootui-core</div>
+            <div class="ds">Immutable DTO records. No Spring. No Quarkus. <span class="ink fw-700">No JSON library.</span></div>
+        </div>
+    </div>
+
+    <div class="txt-xs muted mt-sm center">
+        The same records serialize byte-identically under <span class="mono">Jackson 3</span> (Spring Boot 4) and
+        <span class="mono">Jackson 2</span> (Quarkus) — which is why the UI never forks.<br/>
+        Where a stack genuinely cannot answer, the panel stays <span class="ink fw-700">visible</span> and says why —
+        never an empty table that looks like "no traffic yet".
+    </div>
+
+    <aside class="notes">
+        The punchline is bottom-up: because core knows nothing about any framework, a panel written once behaves the
+        same everywhere. This is what makes the honesty claims later actually enforceable. Second line replaces the old
+        parity table: BootUI never pretends — a Quarkus panel that can't work states the reason and the alternative.
+    </aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 10 — DIVIDER 03 · INSIDE
+══════════════════════════════════════════════════════════════ -->
+<section data-background-color="#e8eef9" data-background-gradient="radial-gradient(900px 540px at 14% -6%, #d6e3f7 0%, transparent 56%), radial-gradient(820px 540px at 102% 104%, #ded7f6 0%, transparent 55%), #e8eef9">
+    <div class="divider divider-wrap">
+        <div class="divider-kicker">Part 03 · Inside</div>
+        <div class="divider-num" style="-webkit-text-stroke:3px var(--violet);">03</div>
+        <h1>Capture honestly.</h1>
+        <div class="sub">Three engineering signatures run through every panel that follows.</div>
+
+        <div class="sig">
+            <div class="sig-item">
+                <div class="st">1 · Own the capture</div>
+                <div class="sd">No p6spy, no datasource-proxy, no HTTP proxy library. Framework SPIs and hand-written JDK proxies.</div>
+            </div>
+            <div class="sig-item">
+                <div class="st">2 · Open on capture, closed on data</div>
+                <div class="sd">Can't instrument? Leave the app untouched. Can't answer? Report unavailable — never an empty table.</div>
+            </div>
+            <div class="sig-item">
+                <div class="st">3 · Label your confidence</div>
+                <div class="sd">Tiered correlation everywhere, with explicit <em>Unattributed</em> and <em>Ambiguous</em> buckets.</div>
+            </div>
+        </div>
+
+        <div class="txt-xs muted" style="margin-top:.9em;">
+            We walk the console's own menu, top to bottom — Overview, Live Activity, Runtime, Configuration, Database,
+            Security, Services, Diagnostics. The ninth group, <span class="ink fw-700">Developer tools</span>, gets its
+            own part.
+        </div>
+    </div>
+
+    <aside class="notes">
+        Set these up carefully — 30 seconds. Every following slide is an instance of one of the three. That's what
+        makes this a section rather than a feature list. The menu order is deliberate: if they open BootUI tomorrow,
+        the sidebar will be in the same order as this section.
+    </aside>
+</section>
+<!-- ==============================================================
+     SLIDE 11 — OVERVIEW · ADVISORS + SCORE
+============================================================== -->
+<section>
+    <h2>🩺 Advisors — findings with fixes, on demand</h2>
+
+    <div class="grid-2">
+        <div class="card t-blue">
+            <h3 class="blue">437 rules, written with AI</h3>
+            <ul class="tight mt-sm">
+                <li>Every rule is its own class with a <span class="ink fw-700">stable id</span>, a severity and a
+                    <span class="ink fw-700">concrete recommendation</span> — Hibernate alone has 75, Security 61,
+                    REST&nbsp;API 56</li>
+                <li>Written with AI, then reviewed <span class="ink fw-700">one rule at a time</span>: the strongest
+                    models applied to framework expertise, not a generic linter</li>
+                <li>No other console for Spring&nbsp;Boot or Quarkus carries a ruleset of this depth — it is
+                    <span class="ink fw-700">unique to BootUI</span></li>
+                <li>The result is insight you cannot get elsewhere: findings tied to
+                    <span class="ink fw-700">your</span> beans, queries and configuration, so you can actually
+                    improve the application</li>
+            </ul>
+        </div>
+        <div class="card t-violet">
+            <h3 class="violet">One score out of 100</h3>
+            <ul class="tight">
+                <li>9 severity-scored scanners, each starting at 100</li>
+                <li>Fixed penalties: <span class="mono">critical −25</span> · <span class="mono">high −10</span> · <span class="mono">medium −3</span> · <span class="mono">low −1</span></li>
+                <li>Overall = the mean of scanners that <span class="ink fw-700">actually scored</span></li>
+            </ul>
+            <div class="mt-sm">
+                <div class="band"><span class="dot" style="background:var(--emerald);"></span> <b>80+</b>&nbsp; Good</div>
+                <div class="band"><span class="dot" style="background:var(--amber);"></span> <b>50+</b>&nbsp; Needs attention</div>
+                <div class="band"><span class="dot" style="background:var(--rose);"></span> <b>&lt;50</b>&nbsp; At risk</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tagrow mt-md" style="justify-content:center;">
+        <span class="tag">Architecture 41</span><span class="tag">REST API 56</span><span class="tag">Spring 41</span>
+        <span class="tag">Quarkus 19</span><span class="tag">Database 28</span><span class="tag">Hibernate 75</span>
+        <span class="tag">Memory 36</span><span class="tag">Security 61</span><span class="tag">Pentesting 80</span>        <span class="tag">Vulnerabilities ∞</span>
+    </div>
+
+    <div class="banner mt-sm sm">
+        🛑 <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">Nothing is scanned on page load.</span>
+        Before any run, the gauge shows how many scanners have scored — not a fake zero. <span class="mono">Vulnerabilities</span> has no fixed count: it queries OSV.dev for known CVEs and adds how likely each one is to actually be exploited.
+    </div>
+
+    <aside class="notes">
+        Land the number: 437 rules, one class each, across the ten advisors on the slide. This is the moat — anyone can
+        render a bean graph, nobody else has spent the time on the ruleset. Be straight about how it was built: written
+        with AI, the strongest models pointed at real framework expertise, then reviewed rule by rule.
+        If asked, the shipped library is larger still: Quarkus apps swap Spring Security's 61 rules for 49
+        Quarkus-native ones, and WebFlux gets 26 reactive security rules — 512 rules in total, ported per stack rather
+        than faked.
+        Two details worth saying out loud but not putting on the slide: Pentesting is 80 OWASP Top 10 2025 checks and
+        sends at most one GET and one OPTIONS to literal 127.0.0.1; and when evidence is bounded away the scan is
+        marked PARTIAL and the score is hidden rather than faked.
+        The restraint is the story: a security tool that refuses to phone home until asked. Worth saying out loud:
+        Vulnerabilities is the only advisor that makes a network call at all — everything else reads the running JVM —
+        and even that one only fires when you press the button.
+        Mention that a clean scan genuinely stays at 100 — the penalties are fixed and published, not a black-box grade.
+        If someone asks how likelihood is computed: it is EPSS, from FIRST.org — the modelled probability a CVE is
+        exploited in the wild in the next 30 days. It complements CVSS rather than replacing it: CVSS says how bad it
+        is if exploited, EPSS says how likely that is. Shown as a badge like "2.3% EPSS", disableable, and a failed
+        lookup never fails the scan.
+    </aside>
+</section>
+
+<!-- ==============================================================
+     SLIDE 12 — OVERVIEW · LIVE ACTIVITY + PROFILER
+============================================================== -->
+<section>
+    <h2>📡 Live Activity — and the per-request profiler</h2>
+
+    <div class="grid-2">
+        <div class="card t-teal">
+            <h3 class="teal">One feed, nine signals</h3>
+            <div class="tagrow">
+                <span class="tag">Requests</span><span class="tag">SQL</span><span class="tag">Exceptions</span>
+                <span class="tag">Security</span><span class="tag">Emails</span><span class="tag">Scheduled</span>
+                <span class="tag">Messaging</span><span class="tag">REST client</span><span class="tag">Cache</span>
+            </div>
+            <ul class="tight mt-sm">
+                <li>Signals <span class="ink fw-700">nest under the request</span> that caused them</li>
+                <li>Slow rows tinted on a heat scale at 100 / 200 / 500 / 1000&nbsp;ms</li>
+                <li>An <span class="tag rose">N+1</span> badge on the row itself — same rule the profiler uses, so the two never disagree</li>
+                <li>Refreshes over <span class="ink fw-700">Server-Sent Events</span>, not a polling timer</li>
+            </ul>
+        </div>
+        <div class="card t-blue">
+            <h3 class="blue">Click a request → the drawer</h3>
+            <div class="txt-xs muted" style="margin-bottom:.3em;">Every correlation is labelled with <em>how</em> it was established:</div>
+            <div class="tier"><span class="tn">Trace id</span> <span class="tag green">exact</span> <span class="muted">Micrometer traceId, threaded from the MDC</span></div>
+            <div class="tier"><span class="tn">Serving thread</span> <span class="tag green">exact</span> <span class="muted">The one worker that served it</span></div>
+            <div class="tier"><span class="tn">Time window</span> <span class="tag amber">approximate</span> <span class="muted">Method, path and window</span></div>
+            <ul class="tight mt-sm">
+                <li>It degrades gracefully and <span class="ink fw-700">never fabricates</span> a correlation</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md sm">
+        ⚡ Six of the nine signals reuse buffers other panels <em>already</em> fill — so the feed adds almost no new
+        instrumentation, and every value arrives already masked and bounded.
+    </div>
+
+    <aside class="notes">
+        Signature 3 in its purest form. "Exact" vs "approximate" printed in the UI is the detail people remember.
+    </aside>
+</section>
+
+<!-- ==============================================================
+     SLIDE 13 — RUNTIME GROUP
+============================================================== -->
+<section>
+    <h2>🔬 Runtime — ten panels on the running JVM</h2>
+
+    <p class="txt-sm muted" style="margin:-.1em 0 .6em;">
+        Memory, threads, startup, metrics and native-image readiness — read <span class="ink fw-700">in-process</span>, without attaching a profiler.
+    </p>
+
+    <div class="grid-2">
+        <div class="card t-teal">
+            <h3 class="teal">What the group covers</h3>
+            <ul class="tight">
+                <li><span class="ink fw-700">Live Memory</span> and <span class="ink fw-700">Threads</span> — heap, pools, thread states and deadlock detection, live</li>
+                <li><span class="ink fw-700">Heap Dump</span> — capture and analyse locally, class histogram only, never object values</li>
+                <li><span class="ink fw-700">Startup Timeline</span> and <span class="ink fw-700">Metrics</span> — where the seconds went, and every Micrometer meter grouped by who registered it</li>
+                <li><span class="ink fw-700">Health</span> and <span class="ink fw-700">HTTP Sessions</span> — the full contributor tree; sessions masked by default</li>
+                <li><span class="ink fw-700">GraalVM</span> and <span class="ink fw-700">CRaC</span> — 27 and 17 curated readiness checks</li>
+            </ul>
+        </div>
+        <div class="card t-indigo">
+            <h3 class="indigo">🎚️ And one that prescribes: JVM Tuning</h3>
+            <ul class="tight">
+                <li>Partitions a target process budget into heap, metaspace, code cache, direct memory, thread stacks and headroom — then hands you <span class="ink fw-700">copyable flags</span></li>
+                <li>Bare metal: fixed <span class="mono">-Xms</span> / <span class="mono">-Xmx</span>, keeping <span class="ink fw-700">your</span> collector</li>
+                <li>Kubernetes: equal request and limit, with <span class="mono">MaxRAMPercentage</span> in <span class="mono">JAVA_TOOL_OPTIONS</span></li>
+                <li>Labels Pod QoS <span class="tag amber">Depends on CPU</span> instead of claiming Guaranteed it can't verify</li>
+            </ul>
+        </div>
+    </div>
+
+    <aside class="notes">
+        Walk the left card quickly — it exists to show the group has real depth. Then land JVM Tuning as the one panel
+        that stops describing and starts prescribing.
+        The QoS caveat is the credibility moment — most tuning tools would just print "Guaranteed" and be wrong.
+        Two more honesty details if there is time: it detects virtual threads and still refuses to infer a smaller
+        native-stack budget from that signal, and in a GraalVM native image it hides itself entirely because none of it
+        applies.
+    </aside>
+</section>
+
+<!-- ==============================================================
+     SLIDE 14 — CONFIGURATION
+============================================================== -->
+<section>
+    <h2>⚙️ Configuration — what is <em>actually</em> effective</h2>
+
+    <div class="grid-2">
+        <div class="card t-blue">
+            <h3 class="blue">Read the truth, not the file</h3>
+            <ul class="tight">
+                <li>Every effective property with its <span class="ink fw-700">source</span>, metadata description and
+                    default — and its value already masked</li>
+                <li><span class="ink fw-700">Profile Diff</span>: exactly what changes between two local profiles</li>
+                <li><span class="ink fw-700">Conditions</span>: positive, negative and unconditional matches — why an
+                    auto-configuration applied, or why it was skipped</li>
+                <li><span class="ink fw-700">Beans</span> and <span class="ink fw-700">Mappings</span>: the wiring and
+                    the HTTP surface, read from the running route table</li>
+            </ul>
+        </div>
+        <div class="card t-violet">
+            <h3 class="violet">Then change it — with the caveat attached</h3>
+            <ul class="tight">
+                <li>Runtime overrides are persisted to
+                    <span class="mono">.bootui/application-bootui.properties</span> — a real file you can read and
+                    delete</li>
+                <li>Every mutation shows its <span class="ink fw-700">restart and rebinding caveat</span>, because not
+                    every property re-binds live</li>
+                <li>Big property, bean, condition and mapping tables page <span class="ink fw-700">server-side</span>,
+                    and filters run on the server — the browser never needs the full report</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md sm">
+        🫥 These panels hide <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">BootUI's own beans, conditions, loggers and metrics</span>
+        by default. The console must not show up in its own answers.
+    </div>
+
+    <aside class="notes">
+        The override file is the honest bit: BootUI does not pretend a live property change is free — it names the
+        restart or rebinding caveat next to the thing you just changed. And self-exclusion is a small detail that
+        people notice immediately when a tool gets it wrong.
+    </aside>
+</section>
+
+<!-- ==============================================================
+     SLIDE 15 — DATABASE · SQL TRACE
+============================================================== -->
+<section>
+    <h2>🗄️ SQL Trace — no proxy library, no guessing</h2>
+
+    <div class="grid-2">
+        <div class="card t-emerald">
+            <h3 class="emerald">Capture</h3>
+            <ul class="tight">
+                <li>A hand-written JDBC tracer on the <span class="ink fw-700">JDK's own dynamic proxies</span> — BootUI bundles <span class="ink fw-700">no</span> database-proxy library</li>
+                <li>Wrapping <span class="tag green">fails open</span>: a <span class="mono">DataSource</span> that can't be proxied is left untouched rather than breaking startup</li>
+                <li>Works in a <span class="ink fw-700">GraalVM native image</span> — the proxies are registered as native metadata</li>
+                <li>Quarkus reaches parity with <span class="ink fw-700">two feeders</span>: an Agroal <span class="mono">@Alternative</span> plus a Hibernate <span class="mono">StatementInspector</span>, because ORM SQL bypasses the CDI <span class="mono">DataSource</span></li>
+            </ul>
+        </div>
+        <div class="card t-blue">
+            <h3 class="blue">Read</h3>
+            <ul class="tight">
+                <li>Rankings normalize literals and bind markers to <span class="mono">?</span> and fold <span class="mono">IN (…)</span> — equivalent statements group <span class="ink fw-700">without ever exposing a bound value</span></li>
+                <li><span class="ink fw-700">Database time by request route</span> — which endpoint is spending your database budget</li>
+                <li>N+1 groups list the distinct <span class="ink fw-700">call sites</span>: class, method, line</li>
+                <li>Unplaceable statements go to explicit <span class="tag slate">Unattributed</span> and <span class="tag slate">Ambiguous</span> buckets</li>
+            </ul>
+        </div>
+    </div>
+
+    <aside class="notes">
+        Best technical slide in the deck. If time is short, drop the GraalVM bullet.
+        The privacy story behind the Unattributed/Ambiguous buckets, if you want it: to group SQL by endpoint BootUI
+        needs a route template like /api/users/{id}. When the framework doesn't supply one it matches the real URL
+        against your declared routes, and only accepts an exact, unambiguous match — because it cannot tell whether
+        "alice" in /api/users/alice is a username or a fixed segment, and masking can't tell either. Two equally
+        plausible routes produce no template at all. That is why the buckets exist.
+    </aside>
+</section>
+
+<!-- ==============================================================
+     SLIDE 16 — DATABASE · TRANSACTIONS
+============================================================== -->
+<section>
+    <h2>🔄 Transactions — the boundaries nobody shows you</h2>
+
+    <div class="grid-2">
+        <div class="card t-indigo">
+            <h3 class="indigo">Captured by Spring's own SPI</h3>
+            <ul class="tight">
+                <li>A <span class="mono">TransactionExecutionListener</span> (Spring Framework 6.1+) — <span class="ink fw-700">BootUI's own wiring</span>, not a third-party observability library</li>
+                <li>It <span class="ink fw-700">composes with</span>, never replaces, your transaction management and your own listeners</li>
+                <li>Managers that don't implement the SPI simply stay <span class="ink fw-700">unobserved</span> — nothing is monkey-patched to force it</li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">What a boundary records</h3>
+            <ul class="tight">
+                <li>A <span class="ink fw-700">parent/child tree</span> — nested calls sit under their root</li>
+                <li>Propagation as <span class="tag">NEW</span> or <span class="tag">PARTICIPATING</span> — and it says plainly that Spring's SPI does <em>not</em> expose the declared <span class="mono">@Transactional</span> enum</li>
+                <li>Isolation at begin, outcome (<span class="mono">COMMITTED</span> / <span class="mono">ROLLED_BACK</span> / <span class="mono">UNKNOWN</span>), thread, trace id</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md sm">
+        🔗 Each transaction is correlated to <span class="ink fw-700">SQL Trace</span> by thread and time window — so you see how many
+        statements and how many JDBC connections a boundary touched,
+        <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">without instrumenting anything twice.</span>
+    </div>
+
+    <div class="txt-xs muted mt-sm center">
+        Fails closed with a clear reason when there's no <span class="mono">PlatformTransactionManager</span>, or on a WebFlux app using only R2DBC.
+        Honestly <span class="tag amber">not applicable</span> on Quarkus: Narayana and the CDI interceptor expose no comparable per-boundary hook.
+    </div>
+
+    <aside class="notes">
+        The N/A footnote is the point, not an apology: they refused to fake parity with invasive instrumentation.
+    </aside>
+</section>
+
+<!-- ==============================================================
+     SLIDE 17 — SECURITY
+============================================================== -->
+<section>
+    <h2>🔐 Security — who can reach what, and who got refused</h2>
+
+    <div class="grid-2">
+        <div class="card t-violet">
+            <h3 class="violet">Spring Security — the chains, explained</h3>
+            <ul class="tight">
+                <li>Filter chains and per-endpoint rule explanations, without exposing credentials</li>
+                <li>Explain builds a <span class="ink fw-700">stub request carrying only the path and method</span> —
+                    never your headers, cookies, principal or session</li>
+                <li>What it can't determine is marked <span class="tag amber">best effort</span>, not guessed</li>
+                <li>WebFlux reads reactive <span class="mono">SecurityWebFilterChain</span> beans, non-blocking</li>
+                <li>Quarkus has no filter chains: <span class="tag slate">not applicable</span>, and the advisor swaps
+                    in <span class="ink fw-700">49 Quarkus-native checks</span></li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">Security Logs — who was refused, and when</h3>
+            <ul class="tight">
+                <li>Authentication successes and failures, authorization denials — filtered by principal, type and
+                    time window</li>
+                <li>Live over <span class="ink fw-700">SSE</span>: the browser re-fetches when the server signals a new
+                    audit event, instead of polling on a timer</li>
+                <li>Bounded to <span class="mono">500</span> events, masked before rendering</li>
+                <li>Quarkus is <span class="tag amber">honestly partial</span>: CDI security events carry no
+                    logout or session equivalent, and the panel says so</li>
+            </ul>
+        </div>
+    </div>
+
+    <aside class="notes">
+        This is signature 2 at its sharpest — open on capture, closed on data. The naive implementation replays the
+        current request through the filter chain, which would leak the answer for *you* rather than the endpoint.
+        BootUI refuses, and labels what it could not determine: asking "who can reach this endpoint?" must never
+        become an authorization decision made with your credentials.
+        Concretely, on MVC it is an ExplainRequest — a hand-written HttpServletRequest built from just the method and
+        path you typed. Principal, cookies and session all return null. And any matcher that reaches for a header or
+        session flips a bestEffort flag, so the panel shows reduced confidence rather than a confident wrong answer.
+        WebFlux does the same with a sanitized ServerWebExchange.
+        The Quarkus bullet is the parity story in miniature: rather than fake a filter-chain view that Quarkus doesn't
+        have, the panel says so and the ruleset is rewritten for Elytron/OIDC under the same panel id — permission
+        policies, TLS, CORS, Jakarta security annotations, @PermissionsAllowed and @AuthorizationPolicy.
+    </aside>
+</section>
+
+<!-- ==============================================================
+     SLIDE 18 — SERVICES
+============================================================== -->
+<section>
+    <h2>🔌 Support for all the main services your app uses</h2>
+
+    <div class="feat-grid c5" style="margin-bottom:.7em;">
+        <div class="feat"><b>Scheduled Tasks</b>Executions, not just declarations</div>
+        <div class="feat"><b>REST Client</b>Outbound HTTP calls</div>
+        <div class="feat"><b>Fault Tolerance</b>Breakers, retries, bulkheads</div>
+        <div class="feat"><b>WebSockets</b>Sessions and frames</div>
+        <div class="feat"><b>AI Framework</b>Spring AI · LangChain4j</div>
+        <div class="feat"><b>Cache</b>Hit ratios and tiering</div>
+        <div class="feat"><b>Email</b>Captured outgoing mail</div>
+        <div class="feat"><b>Kafka</b>Produced and consumed</div>
+        <div class="feat"><b>RabbitMQ</b>Publishes and deliveries</div>
+        <div class="feat"><b>JMS</b>Spring messaging</div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card t-emerald">
+            <h3 class="emerald">Still no proxy libraries</h3>
+            <ul class="tight">
+                <li>Spring's own <span class="mono">RestClientCustomizer</span> / <span class="mono">RestTemplateCustomizer</span>; on Quarkus, the MicroProfile <span class="mono">RestClientListener</span> SPI</li>
+                <li>Email decorates <span class="mono">JavaMailSender</span> and records <em>before</em> delegating — pass-through by default</li>
+                <li>A capture failure <span class="ink fw-700">never disrupts the call itself</span></li>
+            </ul>
+        </div>
+        <div class="card t-blue">
+            <h3 class="blue">Distinctions that matter</h3>
+            <ul class="tight">
+                <li><span class="ink fw-700">Failed</span> (connection refused, timeout, DNS) is counted separately from <span class="ink fw-700">Error responses</span> (4xx/5xx) — most tools blur these</li>
+                <li><span class="tag amber">chatty</span> is flagged for <span class="ink fw-700">any</span> method: a looped <span class="mono">POST</span> costs as much as a looped <span class="mono">GET</span></li>
+                <li>Email's opt-in <span class="mono">dev-trap</span> is <span class="ink fw-700">off by default</span>, so BootUI never silently swallows your mail</li>
+            </ul>
+        </div>
+    </div>
+
+    <aside class="notes">
+        Breadth slide — move fast. Land the two-failure-counts distinction and the dev-trap default; skip the rest.
+    </aside>
+</section>
+
+<!-- ==============================================================
+     SLIDE 19 — DIAGNOSTICS · OPENTELEMETRY
+============================================================== -->
+<section>
+    <h2>🔭 OpenTelemetry — one pipeline, four panels</h2>
+
+    <div class="grid-2">
+        <div class="card t-cyan">
+            <h3 class="cyan">Tracing with zero configuration</h3>
+            <ul class="tight">
+                <li>The starter contributes the tracing dependencies and the sampling default — <span class="ink fw-700">you write no <span class="mono">management.*</span> properties</span></li>
+                <li>Sampling is raised to <span class="mono">1.0</span> locally, so every request produces spans</li>
+                <li>…and it pins <span class="mono">io.opentelemetry</span> / <span class="mono">io.micrometer.tracing</span> to <span class="mono">INFO</span> so a <span class="mono">DEBUG</span> root logger doesn't flood your console</li>
+                <li>Self-traces are dropped <span class="ink fw-700">whole</span>: recognize one BootUI span, discard the entire trace</li>
+            </ul>
+        </div>
+        <div class="card t-violet">
+            <h3 class="violet">An OTLP receiver <em>inside</em> your app</h3>
+            <ul class="tight">
+                <li><span class="mono">POST /bootui/api/otlp/v1/traces</span> — cooperating local services export spans <span class="ink fw-700">into your app's console</span></li>
+                <li>Open a trace: a <span class="ink fw-700">waterfall</span> across services, with errors and parent/child spans</li>
+                <li>On Quarkus: in-process <span class="mono">SpanProcessor</span> with <span class="mono">quarkus-opentelemetry</span> — same store, same panel</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md sm">
+        🕸️ And it's the <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">spine of the product</span>:
+        tier-1 correlation for the profiler · route attribution for SQL · the <em>only</em> way to correlate requests on
+        Quarkus and WebFlux · and the source for the <span class="ink fw-700">AI Framework</span> panel — Spring AI and
+        LangChain4j GenAI spans, grouped by conversation, with token usage.
+    </div>
+
+    <aside class="notes">
+        The "mini local tracing backend" beat usually gets an audible reaction. Pause after it.
+    </aside>
+</section>
+
+<!-- ==============================================================
+     SLIDE 20 — DIAGNOSTICS · EXCEPTIONS
+============================================================== -->
+<section>
+    <h2>💥 Exceptions — triage, with regression detection</h2>
+
+    <div class="grid-2">
+        <div class="card t-rose">
+            <h3 class="rose">Grouped, not streamed</h3>
+            <ul class="tight">
+                <li>A <span class="ink fw-700">stable fingerprint</span> from exception type + top frames collapses a recurring error into one row</li>
+                <li>Two sources on Spring MVC: a non-intrusive <span class="mono">HandlerExceptionResolver</span> <em>and</em> a logback appender for scheduled, async and <span class="mono">log.error(…, ex)</span></li>
+                <li>A failure that is both handled <em>and</em> logged is de-duplicated by <span class="ink fw-700">throwable identity</span> — counted once</li>
+                <li>Application frames highlighted; full cause chain with <span class="mono">… N more</span> folding</li>
+            </ul>
+        </div>
+        <div class="card t-amber">
+            <h3 class="amber">Sentry-style status, one click</h3>
+            <table class="dtable" style="font-size:var(--t-xs);">
+                <tbody>
+                    <tr><td class="nm">Open</td><td>Default for every new group</td></tr>
+                    <tr><td class="nm">Acknowledged</td><td>Seen — keeps accumulating, never auto-transitions</td></tr>
+                    <tr><td class="nm">Resolved</td><td>Believed fixed</td></tr>
+                </tbody>
+            </table>
+            <div class="txt-xs mt-sm" style="color:var(--ink-soft);">
+                If a <span class="ink fw-700">Resolved</span> group throws again, it <span class="ink fw-700">regresses</span>: back to Open, and a lifetime
+                <span class="tag rose">Reopened ×N</span> counter appears on the badge.
+            </div>
+            <ul class="tight mt-sm">
+                <li>Bounded on purpose: <code>100</code> groups, <code>25</code> occurrences each, <code>50</code> frames — the
+                    least-recently-seen group is evicted</li>
+                <li>Clear is an <span class="ink fw-700">explicit action</span>, and it honours the panel's read-only setting</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md sm">
+        🔁 A failure you thought you had fixed <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">announces itself.</span>
+        That is the whole feature.
+    </div>
+
+    <div class="txt-xs muted mt-sm center">
+        Triage and regression live in the <span class="ink fw-700">engine</span>, so they behave identically on all three stacks — only capture sources differ.
+        WebFlux carries one <em>documented</em> gap: a controller's own <span class="mono">@ExceptionHandler</span> consumes the exception before any <span class="mono">WebExceptionHandler</span> sees it.
+    </div>
+
+    <aside class="notes">
+        This is the demo beat later — resolve a group, re-trigger it, watch "Reopened ×1" appear.
+    </aside>
+</section>
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 21 — DEMO
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🎬 Demo — five minutes, four beats</h2>
+
+    <p class="txt-sm muted" style="margin:-.1em 0 .5em;">
+        The Spring sample app, running locally. Nothing pre-warmed, nothing pre-scanned.
+    </p>
+
+    <div class="pb-item"><span class="pb-num">1</span><span class="pb-text"><b>Understand an unfamiliar app in 90 seconds.</b> Open <span class="mono">/bootui</span> — framework, version, active profiles, health. Then Beans and Conditions: what is wired, and <em>why</em> that auto-configuration was skipped.</span></div>
+    <div class="pb-item"><span class="pb-num">2</span><span class="pb-text"><b>Run all scanners.</b> Watch the score appear from nothing, then open one real finding and read its recommendation.</span></div>
+    <div class="pb-item"><span class="pb-num">3</span><span class="pb-text"><b>Trigger a slow request with an N+1.</b> Live Activity shows the row tinted and badged; click it to open the profiler drawer, and follow it into SQL Trace — down to the call site.</span></div>
+    <div class="pb-item"><span class="pb-num">4</span><span class="pb-text"><b>Resolve an exception. Then throw it again.</b> The group reopens with <span class="tag rose">Reopened ×1</span>.</span></div>
+
+    <div class="txt-xs muted mt-md center">
+        🛟 The next five slides are screenshots of every beat — if the demo gods are unkind,
+        <span class="ink fw-700">keep talking and keep moving</span>.
+    </div>
+
+    <aside class="notes">
+        Hard stop at 5 minutes. If beat 3 runs long, cut beat 4 and describe it — slide 20 already made the point.
+        Have the sample app already running and the browser already open on a blank tab.
+        FALLBACK: slides 22-26 are screenshots of each beat. If the live demo worked, click through them fast as a
+        recap, or skip to slide 27.
+    </aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 22 — FALLBACK · BEAT 1 (Beans)
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="shot-head">
+        <span class="shot-eyebrow">Fallback · Beat 1</span>
+        <span class="shot-title">Understand an unfamiliar app — Beans, focused dependency neighbourhood</span>
+    </div>
+    <img class="shot" src="img/bootui-beans.webp" alt="BootUI Beans panel showing a focused dependency graph around sampleController" />
+    <div class="shot-cap">
+        Focus a bean and see only its neighbourhood — dependencies, dependents, scope, and
+        <span class="ink fw-700">why this bean exists</span>. Not a 400-node hairball.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 23 — FALLBACK · BEAT 2 (Overview + score)
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="shot-head">
+        <span class="shot-eyebrow">Fallback · Beat 2</span>
+        <span class="shot-title">Run all scanners — the score appears from nothing</span>
+    </div>
+    <img class="shot" src="img/bootui-overview.webp" alt="BootUI Overview panel showing an overall score of 86 out of 100 with 10 of 10 scanners scored" />
+    <div class="shot-cap">
+        <span class="ink fw-700">86 / 100</span>, and — the important part —
+        <span class="mono">10 of 10 scanners scored</span>. Before the run it says <em>0 of 10</em>, never a fake zero.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 24 — FALLBACK · BEAT 3a (Live Activity)
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="shot-head">
+        <span class="shot-eyebrow">Fallback · Beat 3a</span>
+        <span class="shot-title">Live Activity — nine signals, and a live service map</span>
+    </div>
+    <img class="shot" src="img/bootui-activity.webp" alt="BootUI Live Activity panel with nine signal tiles and a live flow service map" />
+    <div class="shot-cap">
+        The map is assembled from evidence BootUI <span class="ink fw-700">already retained</span> — opening it
+        contacts nothing and probes nothing.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 25 — FALLBACK · BEAT 3b (SQL Trace)
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="shot-head">
+        <span class="shot-eyebrow">Fallback · Beat 3b</span>
+        <span class="shot-title">SQL Trace — the N+1, down to the call site</span>
+    </div>
+    <img class="shot" src="img/bootui-sql-trace.webp" alt="BootUI SQL Trace panel with statement rankings and a possible N+1 badge" />
+    <div class="shot-cap">
+        <span class="tag amber">possible N+1</span> on a normalized statement — with
+        <span class="mono">OrderService</span> named as the call site, and not one bound parameter on screen.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 26 — FALLBACK · BEAT 4 (Exceptions)
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="shot-head">
+        <span class="shot-eyebrow">Fallback · Beat 4</span>
+        <span class="shot-title">Exceptions — resolved, then thrown again</span>
+    </div>
+    <img class="shot" src="img/bootui-exceptions.webp" alt="BootUI Exceptions panel showing a group marked Resolved with a Reopened times 2 badge" />
+    <div class="shot-cap">
+        <span class="tag green">Resolved</span> <span class="tag rose">Reopened ×2</span> — the regression announces
+        itself. Note the message: <span class="mono">apiToken=******</span>, masked before it left the process.
+    </div>
+
+    <aside class="notes">
+        Last fallback. Next slide is divider 04 — the second user.
+    </aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 27 — DIVIDER 04 · THE SECOND USER
+══════════════════════════════════════════════════════════════ -->
+<section data-background-color="#e8eef9" data-background-gradient="radial-gradient(900px 540px at 86% -6%, #dde6f9 0%, transparent 56%), radial-gradient(820px 540px at 0% 104%, #d8eef0 0%, transparent 55%), #e8eef9">
+    <div class="divider divider-wrap">
+        <div class="divider-kicker">Part 04 · The second user</div>
+        <div class="divider-num" style="-webkit-text-stroke:3px var(--emerald);">04</div>
+        <h1>Your agent reads the same panels.</h1>
+        <div class="sub">An AI agent reading only your source code is guessing about the runtime.</div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 28 — MCP SERVER
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🤖 The MCP server — opt-in, loopback, same DTOs</h2>
+
+    <div class="grid-2">
+        <div class="card t-blue">
+            <h3 class="blue">Point an agent at it</h3>
+<div class="codeblock">{
+  <span class="k">"servers"</span>: {
+    <span class="k">"bootui"</span>: {
+      <span class="k">"type"</span>: <span class="s">"http"</span>,
+      <span class="k">"url"</span>: <span class="s">"http://127.0.0.1:8080/bootui/api/mcp"</span>
+    }
+  }
+}</div>
+            <ul class="tight mt-sm">
+                <li><span class="ink fw-700">Disabled by default.</span> Flip it on in the panel for the life of the process</li>
+                <li>No credentials needed on loopback — the panel shows the config, ready to copy</li>
+            </ul>
+        </div>
+        <div class="card t-emerald">
+            <h3 class="emerald">What it exposes</h3>
+            <table class="dtable" style="font-size:var(--t-xs);">
+                <tbody>
+                    <tr><td class="num">11</td><td>advisor scans — the same button the panel runs</td></tr>
+                    <tr><td class="num">11</td><td>cached reports — read without re-scanning</td></tr>
+                    <tr><td class="num">10</td><td>diagnostics reads — activity, exceptions, SQL, traces</td></tr>
+                    <tr><td class="num">33</td><td>context reads — overview, health, config, beans, mappings…</td></tr>
+                    <tr><td class="num">14</td><td>bounded controls — clear, pause, resume</td></tr>
+                </tbody>
+            </table>
+            <div class="txt-xs muted mt-xs">Tools whose panel is absent are simply <span class="ink fw-700">not advertised</span>.</div>
+            <div class="stat-strip mt-sm">
+                <div><span class="stat-inline indigo">≈79</span> <span class="txt-xs muted">tools · one loopback endpoint</span></div>
+                <div><span class="stat-inline emerald">0</span> <span class="txt-xs muted">screenshots to interpret</span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="banner mt-md sm">
+        🛡️ Same controllers. Same masking. Same rules — action tools are <span class="ink fw-700">refused</span> when a panel is read-only,
+        and the controls can never capture a heap dump, probe, mutate a database or clear a cache.
+    </div>
+
+    <aside class="notes">
+        Emphasise: the agent sees exactly the masked, bounded shape a human sees. It is not a privileged back door.
+    </aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 29 — THE FIX-AND-VERIFY LOOP
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🔁 The loop that closes</h2>
+
+    <div class="pb-item"><span class="pb-num">1</span><span class="pb-text"><b>Consult.</b> The agent calls <span class="mono">hibernate_scan</span> against your <em>running</em> app and gets severity-ranked findings with remediation hints.</span></div>
+    <div class="pb-item"><span class="pb-num">2</span><span class="pb-text"><b>Correlate.</b> <span class="mono">get_live_activity</span> and <span class="mono">get_exception_detail(id)</span> tie a failure to the request, the SQL and the full stack trace behind it.</span></div>
+    <div class="pb-item"><span class="pb-num">3</span><span class="pb-text"><b>Fix.</b> It edits your source with runtime evidence instead of a guess about what the code probably does.</span></div>
+    <div class="pb-item"><span class="pb-num">4</span><span class="pb-text"><b>Verify.</b> It rescans. The finding is gone, or it isn't — and it can tell the difference.</span></div>
+
+    <div class="grid-2 mt-md">
+        <div class="card t-violet">
+            <h3 class="violet">Teach the agent first</h3>
+<div class="codeblock"><span class="c"># inspect it before you trust it</span>
+gh skill preview jdubois/boot-ui bootui
+
+<span class="c"># then install for this project</span>
+gh skill install jdubois/boot-ui bootui</div>
+        </div>
+        <div class="card t-blue">
+            <h3 class="blue">Why it works</h3>
+            <ul class="tight">
+                <li>Source code says what <em>should</em> happen</li>
+                <li>BootUI says what <span class="ink fw-700">is</span> happening</li>
+                <li>The gap between those two is where your bug lives</li>
+            </ul>
+        </div>
+    </div>
+
+    <aside class="notes">
+        Land the last line hard — it is the whole argument for exposing a console to an agent.
+    </aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 30 — LEARN MORE
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>📚 Learn more</h2>
+
+    <div class="grid-3">
+        <div class="card t-blue">
+            <h3 class="blue">Read</h3>
+            <ul class="tight">
+                <li><span class="mono">julien-dubois.com/boot-ui</span> — the documentation site</li>
+                <li><span class="mono">/features</span> — every panel, group by group</li>
+                <li><span class="mono">/properties</span> — the full configuration reference</li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">Try</h3>
+            <ul class="tight">
+                <li><span class="mono">/setup</span> — Spring Boot and Quarkus in a few lines</li>
+                <li><span class="mono">/try-sample-app</span> — a running app, already wired up</li>
+                <li>Or just add the dependency to a project you already have</li>
+            </ul>
+        </div>
+        <div class="card t-violet">
+            <h3 class="violet">Wire up your agent</h3>
+            <ul class="tight">
+                <li><span class="mono">/ai-agents</span> — the MCP server, end to end</li>
+                <li>Works with Copilot, Claude Code and any MCP client</li>
+                <li>Off by default — one property turns it on</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md">
+        ⭐ If any of this was useful, star the repo — it is the single best way to help:
+        <span class="mono" style="white-space:nowrap;">github.com/jdubois/boot-ui</span>
+    </div>
+
+    <aside class="notes">
+        Ask for the star explicitly and without apology — it is the one thing the room can do in ten seconds.
+        Everything here is also on the last slide, so don't read the URLs out; point at the two that matter for the
+        person asking.
+    </aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 31 — OUTRO
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="outro-wrap">
+        <div style="display:flex;gap:.5em;flex-wrap:wrap;margin-bottom:.7em;">
+            <span class="chip">Apache 2.0</span>
+            <span class="chip blue">Maven Central</span>
+            <span class="chip teal">Spring Boot 4 · Quarkus 3 LTS · Java 17</span>
+        </div>
+
+        <h1 style="font-size:var(--t-display);margin:.1em 0 0;">Go turn the <span class="grad">lights on.</span> 🔦</h1>
+
+        <div class="sg" style="font-size:.8em;font-weight:600;margin-top:.6em;color:var(--ink-soft);">
+            Add one dependency. Open <span class="mono">/bootui</span>. Ask your app a question.
+        </div>
+
+        <div class="grid-3 mt-md">
+            <div class="feat"><b>🟢 BootUI</b>Observes the app from the inside — <span class="mono">julien-dubois.com/boot-ui</span></div>
+            <div class="feat"><b>🔵 Coffilot</b>Builds, runs and scans it from the Copilot side panel</div>
+            <div class="feat"><b>🟤 Dr JSkill</b>Generates the Spring Boot app to start from</div>
+        </div>
+
+        <div class="mono muted" style="font-size:.5em;margin-top:1.3em;letter-spacing:.02em;">
+            🌐 julien-dubois.com&nbsp;&nbsp;·&nbsp;&nbsp;𝕏 @juliendubois&nbsp;&nbsp;·&nbsp;&nbsp;🐙 github.com/jdubois/boot-ui&nbsp;&nbsp;·&nbsp;&nbsp;📚 julien-dubois.com/boot-ui
+        </div>
+    </div>
+
+    <aside class="notes">Leave this up for questions.</aside>
+</section>
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<!-- ── Reveal.js ─────────────────────────────────────────────────── -->
+<script src="vendor/reveal/reveal.js"></script>
+<script src="vendor/reveal/plugin/notes.js"></script>
+
+<script>
+Reveal.initialize({
+    hash:                 true,
+    slideNumber:          'c/t',
+    transition:           'slide',
+    transitionSpeed:      'default',
+    backgroundTransition: 'none',
+    center:               true,
+    width:                1280,
+    height:               720,
+    margin:               0.04,
+    autoAnimate:          false,
+    plugins: [ RevealNotes ],
+});
+</script>
+</body>
+</html>
