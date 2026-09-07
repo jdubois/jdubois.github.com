@@ -389,6 +389,7 @@
         .feat { background:#f3f7fc; border:1px solid var(--line); border-radius:12px; padding:.55em .7em; font-size:var(--t-xs); color:var(--muted); line-height:1.4; }
         .feat b { color:var(--ink); font-family:'Space Grotesk',sans-serif; font-weight:600; }
     </style>
+    <link rel="stylesheet" href="closing.css" />
 </head>
 <body>
 <div class="reveal">
@@ -581,7 +582,7 @@
     <div class="divider divider-wrap">
         <div class="divider-kicker">Part 01 · The proof</div>
         <div class="divider-num" style="-webkit-text-stroke:3px var(--blue);">01</div>
-        <h1>Does it really count?</h1>
+        <h1>Calculating the performance gains</h1>
         <div class="sub">11 days of agents vs. the honest by-hand estimate.</div>
     </div>
 </section>
@@ -1053,7 +1054,7 @@
             </ul>
         </div>
         <div class="card t-teal">
-            <h3 class="teal">⚙️ The gate runs itself</h3>
+            <h3 class="teal">⚙️ Automated checks on every PR</h3>
             <ul>
                 <li><span class="ink fw-700">11 checks per PR</span>: build, tests, CodeQL, cross-platform, JDK matrix</li>
                 <li>Agent code is judged by <span class="ink fw-700">the same gates as mine</span></li>
@@ -1240,6 +1241,227 @@
             ⭐ <span class="repo-pill">github.com/jdubois/boot-ui</span> &nbsp;·&nbsp; <b>273 stars</b> &nbsp;·&nbsp; Apache 2.0 &nbsp;·&nbsp; docs at <b>julien-dubois.com/boot-ui</b>
         </span>
     </div>
+</section>
+
+<!-- Closing section: the GitHub advantage and token economics. -->
+<section id="github-advantage" class="closing-section" data-background-color="#e8eef9">
+    <div class="divider divider-wrap">
+        <div class="divider-kicker">Part 03 · The GitHub advantage</div>
+        <div class="divider-num">03</div>
+        <h1>The GitHub <span class="grad">advantage</span></h1>
+        <div class="sub">The platform, the models, and the economics.</div>
+        <p class="txt-sm muted mt-md">Copilot writes the code. The platform around it helps you ship it.</p>
+    </div>
+    <aside class="notes">A closing section adapted from the GitHub advantage slides in the AI coding presentation. Connect the recipe to GitHub's delivery platform, then explain how Auto, caching and HydraFusion change the economics. The original presentation before this section is unchanged.</aside>
+</section>
+
+<section id="github-loop" class="closing-section">
+    <h2>🔗 One loop, one platform</h2>
+    <p class="txt-sm muted closing-lede">The brief, the agent, the review and the release stay connected.</p>
+    <div class="closing-flow">
+        <div class="card t-blue">
+            <h3>🎫 Issue &amp; board</h3>
+            <div class="txt-xs muted">The brief lives with the code: scope, priorities and acceptance criteria.</div>
+        </div>
+        <div class="card t-violet">
+            <h3>🤖 Copilot agent</h3>
+            <div class="txt-xs muted">CLI, app or cloud: work from task context and repository instructions.</div>
+        </div>
+        <div class="card t-violet">
+            <h3>🔀 Pull request</h3>
+            <div class="txt-xs muted">The unit of review: diff, evidence and conversation in one place.</div>
+        </div>
+        <div class="card t-teal">
+            <h3>⚙️ Actions + security</h3>
+            <div class="txt-xs muted">Build, tests, CodeQL and compatibility checks give feedback.</div>
+        </div>
+        <div class="card t-emerald">
+            <h3>🚢 Merge &amp; release</h3>
+            <div class="txt-xs muted">Required checks, review approvals and release workflows.</div>
+        </div>
+    </div>
+    <div class="banner mt-md">The agent's work is judged by the <b>same acceptance gates as mine.</b></div>
+    <p class="closing-source"><a href="https://github.com/jdubois/boot-ui/actions" target="_blank" rel="noopener noreferrer">BootUI Actions</a> · <a href="https://github.com/jdubois/boot-ui/pulls" target="_blank" rel="noopener noreferrer">Pull requests</a></p>
+    <aside class="notes">Adapted from AI coding's One loop, one platform slide. Walk left to right. The platform reduces handoffs, but setup, permissions and integration still require engineering. Different clients can support different instruction mechanisms. Checks and review rules only enforce what is actually configured.</aside>
+</section>
+
+<section id="github-cloud" class="closing-section">
+    <h2>☁️ Cloud agents extend the workspace</h2>
+    <p class="txt-sm muted closing-lede">A historical snapshot of <span class="ink fw-700">300 merged BootUI PRs</span>, from the AI coding presentation.</p>
+    <div class="closing-authors" role="img" aria-label="Of 300 PRs, Julien authored 184, Dependabot 60, and Copilot 56.">
+        <div class="author-human">Me · 184</div>
+        <div class="author-dependabot">Dependabot · 60</div>
+        <div class="author-copilot">Copilot · 56</div>
+    </div>
+    <p class="txt-xs muted">61% me · 20% Dependabot · 19% Copilot. Authorship does not measure human involvement.</p>
+    <div class="grid-2 mt-md">
+        <div class="card t-violet">
+            <h3>📱 Assign an issue, close the laptop</h3>
+            <ul>
+                <li>Assign an issue to Copilot, including from mobile</li>
+                <li>The cloud agent works in its own environment</li>
+                <li>Review its PR, checks and proposed changes</li>
+            </ul>
+        </div>
+        <div class="card t-emerald">
+            <h3>🌱 Keep the maintenance queue moving</h3>
+            <ul>
+                <li>Dependabot proposes dependency updates</li>
+                <li>Delegate failed upgrades or follow-up fixes to an agent</li>
+                <li>Keep human attention on design and review</li>
+            </ul>
+        </div>
+    </div>
+    <div class="banner night mt-md closing-callout">Parallelism can extend beyond my laptop. <b>The runners are the machine.</b></div>
+    <p class="closing-source"><a href="../ai-coding/index-en.html#/25" target="_blank" rel="noopener noreferrer">Original 300-PR snapshot</a> · date not recorded; not the v1.0.0 sprint.</p>
+    <aside class="notes">These are the original AI coding deck's counts, not a fresh measurement. 116 of 300 PRs, about 39%, had bot authors. This does not prove that the work involved no human direction, local execution or review. A human-authored PR may also contain agent work. Dependabot repair requires explicit delegation or a configured workflow; it is not an assumed automatic feature.</aside>
+</section>
+
+<section id="github-security" class="closing-section">
+    <h2>🛡️ Review that scales with the output</h2>
+    <p class="txt-sm muted closing-lede">More code per day needs more feedback per day. Use the platform's verification layers.</p>
+    <div class="grid-3">
+        <div class="card t-blue">
+            <h3>🔍 CodeQL &amp; review</h3>
+            <ul class="compact">
+                <li>Analyze both Java and JavaScript changes</li>
+                <li>Bring findings into the PR conversation</li>
+                <li>Ask the agent to address review feedback</li>
+            </ul>
+        </div>
+        <div class="card t-emerald">
+            <h3>📦 Supply chain</h3>
+            <ul class="compact">
+                <li>Dependabot for updates and known vulnerabilities</li>
+                <li>Secret scanning and push protection for supported credential patterns</li>
+                <li>Pinned action SHAs and dependency guardrails</li>
+            </ul>
+        </div>
+        <div class="card t-amber">
+            <h3>🧱 Rules of the road</h3>
+            <ul class="compact">
+                <li>Required checks and review approvals</li>
+                <li>CODEOWNERS and PR templates for agent changes too</li>
+                <li>PR conversations and logs for traceability</li>
+            </ul>
+        </div>
+    </div>
+    <div class="banner green mt-md closing-callout">The verification layer already exists. <b>Use it for human and agent contributions alike.</b></div>
+    <p class="closing-source"><a href="https://docs.github.com/en/code-security" target="_blank" rel="noopener noreferrer">GitHub security documentation</a> · availability and enforcement depend on configuration.</p>
+    <aside class="notes">Adapted from AI coding's Review that scales with the output. These are layered controls, not a guarantee that code is safe. Push protection detects supported patterns and can have configured bypass paths. Review and branch rules must be enabled to enforce anything. Automated review supports accountable maintainers; logs support traceability, not necessarily full replay. Undated alert counts from the other deck are not presented as current facts.</aside>
+</section>
+
+<section id="token-economics" class="closing-section">
+    <h2>💰 Token economics: what Copilot meters</h2>
+    <div class="banner">On usage-based plans, <b>1 AI credit = $0.01 of usage.</b></div>
+    <div class="grid-2 mt-md">
+        <div class="card t-blue">
+            <h3>📥 Fresh input</h3>
+            <div class="txt-sm muted">The context sent to the model, priced at its input rate.</div>
+        </div>
+        <div class="card t-emerald">
+            <h3>♻️ Cached input</h3>
+            <div class="txt-sm muted">Reused context, priced at a separate, lower rate.</div>
+        </div>
+        <div class="card t-violet">
+            <h3>🗃️ Cache writes</h3>
+            <div class="txt-sm muted">Some models also charge to populate the cache.</div>
+        </div>
+        <div class="card t-teal">
+            <h3>📤 Output</h3>
+            <div class="txt-sm muted">Generated tokens, priced at the model's output rate.</div>
+        </div>
+    </div>
+    <p class="txt-sm muted mt-md center">Count the whole workflow: <span class="ink fw-700">draft, review, revision, retries and escalation.</span></p>
+    <p class="closing-source"><a href="https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing" target="_blank" rel="noopener noreferrer">GitHub model pricing</a> · 7 September 2026 · legacy annual request-based plans differ.</p>
+    <aside class="notes">The subscription determines included allowances and additional-usage arrangements; model, context tier and token category determine consumption. These are GitHub's rates, not a direct payment to a model provider. Copilot code review can also consume Actions minutes. Paid-plan code completions and next-edit suggestions are not billed in AI credits. Do not apply this current billing explanation retroactively to the original sprint's estimated bill.</aside>
+</section>
+
+<section id="cache-mechanics" class="closing-section">
+    <h2>♻️ How the token cache works</h2>
+    <p class="txt-sm muted closing-lede">The model can reuse the processing of an <span class="ink fw-700">identical prompt prefix</span> — the unchanged beginning of its input. It still processes new input and generates a new answer.</p>
+    <table class="dtable closing-table">
+        <thead><tr><th scope="col">What changes?</th><th scope="col">Effect on cache reuse</th></tr></thead>
+        <tbody>
+            <tr><td>Append a message or tool result</td><td>The unchanged prefix can still hit; the new suffix needs processing.</td></tr>
+            <tr><td>Switch the model</td><td>The old model's cached computation cannot transfer to the new one.</td></tr>
+            <tr><td>Edit <span class="mono">AGENTS.md</span> or instructions</td><td>Once reloaded into the prompt, changed content breaks the match from that point onward.</td></tr>
+            <tr><td>Change tools or compact history</td><td>If the rendered prefix changes, later cached context no longer matches.</td></tr>
+            <tr><td>Wait too long / cache is evicted</td><td>Even identical input can miss. Retention and routing depend on the provider.</td></tr>
+        </tbody>
+    </table>
+    <div class="banner mt-md closing-callout"><b>A cache miss is not necessarily a full reset.</b><br>An earlier, unchanged prefix may still be reusable.</div>
+    <p class="closing-source"><a href="https://developers.openai.com/api/docs/guides/prompt-caching" target="_blank" rel="noopener noreferrer">OpenAI prompt caching</a> · <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" target="_blank" rel="noopener noreferrer">Claude prompt caching</a> · mechanics vary by model and integration.</p>
+    <aside class="notes">Prompt caching saves intermediate model computation, such as attention key/value states, rather than replaying a previous answer. Reuse requires a matching eligible prefix and an available cache entry; providers impose minimum lengths, breakpoints, lifetimes and routing constraints. Switching models cannot transfer the old model's state, but the selected model could already have its own matching cache. Changing a file on disk does not directly flush a provider cache: it matters only when the client rereads that file and changes the model's input. If AGENTS.md is replaced near the beginning, much of the later prefix may lose reuse. If the update is appended as a new message, the old prefix can remain reusable. The exact placement and refresh behavior are client-specific, not a documented universal Copilot guarantee. Tool schemas, their ordering, relevant settings and compaction can also change the rendered prefix. A miss does not imply deletion of the old entry. Correct instructions take priority over preserving cache hits; make necessary edits, avoid needless churn, and do not assume any one provider's TTL applies to all Copilot models.</aside>
+</section>
+
+<section id="auto" class="closing-section">
+    <h2>🎯 Auto: let GitHub route the task</h2>
+    <div class="grid-2">
+        <div class="card t-blue">
+            <h3>🧠 Match the work to the model</h3>
+            <ul>
+                <li>Evaluate task complexity and reasoning needs</li>
+                <li>Consider model health and availability</li>
+                <li>Respect your plan and administrator policies</li>
+            </ul>
+        </div>
+        <div class="card t-violet">
+            <h3>♻️ Cache-aware routing</h3>
+            <ul>
+                <li>Route along natural cache boundaries</li>
+                <li>Preserve prompt-cache reuse where possible</li>
+                <li>See which model handled the response</li>
+            </ul>
+        </div>
+    </div>
+    <div class="banner green mt-md"><b>10% off model costs on paid plans</b> versus selecting the same model directly.</div>
+    <p class="txt-sm muted mt-md center">In the CLI: <span class="mono ink">/model</span> → Auto. A suitable model, not a promise of the cheapest run.</p>
+    <p class="closing-source"><a href="https://docs.github.com/en/copilot/concepts/models/auto-model-selection" target="_blank" rel="noopener noreferrer">Auto model selection</a> · <a href="https://github.blog/changelog/2026-07-01-copilot-cli-auto-model-selection-routes-based-on-task/" target="_blank" rel="noopener noreferrer">CLI routing and billing</a> · 7 September 2026.</p>
+    <aside class="notes">Task-optimized Auto is available in CLI, the Copilot app, cloud agent, GitHub web chat and VS Code. Some other IDEs use availability/reliability optimization instead. Cache-aware routing refers to choosing routing points that preserve useful prefix reuse, not changing the model midway through a call or constantly switching models. GitHub documents routing along natural cache boundaries but does not specify the exact conditions for rerouting an existing conversation. If a later call uses a different model, that model cannot reuse the previous model's cached computation. The 10% discount compares against the same selected model, not whatever model you would otherwise have chosen. Legacy annual request-based plans apply it to the multiplier instead of token credits. Model pools can change.</aside>
+</section>
+
+<section id="cache" class="closing-section">
+    <h2>♻️ A cache hit changes the price of context</h2>
+    <p class="txt-sm muted closing-lede">Illustration: GPT-5.5 default tier · 100k input + 10k output per call.</p>
+    <table class="dtable closing-table">
+        <thead><tr><th scope="col">USD per call</th><th scope="col">No cache hits</th><th scope="col" class="green-h">90% input cached</th></tr></thead>
+        <tbody>
+            <tr><td>Fresh input · $5 / million</td><td class="num">$0.500</td><td class="num">$0.050</td></tr>
+            <tr><td>Cached input · $0.50 / million</td><td class="num">$0.000</td><td class="num">$0.045</td></tr>
+            <tr><td>Output · $30 / million</td><td class="num">$0.300</td><td class="num">$0.300</td></tr>
+            <tr class="total"><td>Total before any Auto discount</td><td class="num">$0.800</td><td class="num">$0.395</td></tr>
+        </tbody>
+    </table>
+    <div class="banner mt-md"><b>90% input cache hits ≠ 90% off the bill.</b><br>Here, the total falls by about 51%.</div>
+    <p class="txt-sm muted mt-md center">Keep stable instructions concise. Avoid gratuitous context churn.</p>
+    <p class="closing-source"><a href="https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing" target="_blank" rel="noopener noreferrer">GitHub rates, 7 September 2026</a> · illustrative hit rate, not a BootUI measurement.</p>
+    <aside class="notes">Input falls from $0.50 to $0.095, an 81% reduction, but output remains $0.30. Total savings are 50.625%. GPT-5.5 has no cache-write charge in this table; other models do. Cache hits are not guaranteed. This is input-context reuse, not replaying a previous answer. Do not pad prompts to chase cache hits. The original deck's aggregate cache figures are separate from this illustrative per-call calculation.</aside>
+</section>
+
+<section id="hydrafusion" class="closing-section">
+    <h2>🐉 HydraFusion: orchestrate the models</h2>
+    <p class="txt-sm muted closing-lede">Research preview announced <span class="ink fw-700">4 September 2026</span>.</p>
+    <div class="grid-3">
+        <div class="card t-blue">
+            <h3>⚡ Single</h3>
+            <div class="txt-sm muted">One selected model handles the task directly.</div>
+            <p class="txt-xs blue fw-700 mt-sm">Avoid extra calls.</p>
+        </div>
+        <div class="card t-violet">
+            <h3>🪜 Cascade</h3>
+            <div class="txt-sm muted">An efficient model tries first. A quality gate can escalate to a stronger model.</div>
+            <p class="txt-xs violet fw-700 mt-sm">Spend more when needed.</p>
+        </div>
+        <div class="card t-teal">
+            <h3>🔍 Critique</h3>
+            <div class="txt-sm muted">Draft, get an independent cross-family review, then revise once.</div>
+            <p class="txt-xs teal fw-700 mt-sm">Pay for a second perspective.</p>
+        </div>
+    </div>
+    <div class="banner night mt-md">Auto routes to a model.<br><b>HydraFusion can orchestrate several model calls.</b></div>
+    <p class="closing-source"><a href="https://github.blog/ai-and-ml/github-copilot/project-hydrafusion-frontier-quality-via-multi-model-orchestration/" target="_blank" rel="noopener noreferrer">GitHub: Project HydraFusion</a> · preview behavior and availability may change.</p>
+    <aside class="notes">Select HydraFusion as a model where the preview is available. It selects runtime patterns using task capability signals to balance quality, latency and cost. The critic is isolated and read-only; solvers retain the normal permission-aware agent loop. GitHub describes bounded execution, validated changes and accounting for every leg, including retries and fallbacks. This is distinct from Auto and is not simply three parallel agents. The article's publication date is September 4.</aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
