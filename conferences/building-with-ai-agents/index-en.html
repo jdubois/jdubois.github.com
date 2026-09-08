@@ -765,7 +765,7 @@
         <div class="divider-kicker">Part 02 · The recipe</div>
         <div class="divider-num" style="-webkit-text-stroke:3px var(--violet);">02</div>
         <h1>How to <span class="grad">run it</span> yourself</h1>
-        <div class="sub">Six ingredients and one daily loop.</div>
+        <div class="sub">Seven ingredients and one daily loop.</div>
     </div>
 </section>
 
@@ -817,7 +817,7 @@
             <h3>📜 The house rules · AGENTS.md</h3>
             <ul>
                 <li>Set the conventions <span class="ink fw-700">once</span>: stack, build, test, style</li>
-                <li>A <span class="mono">copilot-instructions.md</span> every agent reads first</li>
+                <li>Repository instructions define <span class="ink fw-700">the rules</span>, not every task's procedure</li>
                 <li>Per-panel conventions so 40 panels come out consistent</li>
             </ul>
         </div>
@@ -825,7 +825,7 @@
             <h3 class="blue">🎯 A spec per task</h3>
             <ul>
                 <li>What to build, where, what "done" looks like</li>
-                <li>The acceptance test the agent must make pass</li>
+                <li>The acceptance test the agent must make pass, even when using a skill</li>
                 <li>Small, self-contained, no hidden dependencies</li>
             </ul>
         </div>
@@ -847,7 +847,7 @@
             <h3 class="violet">✅ A build + test they can run</h3>
             <ul>
                 <li>One command runs compile, unit and e2e: green or red</li>
-                <li>Agents <span class="ink fw-700">verify their own work</span> before opening a PR</li>
+                <li>Agents run the checks <span class="ink fw-700">after using skills and tools</span>, before opening a PR</li>
                 <li>No tests = you can't trust the output</li>
             </ul>
         </div>
@@ -867,13 +867,13 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 18 — THE HARNESS, IN NUMBERS
+     RULES, SPECS AND CHECKS—IN NUMBERS
 ══════════════════════════════════════════════════════════════ -->
 <section>
-    <h2>📏 The harness, in numbers</h2>
+    <h2>📏 Rules, specs and checks—in numbers</h2>
 
     <p class="txt-sm muted" style="margin:-.1em 0 .55em;">
-        Ingredients 1 and 2, measured. Everything an agent reads, runs and has to satisfy before its code reaches <span class="mono">main</span>.
+        The repository foundation for ingredients 1 and 2: instructions, specifications and checks. Skills and code tools complement it.
     </p>
 
     <div class="grid-4" style="margin-bottom:.55em;">
@@ -910,10 +910,43 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 19 — INGREDIENT 3: PARALLEL
+     INGREDIENT 3: EQUIP YOUR AGENTS
+══════════════════════════════════════════════════════════════ -->
+<section id="skills-and-tools">
+    <div class="ingredient"><span class="ix">3</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Equip your agents</h2></div></div>
+    <p class="txt-sm muted">From my recent BootUI sessions: reusable skills for the workflow, Java code intelligence when needed.</p>
+
+    <div class="grid-2">
+        <div class="card t-violet">
+            <h3 class="violet">📚 Skills: reusable workflows</h3>
+            <ul>
+                <li><span class="ink fw-700">Impeccable</span> — craft beautiful Web designs, fix accessibility issues</li>
+                <li><span class="ink fw-700">orchestrate</span> — coordinate advisor audits across sessions</li>
+                <li><span class="ink fw-700">agent-merge</span> — PR review, CI and conflict follow-ups</li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">🔎 Java LSP: occasional code intelligence</h3>
+            <ul>
+                <li>Ask the language server about <span class="ink fw-700">symbols</span>, not just matching text</li>
+                <li>Used to explore advanced Java modules and inspect code during review</li>
+                <li>The project needs to be indexed by the language server first</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md">
+        Instructions set the rules. Skills guide the task.<br>Tools help execute it. <b>Tests check the result.</b>
+    </div>
+    <p class="txt-xs muted mt-sm center">Examples from recorded Copilot sessions, 9 August–8 September 2026; not a claim about the original sprint.</p>
+    <aside class="notes">Based on actual recorded tool invocations in BootUI sessions from the past month, rather than installed skills alone. Impeccable was invoked in the Windows 95 theme session on August 26 and the docs-site restructure session on August 25. Orchestrate was invoked in the September 7 advisor audit coordination session. Agent-merge was repeatedly invoked for PR lifecycle follow-ups; some invocations are automated check-ins, not explicit manual skill selections. Java LSP documentSymbol returned class and method outlines for CRaC, reactive security and Quarkus security code during the August 15 review. Three other recorded workspaceSymbol queries returned no matches, so do not claim all LSP attempts helped or that reference navigation was observed in this sample. Other skills appear in the records, including bootui-vertical-pr, agentfinder and github-pr-media; these are representative examples, not a complete inventory or a measured productivity comparison. Skills supply task-specific procedures and may use tools; LSP supplies structured code information. Neither replaces tests or review. This is ingredient 3: skills and tools help agents act, while the test harness checks whether they succeeded. Both belong to the broader agent harness.</aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 20 — INGREDIENT 4: PARALLEL
 ══════════════════════════════════════════════════════════════ -->
 <section>
-    <div class="ingredient"><span class="ix">3</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Split the work, run agents in parallel</h2></div></div>
+    <div class="ingredient"><span class="ix">4</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Split the work, run agents in parallel</h2></div></div>
 
     <div class="grid-2">
         <div class="card t-blue">
@@ -940,10 +973,10 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 20 — INGREDIENT 4: DEEP PLANS OVERNIGHT (night slide)
+     SLIDE 21 — INGREDIENT 5: DEEP PLANS OVERNIGHT (night slide)
 ══════════════════════════════════════════════════════════════ -->
 <section class="night-slide" data-background-color="#0c1838" data-background-gradient="radial-gradient(820px 520px at 83% -14%, rgba(129,140,248,.42), transparent 60%), radial-gradient(740px 560px at 2% 122%, rgba(20,184,166,.20), transparent 55%), linear-gradient(180deg,#0a1330 0%,#0d1940 56%,#10224f 100%)">
-    <div class="ingredient"><span class="ix">4</span><div><span class="ix-label" style="color:#9db1d8;">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Let a few deep plans run overnight</h2></div></div>
+    <div class="ingredient"><span class="ix">5</span><div><span class="ix-label" style="color:#9db1d8;">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Let a few deep plans run overnight</h2></div></div>
 
     <div class="txt-sm muted" style="margin:.2em 0 .7em;">
         The day is the engine. The night is a bonus shift: before you log off, hand a <span class="ink fw-700">few deep, long-running plans</span> to autonomous agents. These are the big jobs you don't want to babysit, and they land by morning while you're away.
@@ -973,10 +1006,10 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 21 — INGREDIENT 5: MERGE OVER COFFEE
+     SLIDE 22 — INGREDIENT 6: MERGE OVER COFFEE
 ══════════════════════════════════════════════════════════════ -->
 <section>
-    <div class="ingredient"><span class="ix">5</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Merge the results over coffee</h2></div></div>
+    <div class="ingredient"><span class="ix">6</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Merge the results over coffee</h2></div></div>
 
     <div class="grid-2">
         <div class="card t-teal">
@@ -1004,10 +1037,10 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 22 — INGREDIENT 6: PICK THE RIGHT MODEL
+     SLIDE 23 — INGREDIENT 7: PICK THE RIGHT MODEL
 ══════════════════════════════════════════════════════════════ -->
 <section>
-    <div class="ingredient"><span class="ix">6</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Pick the right model for the task</h2></div></div>
+    <div class="ingredient"><span class="ix">7</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Pick the right model for the task</h2></div></div>
 
     <div class="grid-3" style="margin-bottom:.65em;">
         <div class="card t-blue">
@@ -1042,7 +1075,7 @@
     <h2>🐙 You don't have to build this loop</h2>
 
     <p class="txt-sm muted" style="margin:-.1em 0 .55em;">
-        Every ingredient above is something the platform already does. The agent is one step in a chain it never leaves — so nothing gets glued together by hand.
+        GitHub connects the issue, the agent, the PR and the checks. Your specifications, skills and tools make that workflow fit the project.
     </p>
 
     <div class="grid-3">
@@ -1142,11 +1175,11 @@
     <div class="card t-violet">
         <div class="pb-item"><span class="pb-num grad">1</span><span class="pb-text"><b>Write the specifications</b> (AGENTS.md + a spec per task) before you start a single agent.</span></div>
         <div class="pb-item"><span class="pb-num grad">2</span><span class="pb-text"><b>No agent without a test harness</b>: a build + test it can run and pass itself.</span></div>
-        <div class="pb-item"><span class="pb-num grad">3</span><span class="pb-text"><b>One task per agent.</b> Small scope, clear goal, its own branch.</span></div>
-        <div class="pb-item"><span class="pb-num grad">4</span><span class="pb-text"><b>Run them in parallel and drive</b> a fleet you steer all day, not one chat window.</span></div>
+        <div class="pb-item"><span class="pb-num grad">3</span><span class="pb-text"><b>Equip your agents:</b> relevant skills for reusable workflows, tools for code intelligence and execution.</span></div>
+        <div class="pb-item"><span class="pb-num grad">4</span><span class="pb-text"><b>Split the work and run agents in parallel:</b> one focused task and branch per agent; steer the fleet.</span></div>
         <div class="pb-item"><span class="pb-num grad">5</span><span class="pb-text"><b>Let a few deep plans run overnight.</b> The bonus shift, not the engine.</span></div>
         <div class="pb-item"><span class="pb-num grad">6</span><span class="pb-text"><b>Merge as you go:</b> triage fast, merge wins, drop or re-task the rest.</span></div>
-        <div class="pb-item"><span class="pb-num grad">7</span><span class="pb-text"><b>Pick the right model</b> per task; save what works as reusable instructions.</span></div>
+        <div class="pb-item"><span class="pb-num grad">7</span><span class="pb-text"><b>Pick the right model</b> per task; keep rules in instructions and reusable workflows in skills.</span></div>
     </div>
 
     <div class="txt-sm muted mt-sm center">If there's one slide to screenshot, this is it.</div>
@@ -1462,6 +1495,34 @@
     <div class="banner night mt-md">Auto routes to a model.<br><b>HydraFusion can orchestrate several model calls.</b></div>
     <p class="closing-source"><a href="https://github.blog/ai-and-ml/github-copilot/project-hydrafusion-frontier-quality-via-multi-model-orchestration/" target="_blank" rel="noopener noreferrer">GitHub: Project HydraFusion</a> · preview behavior and availability may change.</p>
     <aside class="notes">Select HydraFusion as a model where the preview is available. It selects runtime patterns using task capability signals to balance quality, latency and cost. The critic is isolated and read-only; solvers retain the normal permission-aware agent loop. GitHub describes bounded execution, validated changes and accounting for every leg, including retries and fallbacks. This is distinct from Auto and is not simply three parallel agents. The article's publication date is September 4.</aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     GITHUB COPILOT APP — DOWNLOAD
+══════════════════════════════════════════════════════════════ -->
+<section id="copilot-app" class="closing-section">
+    <h2>🖥️ Build with GitHub Copilot App</h2>
+    <p class="txt-sm muted closing-lede">The app we've been using throughout the BootUI project.</p>
+    <div class="closing-app-download">
+        <div>
+            <h3 class="violet">Your workspace for AI coding agents</h3>
+            <ul>
+                <li>Plan tasks and run agents in parallel, in isolated worktrees</li>
+                <li>Let agents edit code and run tests; inspect their diffs and review PRs</li>
+                <li>Keep planning, implementation and maintenance in one place</li>
+            </ul>
+        </div>
+        <figure class="closing-app-qr">
+            <a href="https://github.com/features/ai/github-app" target="_blank" rel="noopener noreferrer">
+                <img src="assets/github-copilot-app-qr.png" width="320" height="320" alt="Scan to download GitHub Copilot App from its official GitHub page">
+            </a>
+            <figcaption class="txt-sm">
+                <a href="https://github.com/features/ai/github-app" target="_blank" rel="noopener noreferrer">Download GitHub Copilot App</a>
+            </figcaption>
+        </figure>
+    </div>
+    <div class="banner mt-md">You set the direction. <b>The agents do the work. You review the result.</b></div>
+    <aside class="notes">Invite the audience to scan the QR code, which links to the official GitHub Copilot App product and download page. This is the workspace we have used throughout BootUI, from planning and implementation to review and ongoing maintenance. It does not mean every task ran locally or every PR was authored by the app. GitHub provides the issues, PRs, CI and releases; the app brings agent sessions and human review together. Keep this short and practical before the final call to action.</aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
