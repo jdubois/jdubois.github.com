@@ -390,6 +390,7 @@
         .feat b { color:var(--ink); font-family:'Space Grotesk',sans-serif; font-weight:600; }
     </style>
     <link rel="stylesheet" href="closing.css" />
+    <link rel="stylesheet" href="verdict.css" />
 </head>
 <body>
 <div class="reveal">
@@ -697,25 +698,81 @@
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 12 — THE VERDICT
 ══════════════════════════════════════════════════════════════ -->
-<section>
+<section id="verdict">
     <h2>⚖️ The verdict: with vs. without AI</h2>
+    <p class="txt-sm muted">With AI: project figures. Without AI: a solo-work estimate for the same 1.0.0 release.</p>
 
-    <table class="dtable" style="margin-bottom:.6em;">
-        <thead>
-            <tr><th style="width:24%;">Aspect</th><th class="green-h" style="width:38%;">With AI (actual)</th><th class="amber-h" style="width:38%;">Without AI (estimated)</th></tr>
-        </thead>
-        <tbody>
-            <tr><td class="num">Calendar</td><td>~11 days (to 1.0.0)</td><td>~6.5–8.5 months</td></tr>
-            <tr><td class="num">Human effort</td><td>~80–110 hours</td><td>~1,100–1,450 hours</td></tr>
-            <tr><td class="num">Throughput</td><td>~20 PRs/day, parallel</td><td>A few features/week, serial</td></tr>
-            <tr><td class="num">Human's role</td><td>Architect + reviewer</td><td>Author of every line</td></tr>
-            <tr><td class="num">40 panels</td><td>Near-free to replicate</td><td>Repetitive, the biggest cost</td></tr>
-        </tbody>
-    </table>
-
-    <div class="banner sunrise" style="font-size:.82em;">
-        Effective speed-up: <span class="sg fw-700">~17–23×</span> calendar &nbsp;·&nbsp; <span class="sg fw-700">~12–17×</span> human-hours.
+    <div class="grid-2 verdict-charts">
+        <figure>
+            <figcaption>Calendar time</figcaption>
+            <svg viewBox="0 0 570 210" role="img" aria-labelledby="verdict-calendar-title verdict-calendar-desc">
+                <title id="verdict-calendar-title">Calendar time with and without AI</title>
+                <desc id="verdict-calendar-desc">With AI: about 11 days. Without AI: an estimated 6.5 to 8.5 months. Both bars start at zero on a 0 to 9 month scale, using 30-day months.</desc>
+                <g class="verdict-grid" aria-hidden="true">
+                    <path d="M140 38V162 M273.333 38V162 M406.667 38V162 M540 38V162"/>
+                </g>
+                <text x="0" y="69">With AI</text>
+                <text x="140" y="32" class="verdict-value">~11 days</text>
+                <rect class="verdict-ai" x="140" y="48" width="16.296" height="28"/>
+                <text x="0" y="139">Without AI</text>
+                <text x="140" y="102" class="verdict-value">~6.5–8.5 months</text>
+                <rect class="verdict-solo verdict-range" x="140" y="118" width="377.778" height="28"/>
+                <rect class="verdict-solo" x="140" y="118" width="288.889" height="28"/>
+                <g class="verdict-ticks" aria-hidden="true">
+                    <text x="140" y="185">0</text>
+                    <text x="273.333" y="185">3</text>
+                    <text x="406.667" y="185">6</text>
+                    <text x="540" y="185">9</text>
+                    <text x="540" y="207" text-anchor="end">months</text>
+                </g>
+            </svg>
+        </figure>
+        <figure>
+            <figcaption>Human effort</figcaption>
+            <svg viewBox="0 0 570 210" role="img" aria-labelledby="verdict-effort-title verdict-effort-desc">
+                <title id="verdict-effort-title">Human effort with and without AI</title>
+                <desc id="verdict-effort-desc">With AI: about 80 to 110 hours. Without AI: an estimated 1,100 to 1,450 hours. Both bars start at zero on a 0 to 1,500 hour scale.</desc>
+                <g class="verdict-grid" aria-hidden="true">
+                    <path d="M140 38V162 M273.333 38V162 M406.667 38V162 M540 38V162"/>
+                </g>
+                <text x="0" y="69">With AI</text>
+                <text x="140" y="32" class="verdict-value">~80–110 hours</text>
+                <rect class="verdict-ai verdict-range" x="140" y="48" width="29.333" height="28"/>
+                <rect class="verdict-ai" x="140" y="48" width="21.333" height="28"/>
+                <text x="0" y="139">Without AI</text>
+                <text x="140" y="102" class="verdict-value">~1,100–1,450 hours</text>
+                <rect class="verdict-solo verdict-range" x="140" y="118" width="386.667" height="28"/>
+                <rect class="verdict-solo" x="140" y="118" width="293.333" height="28"/>
+                <g class="verdict-ticks" aria-hidden="true">
+                    <text x="140" y="185">0</text>
+                    <text x="273.333" y="185">500</text>
+                    <text x="406.667" y="185">1,000</text>
+                    <text x="540" y="185">1,500</text>
+                    <text x="540" y="207" text-anchor="end">hours</text>
+                </g>
+            </svg>
+        </figure>
     </div>
+    <p class="txt-xs muted verdict-key">Lighter bar ends show the ranges. Calendar scale uses 30-day months.</p>
+
+    <div class="grid-3 verdict-details">
+        <div>
+            <h3>Throughput</h3>
+            <p class="txt-sm"><b class="emerald">~20 PRs/day, parallel</b><br><span class="muted">vs. a few features/week, serial</span></p>
+        </div>
+        <div>
+            <h3>Human's role</h3>
+            <p class="txt-sm"><b class="emerald">Architect + reviewer</b><br><span class="muted">vs. author of every line</span></p>
+        </div>
+        <div>
+            <h3>40 panels</h3>
+            <p class="txt-sm"><b class="emerald">Near-free to replicate</b><br><span class="muted">vs. repetition as the biggest cost</span></p>
+        </div>
+    </div>
+    <div class="banner sunrise mt-md">
+        From months of solo work to <b>11 days of agent-assisted delivery.</b>
+    </div>
+    <aside class="notes">The charts preserve the original time and effort figures, not a controlled comparison. The no-AI baseline is a retrospective estimate for one experienced developer. Each metric has its own zero-based scale; lengths should only be compared within a chart. Calendar geometry converts 11 days to 11/30 months. Solid bars reach the lower bound, with lighter extensions to the upper bound. Human effort with AI is an approximate range, not a precise timesheet measurement. Throughput uses different units on each side, so it is kept as qualitative context rather than plotted.</aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
