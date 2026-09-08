@@ -35,3 +35,19 @@
 .closing-section .closing-number { color: var(--blue); }
 .closing-section .closing-table { margin: .6em 0; }
 .closing-section .closing-callout { font-size: var(--t-body); }
+.closing-section .closing-app-download {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    align-items: center;
+    gap: 1.5em;
+}
+.closing-section .closing-app-qr { margin: 0; text-align: center; }
+.closing-section .closing-app-qr img {
+    display: block;
+    width: 320px;
+    height: auto;
+    max-width: 100%;
+    margin: 0 auto .4em;
+    padding: 16px;
+    background: #fff;
+}
