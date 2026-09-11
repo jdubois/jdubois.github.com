@@ -391,6 +391,7 @@
     </style>
     <link rel="stylesheet" href="closing.css" />
     <link rel="stylesheet" href="verdict.css" />
+    <link rel="stylesheet" href="quizzes.css" />
 </head>
 <body>
 <div class="reveal">
@@ -783,12 +784,244 @@
         <div class="divider-kicker">Part 02 · The recipe</div>
         <div class="divider-num" style="-webkit-text-stroke:3px var(--violet);">02</div>
         <h1>How to <span class="grad">run it</span> yourself</h1>
-        <div class="sub">Seven ingredients and one daily loop.</div>
+        <div class="sub">Six ingredients for agentic engineering.</div>
     </div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 14 — THE MINDSET SHIFT
+     THIS IS AGENTIC ENGINEERING
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>Agentic engineering, not vibe coding</h2>
+
+    <p class="txt-sm muted" style="margin:-.1em 0 .6em;">
+        ~$2,000 of tokens across the sprint — about <span class="ink fw-700">$9 per merged PR</span>. That's the cheap part. The real question is <em>when</em> you pay for the code.
+    </p>
+
+    <div class="grid-2">
+        <div class="card t-amber">
+            <h3 class="amber">🎲 Vibe coding — low up front</h3>
+            <ul>
+                <li>No specs, no harness: you start shipping <span class="ink fw-700">immediately</span></li>
+                <li>You pay in retry loops, and again six months later reverse-engineering code nobody understands</li>
+                <li>That's the <span class="ink fw-700">maintenance tax</span> — invisible on day one</li>
+            </ul>
+        </div>
+        <div class="card t-emerald">
+            <h3 class="emerald">🏗️ Agentic engineering — pay first</h3>
+            <ul>
+                <li>Specs, tests and CI cost you real days <span class="ink fw-700">before</span> the first agent runs</li>
+                <li>They're what makes the tokens land first time, not on the fourth attempt</li>
+                <li>The harness is <span class="ink fw-700">cheap to write and expensive to skip</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md" style="font-size:.73em;">
+        12 weeks and <span class="ink fw-700" style="color:inherit;">552 more merged PRs</span> later, the maintenance tax still hasn't come due. <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">That's the harness paying back its up-front cost.</span>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     INGREDIENT 1: PICK THE RIGHT MODEL
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="ingredient"><span class="ix">1</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Pick the right model for the task</h2></div></div>
+
+    <div class="grid-3" style="margin-bottom:.65em;">
+        <div class="card t-blue">
+            <h3 class="blue">🧠 Workhorse</h3>
+            <div class="txt-xs muted"><span class="ink fw-700">GPT-5.5 Extra-High</span> reasoning handles most of the work, ~90% of tokens served from cache.</div>
+        </div>
+        <div class="card t-violet">
+            <h3 class="violet">🎯 The tricky parts</h3>
+            <div class="txt-xs muted"><span class="ink fw-700">Claude Opus 4.8</span> and <span class="ink fw-700">Gemini 3.1 Pro</span>. Three strong models, cross-checking each other to find the best fix.</div>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">⚡ The easy stuff</h3>
+            <div class="txt-xs muted">A smaller model or <span class="ink fw-700">"Auto"</span> mode for simple, mechanical tasks. Fast and cheap.</div>
+        </div>
+    </div>
+
+    <div class="card t-emerald">
+        <h3 class="emerald">💰 The whole bill</h3>
+        <div class="grid-4" style="gap:.55em;margin-top:.15em;">
+            <div><div class="stat-num emerald" style="font-size:1.1em;">~2.7B</div><div class="stat-label">total tokens</div></div>
+            <div><div class="stat-num emerald" style="font-size:1.1em;">~95%</div><div class="stat-label">served from cache</div></div>
+            <div><div class="stat-num emerald" style="font-size:1.1em;">120M</div><div class="stat-label">fresh input · 15M output</div></div>
+            <div><div class="stat-num emerald" style="font-size:1.1em;">~$2,000</div><div class="stat-label">total cost</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     INGREDIENT 2: SPECIFICATIONS
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="ingredient"><span class="ix">2</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Write the specifications</h2></div></div>
+
+    <div class="grid-2">
+        <div class="card t-indigo">
+            <h3>📜 The house rules · AGENTS.md</h3>
+            <ul>
+                <li>Set the conventions <span class="ink fw-700">once</span>: stack, build, test, style</li>
+                <li>Repository instructions define <span class="ink fw-700">the rules</span>, not every task's procedure</li>
+                <li>Per-panel conventions so 40 panels come out consistent</li>
+            </ul>
+        </div>
+        <div class="card t-blue">
+            <h3 class="blue">🎯 A spec per task</h3>
+            <ul>
+                <li>What to build, where, what "done" looks like</li>
+                <li>The acceptance test the agent must make pass, even when using a skill</li>
+                <li>Small, self-contained, no hidden dependencies</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="txt-sm muted mt-md center">
+        <span class="indigo fw-700">The spec is the product now.</span> The better the brief, the less you babysit.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     INGREDIENT 3: TEST HARNESS
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="ingredient"><span class="ix">3</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Build the test harness</h2></div></div>
+
+    <div class="grid-2">
+        <div class="card t-violet">
+            <h3 class="violet">✅ A build + test they can run</h3>
+            <ul>
+                <li>One command runs compile, unit and e2e: green or red</li>
+                <li>Agents run the checks <span class="ink fw-700">after using skills and tools</span>, before opening a PR</li>
+                <li>No tests = you can't trust the output</li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">🛡️ CI is the trust layer</h3>
+            <ul>
+                <li><span class="ink fw-700">~116 test suites</span> · ~81 Java + ~35 Playwright</li>
+                <li>CodeQL + e2e gate every PR to <span class="mono">main</span></li>
+                <li>This is what lets you merge ~20 PRs/day safely</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md" style="font-size:.74em;">
+        You can't read every line of 223 PRs. A green build you trust is what makes the volume reviewable.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     RULES, SPECS AND CHECKS—IN NUMBERS
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>📏 Rules, specs and checks—in numbers</h2>
+
+    <p class="txt-sm muted" style="margin:-.1em 0 .55em;">
+        The repository foundation for ingredients 2 and 3: instructions, specifications and checks. Skills and code tools complement it.
+    </p>
+
+    <div class="grid-4" style="margin-bottom:.55em;">
+        <div class="card t-blue"><div class="stat-num blue">63</div><div class="stat-label">lines of always-on house rules <span style="opacity:.7;">copilot-instructions.md</span></div></div>
+        <div class="card t-cyan"><div class="stat-num cyan">6</div><div class="stat-label">path-scoped rule files <span style="opacity:.7;">156 lines, glob-attached</span></div></div>
+        <div class="card t-teal"><div class="stat-num teal">2,083</div><div class="stat-label">lines of CI <span style="opacity:.7;">8 workflows · 121 steps</span></div></div>
+        <div class="card t-violet"><div class="stat-num violet">641</div><div class="stat-label">test files <span style="opacity:.7;">536 Java · 105 Playwright</span></div></div>
+    </div>
+
+    <div class="grid-2">
+        <div class="card t-indigo">
+            <h3 class="indigo">📋 Keep the always-on file short</h3>
+            <ul>
+                <li><span class="ink fw-700">Static</span> — 63 lines sent on <em>every</em> call. You pay for it every time, so it stays short</li>
+                <li><span class="ink fw-700">Dynamic</span> — 6 rule files attach only when their glob matches. Quarkus rules never load for a Vue change</li>
+            </ul>
+        </div>
+        <div class="card t-amber">
+            <h3 class="amber">📐 Put the detail in the spec</h3>
+            <ul>
+                <li><span class="ink fw-700">2,670 lines</span> in <span class="mono">SPECIFICATION.md</span> — the behaviour contract</li>
+                <li>~13,700 doc lines total, reviewed in PRs exactly like code</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner night mt-md" style="font-size:.72em;">
+        On <span class="ink fw-700" style="color:inherit;">Terminal Bench 2.0</span>, a team moved a coding agent from outside the Top 30 to the <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">Top 5 by changing only the harness</span> — no model change at all.
+    </div>
+
+    <div class="txt-sm muted mt-sm center">
+        ~220 lines of instructions steer 2,083 lines of CI and 641 test files. Context is a budget, not a document.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     INGREDIENT 4: EQUIP YOUR AGENTS
+══════════════════════════════════════════════════════════════ -->
+<section id="skills-and-tools">
+    <div class="ingredient"><span class="ix">4</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Equip your agents</h2></div></div>
+    <p class="txt-sm muted">From my recent BootUI sessions: reusable skills for the workflow, Java code intelligence when needed.</p>
+
+    <div class="grid-2">
+        <div class="card t-violet">
+            <h3 class="violet">📚 Skills: reusable workflows</h3>
+            <ul>
+                <li><span class="ink fw-700">Impeccable</span> — craft beautiful Web designs, fix accessibility issues</li>
+                <li><span class="ink fw-700">orchestrate</span> — coordinate advisor audits across sessions</li>
+                <li><span class="ink fw-700">agent-merge</span> — PR review, CI and conflict follow-ups</li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">🔎 Java LSP: occasional code intelligence</h3>
+            <ul>
+                <li>Ask the language server about <span class="ink fw-700">symbols</span>, not just matching text</li>
+                <li>Used to explore advanced Java modules and inspect code during review</li>
+                <li>The project needs to be indexed by the language server first</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md">
+        Instructions set the rules. Skills guide the task.<br>Tools help execute it. <b>Tests check the result.</b>
+    </div>
+    <p class="txt-xs muted mt-sm center">Examples from recorded Copilot sessions, 9 August–8 September 2026; not a claim about the original sprint.</p>
+    <aside class="notes">Based on actual recorded tool invocations in BootUI sessions from the past month, rather than installed skills alone. Impeccable was invoked in the Windows 95 theme session on August 26 and the docs-site restructure session on August 25. Orchestrate was invoked in the September 7 advisor audit coordination session. Agent-merge was repeatedly invoked for PR lifecycle follow-ups; some invocations are automated check-ins, not explicit manual skill selections. Java LSP documentSymbol returned class and method outlines for CRaC, reactive security and Quarkus security code during the August 15 review. Three other recorded workspaceSymbol queries returned no matches, so do not claim all LSP attempts helped or that reference navigation was observed in this sample. Other skills appear in the records, including bootui-vertical-pr, agentfinder and github-pr-media; these are representative examples, not a complete inventory or a measured productivity comparison. Skills supply task-specific procedures and may use tools; LSP supplies structured code information. Neither replaces tests or review. This is ingredient 4: skills and tools help agents act, while the test harness checks whether they succeeded. Both belong to the broader agent harness.</aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     INGREDIENT 5: PARALLEL
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="ingredient"><span class="ix">5</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Split the work, run agents in parallel</h2></div></div>
+
+    <div class="grid-2">
+        <div class="card t-blue">
+            <h3 class="blue">🧩 Make it parallel-ready</h3>
+            <ul>
+                <li>~40 near-identical panels = <span class="ink fw-700">perfect to fan out</span></li>
+                <li>One task per agent: small scope, clear goal</li>
+                <li>One branch / worktree each, no collisions</li>
+            </ul>
+        </div>
+        <div class="card t-violet">
+            <h3 class="violet">🚀 A fleet, not one chat</h3>
+            <ul>
+                <li>GitHub Copilot App: many agents live on one machine</li>
+                <li>Mobile app: agents in Docker containers, on the go</li>
+                <li>Your throughput isn't your keyboard. It's your briefs.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="txt-sm muted mt-md center">
+        The whole point is <span class="violet fw-700">parallelism</span>. Don't babysit one agent. Run ten.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     THE MINDSET SHIFT
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>🧑‍✈️ The mindset shift</h2>
@@ -827,10 +1060,10 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 15 — THE DAILY LOOP (timeline)
+     INGREDIENT 6: THE DAILY LOOP (timeline)
 ══════════════════════════════════════════════════════════════ -->
 <section>
-    <h2>🗓️ The daily loop</h2>
+    <div class="ingredient"><span class="ix">6</span><div><span class="ix-label">Ingredient · The daily loop</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Drive the daily loop</h2></div></div>
 
     <div class="tl">
         <div class="tl-band"><span class="tl-band-label">⚡ most of the work: you, driving the fleet</span></div>
@@ -864,176 +1097,10 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 16 — INGREDIENT 1: SPECIFICATIONS
-══════════════════════════════════════════════════════════════ -->
-<section>
-    <div class="ingredient"><span class="ix">1</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Write the specifications</h2></div></div>
-
-    <div class="grid-2">
-        <div class="card t-indigo">
-            <h3>📜 The house rules · AGENTS.md</h3>
-            <ul>
-                <li>Set the conventions <span class="ink fw-700">once</span>: stack, build, test, style</li>
-                <li>Repository instructions define <span class="ink fw-700">the rules</span>, not every task's procedure</li>
-                <li>Per-panel conventions so 40 panels come out consistent</li>
-            </ul>
-        </div>
-        <div class="card t-blue">
-            <h3 class="blue">🎯 A spec per task</h3>
-            <ul>
-                <li>What to build, where, what "done" looks like</li>
-                <li>The acceptance test the agent must make pass, even when using a skill</li>
-                <li>Small, self-contained, no hidden dependencies</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="txt-sm muted mt-md center">
-        <span class="indigo fw-700">The spec is the product now.</span> The better the brief, the less you babysit.
-    </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════════════
-     SLIDE 17 — INGREDIENT 2: TEST HARNESS
-══════════════════════════════════════════════════════════════ -->
-<section>
-    <div class="ingredient"><span class="ix">2</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Build the test harness</h2></div></div>
-
-    <div class="grid-2">
-        <div class="card t-violet">
-            <h3 class="violet">✅ A build + test they can run</h3>
-            <ul>
-                <li>One command runs compile, unit and e2e: green or red</li>
-                <li>Agents run the checks <span class="ink fw-700">after using skills and tools</span>, before opening a PR</li>
-                <li>No tests = you can't trust the output</li>
-            </ul>
-        </div>
-        <div class="card t-teal">
-            <h3 class="teal">🛡️ CI is the trust layer</h3>
-            <ul>
-                <li><span class="ink fw-700">~116 test suites</span> · ~81 Java + ~35 Playwright</li>
-                <li>CodeQL + e2e gate every PR to <span class="mono">main</span></li>
-                <li>This is what lets you merge ~20 PRs/day safely</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="banner mt-md" style="font-size:.74em;">
-        You can't read every line of 223 PRs. A green build you trust is what makes the volume reviewable.
-    </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════════════
-     RULES, SPECS AND CHECKS—IN NUMBERS
-══════════════════════════════════════════════════════════════ -->
-<section>
-    <h2>📏 Rules, specs and checks—in numbers</h2>
-
-    <p class="txt-sm muted" style="margin:-.1em 0 .55em;">
-        The repository foundation for ingredients 1 and 2: instructions, specifications and checks. Skills and code tools complement it.
-    </p>
-
-    <div class="grid-4" style="margin-bottom:.55em;">
-        <div class="card t-blue"><div class="stat-num blue">63</div><div class="stat-label">lines of always-on house rules <span style="opacity:.7;">copilot-instructions.md</span></div></div>
-        <div class="card t-cyan"><div class="stat-num cyan">6</div><div class="stat-label">path-scoped rule files <span style="opacity:.7;">156 lines, glob-attached</span></div></div>
-        <div class="card t-teal"><div class="stat-num teal">2,083</div><div class="stat-label">lines of CI <span style="opacity:.7;">8 workflows · 121 steps</span></div></div>
-        <div class="card t-violet"><div class="stat-num violet">641</div><div class="stat-label">test files <span style="opacity:.7;">536 Java · 105 Playwright</span></div></div>
-    </div>
-
-    <div class="grid-2">
-        <div class="card t-indigo">
-            <h3 class="indigo">📋 Keep the always-on file short</h3>
-            <ul>
-                <li><span class="ink fw-700">Static</span> — 63 lines sent on <em>every</em> call. You pay for it every time, so it stays short</li>
-                <li><span class="ink fw-700">Dynamic</span> — 6 rule files attach only when their glob matches. Quarkus rules never load for a Vue change</li>
-            </ul>
-        </div>
-        <div class="card t-amber">
-            <h3 class="amber">📐 Put the detail in the spec</h3>
-            <ul>
-                <li><span class="ink fw-700">2,670 lines</span> in <span class="mono">SPECIFICATION.md</span> — the behaviour contract</li>
-                <li>~13,700 doc lines total, reviewed in PRs exactly like code</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="banner night mt-md" style="font-size:.72em;">
-        On <span class="ink fw-700" style="color:inherit;">Terminal Bench 2.0</span>, a team moved a coding agent from outside the Top 30 to the <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">Top 5 by changing only the harness</span> — no model change at all.
-    </div>
-
-    <div class="txt-sm muted mt-sm center">
-        ~220 lines of instructions steer 2,083 lines of CI and 641 test files. Context is a budget, not a document.
-    </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════════════
-     INGREDIENT 3: EQUIP YOUR AGENTS
-══════════════════════════════════════════════════════════════ -->
-<section id="skills-and-tools">
-    <div class="ingredient"><span class="ix">3</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Equip your agents</h2></div></div>
-    <p class="txt-sm muted">From my recent BootUI sessions: reusable skills for the workflow, Java code intelligence when needed.</p>
-
-    <div class="grid-2">
-        <div class="card t-violet">
-            <h3 class="violet">📚 Skills: reusable workflows</h3>
-            <ul>
-                <li><span class="ink fw-700">Impeccable</span> — craft beautiful Web designs, fix accessibility issues</li>
-                <li><span class="ink fw-700">orchestrate</span> — coordinate advisor audits across sessions</li>
-                <li><span class="ink fw-700">agent-merge</span> — PR review, CI and conflict follow-ups</li>
-            </ul>
-        </div>
-        <div class="card t-teal">
-            <h3 class="teal">🔎 Java LSP: occasional code intelligence</h3>
-            <ul>
-                <li>Ask the language server about <span class="ink fw-700">symbols</span>, not just matching text</li>
-                <li>Used to explore advanced Java modules and inspect code during review</li>
-                <li>The project needs to be indexed by the language server first</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="banner mt-md">
-        Instructions set the rules. Skills guide the task.<br>Tools help execute it. <b>Tests check the result.</b>
-    </div>
-    <p class="txt-xs muted mt-sm center">Examples from recorded Copilot sessions, 9 August–8 September 2026; not a claim about the original sprint.</p>
-    <aside class="notes">Based on actual recorded tool invocations in BootUI sessions from the past month, rather than installed skills alone. Impeccable was invoked in the Windows 95 theme session on August 26 and the docs-site restructure session on August 25. Orchestrate was invoked in the September 7 advisor audit coordination session. Agent-merge was repeatedly invoked for PR lifecycle follow-ups; some invocations are automated check-ins, not explicit manual skill selections. Java LSP documentSymbol returned class and method outlines for CRaC, reactive security and Quarkus security code during the August 15 review. Three other recorded workspaceSymbol queries returned no matches, so do not claim all LSP attempts helped or that reference navigation was observed in this sample. Other skills appear in the records, including bootui-vertical-pr, agentfinder and github-pr-media; these are representative examples, not a complete inventory or a measured productivity comparison. Skills supply task-specific procedures and may use tools; LSP supplies structured code information. Neither replaces tests or review. This is ingredient 3: skills and tools help agents act, while the test harness checks whether they succeeded. Both belong to the broader agent harness.</aside>
-</section>
-
-<!-- ══════════════════════════════════════════════════════════════
-     SLIDE 20 — INGREDIENT 4: PARALLEL
-══════════════════════════════════════════════════════════════ -->
-<section>
-    <div class="ingredient"><span class="ix">4</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Split the work, run agents in parallel</h2></div></div>
-
-    <div class="grid-2">
-        <div class="card t-blue">
-            <h3 class="blue">🧩 Make it parallel-ready</h3>
-            <ul>
-                <li>~40 near-identical panels = <span class="ink fw-700">perfect to fan out</span></li>
-                <li>One task per agent: small scope, clear goal</li>
-                <li>One branch / worktree each, no collisions</li>
-            </ul>
-        </div>
-        <div class="card t-violet">
-            <h3 class="violet">🚀 A fleet, not one chat</h3>
-            <ul>
-                <li>GitHub Copilot App: many agents live on one machine</li>
-                <li>Mobile app: agents in Docker containers, on the go</li>
-                <li>Your throughput isn't your keyboard. It's your briefs.</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="txt-sm muted mt-md center">
-        The whole point is <span class="violet fw-700">parallelism</span>. Don't babysit one agent. Run ten.
-    </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════════════
-     SLIDE 21 — INGREDIENT 5: DEEP PLANS OVERNIGHT (night slide)
+     INGREDIENT 6: THE DAILY LOOP — OVERNIGHT (night slide)
 ══════════════════════════════════════════════════════════════ -->
 <section class="night-slide" data-background-color="#0c1838" data-background-gradient="radial-gradient(820px 520px at 83% -14%, rgba(129,140,248,.42), transparent 60%), radial-gradient(740px 560px at 2% 122%, rgba(20,184,166,.20), transparent 55%), linear-gradient(180deg,#0a1330 0%,#0d1940 56%,#10224f 100%)">
-    <div class="ingredient"><span class="ix">5</span><div><span class="ix-label" style="color:#9db1d8;">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Let a few deep plans run overnight</h2></div></div>
+    <h2>Let a few deep plans run overnight</h2>
 
     <div class="txt-sm muted" style="margin:.2em 0 .7em;">
         The day is the engine. The night is a bonus shift: before you log off, hand a <span class="ink fw-700">few deep, long-running plans</span> to autonomous agents. These are the big jobs you don't want to babysit, and they land by morning while you're away.
@@ -1063,10 +1130,10 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 22 — INGREDIENT 6: MERGE OVER COFFEE
+     INGREDIENT 6: THE DAILY LOOP — MORNING REVIEW
 ══════════════════════════════════════════════════════════════ -->
 <section>
-    <div class="ingredient"><span class="ix">6</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Merge the results over coffee</h2></div></div>
+    <h2>Merge the results over coffee</h2>
 
     <div class="grid-2">
         <div class="card t-teal">
@@ -1094,78 +1161,25 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 23 — INGREDIENT 7: PICK THE RIGHT MODEL
+     THE ONE-PAGE RECIPE
 ══════════════════════════════════════════════════════════════ -->
 <section>
-    <div class="ingredient"><span class="ix">7</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Pick the right model for the task</h2></div></div>
+    <h2>📋 The six ingredients of agentic engineering</h2>
 
-    <div class="grid-3" style="margin-bottom:.65em;">
-        <div class="card t-blue">
-            <h3 class="blue">🧠 Workhorse</h3>
-            <div class="txt-xs muted"><span class="ink fw-700">GPT-5.5 Extra-High</span> reasoning handles most of the work, ~90% of tokens served from cache.</div>
-        </div>
-        <div class="card t-violet">
-            <h3 class="violet">🎯 The tricky parts</h3>
-            <div class="txt-xs muted"><span class="ink fw-700">Claude Opus 4.8</span> and <span class="ink fw-700">Gemini 3.1 Pro</span>. Three strong models, cross-checking each other to find the best fix.</div>
-        </div>
-        <div class="card t-teal">
-            <h3 class="teal">⚡ The easy stuff</h3>
-            <div class="txt-xs muted">A smaller model or <span class="ink fw-700">"Auto"</span> mode for simple, mechanical tasks. Fast and cheap.</div>
-        </div>
+    <div class="card t-violet">
+        <div class="pb-item"><span class="pb-num grad">1</span><span class="pb-text"><b>Pick the right model for the task</b> — balance capability, speed and cost.</span></div>
+        <div class="pb-item"><span class="pb-num grad">2</span><span class="pb-text"><b>Write the specifications</b> — repository rules, scoped tasks and acceptance criteria.</span></div>
+        <div class="pb-item"><span class="pb-num grad">3</span><span class="pb-text"><b>Build the test harness</b> — runnable tests and CI checks before merge.</span></div>
+        <div class="pb-item"><span class="pb-num grad">4</span><span class="pb-text"><b>Equip your agents</b> — skills for workflows, tools for code intelligence and execution.</span></div>
+        <div class="pb-item"><span class="pb-num grad">5</span><span class="pb-text"><b>Split the work, run agents in parallel</b> — one task and branch each; you brief, review and steer.</span></div>
+        <div class="pb-item"><span class="pb-num grad">6</span><span class="pb-text"><b>Drive the daily loop</b> — drive by day, let a few deep plans run overnight, merge the results over coffee.</span></div>
     </div>
 
-    <div class="card t-emerald">
-        <h3 class="emerald">💰 The whole bill</h3>
-        <div class="grid-4" style="gap:.55em;margin-top:.15em;">
-            <div><div class="stat-num emerald" style="font-size:1.1em;">~2.7B</div><div class="stat-label">total tokens</div></div>
-            <div><div class="stat-num emerald" style="font-size:1.1em;">~95%</div><div class="stat-label">served from cache</div></div>
-            <div><div class="stat-num emerald" style="font-size:1.1em;">120M</div><div class="stat-label">fresh input · 15M output</div></div>
-            <div><div class="stat-num emerald" style="font-size:1.1em;">~$2,000</div><div class="stat-label">total cost</div></div>
-        </div>
-    </div>
+    <div class="txt-sm muted mt-sm center">If there's one slide to screenshot, this is it.</div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 23 — YOU DON'T HAVE TO BUILD THE LOOP
-══════════════════════════════════════════════════════════════ -->
-<section>
-    <h2>🐙 You don't have to build this loop</h2>
-
-    <p class="txt-sm muted" style="margin:-.1em 0 .55em;">
-        GitHub connects the issue, the agent, the PR and the checks. Your specifications, skills and tools make that workflow fit the project.
-    </p>
-
-    <div class="grid-3">
-        <div class="card t-blue">
-            <h3 class="blue">🎫 The brief lives with the code</h3>
-            <ul>
-                <li>Issues and a board carry the spec, labels and acceptance criteria</li>
-                <li>Assign one to an agent — no copy-paste into a chat window</li>
-            </ul>
-        </div>
-        <div class="card t-teal">
-            <h3 class="teal">⚙️ Automated checks on every PR</h3>
-            <ul>
-                <li><span class="ink fw-700">11 checks per PR</span>: build, tests, CodeQL, cross-platform, JDK matrix</li>
-                <li>Agent code is judged by <span class="ink fw-700">the same gates as mine</span></li>
-            </ul>
-        </div>
-        <div class="card t-violet">
-            <h3 class="violet">☁️ The laptop is optional</h3>
-            <ul>
-                <li>Assign an issue from the <span class="ink fw-700">mobile app</span>, get a PR back</li>
-                <li>It provisions its own environment, works on a branch, opens the PR</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="banner mt-md" style="font-size:.73em;">
-        Of BootUI's last 300 merged PRs, <span class="ink fw-700" style="color:inherit;">two in five never touched my laptop</span> — 19% from cloud agents, 20% from Dependabot fixing its own broken bumps. <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">The runners are the machine.</span>
-    </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════════════
-     SLIDE 24 — WHY IT WORKED HERE
+     WHY IT WORKED HERE
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>🧨 Why the multiplier was so large</h2>
@@ -1194,7 +1208,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 25 — WATCH OUT FOR
+     WATCH OUT FOR
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>⚠️ Watch out for</h2>
@@ -1220,59 +1234,6 @@
 
     <div class="txt-sm muted mt-md center">
         Most failed runs aren't the agent's fault. They're a <span class="indigo fw-700">briefing problem.</span>
-    </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════════════
-     SLIDE 26 — THE ONE-PAGE RECIPE
-══════════════════════════════════════════════════════════════ -->
-<section>
-    <h2>📋 The one-page recipe</h2>
-
-    <div class="card t-violet">
-        <div class="pb-item"><span class="pb-num grad">1</span><span class="pb-text"><b>Write the specifications</b> (AGENTS.md + a spec per task) before you start a single agent.</span></div>
-        <div class="pb-item"><span class="pb-num grad">2</span><span class="pb-text"><b>No agent without a test harness</b>: a build + test it can run and pass itself.</span></div>
-        <div class="pb-item"><span class="pb-num grad">3</span><span class="pb-text"><b>Equip your agents:</b> relevant skills for reusable workflows, tools for code intelligence and execution.</span></div>
-        <div class="pb-item"><span class="pb-num grad">4</span><span class="pb-text"><b>Split the work and run agents in parallel:</b> one focused task and branch per agent; steer the fleet.</span></div>
-        <div class="pb-item"><span class="pb-num grad">5</span><span class="pb-text"><b>Let a few deep plans run overnight.</b> The bonus shift, not the engine.</span></div>
-        <div class="pb-item"><span class="pb-num grad">6</span><span class="pb-text"><b>Merge as you go:</b> triage fast, merge wins, drop or re-task the rest.</span></div>
-        <div class="pb-item"><span class="pb-num grad">7</span><span class="pb-text"><b>Pick the right model</b> per task; keep rules in instructions and reusable workflows in skills.</span></div>
-    </div>
-
-    <div class="txt-sm muted mt-sm center">If there's one slide to screenshot, this is it.</div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════════════
-     SLIDE 27 — PAY NOW OR PAY LATER
-══════════════════════════════════════════════════════════════ -->
-<section>
-    <h2>💰 Pay now or pay later</h2>
-
-    <p class="txt-sm muted" style="margin:-.1em 0 .6em;">
-        ~$2,000 of tokens across the sprint — about <span class="ink fw-700">$9 per merged PR</span>. That's the cheap part. The real question is <em>when</em> you pay for the code.
-    </p>
-
-    <div class="grid-2">
-        <div class="card t-amber">
-            <h3 class="amber">🎲 Vibe coding — low up front</h3>
-            <ul>
-                <li>No specs, no harness: you start shipping <span class="ink fw-700">immediately</span></li>
-                <li>You pay in retry loops, and again six months later reverse-engineering code nobody understands</li>
-                <li>That's the <span class="ink fw-700">maintenance tax</span> — invisible on day one</li>
-            </ul>
-        </div>
-        <div class="card t-emerald">
-            <h3 class="emerald">🏗️ Agentic engineering — pay first</h3>
-            <ul>
-                <li>Specs, tests and CI cost you real days <span class="ink fw-700">before</span> the first agent runs</li>
-                <li>They're what makes the tokens land first time, not on the fourth attempt</li>
-                <li>The harness is <span class="ink fw-700">cheap to write and expensive to skip</span></li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="banner mt-md" style="font-size:.73em;">
-        12 weeks and <span class="ink fw-700" style="color:inherit;">552 more merged PRs</span> later, the maintenance tax still hasn't come due. <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">That's the harness paying back its up-front cost.</span>
     </div>
 </section>
 
@@ -1410,6 +1371,42 @@
     <aside class="notes">The subscription determines included allowances and additional-usage arrangements; model, context tier and token category determine consumption. These are GitHub's rates, not a direct payment to a model provider. Copilot code review can also consume Actions minutes. Paid-plan code completions and next-edit suggestions are not billed in AI credits. Do not apply this current billing explanation retroactively to the original sprint's estimated bill.</aside>
 </section>
 
+<section id="quiz-output" class="quiz-section">
+    <h2>Quiz: a novel in, a paragraph out</h2>
+    <p class="quiz-question">A request reads <b>100,000 cached input tokens</b> and writes <b>2,000 output tokens</b>.<br>Which part costs more?</p>
+    <p class="quiz-assumption">GPT-5.5 default tier: cached input $0.50 / million; output $30 / million.</p>
+    <div class="quiz-choices">
+        <div class="quiz-choice"><span class="quiz-letter">A</span><p>The input.<br>It's 50 times larger!</p></div>
+        <div class="quiz-choice quiz-correct"><span class="quiz-letter">B</span><p>The output.</p></div>
+        <div class="quiz-choice"><span class="quiz-letter">C</span><p>They cost the same.</p></div>
+    </div>
+    <p class="quiz-cue">Vote A, B or C · then advance to reveal</p>
+    <div class="fragment quiz-answer" data-fragment-index="0">
+        <h3>B — The output costs more</h3>
+        <p>Cached input: <b>$0.05</b>. Output: <b>$0.06</b>.</p>
+        <p class="quiz-punchline">Reading the novel was cheaper than writing the book report.</p>
+    </div>
+    <aside class="notes">Ask the audience to vote before advancing once to reveal the answer. Input: 100,000 / 1,000,000 × $0.50 = $0.05. Output: 2,000 / 1,000,000 × $30 = $0.06. Illustrative token counts, using the same GPT-5.5 default-tier rates as the calculation slide, checked 7 September 2026. No Auto discount. Source: https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing. Long answers can cost more than much larger cached prompts.</aside>
+</section>
+
+<section id="quiz-model-switch" class="quiz-section">
+    <h2>Quiz: the cheaper model trap</h2>
+    <p class="quiz-question">You have <b>100,000 tokens of reusable context</b>.<br>Another model has half the fresh-input price. Is switching cheaper?</p>
+    <p class="quiz-assumption">Current: $5 / million fresh, $0.50 cached. Alternative: $2.50 fresh.<br>Assume a full cache hit if you stay, no matching cache if you switch. Input cost only.</p>
+    <div class="quiz-choices">
+        <div class="quiz-choice"><span class="quiz-letter">A</span><p>Yes.<br>Half the price!</p></div>
+        <div class="quiz-choice quiz-correct"><span class="quiz-letter">B</span><p>No. The next input bill<br>is five times higher.</p></div>
+        <div class="quiz-choice"><span class="quiz-letter">C</span><p>Same context,<br>same cost.</p></div>
+    </div>
+    <p class="quiz-cue">Vote A, B or C · then advance to reveal</p>
+    <div class="fragment quiz-answer" data-fragment-index="0">
+        <h3>B — Stay: $0.05. Switch: $0.25.</h3>
+        <p>The new model cannot reuse the old model's cached computation.</p>
+        <p class="quiz-punchline">You picked the cheaper model. Your input bill went up fivefold.</p>
+    </div>
+    <aside class="notes">This is an illustrative comparison, not a claim that switching is always more expensive. Switching does not delete the old model's cache. The new model cannot reuse that model's computation. The scenario explicitly assumes no matching cache on the alternative and a full hit on the current model; output, cache-write charges, retries and future calls are excluded. The alternative's $2.50 rate is hypothetical. Use the next slide to explain identical-prefix reuse and model boundaries.</aside>
+</section>
+
 <section id="cache-mechanics" class="closing-section">
     <h2>♻️ How the token cache works</h2>
     <p class="txt-sm muted closing-lede">The model can reuse the processing of an <span class="ink fw-700">identical prompt prefix</span> — the unchanged beginning of its input. It still processes new input and generates a new answer.</p>
@@ -1426,6 +1423,42 @@
     <div class="banner mt-md closing-callout"><b>A cache miss is not necessarily a full reset.</b><br>An earlier, unchanged prefix may still be reusable.</div>
     <p class="closing-source"><a href="https://developers.openai.com/api/docs/guides/prompt-caching" target="_blank" rel="noopener noreferrer">OpenAI prompt caching</a> · <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" target="_blank" rel="noopener noreferrer">Claude prompt caching</a> · mechanics vary by model and integration.</p>
     <aside class="notes">Prompt caching saves intermediate model computation, such as attention key/value states, rather than replaying a previous answer. Reuse requires a matching eligible prefix and an available cache entry; providers impose minimum lengths, breakpoints, lifetimes and routing constraints. Switching models cannot transfer the old model's state, but the selected model could already have its own matching cache. Changing a file on disk does not directly flush a provider cache: it matters only when the client rereads that file and changes the model's input. If AGENTS.md is replaced near the beginning, much of the later prefix may lose reuse. If the update is appended as a new message, the old prefix can remain reusable. The exact placement and refresh behavior are client-specific, not a documented universal Copilot guarantee. Tool schemas, their ordering, relevant settings and compaction can also change the rendered prefix. A miss does not imply deletion of the old entry. Correct instructions take priority over preserving cache hits; make necessary edits, avoid needless churn, and do not assume any one provider's TTL applies to all Copilot models.</aside>
+</section>
+
+<section id="quiz-cache-discount" class="quiz-section">
+    <h2>Quiz: 90% cached. How much cheaper?</h2>
+    <p class="quiz-question">A request has <b>100,000 input tokens</b> and <b>10,000 output tokens</b>.<br>Cache hits cover <b>90% of the input</b>. How much does the total bill fall?</p>
+    <p class="quiz-assumption">GPT-5.5 default tier, per million tokens: fresh input $5; cached input $0.50; output $30.</p>
+    <div class="quiz-choices">
+        <div class="quiz-choice"><span class="quiz-letter">A</span><p><b>90%</b><br>Obviously.</p></div>
+        <div class="quiz-choice"><span class="quiz-letter">B</span><p><b>81%</b><br>I spotted the trick.</p></div>
+        <div class="quiz-choice quiz-correct"><span class="quiz-letter">C</span><p><b>About 51%</b><br>There's another trick.</p></div>
+    </div>
+    <p class="quiz-cue">Vote A, B or C · then advance to reveal</p>
+    <div class="fragment quiz-answer" data-fragment-index="0">
+        <h3>C — About 51% off the total</h3>
+        <p>Input: <b>$0.500 → $0.095</b>. Output stays <b>$0.300</b>.<br>Total: <b>$0.800 → $0.395</b>.</p>
+        <p class="quiz-punchline">The reading got cheaper. The talking didn't.</p>
+    </div>
+    <aside class="notes">Advance once after the vote. Total savings are 50.625%; 81% is the reduction in input cost alone. This assumes an available cache hit and excludes earlier cold requests and Auto discounts. GPT-5.5 has no cache-write charge in the cited rate table. Continue to the existing calculation slide for the full breakdown. Source: https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing, rates checked 7 September 2026.</aside>
+</section>
+
+<section id="cache" class="closing-section">
+    <h2>♻️ A cache hit changes the price of context</h2>
+    <p class="txt-sm muted closing-lede">Illustration: GPT-5.5 default tier · 100k input + 10k output per call.</p>
+    <table class="dtable closing-table">
+        <thead><tr><th scope="col">USD per call</th><th scope="col">No cache hits</th><th scope="col" class="green-h">90% input cached</th></tr></thead>
+        <tbody>
+            <tr><td>Fresh input · $5 / million</td><td class="num">$0.500</td><td class="num">$0.050</td></tr>
+            <tr><td>Cached input · $0.50 / million</td><td class="num">$0.000</td><td class="num">$0.045</td></tr>
+            <tr><td>Output · $30 / million</td><td class="num">$0.300</td><td class="num">$0.300</td></tr>
+            <tr class="total"><td>Total before any Auto discount</td><td class="num">$0.800</td><td class="num">$0.395</td></tr>
+        </tbody>
+    </table>
+    <div class="banner mt-md"><b>90% input cache hits ≠ 90% off the bill.</b><br>Here, the total falls by about 51%.</div>
+    <p class="txt-sm muted mt-md center">Keep stable instructions concise. Avoid gratuitous context churn.</p>
+    <p class="closing-source"><a href="https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing" target="_blank" rel="noopener noreferrer">GitHub rates, 7 September 2026</a> · illustrative hit rate, not a BootUI measurement.</p>
+    <aside class="notes">Input falls from $0.50 to $0.095, an 81% reduction, but output remains $0.30. Total savings are 50.625%. GPT-5.5 has no cache-write charge in this table; other models do. Cache hits are not guaranteed. This is input-context reuse, not replaying a previous answer. Do not pad prompts to chase cache hits. The original deck's aggregate cache figures are separate from this illustrative per-call calculation.</aside>
 </section>
 
 <section id="auto" class="closing-section">
@@ -1452,24 +1485,6 @@
     <p class="txt-sm muted mt-md center">In the CLI: <span class="mono ink">/model</span> → Auto. A suitable model, not a promise of the cheapest run.</p>
     <p class="closing-source"><a href="https://docs.github.com/en/copilot/concepts/models/auto-model-selection" target="_blank" rel="noopener noreferrer">Auto model selection</a> · <a href="https://github.blog/changelog/2026-07-01-copilot-cli-auto-model-selection-routes-based-on-task/" target="_blank" rel="noopener noreferrer">CLI routing and billing</a> · 7 September 2026.</p>
     <aside class="notes">Task-optimized Auto is available in CLI, the Copilot app, cloud agent, GitHub web chat and VS Code. Some other IDEs use availability/reliability optimization instead. Cache-aware routing refers to choosing routing points that preserve useful prefix reuse, not changing the model midway through a call or constantly switching models. GitHub documents routing along natural cache boundaries but does not specify the exact conditions for rerouting an existing conversation. If a later call uses a different model, that model cannot reuse the previous model's cached computation. The 10% discount compares against the same selected model, not whatever model you would otherwise have chosen. Legacy annual request-based plans apply it to the multiplier instead of token credits. Model pools can change.</aside>
-</section>
-
-<section id="cache" class="closing-section">
-    <h2>♻️ A cache hit changes the price of context</h2>
-    <p class="txt-sm muted closing-lede">Illustration: GPT-5.5 default tier · 100k input + 10k output per call.</p>
-    <table class="dtable closing-table">
-        <thead><tr><th scope="col">USD per call</th><th scope="col">No cache hits</th><th scope="col" class="green-h">90% input cached</th></tr></thead>
-        <tbody>
-            <tr><td>Fresh input · $5 / million</td><td class="num">$0.500</td><td class="num">$0.050</td></tr>
-            <tr><td>Cached input · $0.50 / million</td><td class="num">$0.000</td><td class="num">$0.045</td></tr>
-            <tr><td>Output · $30 / million</td><td class="num">$0.300</td><td class="num">$0.300</td></tr>
-            <tr class="total"><td>Total before any Auto discount</td><td class="num">$0.800</td><td class="num">$0.395</td></tr>
-        </tbody>
-    </table>
-    <div class="banner mt-md"><b>90% input cache hits ≠ 90% off the bill.</b><br>Here, the total falls by about 51%.</div>
-    <p class="txt-sm muted mt-md center">Keep stable instructions concise. Avoid gratuitous context churn.</p>
-    <p class="closing-source"><a href="https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing" target="_blank" rel="noopener noreferrer">GitHub rates, 7 September 2026</a> · illustrative hit rate, not a BootUI measurement.</p>
-    <aside class="notes">Input falls from $0.50 to $0.095, an 81% reduction, but output remains $0.30. Total savings are 50.625%. GPT-5.5 has no cache-write charge in this table; other models do. Cache hits are not guaranteed. This is input-context reuse, not replaying a previous answer. Do not pad prompts to chase cache hits. The original deck's aggregate cache figures are separate from this illustrative per-call calculation.</aside>
 </section>
 
 <section id="hydrafusion" class="closing-section">
@@ -1613,6 +1628,7 @@
 
 <script>
 document.querySelectorAll('.slides .fragment').forEach(function(frag) {
+    if (frag.closest('.quiz-section')) return;
     frag.classList.remove(
         'fragment',
         'fade-up', 'fade-down', 'fade-left', 'fade-right',

@@ -1,0 +1,79 @@
+.quiz-section .quiz-question {
+    font-size: var(--t-lead);
+    line-height: 1.45;
+    margin: .5em 0;
+}
+.quiz-section .quiz-assumption {
+    font-size: var(--t-xs);
+    color: var(--muted);
+    margin: 0 0 1em;
+}
+.quiz-section .quiz-choices {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .65em;
+}
+.quiz-section .quiz-choice {
+    display: flex;
+    align-items: center;
+    gap: .6em;
+    padding: .65em;
+    border: 2px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    transition: border-color 200ms ease, background-color 200ms ease;
+}
+.quiz-section .quiz-letter {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: var(--t-lead);
+    font-weight: 700;
+    color: var(--violet);
+}
+.quiz-section .quiz-choice p {
+    font-size: var(--t-body);
+    line-height: 1.35;
+    margin: 0;
+}
+.quiz-section .quiz-cue {
+    font-size: var(--t-xs);
+    color: var(--muted);
+    margin: .65em 0;
+}
+.quiz-section .quiz-answer {
+    padding: .65em .85em;
+    border-radius: var(--radius);
+    background: #e3f2ec;
+    border: 2px solid var(--emerald);
+}
+.quiz-section .quiz-answer h3 { color: var(--emerald); }
+.quiz-section .quiz-answer p {
+    font-size: var(--t-sm);
+    line-height: 1.4;
+    margin: .35em 0 0;
+}
+.quiz-section .quiz-punchline { font-weight: 700; }
+.reveal .quiz-section .quiz-answer.fragment {
+    clip-path: inset(0 100% 0 0 round var(--radius));
+    transition: clip-path 450ms cubic-bezier(.16, 1, .3, 1), opacity 180ms ease;
+}
+.reveal .quiz-section .quiz-answer.fragment.visible {
+    clip-path: inset(0 0 0 0 round var(--radius));
+}
+.quiz-section:has(.quiz-answer.visible) .quiz-correct {
+    border-color: var(--emerald);
+    background: #e3f2ec;
+}
+.quiz-section:has(.quiz-answer.visible) .quiz-correct .quiz-letter { color: var(--emerald); }
+.quiz-section:has(.quiz-answer.visible) .quiz-cue { visibility: hidden; }
+@media (prefers-reduced-motion: reduce) {
+    .reveal .quiz-section .quiz-answer.fragment,
+    .quiz-section .quiz-choice { transition: none; }
+}
+@media print {
+    .reveal .quiz-section .quiz-answer.fragment {
+        opacity: 1;
+        visibility: visible;
+        clip-path: none;
+    }
+    .quiz-section .quiz-cue { visibility: hidden; }
+}
