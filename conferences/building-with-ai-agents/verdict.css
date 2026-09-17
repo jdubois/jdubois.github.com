@@ -1,20 +1,31 @@
 #verdict .verdict-charts { gap: 1.3em; margin-top: .7em; }
-#verdict figure { margin: 0; }
+:is(#verdict, #solo-breakdown) figure { margin: 0; }
 #verdict figcaption {
     font-family: 'Space Grotesk', sans-serif;
     font-size: var(--t-lead);
     font-weight: 700;
     margin-bottom: .4em;
 }
-#verdict svg { display: block; width: 100%; height: auto; overflow: visible; }
-#verdict svg text { font-family: inherit; font-size: 19px; fill: var(--ink-soft); }
-#verdict svg .verdict-value { font-size: 23px; font-weight: 700; fill: var(--ink); }
-#verdict .verdict-grid { fill: none; stroke: var(--line); stroke-width: 1; }
+:is(#verdict, #solo-breakdown) svg { display: block; width: 100%; height: auto; overflow: visible; }
+:is(#verdict, #solo-breakdown) svg text { font-family: inherit; font-size: 19px; fill: var(--ink-soft); }
+:is(#verdict, #solo-breakdown) svg .verdict-value { font-size: 23px; font-weight: 700; fill: var(--ink); }
+:is(#verdict, #solo-breakdown) .verdict-grid { fill: none; stroke: var(--line); stroke-width: 1; }
 #verdict .verdict-ai { fill: var(--emerald); }
-#verdict .verdict-solo { fill: var(--amber); }
-#verdict .verdict-range { fill-opacity: .3; }
-#verdict .verdict-ticks text { font-size: 16px; fill: var(--muted); text-anchor: middle; }
-#verdict .verdict-ticks text[text-anchor="end"] { text-anchor: end; }
-#verdict .verdict-key { margin: .5em 0 .9em; }
+:is(#verdict, #solo-breakdown) .verdict-solo { fill: var(--amber); }
+:is(#verdict, #solo-breakdown) .verdict-range { fill-opacity: .3; }
+:is(#verdict, #solo-breakdown) .verdict-ticks text { font-size: 16px; fill: var(--muted); text-anchor: middle; }
+:is(#verdict, #solo-breakdown) .verdict-ticks text[text-anchor="end"] { text-anchor: end; }
+:is(#verdict, #solo-breakdown) .verdict-key { margin: .5em 0 .9em; }
 #verdict .verdict-details { border-top: 1px solid var(--line); padding-top: .6em; }
 #verdict .verdict-details p { margin: 0; }
+
+#solo-breakdown .solo-intro { margin: 0 0 .65em; }
+#solo-breakdown .solo-summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+    margin: 0;
+    border-top: 1px solid var(--line);
+    padding-top: .6em;
+    font-size: var(--t-body);
+}
