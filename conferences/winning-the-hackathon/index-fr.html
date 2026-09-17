@@ -182,11 +182,6 @@
         .stat-num { font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:var(--t-stat); line-height:1; color:var(--ink); font-variant-numeric:tabular-nums; letter-spacing:-.01em; }
         .stat-label { font-size:var(--t-2xs); color:var(--muted); margin-top:.35em; line-height:1.3; font-weight:500; }
 
-        /* ── Bio ──────────────────────────────────────────────────────── */
-        .bio { display:grid; grid-template-columns:165px 1fr; gap:1.4em; align-items:center; }
-        .bio-photo { width:100%; border-radius:18px; box-shadow:var(--shadow); }
-        .bio-tags { display:flex; flex-wrap:wrap; gap:.4em; margin-bottom:.55em; }
-
 
         /* ── Slide 4 — Thesis: the new org chart (hero) ───────────────── */
         .thesis-lede {
@@ -316,6 +311,112 @@
         /* ── Cover / outro ────────────────────────────────────────────── */
         .cover-wrap, .outro-wrap { display:flex; flex-direction:column; justify-content:center; height:100%; }
     </style>
+    <style>
+        .reveal .slides section.speaker-bio {
+            --speaker-ink: #0f1419;
+            --speaker-text: #2a313c;
+            --speaker-accent: #1d4ed8;
+            --speaker-line: #e2e6ea;
+            height: auto;
+            padding: 0.85em 0.7em;
+            color: var(--speaker-ink);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 28px;
+            line-height: 1.4;
+            letter-spacing: normal;
+            text-align: left;
+        }
+
+        .reveal .speaker-bio h2 {
+            display: block;
+            margin: 0 0 0.8em;
+            padding: 0 0 0.3em;
+            border-bottom: 3px solid var(--speaker-accent);
+            border-image: none;
+            color: var(--speaker-ink);
+            font-family: inherit;
+            font-size: 1.2em;
+            font-weight: 700;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            text-transform: none;
+        }
+
+        .speaker-bio-layout {
+            display: grid;
+            grid-template-columns: 165px minmax(0, 1fr);
+            gap: 1.4em;
+            align-items: center;
+        }
+
+        .reveal .speaker-bio-photo {
+            display: block;
+            width: 100%;
+            max-width: none;
+            max-height: none;
+            height: auto;
+            margin: 0;
+            border-radius: 18px;
+        }
+
+        .reveal .speaker-bio-name {
+            margin: 0 0 0.25em;
+            font-size: 1em;
+            font-weight: 700;
+        }
+
+        .reveal .speaker-bio-title {
+            margin: 0 0 0.8em;
+            color: var(--speaker-text);
+            font-size: 0.75em;
+        }
+
+        .speaker-bio-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4em;
+            margin-bottom: 0.55em;
+        }
+
+        .speaker-bio-tags span {
+            padding: 0.25em 0.7em;
+            border: 1px solid var(--speaker-line);
+            border-radius: 8px;
+            color: var(--speaker-text);
+            font-size: 0.5em;
+            font-weight: 500;
+        }
+
+        .reveal .speaker-bio ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .reveal .speaker-bio ul li {
+            position: relative;
+            padding: 0.22em 0 0.22em 1.45em;
+            color: var(--speaker-text);
+            font-size: 0.7em;
+            line-height: 1.4;
+        }
+
+        .reveal .speaker-bio ul li::before {
+            content: '';
+            position: absolute;
+            top: 0.72em;
+            left: 0.25em;
+            width: 0.3em;
+            height: 0.3em;
+            border-radius: 50%;
+            background: var(--speaker-accent);
+        }
+
+        .reveal .speaker-bio strong {
+            color: var(--speaker-ink);
+            font-weight: 700;
+        }
+    </style>
 </head>
 <body>
 <div class="reveal">
@@ -362,25 +463,23 @@
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 2 — WHO AM I (bio)
 ══════════════════════════════════════════════════════════════ -->
-<section>
-    <h2>👋 Qui suis-je ?</h2>
-
-    <div class="bio">
+<section class="speaker-bio center" data-background-color="#ffffff" aria-labelledby="speaker-bio-heading">
+    <h2 id="speaker-bio-heading">Qui suis-je ?</h2>
+    <div class="speaker-bio-layout">
+        <img src="https://www.julien-dubois.com/img/photos/julien-dubois.png" alt="Julien Dubois" class="speaker-bio-photo" />
         <div>
-            <img src="https://www.julien-dubois.com/img/photos/julien-dubois.png" alt="Julien Dubois" class="bio-photo" />
-        </div>
-        <div>
-            <div class="bio-tags">
-                <span class="chip">☕ Java Champion</span>
-                <span class="chip blue">🏢 Microsoft / GitHub</span>
-                <span class="chip teal">⭐ JHipster 22k+</span>
-                <span class="chip slate">🤖 IA × code</span>
+            <p class="speaker-bio-name">Julien Dubois</p>
+            <p class="speaker-bio-title" lang="en">Principal Manager, Developer Relations at GitHub / Microsoft</p>
+            <div class="speaker-bio-tags">
+                <span>Java Champion</span>
+                <span>GitHub / Microsoft</span>
+                <span>JHipster 22k+</span>
+                <span>IA &times; code</span>
             </div>
             <ul>
-                <li><span class="ink fw-700">Principal Manager</span>, Developer Relations @ Microsoft / GitHub</li>
-                <li>Créateur de <span class="ink fw-700">JHipster</span> · 22 000+ ⭐</li>
-                <li><span class="ink fw-700">200+ conférences internationales</span> (Devoxx, SpringOne, MS Build…)</li>
-                <li>Aujourd'hui : je livre de vrais projets en <span class="ink fw-700">manageant des agents IA</span></li>
+                <li>Créateur de <strong>JHipster</strong> · 22 000+ ⭐</li>
+                <li><strong>200+ conférences internationales</strong> (Devoxx, SpringOne, Microsoft Build…)</li>
+                <li>Aujourd'hui : je livre de vrais projets en <strong>manageant des agents IA</strong></li>
             </ul>
         </div>
     </div>
