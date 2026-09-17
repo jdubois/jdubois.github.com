@@ -674,26 +674,89 @@
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 11 — WITHOUT AI: WHERE THE MONTHS GO
 ══════════════════════════════════════════════════════════════ -->
-<section>
+<section id="solo-breakdown">
     <h2>🗂️ Without AI: where ~7 months goes</h2>
+    <p class="txt-sm muted solo-intro">Estimated weeks per phase · one senior developer, no AI codegen.</p>
 
-    <table class="dtable">
-        <thead>
-            <tr><th style="width:70%;">Phase &amp; work (single senior developer)</th><th class="amber-h" style="width:30%;">Est. time</th></tr>
-        </thead>
-        <tbody>
-            <tr><td>Project setup &amp; architecture: 5-module Maven, auto-config skeleton, panel framework, access filter</td><td class="num">1–1.5 wk</td></tr>
-            <tr><td>Frontend foundation: Vue 3 + Vite SPA, app shell, routing, packaged into the starter</td><td class="num">1.5–2 wk</td></tr>
-            <tr><td>Core "easy" panels (~15): Health, Metrics, Beans, Mappings, Loggers, Caches… (Actuator-backed)</td><td class="num">5–6 wk</td></tr>
-            <tr><td>Complex deep-integration panels (~20): Security chains, Pentesting, OSV, Hibernate/Flyway, GraalVM, OTLP, ArchUnit</td><td class="num">12–16 wk</td></tr>
-            <tr><td>Safety &amp; security model: local-only enforcement, action gating, secret masking</td><td class="num">1–1.5 wk</td></tr>
-            <tr><td>Testing: ~81 Java test classes + ~35 Playwright e2e specs, by hand</td><td class="num">3–4 wk</td></tr>
-            <tr><td>CI/CD &amp; release: build/CodeQL/release workflows, GPG signing, Maven Central</td><td class="num">1–1.5 wk</td></tr>
-            <tr><td>Documentation: ~5,800 lines + a published VuePress site</td><td class="num">2.5–3.5 wk</td></tr>
-            <tr><td>Integration, polish, Spring Boot 4 migration, 1.0.0 hardening &amp; buffer</td><td class="num">2–3 wk</td></tr>
-            <tr class="total"><td>Total</td><td class="num">~28–36 wk ≈ 6.5–8.5 mo</td></tr>
-        </tbody>
-    </table>
+    <figure>
+        <svg viewBox="0 0 1120 350" role="img" aria-labelledby="solo-phases-title solo-phases-desc">
+            <title id="solo-phases-title">Estimated work without AI, by phase</title>
+            <desc id="solo-phases-desc">Project setup and architecture: 1–1.5 weeks. Frontend foundation: 1.5–2 weeks. Core panels: 5–6 weeks. Complex integrations: 12–16 weeks. Safety and security: 1–1.5 weeks. Testing: 3–4 weeks. CI/CD and release: 1–1.5 weeks. Documentation: 2.5–3.5 weeks. Integration and polish: 2–3 weeks. All bars start at zero on the same 0 to 16 week scale. Solid amber reaches the lower estimate; lighter ends extend to the upper estimate.</desc>
+            <g class="verdict-grid" aria-hidden="true">
+                <path d="M360 0V300 M510 0V300 M660 0V300 M810 0V300 M960 0V300"/>
+            </g>
+            <text x="0" y="27">Project setup &amp; architecture</text>
+            <rect class="verdict-solo verdict-range" x="360" y="12" width="56.25" height="20"/>
+            <rect class="verdict-solo" x="360" y="12" width="37.5" height="20"/>
+            <text x="1000" y="27" class="verdict-value">1–1.5 wk</text>
+
+            <text x="0" y="59">Frontend foundation</text>
+            <rect class="verdict-solo verdict-range" x="360" y="44" width="75" height="20"/>
+            <rect class="verdict-solo" x="360" y="44" width="56.25" height="20"/>
+            <text x="1000" y="59" class="verdict-value">1.5–2 wk</text>
+
+            <text x="0" y="91">Core panels (~15)</text>
+            <rect class="verdict-solo verdict-range" x="360" y="76" width="225" height="20"/>
+            <rect class="verdict-solo" x="360" y="76" width="187.5" height="20"/>
+            <text x="1000" y="91" class="verdict-value">5–6 wk</text>
+
+            <text x="0" y="123">Complex integrations (~20 panels)</text>
+            <rect class="verdict-solo verdict-range" x="360" y="108" width="600" height="20"/>
+            <rect class="verdict-solo" x="360" y="108" width="450" height="20"/>
+            <text x="1000" y="123" class="verdict-value">12–16 wk</text>
+
+            <text x="0" y="155">Safety &amp; security</text>
+            <rect class="verdict-solo verdict-range" x="360" y="140" width="56.25" height="20"/>
+            <rect class="verdict-solo" x="360" y="140" width="37.5" height="20"/>
+            <text x="1000" y="155" class="verdict-value">1–1.5 wk</text>
+
+            <text x="0" y="187">Testing</text>
+            <rect class="verdict-solo verdict-range" x="360" y="172" width="150" height="20"/>
+            <rect class="verdict-solo" x="360" y="172" width="112.5" height="20"/>
+            <text x="1000" y="187" class="verdict-value">3–4 wk</text>
+
+            <text x="0" y="219">CI/CD &amp; release</text>
+            <rect class="verdict-solo verdict-range" x="360" y="204" width="56.25" height="20"/>
+            <rect class="verdict-solo" x="360" y="204" width="37.5" height="20"/>
+            <text x="1000" y="219" class="verdict-value">1–1.5 wk</text>
+
+            <text x="0" y="251">Documentation</text>
+            <rect class="verdict-solo verdict-range" x="360" y="236" width="131.25" height="20"/>
+            <rect class="verdict-solo" x="360" y="236" width="93.75" height="20"/>
+            <text x="1000" y="251" class="verdict-value">2.5–3.5 wk</text>
+
+            <text x="0" y="283">Integration &amp; polish</text>
+            <rect class="verdict-solo verdict-range" x="360" y="268" width="112.5" height="20"/>
+            <rect class="verdict-solo" x="360" y="268" width="75" height="20"/>
+            <text x="1000" y="283" class="verdict-value">2–3 wk</text>
+
+            <g class="verdict-ticks" aria-hidden="true">
+                <text x="360" y="321">0</text>
+                <text x="510" y="321">4</text>
+                <text x="660" y="321">8</text>
+                <text x="810" y="321">12</text>
+                <text x="960" y="321">16</text>
+                <text x="960" y="347" text-anchor="end">weeks</text>
+            </g>
+        </svg>
+    </figure>
+    <p class="txt-xs muted verdict-key">Lighter bar ends show the ranges.</p>
+    <p class="solo-summary"><span>Overall estimate</span><strong class="amber">~28–36 wk ≈ 6.5–8.5 mo</strong></p>
+
+    <aside class="notes">
+        <p>Retrospective estimates for one senior developer, without AI code generation. The original overall estimate is retained separately: the individual phase bounds sum to 29–39 weeks, not 28–36 weeks.</p>
+        <ul>
+            <li>Project setup &amp; architecture: 5-module Maven, auto-config skeleton, panel framework, access filter — 1–1.5 weeks.</li>
+            <li>Frontend foundation: Vue 3 + Vite SPA, app shell, routing, packaged into the starter — 1.5–2 weeks.</li>
+            <li>Core "easy" panels (~15): Health, Metrics, Beans, Mappings, Loggers, Caches… (Actuator-backed) — 5–6 weeks.</li>
+            <li>Complex deep-integration panels (~20): Security chains, Pentesting, OSV, Hibernate/Flyway, GraalVM, OTLP, ArchUnit — 12–16 weeks.</li>
+            <li>Safety &amp; security model: local-only enforcement, action gating, secret masking — 1–1.5 weeks.</li>
+            <li>Testing: ~81 Java test classes + ~35 Playwright e2e specs, by hand — 3–4 weeks.</li>
+            <li>CI/CD &amp; release: build/CodeQL/release workflows, GPG signing, Maven Central — 1–1.5 weeks.</li>
+            <li>Documentation: ~5,800 lines + a published VuePress site — 2.5–3.5 weeks.</li>
+            <li>Integration, polish, Spring Boot 4 migration, 1.0.0 hardening &amp; buffer — 2–3 weeks.</li>
+        </ul>
+    </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
@@ -811,8 +874,8 @@
             <h3 class="emerald">🏗️ Agentic engineering — pay first</h3>
             <ul>
                 <li>Specs, tests and CI cost you real days <span class="ink fw-700">before</span> the first agent runs</li>
-                <li>They're what makes the tokens land first time, not on the fourth attempt</li>
-                <li>The harness is <span class="ink fw-700">cheap to write and expensive to skip</span></li>
+                <li>They keep your agent iterating toward a solid solution, rather than rushing out an incorrect answer</li>
+                <li>The harness takes <span class="ink fw-700">real investment up front</span>, but skipping it costs more later</li>
             </ul>
         </div>
     </div>
@@ -862,7 +925,7 @@
 
     <div class="grid-2">
         <div class="card t-indigo">
-            <h3>📜 The house rules · AGENTS.md</h3>
+            <h3>📜 Technical standards · AGENTS.md</h3>
             <ul>
                 <li>Set the conventions <span class="ink fw-700">once</span>: stack, build, test, style</li>
                 <li>Repository instructions define <span class="ink fw-700">the rules</span>, not every task's procedure</li>
@@ -870,10 +933,10 @@
             </ul>
         </div>
         <div class="card t-blue">
-            <h3 class="blue">🎯 A spec per task</h3>
+            <h3 class="blue">🎯 Complete, clear business specifications</h3>
             <ul>
                 <li>What to build, where, what "done" looks like</li>
-                <li>The acceptance test the agent must make pass, even when using a skill</li>
+                <li>Acceptance tests the implementation must pass, even when using a skill</li>
                 <li>Small, self-contained, no hidden dependencies</li>
             </ul>
         </div>
@@ -953,7 +1016,7 @@
     </div>
 
     <div class="txt-sm muted mt-sm center">
-        ~220 lines of instructions steer 2,083 lines of CI and 641 test files. Context is a budget, not a document.
+        ~220 lines of instructions steer 2,083 lines of CI and 641 test files. Keep always-on instructions short; load task-specific details only when needed.
     </div>
 </section>
 
@@ -971,6 +1034,7 @@
                 <li><span class="ink fw-700">Impeccable</span> — craft beautiful Web designs, fix accessibility issues</li>
                 <li><span class="ink fw-700">orchestrate</span> — coordinate advisor audits across sessions</li>
                 <li><span class="ink fw-700">agent-merge</span> — PR review, CI and conflict follow-ups</li>
+                <li><span class="ink fw-700">bootui-release</span> — a custom skill written specifically to guide a BootUI release</li>
             </ul>
         </div>
         <div class="card t-teal">
@@ -984,10 +1048,10 @@
     </div>
 
     <div class="banner mt-md">
-        Instructions set the rules. Skills guide the task.<br>Tools help execute it. <b>Tests check the result.</b>
+        Skills, MCP servers and tools connect agents to documentation, data and external systems.
     </div>
-    <p class="txt-xs muted mt-sm center">Examples from recorded Copilot sessions, 9 August–8 September 2026; not a claim about the original sprint.</p>
-    <aside class="notes">Based on actual recorded tool invocations in BootUI sessions from the past month, rather than installed skills alone. Impeccable was invoked in the Windows 95 theme session on August 26 and the docs-site restructure session on August 25. Orchestrate was invoked in the September 7 advisor audit coordination session. Agent-merge was repeatedly invoked for PR lifecycle follow-ups; some invocations are automated check-ins, not explicit manual skill selections. Java LSP documentSymbol returned class and method outlines for CRaC, reactive security and Quarkus security code during the August 15 review. Three other recorded workspaceSymbol queries returned no matches, so do not claim all LSP attempts helped or that reference navigation was observed in this sample. Other skills appear in the records, including bootui-vertical-pr, agentfinder and github-pr-media; these are representative examples, not a complete inventory or a measured productivity comparison. Skills supply task-specific procedures and may use tools; LSP supplies structured code information. Neither replaces tests or review. This is ingredient 4: skills and tools help agents act, while the test harness checks whether they succeeded. Both belong to the broader agent harness.</aside>
+    <p class="txt-xs muted mt-sm center">Recorded examples, 9 August–8 September 2026, plus the custom release skill; not a claim about the original sprint.</p>
+    <aside class="notes">The recorded examples are based on actual tool invocations in BootUI sessions from the past month, rather than installed skills alone. Impeccable was invoked in the Windows 95 theme session on August 26 and the docs-site restructure session on August 25. Orchestrate was invoked in the September 7 advisor audit coordination session. Agent-merge was repeatedly invoked for PR lifecycle follow-ups; some invocations are automated check-ins, not explicit manual skill selections. The project-specific bootui-release skill is an additional example, written to guide a BootUI release; it is not presented as an observed invocation in that sample. Java LSP documentSymbol returned class and method outlines for CRaC, reactive security and Quarkus security code during the August 15 review. Three other recorded workspaceSymbol queries returned no matches, so do not claim all LSP attempts helped or that reference navigation was observed in this sample. Other skills appear in the records, including bootui-vertical-pr, agentfinder and github-pr-media; these are representative examples, not a complete inventory or a measured productivity comparison. Skills supply task-specific procedures and may use tools; LSP supplies structured code information. Specialized tools and Model Context Protocol (MCP) servers can expose documentation, data and external services to agents. Those integrations were less central to BootUI, but matter more in workflows that depend on external systems. Neither skills nor tools replace tests or review. This is ingredient 4: skills and tools help agents act, while the test harness checks whether they succeeded. Both belong to the broader agent harness.</aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
@@ -1184,21 +1248,17 @@
 <section>
     <h2>🧨 Why the multiplier was so large</h2>
     <p class="txt-sm muted" style="margin:-.1em 0 .55em;">
-        This codebase is unusually well-suited to AI, for three reasons. Not every project gets 17–23×.
+        This codebase is unusually well-suited to AI, for two reasons. Not every project gets 17–23×.
     </p>
 
-    <div class="grid-3">
+    <div class="grid-2">
         <div class="card t-emerald">
             <h3 class="emerald">🔁 Massive repetition</h3>
             <div class="txt-xs muted">~40 structurally similar panels an agent <span class="ink fw-700">clones cheaply</span>. By hand, that's the most expensive part.</div>
         </div>
         <div class="card t-emerald">
-            <h3 class="emerald">🔌 Broad-but-shallow</h3>
-            <div class="txt-xs muted">Many Spring subsystems, each shallow. By hand, the cost is mostly <span class="ink fw-700">looking things up</span>, exactly what the agent absorbs.</div>
-        </div>
-        <div class="card t-emerald">
-            <h3 class="emerald">🛡️ Strong guardrails</h3>
-            <div class="txt-xs muted">Multi-module CI, CodeQL, e2e and explicit instructions let the human <span class="ink fw-700">safely accept high throughput</span>.</div>
+            <h3 class="emerald">🔌 Well-documented technologies</h3>
+            <div class="txt-xs muted">Many Spring subsystems, each with a focused integration. Their <span class="ink fw-700">extensive documentation and examples</span> gave agents reliable material to research and build on, instead of working from guesswork.</div>
         </div>
     </div>
 
@@ -1274,7 +1334,7 @@
             <div class="txt-xs muted">Required checks, review approvals and release workflows.</div>
         </div>
     </div>
-    <div class="banner mt-md">The agent's work is judged by the <b>same acceptance gates as mine.</b></div>
+    <div class="banner mt-md">AI-written code benefits from <b>the full GitHub platform</b>, just like human-written code.</div>
     <p class="closing-source"><a href="https://github.com/jdubois/boot-ui/actions" target="_blank" rel="noopener noreferrer">BootUI Actions</a> · <a href="https://github.com/jdubois/boot-ui/pulls" target="_blank" rel="noopener noreferrer">Pull requests</a></p>
     <aside class="notes">Adapted from AI coding's One loop, one platform slide. Walk left to right. The platform reduces handoffs, but setup, permissions and integration still require engineering. Different clients can support different instruction mechanisms. Checks and review rules only enforce what is actually configured.</aside>
 </section>
