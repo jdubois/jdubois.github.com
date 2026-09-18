@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>223 Pull Requests in 11 Days — Julien Dubois</title>
+
+    <!-- Reveal.js (vendored locally — no CDN dependency) -->
+    <link rel="stylesheet" href="vendor/reveal/reveal.css" />
+    <link rel="stylesheet" href="vendor/reveal/theme/white.css" />
+
+    <!-- Fonts (vendored locally — no Google Fonts dependency) -->
+    <link rel="stylesheet" href="vendor/fonts/fonts.local.css" />
+
+    <style>
+        /* ── Tokens ───────────────────────────────────────────────────── */
+        :root {
+            --ink:#0b1f3a;
+            --ink-soft:#243b59;
+            --muted:#4a6076;
+            --line:#cdd7e6;
+            --track:#d7e0ee;
+            --blue:#1d4ed8;
+            --indigo:#1e40af;
+            --violet:#6d28d9;
+            --teal:#0e7490;
+            --cyan:#0369a1;
+            --amber:#b45309;
+            --emerald:#047857;
+            --surface:#ffffff;
+            --radius:16px;
+            --shadow:0 16px 38px -18px rgba(11,31,58,.30);
+            --shadow-sm:0 4px 14px -5px rgba(11,31,58,.16);
+            --grad:linear-gradient(120deg,#1d4ed8 0%,#3730a3 55%,#6d28d9 100%);
+            --grad-night:linear-gradient(120deg,#1e3a8a,#4338ca);
+            --grad-dawn:linear-gradient(120deg,#b45309,#c2410c);
+            --grad-green:linear-gradient(120deg,#047857,#0e7490);
+
+            /* Type scale — modular (~1.2 ratio), em-based so it scales with reveal's zoom */
+            --t-display:2.5em;   /* cover / outro title          */
+            --t-stat:1.5em;      /* hero stat numbers            */
+            --t-h2:1.2em;        /* slide titles                 */
+            --t-lead:.82em;      /* lead / banner emphasis       */
+            --t-body:.7em;       /* primary body, list items     */
+            --t-sm:.6em;         /* secondary text               */
+            --t-xs:.5em;         /* captions, small labels       */
+            --t-2xs:.42em;       /* micro labels, timestamps     */
+
+            /* Letter-spacing — reveal uppercases headings, so caps get positive tracking
+               (more for smaller caps), display can run tight. */
+            --track-display:-.01em;
+            --track-title:.012em;
+            --track-label:.04em;
+        }
+
+        /* ── Base ─────────────────────────────────────────────────────── */
+        .reveal-viewport {
+            background:
+                linear-gradient(rgba(29,78,216,.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(29,78,216,.05) 1px, transparent 1px),
+                radial-gradient(1000px 560px at 12% -8%, #dce7f8 0%, transparent 55%),
+                radial-gradient(920px 520px at 96% 0%, #d8e3f6 0%, transparent 50%),
+                radial-gradient(1000px 680px at 52% 122%, #cfe0f2 0%, transparent 55%),
+                #e4ebf5;
+            background-size:36px 36px, 36px 36px, auto, auto, auto, auto;
+        }
+        .reveal {
+            font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size:28px;
+            color:var(--ink);
+            font-kerning:normal;
+            text-rendering:optimizeLegibility;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+        }
+        .reveal .slides section {
+            text-align:left;
+            box-sizing:border-box;
+            padding:0.85em 0.7em;
+        }
+
+        /* ── Headings ─────────────────────────────────────────────────── */
+        .reveal h1 { font-family:'Space Grotesk', sans-serif; font-weight:700; line-height:1.04; letter-spacing:var(--track-display); color:var(--ink); text-wrap:balance; }
+        .reveal h2 {
+            font-family:'Space Grotesk', sans-serif; font-weight:700;
+            font-size:var(--t-h2); color:var(--ink); letter-spacing:var(--track-title);
+            margin:0 0 .5em; padding-bottom:.25em;
+            border-bottom:3px solid transparent;
+            border-image:linear-gradient(90deg,var(--blue),var(--violet)) 1;
+            display:flex; align-items:center; gap:.4em;
+        }
+        .reveal h3 {
+            font-family:'Space Grotesk', sans-serif; font-weight:600;
+            color:var(--indigo); font-size:var(--t-body); margin:0 0 .35em; letter-spacing:var(--track-label);
+        }
+
+        /* ── BootUI mark in a slide title ─────────────────────────────── */
+        .h2-logo { height:1em; width:1em; flex:0 0 auto; display:block; }
+
+        /* ── Mono pill (repo handle) ──────────────────────────────────── */
+        .repo-pill {
+            display:inline-block; font-family:'JetBrains Mono', monospace;
+            font-size:var(--t-2xs); font-weight:600; padding:3px 10px;
+            border-radius:999px; background:#eff6ff; color:var(--blue);
+        }
+        .banner .repo-pill { background:rgba(255,255,255,.16); }
+
+        /* ── Code snippet ─────────────────────────────────────────────── */
+        .snippet {
+            font-family:'JetBrains Mono', monospace; font-size:var(--t-xs);
+            background:var(--ink); color:#e2e8f0; border-radius:12px;
+            padding:.7em 1.1em; text-align:left; line-height:1.65;
+            box-shadow:var(--shadow-sm); white-space:pre;
+        }
+        .snippet .k { color:#7dd3fc; }
+        .snippet .c { color:#94a3b8; }
+
+        /* ── Gradient text ────────────────────────────────────────────── */
+        .grad { background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+        /* ── Lists ────────────────────────────────────────────────────── */
+        .reveal ul { list-style:none; margin:0; padding:0; }
+        .reveal ul li {
+            font-size:var(--t-body); color:var(--ink-soft);
+            padding:.22em 0 .22em 1.45em; position:relative; line-height:1.4;
+        }
+        .reveal ul li::before {
+            content:""; position:absolute; left:0; top:.62em;
+            width:.5em; height:.5em; border-radius:3px; background:var(--grad);
+        }
+        .reveal ul.compact li { font-size:var(--t-sm); padding-top:.14em; padding-bottom:.14em; }
+        .reveal ul.compact li::before { top:.52em; }
+
+        /* ── Cards ────────────────────────────────────────────────────── */
+        .card {
+            background:var(--surface); border:1px solid var(--line);
+            border-radius:var(--radius); padding:.8em 1em;
+            box-shadow:var(--shadow-sm); position:relative;
+        }
+        .card.t-blue    { border-top:4px solid var(--blue); }
+        .card.t-indigo  { border-top:4px solid var(--indigo); }
+        .card.t-violet  { border-top:4px solid var(--violet); }
+        .card.t-teal    { border-top:4px solid var(--teal); }
+        .card.t-cyan    { border-top:4px solid var(--cyan); }
+        .card.t-amber   { border-top:4px solid var(--amber); }
+        .card.t-emerald { border-top:4px solid var(--emerald); }
+        .card.t-blue h3    { color:var(--blue); }
+        .card.t-violet h3  { color:var(--violet); }
+        .card.t-teal h3    { color:var(--teal); }
+        .card.t-cyan h3    { color:var(--cyan); }
+        .card.t-amber h3   { color:var(--amber); }
+        .card.t-emerald h3 { color:var(--emerald); }
+
+        /* Slide 3 — demote the token-detail charts so the 4 headline stats lead the eye */
+        .detail-demote { font-size:.9em; }
+        .detail-demote .card   { box-shadow:none; border-top:2px solid var(--line); background:#f3f7fc; }
+        .detail-demote .card h3 { color:var(--ink-soft); font-weight:600; }
+        .detail-demote .bar-fill { background:linear-gradient(90deg,#9db8f0,#bdb0ec); }
+
+        /* ── Grids ────────────────────────────────────────────────────── */
+        .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:.8em; }
+        .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:.75em; }
+        .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:.65em; }
+
+        /* ── Chips ────────────────────────────────────────────────────── */
+        .chip {
+            display:inline-block; border-radius:999px;
+            padding:5px 14px; font-size:var(--t-2xs); font-weight:600;
+            background:#e2ebfb; color:var(--indigo);
+        }
+        .chip.blue  { background:#dbe8fe; color:var(--blue); }
+        .chip.teal  { background:#d6eef3; color:var(--teal); }
+        .chip.slate { background:#d4dcea; color:var(--ink-soft); }
+
+        /* ── Hero banner box ──────────────────────────────────────────── */
+        .banner {
+            background:var(--grad); color:#fff; border-radius:var(--radius);
+            padding:.75em 1.1em; font-weight:600; font-size:var(--t-lead);
+            box-shadow:var(--shadow);
+        }
+        .banner * { color:#fff !important; }
+        .banner.night { background:var(--grad-night); }
+        .banner.dawn  { background:var(--grad-dawn); }
+        .banner.green { background:var(--grad-green); }
+        /* first-light payoff — the climax banner on the night slide */
+        .banner.sunrise {
+            background:linear-gradient(118deg,#c2410c 0%,#be123c 46%,#6d28d9 100%);
+            box-shadow:0 0 0 1px rgba(255,255,255,.14), 0 24px 64px -20px rgba(217,70,30,.6);
+        }
+
+        /* ── Night slide — the "deep plans overnight" slide goes full-bleed dark ── */
+        /* The one tentpole: light → DARK → light across the three steps.
+           The surface is painted by data-background-gradient on the section;
+           here we re-tone the content and let the white agent cards glow
+           like lit windows against the night. */
+        .night-slide h2 { color:#eef3ff; }
+        .night-slide h2 .muted { color:#9db1d8 !important; }
+        .night-slide > .txt-sm.muted { color:#bccbea; }
+        .night-slide > .txt-sm.muted .ink { color:#ffffff; }
+        .night-slide .agent {
+            background:#fbfcff; border-color:rgba(150,166,224,.22);
+            box-shadow:0 0 0 1px rgba(142,162,255,.16), 0 22px 54px -18px rgba(91,104,235,.78);
+        }
+        .night-slide .agent .task { min-height:2.7em; }   /* reserve 2 lines so all four pills share one baseline */
+
+        /* ── Stats ────────────────────────────────────────────────────── */
+        .stat-num { font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:var(--t-stat); line-height:1; color:var(--ink); font-variant-numeric:tabular-nums; letter-spacing:-.01em; }
+        .stat-label { font-size:var(--t-2xs); color:var(--muted); margin-top:.35em; line-height:1.3; font-weight:500; }
+
+
+        /* ── Slide 4 — Thesis: the new org chart (hero) ───────────────── */
+        .thesis-lede {
+            text-align:center; font-family:'Space Grotesk', sans-serif; font-weight:600;
+            font-size:var(--t-lead); color:var(--ink); letter-spacing:-.01em;
+            margin:.2em 0 1.2em; text-wrap:balance;
+        }
+        .orgchart { display:flex; flex-direction:column; align-items:center; }
+        .org-mgr {
+            display:inline-flex; align-items:center; gap:.4em;
+            background:var(--grad); color:#fff;
+            font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:var(--t-lead);
+            letter-spacing:-.005em; padding:.5em 1.3em; border-radius:999px;
+            box-shadow:0 16px 32px -14px rgba(55,48,163,.7), 0 0 0 6px rgba(99,102,241,.10);
+        }
+        .org-fan { width:100%; max-width:900px; height:54px; display:block; }
+        .org-fan path { fill:none; stroke:#8497c6; stroke-width:2; }
+        .org-row { display:grid; grid-template-columns:repeat(4,1fr); gap:0; width:100%; max-width:900px; }
+        .org-node {
+            margin:0 .35em; background:#fff; border:1px solid var(--line);
+            border-radius:14px; padding:.6em .5em .62em; text-align:center; box-shadow:var(--shadow-sm);
+        }
+        .org-node .role {
+            display:block; font-family:'Space Grotesk', sans-serif; font-weight:700;
+            font-size:var(--t-sm); color:var(--ink); letter-spacing:-.005em;
+        }
+        .org-node .does { font-size:var(--t-2xs); color:var(--muted); margin-top:.3em; line-height:1.3; }
+        .org-node.r-blue    .role { color:var(--blue); }
+        .org-node.r-emerald .role { color:var(--emerald); }
+        .org-node.r-violet  .role { color:var(--violet); }
+        .org-node.r-teal    .role { color:var(--teal); }
+        .org-cap { text-align:center; font-size:var(--t-xs); color:var(--muted); margin:.9em 0 0; }
+        .thesis-close {
+            text-align:center; font-family:'Space Grotesk', sans-serif; font-weight:700;
+            font-size:1.02em; letter-spacing:-.015em; color:var(--ink);
+            margin:1.05em 0 0; text-wrap:balance;
+        }
+        .thesis-close .win { color:var(--blue); }
+
+        /* ── Agent task cards (overnight) ─────────────────────────────── */
+        .agent {
+            border:1px solid var(--line); border-radius:14px; background:#fff;
+            padding:.6em .75em; box-shadow:var(--shadow-sm);
+        }
+        .agent .who { font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:var(--t-sm); color:var(--ink); }
+        .agent .task { font-size:var(--t-xs); color:var(--muted); margin-top:.25em; line-height:1.35; }
+        .agent .pill {
+            display:inline-block; margin-top:.45em; font-family:'JetBrains Mono', monospace;
+            font-size:var(--t-2xs); font-weight:600; padding:2px 8px; border-radius:999px;
+            background:#ecfdf5; color:#047857; font-variant-numeric:tabular-nums;
+        }
+        .agent .pill.run { background:#eff6ff; color:#1d4ed8; }
+
+        /* ── Timeline ─────────────────────────────────────────────────── */
+        .tl { position:relative; padding:.5em 0 .2em; }
+        .tl-band {
+            position:absolute; top:1.55em; bottom:1.1em; left:16.5%; width:50%;
+            background:linear-gradient(180deg, rgba(29,78,216,.12), rgba(3,105,161,.05));
+            border:1px dashed rgba(29,78,216,.4); border-radius:14px; z-index:0;
+        }
+        .tl-band-label {
+            position:absolute; top:-1.3em; left:0; right:0; text-align:center;
+            font-family:'Space Grotesk', sans-serif; font-weight:600;
+            font-size:var(--t-2xs); color:var(--blue); letter-spacing:var(--track-label);
+        }
+        .tl-times, .tl-dots, .tl-info { display:flex; justify-content:space-between; position:relative; z-index:1; }
+        .tl-times > span, .tl-dots > span, .tl-info > div { width:15.5%; text-align:center; }
+        .tl-times > span { font-family:'JetBrains Mono', monospace; font-size:var(--t-2xs); color:var(--muted); font-weight:600; font-variant-numeric:tabular-nums; }
+        .tl-dots { align-items:center; margin:.4em 0; }
+        .tl-dots::before {
+            content:''; position:absolute; left:6%; right:6%; top:50%; transform:translateY(-50%);
+            height:3px; background:linear-gradient(90deg,var(--blue),var(--indigo),var(--violet)); z-index:0; border-radius:3px;
+        }
+        .tl-dot {
+            display:inline-block; width:18px; height:18px; border-radius:50%;
+            background:var(--blue); position:relative; z-index:1;
+            box-shadow:0 0 0 4px #fff, 0 0 0 6px var(--blue);
+        }
+        .tl-dot.night { background:var(--violet); box-shadow:0 0 0 4px #fff, 0 0 0 6px var(--violet); }
+        .tl-dot.dawn  { background:var(--amber); box-shadow:0 0 0 4px #fff, 0 0 0 6px var(--amber); }
+        .tl-dot.ship  { background:var(--teal);  box-shadow:0 0 0 4px #fff, 0 0 0 6px var(--teal); }
+        .tl-info > div .nm { font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:var(--t-xs); color:var(--ink); display:block; }
+        .tl-info > div .ds { font-size:var(--t-2xs); color:var(--muted); margin-top:.25em; display:block; line-height:1.3; }
+
+        /* ── Charts ───────────────────────────────────────────────────── */
+        .bar-row { display:flex; align-items:center; gap:.6em; font-size:var(--t-xs); }
+        .bar-name { width:120px; color:var(--ink); font-weight:600; }
+        .bar-name.muted { color:var(--muted); font-weight:500; }
+        .bar-track { flex:1; height:14px; background:var(--track); border-radius:7px; overflow:hidden; }
+        .bar-fill { display:block; height:100%; background:linear-gradient(90deg,var(--blue),var(--violet)); border-radius:7px; }
+        .bar-val { width:34px; text-align:right; font-weight:700; color:var(--ink); font-variant-numeric:tabular-nums; }
+        .bar-val.muted { color:var(--muted); }
+
+        /* ── Playbook numbered list ───────────────────────────────────── */
+        .pb-item { display:flex; gap:.7em; align-items:baseline; padding:.28em 0; border-bottom:1px solid var(--line); }
+        .pb-item:last-child { border-bottom:none; }
+        .pb-num { font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:var(--t-sm); min-width:1.5em; font-variant-numeric:tabular-nums; }
+        .pb-text { font-size:var(--t-sm); color:var(--ink-soft); line-height:1.3; }
+        .pb-text b { color:var(--ink); }
+
+        /* ── Slide number ─────────────────────────────────────────────── */
+        .reveal .slide-number { background:transparent; color:var(--muted); font-family:'JetBrains Mono', monospace; font-size:var(--t-xs); right:14px; bottom:12px; font-variant-numeric:tabular-nums; }
+
+        /* ── Progress bar (tint reveal's default link-blue to brand blue) ─ */
+        .reveal .progress { color:var(--blue); background-color:rgba(11,31,58,.08); }
+        /* On the dark night slide, lift the corner pagination so it stays crisp */
+        .reveal.has-dark-background .slide-number { color:#93a7cf; }
+
+        /* ── Utilities ────────────────────────────────────────────────── */
+        .txt-sm { font-size:var(--t-sm); }
+        .txt-xs { font-size:var(--t-xs); }
+        .muted  { color:var(--muted); }
+        .ink    { color:var(--ink); }
+        .blue   { color:var(--blue); }
+        .indigo { color:var(--indigo); }
+        .violet { color:var(--violet); }
+        .teal   { color:var(--teal); }
+        .amber  { color:var(--amber); }
+        .emerald{ color:var(--emerald); }
+        .mono   { font-family:'JetBrains Mono', monospace; }
+        .sg     { font-family:'Space Grotesk', sans-serif; }
+        .fw-700 { font-weight:700; }
+        .mt-sm  { margin-top:.5em; }
+        .mt-md  { margin-top:.9em; }
+        .center { text-align:center; }
+
+        /* ── Cover / outro ────────────────────────────────────────────── */
+        .cover-wrap, .outro-wrap { display:flex; flex-direction:column; justify-content:center; height:100%; }
+
+        /* ── Extensions for this deck ─────────────────────────────────── */
+        .cyan { color:var(--cyan); }
+
+        /* Section dividers */
+        .divider-wrap { display:flex; flex-direction:column; justify-content:center; height:100%; }
+        .divider-kicker {
+            font-family:'JetBrains Mono', monospace; font-size:var(--t-sm); font-weight:600;
+            letter-spacing:.14em; text-transform:uppercase; color:var(--violet); margin-bottom:.1em;
+        }
+        .divider-num {
+            font-family:'Space Grotesk', sans-serif; font-weight:700; line-height:.86;
+            font-size:6.4em; letter-spacing:-.04em;
+            color:transparent; -webkit-text-stroke:3px var(--blue);
+        }
+        .divider h1 { font-size:2.1em; margin:.06em 0 .14em; }
+        .divider .sub { font-size:var(--t-lead); color:var(--muted); font-family:'Space Grotesk',sans-serif; font-weight:500; text-wrap:balance; }
+
+        /* Data table */
+        .dtable { width:100%; border-collapse:collapse; font-size:var(--t-sm); }
+        .dtable th, .dtable td { text-align:left; padding:.4em .7em; border-bottom:1px solid var(--line); vertical-align:top; }
+        .dtable thead th {
+            font-family:'Space Grotesk',sans-serif; font-weight:700; color:var(--ink);
+            font-size:var(--t-xs); letter-spacing:var(--track-label); text-transform:uppercase;
+            border-bottom:2px solid var(--ink-soft);
+        }
+        .dtable td { color:var(--ink-soft); line-height:1.32; }
+        .dtable td.num { font-family:'JetBrains Mono',monospace; font-weight:600; color:var(--ink); white-space:nowrap; font-variant-numeric:tabular-nums; }
+        .dtable th.green-h { color:var(--emerald); }
+        .dtable th.amber-h { color:var(--amber); }
+        .dtable tr.total td { border-top:2px solid var(--ink-soft); border-bottom:none; font-weight:700; color:var(--ink); background:#eef3fb; }
+        .dtable tr:last-child td { border-bottom:none; }
+
+        /* Recipe ingredient header */
+        .ingredient { display:flex; align-items:center; gap:.55em; margin:0 0 .6em; }
+        .ingredient .ix {
+            font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:var(--t-lead);
+            width:1.7em; height:1.7em; flex-shrink:0; border-radius:14px;
+            display:inline-flex; align-items:center; justify-content:center;
+            background:var(--grad); color:#fff; box-shadow:0 10px 22px -10px rgba(55,48,163,.7);
+        }
+        .ingredient .ix-label { font-family:'JetBrains Mono',monospace; font-size:var(--t-2xs); font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); display:block; }
+        .ingredient h2 { font-size:var(--t-h2); }
+
+        /* BootUI feature grid */
+        .feat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.55em; }
+        .feat { background:#f3f7fc; border:1px solid var(--line); border-radius:12px; padding:.55em .7em; font-size:var(--t-xs); color:var(--muted); line-height:1.4; }
+        .feat b { color:var(--ink); font-family:'Space Grotesk',sans-serif; font-weight:600; }
+    </style>
+    <link rel="stylesheet" href="closing.css" />
+    <link rel="stylesheet" href="verdict.css" />
+    <link rel="stylesheet" href="quizzes.css" />
+    <style>
+        .reveal .slides section.speaker-bio {
+            --speaker-ink: #0f1419;
+            --speaker-text: #2a313c;
+            --speaker-accent: #1d4ed8;
+            --speaker-line: #e2e6ea;
+            height: auto;
+            padding: 0.85em 0.7em;
+            color: var(--speaker-ink);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 28px;
+            line-height: 1.4;
+            letter-spacing: normal;
+            text-align: left;
+        }
+
+        .reveal .speaker-bio h2 {
+            display: block;
+            margin: 0 0 0.8em;
+            padding: 0 0 0.3em;
+            border-bottom: 3px solid var(--speaker-accent);
+            border-image: none;
+            color: var(--speaker-ink);
+            font-family: inherit;
+            font-size: 1.2em;
+            font-weight: 700;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            text-transform: none;
+        }
+
+        .speaker-bio-layout {
+            display: grid;
+            grid-template-columns: 165px minmax(0, 1fr);
+            gap: 1.4em;
+            align-items: center;
+        }
+
+        .reveal .speaker-bio-photo {
+            display: block;
+            width: 100%;
+            max-width: none;
+            max-height: none;
+            height: auto;
+            margin: 0;
+            border-radius: 18px;
+        }
+
+        .reveal .speaker-bio-name {
+            margin: 0 0 0.25em;
+            font-size: 1em;
+            font-weight: 700;
+        }
+
+        .reveal .speaker-bio-title {
+            margin: 0 0 0.8em;
+            color: var(--speaker-text);
+            font-size: 0.75em;
+        }
+
+        .speaker-bio-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4em;
+            margin-bottom: 0.55em;
+        }
+
+        .speaker-bio-tags span {
+            padding: 0.25em 0.7em;
+            border: 1px solid var(--speaker-line);
+            border-radius: 8px;
+            color: var(--speaker-text);
+            font-size: 0.5em;
+            font-weight: 500;
+        }
+
+        .reveal .speaker-bio ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .reveal .speaker-bio ul li {
+            position: relative;
+            padding: 0.22em 0 0.22em 1.45em;
+            color: var(--speaker-text);
+            font-size: 0.7em;
+            line-height: 1.4;
+        }
+
+        .reveal .speaker-bio ul li::before {
+            content: '';
+            position: absolute;
+            top: 0.72em;
+            left: 0.25em;
+            width: 0.3em;
+            height: 0.3em;
+            border-radius: 50%;
+            background: var(--speaker-accent);
+        }
+
+        .reveal .speaker-bio strong {
+            color: var(--speaker-ink);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 1 — COVER
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="cover-wrap">
+        <div style="display:flex;gap:.5em;flex-wrap:wrap;margin-bottom:1em;">
+            <span class="chip">Builder's playbook</span>
+            <span class="chip blue">GitHub Copilot</span>
+            <span class="chip teal">Real software · real metrics</span>
+        </div>
+
+        <h1 style="font-size:var(--t-display);margin:0;">223 Pull Requests<br/>in <span class="grad">11 Days</span></h1>
+
+        <div class="sg" style="font-size:.8em;font-weight:600;margin-top:.7em;color:var(--ink-soft);">
+            The recipe for building real software with AI agents.
+        </div>
+        <div class="txt-sm muted" style="margin-top:.3em;">
+            Drive a fleet of agents by day, a few deep plans by night. Merge the wins over coffee. ☕
+        </div>
+
+        <div class="mono muted" style="font-size:.5em;margin-top:1.6em;letter-spacing:.02em;">
+            Julien Dubois&nbsp;&nbsp;·&nbsp;&nbsp;github.com/jdubois&nbsp;&nbsp;·&nbsp;&nbsp;julien-dubois.com
+        </div>
+
+        <div style="display:flex;align-items:center;gap:1.3em;margin-top:1.7em;">
+            <span style="display:inline-flex;align-items:center;gap:.5em;">
+                <svg height="24" viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="GitHub"><path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.014 7.822 5.014 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" fill="#181717"/></svg>
+                <span class="sg" style="font-size:18px;font-weight:700;color:#181717;letter-spacing:-.01em;">GitHub</span>
+            </span>
+            <span style="width:1px;height:22px;background:var(--line);"></span>
+            <span style="display:inline-flex;align-items:center;gap:.55em;">
+                <svg width="22" height="22" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Microsoft"><rect x="1" y="1" width="10" height="10" fill="#F25022"/><rect x="12" y="1" width="10" height="10" fill="#7FBA00"/><rect x="1" y="12" width="10" height="10" fill="#00A4EF"/><rect x="12" y="12" width="10" height="10" fill="#FFB900"/></svg>
+                <span class="sg" style="font-size:18px;font-weight:600;color:#5E5E5E;letter-spacing:-.005em;">Microsoft</span>
+            </span>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 2 — WHO AM I (bio)
+══════════════════════════════════════════════════════════════ -->
+<section class="speaker-bio center" data-background-color="#ffffff" aria-labelledby="speaker-bio-heading">
+    <h2 id="speaker-bio-heading">Who am I?</h2>
+    <div class="speaker-bio-layout">
+        <img src="https://www.julien-dubois.com/img/photos/julien-dubois.png" alt="Julien Dubois" class="speaker-bio-photo" />
+        <div>
+            <p class="speaker-bio-name">Julien Dubois</p>
+            <p class="speaker-bio-title" lang="en">Principal Manager, Developer Relations at GitHub / Microsoft</p>
+            <div class="speaker-bio-tags">
+                <span>Java Champion</span>
+                <span>GitHub / Microsoft</span>
+                <span>JHipster 22k+</span>
+                <span>AI &times; code</span>
+            </div>
+            <ul>
+                <li>Creator of <strong>JHipster</strong> · 22,000+ ⭐</li>
+                <li><strong>200+ international talks</strong> (Devoxx, SpringOne, Microsoft Build…)</li>
+                <li>Today: shipping real projects by <strong>managing AI agents</strong></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 3 — THE DREAM
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>💭 The project I never had time to build</h2>
+
+    <p class="thesis-lede" style="margin:.1em 0 .85em;">I always wanted a real <span class="grad">developer UI for Spring Boot</span>.</p>
+
+    <div class="grid-2">
+        <div class="card t-blue">
+            <h3 class="blue">🔭 The itch</h3>
+            <ul>
+                <li>Every Spring app is a <span class="ink fw-700">black box</span> in development</li>
+                <li>Actuator gives you raw JSON, not a console</li>
+                <li>I wanted health, metrics, security and tracing <span class="ink fw-700">in one embedded UI</span></li>
+            </ul>
+        </div>
+        <div class="card t-amber">
+            <h3 class="amber">🧱 The catch: it's massive</h3>
+            <ul>
+                <li>~40 panels, each = backend + frontend + tests</li>
+                <li>Deep integration across a dozen JVM subsystems</li>
+                <li>By hand, one experienced dev: <span class="ink fw-700">6.5–8.5 months</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="txt-sm muted mt-md center">
+        I'd shipped a slice of this in <span class="ink fw-700">JHipster</span> years ago, but only for generated apps. A real console for <span class="ink fw-700">any</span> Spring Boot app sat on my wishlist for <span class="violet fw-700">years</span>. Too big to justify, until I stopped writing the code myself.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 4 — THE RESULT (big reveal)
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>⚡ Then I did it in 11 days</h2>
+
+    <div class="grid-4" style="margin:.15em 0 .8em;">
+        <div class="card t-indigo"><div class="stat-num indigo">223</div><div class="stat-label">pull requests merged</div></div>
+        <div class="card t-teal"><div class="stat-num teal">11</div><div class="stat-label">calendar days <span style="opacity:.7;">· v1 in &lt; 2 weeks</span></div></div>
+        <div class="card t-violet"><div class="stat-num violet">~20</div><div class="stat-label">PRs merged per day</div></div>
+        <div class="card t-amber"><div class="stat-num amber">83k</div><div class="stat-label">lines of code shipped</div></div>
+    </div>
+
+    <div class="banner">
+        Not by typing faster. <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">I didn't even open my IDE.</span> I managed a fleet of AI agents while I architected, reviewed and steered.
+    </div>
+
+    <div class="txt-sm muted mt-sm center">
+        The agents did the scaffolding, the panels and the tests. I did the judgement.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 5 — WHAT I BUILT: BootUI
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🖥️ What I built: BootUI</h2>
+
+    <p class="txt-sm muted" style="margin:-.1em 0 .6em;">
+        A production-grade <span class="ink fw-700">Spring Boot 4 starter</span> that adds an embedded, <span class="ink fw-700">local-only developer console</span> to your app.
+    </p>
+
+    <div class="grid-2">
+        <div class="card t-blue">
+            <h3 class="blue">🧩 Multi-module &amp; deeply integrated</h3>
+            <ul>
+                <li>5-module Maven build · Spring Boot 4 / Java 17</li>
+                <li>Actuator, Spring Security, Flyway/Liquibase, Hibernate</li>
+                <li>Micrometer/OTLP, GraalVM, OSV scanning, ArchUnit</li>
+                <li>Maven Central publishing · full CI</li>
+            </ul>
+        </div>
+        <div class="card t-violet">
+            <h3 class="violet">🎛️ ~40 feature panels</h3>
+            <ul>
+                <li>An embedded <span class="ink fw-700">Vue 3 SPA</span>, packaged in the starter</li>
+                <li>Each panel = endpoints + view + tests</li>
+                <li>Health, metrics, security advisor, vulnerabilities, tracing…</li>
+                <li>The biggest source of <span class="ink fw-700">structural repetition</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md" style="font-size:.72em;">
+        📦 Open source at <span class="mono">github.com/jdubois/boot-ui</span> &nbsp;·&nbsp; docs at <span class="mono">julien-dubois.com/boot-ui</span>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 6 — THE MEASURED FACTS
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>📐 The measured facts <span class="sg muted" style="font-size:.5em;font-weight:600;border:none;">· v1.0.0</span></h2>
+    <p class="txt-xs muted" style="margin:-.25em 0 .55em;">
+        Derived from git history, PR metadata and code metrics, not time-tracking logs.
+    </p>
+
+    <div class="grid-4" style="gap:.6em;">
+        <div class="card t-indigo"><div class="stat-num indigo">~264</div><div class="stat-label">commits on <span class="mono">main</span></div></div>
+        <div class="card t-teal"><div class="stat-num teal">~223</div><div class="stat-label">squash-merged PRs (to #239)</div></div>
+        <div class="card t-blue"><div class="stat-num blue">~50k</div><div class="stat-label">Java lines · ~461 files · ~81 test classes</div></div>
+        <div class="card t-violet"><div class="stat-num violet">~52</div><div class="stat-label">Vue components · ~40 panels · ~35 e2e specs</div></div>
+        <div class="card t-emerald"><div class="stat-num emerald">~83k</div><div class="stat-label">total tracked source lines</div></div>
+        <div class="card t-amber"><div class="stat-num amber">~116</div><div class="stat-label">test suites (~81 Java + ~35 Playwright)</div></div>
+        <div class="card t-cyan"><div class="stat-num cyan">~5,800</div><div class="stat-label">doc lines + a VuePress site</div></div>
+        <div class="card t-blue"><div class="stat-num blue">5</div><div class="stat-label">Maven modules · 1.0.0 released</div></div>
+    </div>
+
+    <p class="txt-xs muted center" style="margin:.55em 0 0;">
+        👥 One human driver + the <span class="ink fw-700">Copilot agent</span> (~44 commits), with dependabot, github-actions &amp; one collaborator.
+    </p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 7 — DIVIDER 01 · THE PROOF
+══════════════════════════════════════════════════════════════ -->
+<section data-background-color="#e8eef9" data-background-gradient="radial-gradient(900px 540px at 14% -6%, #d6e3f7 0%, transparent 56%), radial-gradient(820px 540px at 102% 104%, #e7ddf6 0%, transparent 55%), #e8eef9">
+    <div class="divider divider-wrap">
+        <div class="divider-kicker">Part 01 · The proof</div>
+        <div class="divider-num" style="-webkit-text-stroke:3px var(--blue);">01</div>
+        <h1>Calculating the performance gains</h1>
+        <div class="sub">11 days of agents vs. the honest by-hand estimate.</div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 8 — WITH AI: THE BOTTOM LINE
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>✅ With AI: the bottom line</h2>
+    <p class="txt-sm muted" style="margin:-.1em 0 .55em;">
+        Built through a tagged <span class="ink fw-700">1.0.0 release</span> by one developer driving the GitHub Copilot coding agent.
+    </p>
+
+    <div class="grid-3" style="margin-bottom:.7em;">
+        <div class="card t-emerald"><div class="stat-num emerald">~11 days</div><div class="stat-label">calendar time, to 1.0.0</div></div>
+        <div class="card t-emerald"><div class="stat-num emerald">~80–110 h</div><div class="stat-label">actual human hands-on effort · ≈ 2 intense solo weeks</div></div>
+        <div class="card t-emerald"><div class="stat-num emerald">~20 / day</div><div class="stat-label">merged PRs · ~223 in ~11 days</div></div>
+    </div>
+
+    <div class="banner">
+        A cadence of <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">~20 PRs/day</span> with an AI agent co-authoring commits is impossible to achieve by hand. The agent did the typing; the human dispatched many asynchronous tasks in parallel.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 9 — WITH AI: THE EVIDENCE
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🔍 With AI: the evidence</h2>
+
+    <div class="grid-2">
+        <div class="card t-emerald">
+            <h3 class="emerald">📈 Velocity</h3>
+            <ul>
+                <li>~223 merged PRs / ~10.8 days (~264 commits)</li>
+                <li>Commit clock runs ~05:00 → midnight most days</li>
+                <li>Consistent with <span class="ink fw-700">parallel async tasks</span>, not continuous typing</li>
+            </ul>
+        </div>
+        <div class="card t-emerald">
+            <h3 class="emerald">🤖 Authorship pattern</h3>
+            <ul>
+                <li>"Copilot" is a named commit / PR author (~44 commits)</li>
+                <li>Repo ships <span class="mono">copilot-instructions.md</span> + per-panel conventions</li>
+                <li>The workflow was <span class="ink fw-700">explicitly agent-oriented</span></li>
+            </ul>
+        </div>
+        <div class="card t-emerald">
+            <h3 class="emerald">🚢 Even on release day</h3>
+            <ul>
+                <li>VuePress docs site + Overview scanner dashboard</li>
+                <li>Token charts, a proxied-Hikari fix, a docs refactor</li>
+                <li>Polish that is itself <span class="ink fw-700">several days of solo work</span></li>
+            </ul>
+        </div>
+        <div class="card t-emerald">
+            <h3 class="emerald">🧭 Where the human time went</h3>
+            <ul>
+                <li>Writing prompts, reviewing &amp; merging ~223 PRs</li>
+                <li>Resolving CI failures (Spring Boot 4, Flyway 11, OTLP)</li>
+                <li><span class="ink fw-700">Review-and-orchestrate</span>, not write-every-line</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 10 — WITHOUT AI: THE BOTTOM LINE
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🛠️ Without AI: the honest estimate</h2>
+    <p class="txt-sm muted" style="margin:-.1em 0 .55em;">
+        One experienced <span class="ink fw-700">Spring Boot + Vue</span> developer, no AI codegen, through the same polished 1.0.0.
+    </p>
+
+    <div class="grid-3" style="margin-bottom:.7em;">
+        <div class="card t-amber"><div class="stat-num amber">6.5–8.5</div><div class="stat-label">months of full-time work · ~28–36 weeks</div></div>
+        <div class="card t-amber"><div class="stat-num amber">~1,100–1,450</div><div class="stat-label">hours of hands-on effort</div></div>
+        <div class="card t-amber"><div class="stat-num amber">~40</div><div class="stat-label">feature panels = the dominant cost</div></div>
+    </div>
+
+    <div class="banner dawn">
+        🧮 Cross-check: a COCOMO "organic" estimate on ~50&nbsp;KLOC yields 100+ person-months, which is too high because much of the code is repetitive scaffolding. A domain-expert solo figure of <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">~7.5 months</span> is the defensible middle ground.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 11 — WITHOUT AI: WHERE THE MONTHS GO
+══════════════════════════════════════════════════════════════ -->
+<section id="solo-breakdown">
+    <h2>🗂️ Without AI: where ~7 months goes</h2>
+    <p class="txt-sm muted solo-intro">Estimated weeks per phase · one senior developer, no AI codegen.</p>
+
+    <figure>
+        <svg viewBox="0 0 1120 350" role="img" aria-labelledby="solo-phases-title solo-phases-desc">
+            <title id="solo-phases-title">Estimated work without AI, by phase</title>
+            <desc id="solo-phases-desc">Project setup and architecture: 1–1.5 weeks. Frontend foundation: 1.5–2 weeks. Core panels: 5–6 weeks. Complex integrations: 12–16 weeks. Safety and security: 1–1.5 weeks. Testing: 3–4 weeks. CI/CD and release: 1–1.5 weeks. Documentation: 2.5–3.5 weeks. Integration and polish: 2–3 weeks. All bars start at zero on the same 0 to 16 week scale. Solid amber reaches the lower estimate; lighter ends extend to the upper estimate.</desc>
+            <g class="verdict-grid" aria-hidden="true">
+                <path d="M360 0V300 M510 0V300 M660 0V300 M810 0V300 M960 0V300"/>
+            </g>
+            <text x="0" y="27">Project setup &amp; architecture</text>
+            <rect class="verdict-solo verdict-range" x="360" y="12" width="56.25" height="20"/>
+            <rect class="verdict-solo" x="360" y="12" width="37.5" height="20"/>
+            <text x="1000" y="27" class="verdict-value">1–1.5 wk</text>
+
+            <text x="0" y="59">Frontend foundation</text>
+            <rect class="verdict-solo verdict-range" x="360" y="44" width="75" height="20"/>
+            <rect class="verdict-solo" x="360" y="44" width="56.25" height="20"/>
+            <text x="1000" y="59" class="verdict-value">1.5–2 wk</text>
+
+            <text x="0" y="91">Core panels (~15)</text>
+            <rect class="verdict-solo verdict-range" x="360" y="76" width="225" height="20"/>
+            <rect class="verdict-solo" x="360" y="76" width="187.5" height="20"/>
+            <text x="1000" y="91" class="verdict-value">5–6 wk</text>
+
+            <text x="0" y="123">Complex integrations (~20 panels)</text>
+            <rect class="verdict-solo verdict-range" x="360" y="108" width="600" height="20"/>
+            <rect class="verdict-solo" x="360" y="108" width="450" height="20"/>
+            <text x="1000" y="123" class="verdict-value">12–16 wk</text>
+
+            <text x="0" y="155">Safety &amp; security</text>
+            <rect class="verdict-solo verdict-range" x="360" y="140" width="56.25" height="20"/>
+            <rect class="verdict-solo" x="360" y="140" width="37.5" height="20"/>
+            <text x="1000" y="155" class="verdict-value">1–1.5 wk</text>
+
+            <text x="0" y="187">Testing</text>
+            <rect class="verdict-solo verdict-range" x="360" y="172" width="150" height="20"/>
+            <rect class="verdict-solo" x="360" y="172" width="112.5" height="20"/>
+            <text x="1000" y="187" class="verdict-value">3–4 wk</text>
+
+            <text x="0" y="219">CI/CD &amp; release</text>
+            <rect class="verdict-solo verdict-range" x="360" y="204" width="56.25" height="20"/>
+            <rect class="verdict-solo" x="360" y="204" width="37.5" height="20"/>
+            <text x="1000" y="219" class="verdict-value">1–1.5 wk</text>
+
+            <text x="0" y="251">Documentation</text>
+            <rect class="verdict-solo verdict-range" x="360" y="236" width="131.25" height="20"/>
+            <rect class="verdict-solo" x="360" y="236" width="93.75" height="20"/>
+            <text x="1000" y="251" class="verdict-value">2.5–3.5 wk</text>
+
+            <text x="0" y="283">Integration &amp; polish</text>
+            <rect class="verdict-solo verdict-range" x="360" y="268" width="112.5" height="20"/>
+            <rect class="verdict-solo" x="360" y="268" width="75" height="20"/>
+            <text x="1000" y="283" class="verdict-value">2–3 wk</text>
+
+            <g class="verdict-ticks" aria-hidden="true">
+                <text x="360" y="321">0</text>
+                <text x="510" y="321">4</text>
+                <text x="660" y="321">8</text>
+                <text x="810" y="321">12</text>
+                <text x="960" y="321">16</text>
+                <text x="960" y="347" text-anchor="end">weeks</text>
+            </g>
+        </svg>
+    </figure>
+    <p class="txt-xs muted verdict-key">Lighter bar ends show the ranges.</p>
+    <p class="solo-summary"><span>Overall estimate</span><strong class="amber">~28–36 wk ≈ 6.5–8.5 mo</strong></p>
+
+    <aside class="notes">
+        <p>Retrospective estimates for one senior developer, without AI code generation. The original overall estimate is retained separately: the individual phase bounds sum to 29–39 weeks, not 28–36 weeks.</p>
+        <ul>
+            <li>Project setup &amp; architecture: 5-module Maven, auto-config skeleton, panel framework, access filter — 1–1.5 weeks.</li>
+            <li>Frontend foundation: Vue 3 + Vite SPA, app shell, routing, packaged into the starter — 1.5–2 weeks.</li>
+            <li>Core "easy" panels (~15): Health, Metrics, Beans, Mappings, Loggers, Caches… (Actuator-backed) — 5–6 weeks.</li>
+            <li>Complex deep-integration panels (~20): Security chains, Pentesting, OSV, Hibernate/Flyway, GraalVM, OTLP, ArchUnit — 12–16 weeks.</li>
+            <li>Safety &amp; security model: local-only enforcement, action gating, secret masking — 1–1.5 weeks.</li>
+            <li>Testing: ~81 Java test classes + ~35 Playwright e2e specs, by hand — 3–4 weeks.</li>
+            <li>CI/CD &amp; release: build/CodeQL/release workflows, GPG signing, Maven Central — 1–1.5 weeks.</li>
+            <li>Documentation: ~5,800 lines + a published VuePress site — 2.5–3.5 weeks.</li>
+            <li>Integration, polish, Spring Boot 4 migration, 1.0.0 hardening &amp; buffer — 2–3 weeks.</li>
+        </ul>
+    </aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 12 — THE VERDICT
+══════════════════════════════════════════════════════════════ -->
+<section id="verdict">
+    <h2>⚖️ The verdict: with vs. without AI</h2>
+    <p class="txt-sm muted">With AI: project figures. Without AI: a solo-work estimate for the same 1.0.0 release.</p>
+
+    <div class="grid-2 verdict-charts">
+        <figure>
+            <figcaption>Calendar time</figcaption>
+            <svg viewBox="0 0 570 210" role="img" aria-labelledby="verdict-calendar-title verdict-calendar-desc">
+                <title id="verdict-calendar-title">Calendar time with and without AI</title>
+                <desc id="verdict-calendar-desc">With AI: about 11 days. Without AI: an estimated 6.5 to 8.5 months. Both bars start at zero on a 0 to 9 month scale, using 30-day months.</desc>
+                <g class="verdict-grid" aria-hidden="true">
+                    <path d="M140 38V162 M273.333 38V162 M406.667 38V162 M540 38V162"/>
+                </g>
+                <text x="0" y="69">With AI</text>
+                <text x="140" y="32" class="verdict-value">~11 days</text>
+                <rect class="verdict-ai" x="140" y="48" width="16.296" height="28"/>
+                <text x="0" y="139">Without AI</text>
+                <text x="140" y="102" class="verdict-value">~6.5–8.5 months</text>
+                <rect class="verdict-solo verdict-range" x="140" y="118" width="377.778" height="28"/>
+                <rect class="verdict-solo" x="140" y="118" width="288.889" height="28"/>
+                <g class="verdict-ticks" aria-hidden="true">
+                    <text x="140" y="185">0</text>
+                    <text x="273.333" y="185">3</text>
+                    <text x="406.667" y="185">6</text>
+                    <text x="540" y="185">9</text>
+                    <text x="540" y="207" text-anchor="end">months</text>
+                </g>
+            </svg>
+        </figure>
+        <figure>
+            <figcaption>Human effort</figcaption>
+            <svg viewBox="0 0 570 210" role="img" aria-labelledby="verdict-effort-title verdict-effort-desc">
+                <title id="verdict-effort-title">Human effort with and without AI</title>
+                <desc id="verdict-effort-desc">With AI: about 80 to 110 hours. Without AI: an estimated 1,100 to 1,450 hours. Both bars start at zero on a 0 to 1,500 hour scale.</desc>
+                <g class="verdict-grid" aria-hidden="true">
+                    <path d="M140 38V162 M273.333 38V162 M406.667 38V162 M540 38V162"/>
+                </g>
+                <text x="0" y="69">With AI</text>
+                <text x="140" y="32" class="verdict-value">~80–110 hours</text>
+                <rect class="verdict-ai verdict-range" x="140" y="48" width="29.333" height="28"/>
+                <rect class="verdict-ai" x="140" y="48" width="21.333" height="28"/>
+                <text x="0" y="139">Without AI</text>
+                <text x="140" y="102" class="verdict-value">~1,100–1,450 hours</text>
+                <rect class="verdict-solo verdict-range" x="140" y="118" width="386.667" height="28"/>
+                <rect class="verdict-solo" x="140" y="118" width="293.333" height="28"/>
+                <g class="verdict-ticks" aria-hidden="true">
+                    <text x="140" y="185">0</text>
+                    <text x="273.333" y="185">500</text>
+                    <text x="406.667" y="185">1,000</text>
+                    <text x="540" y="185">1,500</text>
+                    <text x="540" y="207" text-anchor="end">hours</text>
+                </g>
+            </svg>
+        </figure>
+    </div>
+    <p class="txt-xs muted verdict-key">Lighter bar ends show the ranges. Calendar scale uses 30-day months.</p>
+
+    <div class="grid-3 verdict-details">
+        <div>
+            <h3>Throughput</h3>
+            <p class="txt-sm"><b class="emerald">~20 PRs/day, parallel</b><br><span class="muted">vs. a few features/week, serial</span></p>
+        </div>
+        <div>
+            <h3>Human's role</h3>
+            <p class="txt-sm"><b class="emerald">Architect + reviewer</b><br><span class="muted">vs. author of every line</span></p>
+        </div>
+        <div>
+            <h3>40 panels</h3>
+            <p class="txt-sm"><b class="emerald">Near-free to replicate</b><br><span class="muted">vs. repetition as the biggest cost</span></p>
+        </div>
+    </div>
+    <div class="banner sunrise mt-md">
+        From months of solo work to <b>11 days of agent-assisted delivery.</b>
+    </div>
+    <aside class="notes">The charts preserve the original time and effort figures, not a controlled comparison. The no-AI baseline is a retrospective estimate for one experienced developer. Each metric has its own zero-based scale; lengths should only be compared within a chart. Calendar geometry converts 11 days to 11/30 months. Solid bars reach the lower bound, with lighter extensions to the upper bound. Human effort with AI is an approximate range, not a precise timesheet measurement. Throughput uses different units on each side, so it is kept as qualitative context rather than plotted.</aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 13 — DIVIDER 02 · THE RECIPE
+══════════════════════════════════════════════════════════════ -->
+<section data-background-color="#e8eef9" data-background-gradient="radial-gradient(900px 540px at 86% -6%, #dde6f9 0%, transparent 56%), radial-gradient(820px 540px at 0% 104%, #d8eef0 0%, transparent 55%), #e8eef9">
+    <div class="divider divider-wrap">
+        <div class="divider-kicker">Part 02 · The recipe</div>
+        <div class="divider-num" style="-webkit-text-stroke:3px var(--violet);">02</div>
+        <h1>How to <span class="grad">run it</span> yourself</h1>
+        <div class="sub">Six ingredients for agentic engineering.</div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     THIS IS AGENTIC ENGINEERING
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>Agentic engineering, not vibe coding</h2>
+
+    <p class="txt-sm muted" style="margin:-.1em 0 .6em;">
+        ~$2,000 of tokens across the sprint — about <span class="ink fw-700">$9 per merged PR</span>. That's the cheap part. The real question is <em>when</em> you pay for the code.
+    </p>
+
+    <div class="grid-2">
+        <div class="card t-amber">
+            <h3 class="amber">🎲 Vibe coding — low up front</h3>
+            <ul>
+                <li>No specs, no harness: you start shipping <span class="ink fw-700">immediately</span></li>
+                <li>You pay in retry loops, and again six months later reverse-engineering code nobody understands</li>
+                <li>That's the <span class="ink fw-700">maintenance tax</span> — invisible on day one</li>
+            </ul>
+        </div>
+        <div class="card t-emerald">
+            <h3 class="emerald">🏗️ Agentic engineering — pay first</h3>
+            <ul>
+                <li>Specs, tests and CI cost you real days <span class="ink fw-700">before</span> the first agent runs</li>
+                <li>They keep your agent iterating toward a solid solution, rather than rushing out an incorrect answer</li>
+                <li>The harness takes <span class="ink fw-700">real investment up front</span>, but skipping it costs more later</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md" style="font-size:.73em;">
+        12 weeks and <span class="ink fw-700" style="color:inherit;">552 more merged PRs</span> later, the maintenance tax still hasn't come due. <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">That's the harness paying back its up-front cost.</span>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     INGREDIENT 1: PICK THE RIGHT MODEL
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="ingredient"><span class="ix">1</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Pick the right model for the task</h2></div></div>
+
+    <div class="grid-3" style="margin-bottom:.65em;">
+        <div class="card t-blue">
+            <h3 class="blue">🧠 Workhorse</h3>
+            <div class="txt-xs muted"><span class="ink fw-700">GPT-5.5 Extra-High</span> reasoning handles most of the work, ~90% of tokens served from cache.</div>
+        </div>
+        <div class="card t-violet">
+            <h3 class="violet">🎯 The tricky parts</h3>
+            <div class="txt-xs muted"><span class="ink fw-700">Claude Opus 4.8</span> and <span class="ink fw-700">Gemini 3.1 Pro</span>. Three strong models, cross-checking each other to find the best fix.</div>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">⚡ The easy stuff</h3>
+            <div class="txt-xs muted">A smaller model or <span class="ink fw-700">"Auto"</span> mode for simple, mechanical tasks. Fast and cheap.</div>
+        </div>
+    </div>
+
+    <div class="card t-emerald">
+        <h3 class="emerald">💰 The whole bill</h3>
+        <div class="grid-4" style="gap:.55em;margin-top:.15em;">
+            <div><div class="stat-num emerald" style="font-size:1.1em;">~2.7B</div><div class="stat-label">total tokens</div></div>
+            <div><div class="stat-num emerald" style="font-size:1.1em;">~95%</div><div class="stat-label">served from cache</div></div>
+            <div><div class="stat-num emerald" style="font-size:1.1em;">120M</div><div class="stat-label">fresh input · 15M output</div></div>
+            <div><div class="stat-num emerald" style="font-size:1.1em;">~$2,000</div><div class="stat-label">total cost</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     INGREDIENT 2: SPECIFICATIONS
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="ingredient"><span class="ix">2</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Write the specifications</h2></div></div>
+
+    <div class="grid-2">
+        <div class="card t-indigo">
+            <h3>📜 Technical standards · AGENTS.md</h3>
+            <ul>
+                <li>Set the conventions <span class="ink fw-700">once</span>: stack, build, test, style</li>
+                <li>Repository instructions define <span class="ink fw-700">the rules</span>, not every task's procedure</li>
+                <li>Per-panel conventions so 40 panels come out consistent</li>
+            </ul>
+        </div>
+        <div class="card t-blue">
+            <h3 class="blue">🎯 Complete, clear business specifications</h3>
+            <ul>
+                <li>What to build, where, what "done" looks like</li>
+                <li>Acceptance tests the implementation must pass, even when using a skill</li>
+                <li>Small, self-contained, no hidden dependencies</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="txt-sm muted mt-md center">
+        <span class="indigo fw-700">The spec is the product now.</span> The better the brief, the less you babysit.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     INGREDIENT 3: TEST HARNESS
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="ingredient"><span class="ix">3</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Build the test harness</h2></div></div>
+
+    <div class="grid-2">
+        <div class="card t-violet">
+            <h3 class="violet">✅ A build + test they can run</h3>
+            <ul>
+                <li>One command runs compile, unit and e2e: green or red</li>
+                <li>Agents run the checks <span class="ink fw-700">after using skills and tools</span>, before opening a PR</li>
+                <li>No tests = you can't trust the output</li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">🛡️ CI is the trust layer</h3>
+            <ul>
+                <li><span class="ink fw-700">~116 test suites</span> · ~81 Java + ~35 Playwright</li>
+                <li>CodeQL + e2e gate every PR to <span class="mono">main</span></li>
+                <li>This is what lets you merge ~20 PRs/day safely</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md" style="font-size:.74em;">
+        You can't read every line of 223 PRs. A green build you trust is what makes the volume reviewable.
+    </div>
+</section>
+
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     INGREDIENT 4: EQUIP YOUR AGENTS
+══════════════════════════════════════════════════════════════ -->
+<section id="skills-and-tools">
+    <div class="ingredient"><span class="ix">4</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Equip your agents</h2></div></div>
+    <p class="txt-sm muted">From my recent BootUI sessions: reusable skills for the workflow, Java code intelligence when needed.</p>
+
+    <div class="grid-2">
+        <div class="card t-violet">
+            <h3 class="violet">📚 Skills: reusable workflows</h3>
+            <ul>
+                <li><span class="ink fw-700">Impeccable</span> — craft beautiful Web designs, fix accessibility issues</li>
+                <li><span class="ink fw-700">orchestrate</span> — coordinate advisor audits across sessions</li>
+                <li><span class="ink fw-700">agent-merge</span> — PR review, CI and conflict follow-ups</li>
+                <li><span class="ink fw-700">bootui-release</span> — a custom skill written specifically to guide a BootUI release</li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">🔎 Java LSP: occasional code intelligence</h3>
+            <ul>
+                <li>Ask the language server about <span class="ink fw-700">symbols</span>, not just matching text</li>
+                <li>Used to explore advanced Java modules and inspect code during review</li>
+                <li>The project needs to be indexed by the language server first</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md">
+        Skills, MCP servers and tools connect agents to documentation, data and external systems.
+    </div>
+    <p class="txt-xs muted mt-sm center">Recorded examples, 9 August–8 September 2026, plus the custom release skill; not a claim about the original sprint.</p>
+    <aside class="notes">The recorded examples are based on actual tool invocations in BootUI sessions from the past month, rather than installed skills alone. Impeccable was invoked in the Windows 95 theme session on August 26 and the docs-site restructure session on August 25. Orchestrate was invoked in the September 7 advisor audit coordination session. Agent-merge was repeatedly invoked for PR lifecycle follow-ups; some invocations are automated check-ins, not explicit manual skill selections. The project-specific bootui-release skill is an additional example, written to guide a BootUI release; it is not presented as an observed invocation in that sample. Java LSP documentSymbol returned class and method outlines for CRaC, reactive security and Quarkus security code during the August 15 review. Three other recorded workspaceSymbol queries returned no matches, so do not claim all LSP attempts helped or that reference navigation was observed in this sample. Other skills appear in the records, including bootui-vertical-pr, agentfinder and github-pr-media; these are representative examples, not a complete inventory or a measured productivity comparison. Skills supply task-specific procedures and may use tools; LSP supplies structured code information. Specialized tools and Model Context Protocol (MCP) servers can expose documentation, data and external services to agents. Those integrations were less central to BootUI, but matter more in workflows that depend on external systems. Neither skills nor tools replace tests or review. This is ingredient 4: skills and tools help agents act, while the test harness checks whether they succeeded. Both belong to the broader agent harness.</aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     INGREDIENT 5: PARALLEL
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="ingredient"><span class="ix">5</span><div><span class="ix-label">Ingredient</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Split the work, run agents in parallel</h2></div></div>
+
+    <div class="grid-2">
+        <div class="card t-blue">
+            <h3 class="blue">🧩 Make it parallel-ready</h3>
+            <ul>
+                <li>~40 near-identical panels = <span class="ink fw-700">perfect to fan out</span></li>
+                <li>One task per agent: small scope, clear goal</li>
+                <li>One branch / worktree each, no collisions</li>
+            </ul>
+        </div>
+        <div class="card t-violet">
+            <h3 class="violet">🚀 A fleet, not one chat</h3>
+            <ul>
+                <li>GitHub Copilot App: many agents live on one machine</li>
+                <li>Mobile app: agents in Docker containers, on the go</li>
+                <li>Your throughput isn't your keyboard. It's your briefs.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="txt-sm muted mt-md center">
+        The whole point is <span class="violet fw-700">parallelism</span>. Don't babysit one agent. Run ten.
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     THE MINDSET SHIFT
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🧑‍✈️ The mindset shift</h2>
+
+    <p class="thesis-lede">I didn't open my IDE. I wasn't the developer. I was the manager.</p>
+
+    <div class="orgchart">
+        <span class="org-mgr">🧑‍✈️ You · the manager</span>
+        <svg class="org-fan" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+            <path vector-effect="non-scaling-stroke"
+                  d="M500 4 V40 M125 40 H875 M125 40 V96 M375 40 V96 M625 40 V96 M875 40 V96"/>
+        </svg>
+        <div class="org-row">
+            <div class="org-node r-blue">
+                <span class="role">🎛️ Panels</span>
+                <div class="does">clone the ~40 feature panels</div>
+            </div>
+            <div class="org-node r-emerald">
+                <span class="role">🔌 Integrations</span>
+                <div class="does">the deep JVM subsystems</div>
+            </div>
+            <div class="org-node r-violet">
+                <span class="role">🎨 Frontend</span>
+                <div class="does">the embedded Vue SPA</div>
+            </div>
+            <div class="org-node r-teal">
+                <span class="role">🏗️ CI &amp; docs</span>
+                <div class="does">release, tests, VuePress</div>
+            </div>
+        </div>
+    </div>
+
+    <p class="org-cap">Many agents in parallel. You brief, review, merge.</p>
+
+    <p class="thesis-close">You don't type faster. <span class="win">You ship what used to take months.</span></p>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     INGREDIENT 6: THE DAILY LOOP (timeline)
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="ingredient"><span class="ix">6</span><div><span class="ix-label">Ingredient · The daily loop</span><h2 style="margin:.05em 0 0;border:none;padding:0;">Drive the daily loop</h2></div></div>
+
+    <div class="tl">
+        <div class="tl-band"><span class="tl-band-label">⚡ most of the work: you, driving the fleet</span></div>
+
+        <div class="tl-times">
+            <span>9am</span><span>11am</span><span>2pm</span><span>5pm</span><span>7pm</span><span>↻</span>
+        </div>
+        <div class="tl-dots">
+            <span><span class="tl-dot dawn"></span></span>
+            <span><span class="tl-dot"></span></span>
+            <span><span class="tl-dot"></span></span>
+            <span><span class="tl-dot"></span></span>
+            <span><span class="tl-dot night"></span></span>
+            <span><span class="tl-dot ship"></span></span>
+        </div>
+        <div class="tl-info">
+            <div><span class="nm">☕ Merge</span><span class="ds">Land last night's deep plans</span></div>
+            <div><span class="nm">Spec &amp; launch</span><span class="ds">Brief tasks, fan out the fleet</span></div>
+            <div><span class="nm">Drive</span><span class="ds">Review, merge, re-task, live</span></div>
+            <div><span class="nm">Drive</span><span class="ds">Most PRs land by evening</span></div>
+            <div><span class="nm">🌙 Queue</span><span class="ds">A few deep plans for the night</span></div>
+            <div><span class="nm">↻ Repeat</span><span class="ds">×~11 days → v1.0.0</span></div>
+        </div>
+    </div>
+
+    <div class="grid-3 mt-md">
+        <div class="card t-blue"><h3 class="blue">Day: the engine</h3><div class="txt-xs muted">Hands-on all day: spec, launch, review, merge, re-task. Most of the ~20 PRs a day land right here.</div></div>
+        <div class="card t-violet"><h3 class="violet">Evening: hand off</h3><div class="txt-xs muted">Queue a few deep, long-running plans before you step away.</div></div>
+        <div class="card t-teal"><h3 class="teal">Night: the bonus</h3><div class="txt-xs muted">A handful of deep autonomous runs finish by morning. The minority, not the engine.</div></div>
+    </div>
+</section>
+
+
+
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     THE ONE-PAGE RECIPE
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>📋 The six ingredients of agentic engineering</h2>
+
+    <div class="card t-violet">
+        <div class="pb-item"><span class="pb-num grad">1</span><span class="pb-text"><b>Pick the right model for the task</b> — balance capability, speed and cost.</span></div>
+        <div class="pb-item"><span class="pb-num grad">2</span><span class="pb-text"><b>Write the specifications</b> — repository rules, scoped tasks and acceptance criteria.</span></div>
+        <div class="pb-item"><span class="pb-num grad">3</span><span class="pb-text"><b>Build the test harness</b> — runnable tests and CI checks before merge.</span></div>
+        <div class="pb-item"><span class="pb-num grad">4</span><span class="pb-text"><b>Equip your agents</b> — skills for workflows, tools for code intelligence and execution.</span></div>
+        <div class="pb-item"><span class="pb-num grad">5</span><span class="pb-text"><b>Split the work, run agents in parallel</b> — one task and branch each; you brief, review and steer.</span></div>
+        <div class="pb-item"><span class="pb-num grad">6</span><span class="pb-text"><b>Drive the daily loop</b> — drive by day, let a few deep plans run overnight, merge the results over coffee.</span></div>
+    </div>
+
+    <div class="txt-sm muted mt-sm center">If there's one slide to screenshot, this is it.</div>
+</section>
+
+
+
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     GITHUB COPILOT APP — DOWNLOAD
+══════════════════════════════════════════════════════════════ -->
+<section id="copilot-app" class="closing-section">
+    <h2>🖥️ Build with GitHub Copilot App</h2>
+    <p class="txt-sm muted closing-lede">The app we've been using throughout the BootUI project.</p>
+    <div class="closing-app-download">
+        <div>
+            <h3 class="violet">Your workspace for AI coding agents</h3>
+            <ul>
+                <li>Plan tasks and run agents in parallel, in isolated worktrees</li>
+                <li>Let agents edit code and run tests; inspect their diffs and review PRs</li>
+                <li>Keep planning, implementation and maintenance in one place</li>
+            </ul>
+        </div>
+        <figure class="closing-app-qr">
+            <a href="https://github.com/features/ai/github-app" target="_blank" rel="noopener noreferrer">
+                <img src="assets/github-copilot-app-qr.png" width="320" height="320" alt="Scan to download GitHub Copilot App from its official GitHub page">
+            </a>
+            <figcaption class="txt-sm">
+                <a href="https://github.com/features/ai/github-app" target="_blank" rel="noopener noreferrer">Download GitHub Copilot App</a>
+            </figcaption>
+        </figure>
+    </div>
+    <div class="banner mt-md">You set the direction. <b>The agents do the work. You review the result.</b></div>
+    <aside class="notes">Invite the audience to scan the QR code, which links to the official GitHub Copilot App product and download page. This is the workspace we have used throughout BootUI, from planning and implementation to review and ongoing maintenance. It does not mean every task ran locally or every PR was authored by the app. GitHub provides the issues, PRs, CI and releases; the app brings agent sessions and human review together. Keep this short and practical before the final call to action.</aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     ONE MORE THING — BOOTUI TODAY
+══════════════════════════════════════════════════════════════ -->
+<section id="bootui-today">
+    <div class="sg indigo center" style="font-size:.75em;font-weight:600;letter-spacing:.03em;margin-bottom:.15em;">
+        One more thing…
+    </div>
+
+    <h2 class="center" style="justify-content:center;margin:0 0 .1em;">
+        <svg class="h2-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="BootUI"><rect width="32" height="32" rx="10" fill="#198754"/><g transform="translate(7 7) scale(1.125)" fill="#fff"><path fill-rule="evenodd" d="M.5 6a.5.5 0 0 0-.488.608l1.652 7.434A2.5 2.5 0 0 0 4.104 16h5.792a2.5 2.5 0 0 0 2.44-1.958l.131-.59a3 3 0 0 0 1.3-5.854l.221-.99A.5.5 0 0 0 13.5 6zM13 12.5a2 2 0 0 1-.316-.025l.867-3.898A2.001 2.001 0 0 1 13 12.5"/><path d="m4.4.8-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 3.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 3.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 3 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 4.4.8m3 0-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 6.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 6.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 6 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 7.4.8m3 0-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.252.382l-.019.025-.005.008-.002.002A.5.5 0 0 1 9.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 9.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 9 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 10.4.8"/></g></svg>BootUI isn't just my case study
+    </h2>
+
+    <p class="txt-sm muted center" style="margin:0 0 .7em;">
+        A local developer console for <span class="ink fw-700">Spring Boot 4 (MVC &amp; WebFlux) and Quarkus</span>.<br>
+        Add the matching dependency, run in development mode, then open <span class="mono">/bootui</span>.
+    </p>
+
+    <div class="grid-3">
+        <div class="card t-blue">
+            <h3 class="blue">🔎 See inside your app</h3>
+            <ul class="compact">
+                <li>HTTP routes, beans, config, caches, SQL traces, messaging and JVM diagnostics</li>
+                <li>New <span class="ink fw-700">bootui CLI</span>: query the same diagnostics from scripts or a terminal</li>
+            </ul>
+        </div>
+        <div class="card t-amber">
+            <h3 class="amber">🩺 Advisors that tell you what's wrong</h3>
+            <ul class="compact">
+                <li>Security, memory, databases, Hibernate, REST, architecture and native-image readiness</li>
+                <li>Live CVE checks against the OSV feed for your actual dependency tree</li>
+            </ul>
+        </div>
+        <div class="card t-emerald">
+            <h3 class="emerald">🤖 And it makes your agents smarter</h3>
+            <ul class="compact">
+                <li>Opt-in <span class="ink fw-700">MCP server</span>: agents read runtime diagnostics and run advisors</li>
+                <li>Pairs with <span class="ink fw-700">Coffilot</span> in the Copilot App to build, run and scan your app</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt-md" style="display:flex;justify-content:center;">
+        <div class="snippet"><span class="c">&lt;!-- Spring Boot MVC starter · use only in development --&gt;</span>
+<span class="k">&lt;dependency&gt;</span>
+  <span class="k">&lt;groupId&gt;</span>com.julien-dubois.bootui<span class="k">&lt;/groupId&gt;</span>
+  <span class="k">&lt;artifactId&gt;</span>bootui-spring-boot-starter<span class="k">&lt;/artifactId&gt;</span>
+  <span class="k">&lt;version&gt;</span>1.16.0<span class="k">&lt;/version&gt;</span>
+<span class="k">&lt;/dependency&gt;</span></div>
+    </div>
+
+    <div class="banner green mt-sm">
+        <span class="txt-sm">
+            ⭐ <span class="repo-pill">github.com/jdubois/boot-ui</span> &nbsp;·&nbsp; <b>288 stars</b> &nbsp;·&nbsp; Apache 2.0 &nbsp;·&nbsp; docs at <b>julien-dubois.com/boot-ui</b>
+        </span>
+    </div>
+    <aside class="notes">Snapshot checked on 8 September 2026: 288 GitHub stars and latest tag v1.16.0. Sources: https://github.com/jdubois/boot-ui, https://github.com/jdubois/boot-ui/blob/v1.16.0/docs/SETUP.md and https://github.com/jdubois/boot-ui/blob/v1.16.0/CHANGELOG.md. Version 1.16.0 adds the CLI and Command Line panel. The current README documents Coffilot integration. The old approximate panel count is omitted because UI routes and the backend panel catalog count different surfaces, and availability varies by runtime and dependencies. The example is the MVC starter; WebFlux and Quarkus have their own setup instructions. BootUI activates in local development and must not be deployed in production. MCP is opt-in; the CLI is a separate transport for the same diagnostics.</aside>
+</section>
+
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     FINAL SLIDE — CONFERENCE TALKS
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <div class="outro-wrap">
+        <h2 class="center" style="justify-content:center;border:none;margin:0 0 .45em;">Find my conference talks</h2>
+        <p class="txt-sm muted center" style="margin:0 0 1em;">Scan the QR code for current talks, slides and workshop information.</p>
+        <figure style="margin:0;text-align:center;">
+            <a href="https://www.julien-dubois.com/conferences" target="_blank" rel="noopener noreferrer">
+                <img src="assets/conferences-qr.png" width="360" height="360" alt="Scan to open Julien Dubois's conference talks page">
+            </a>
+            <figcaption class="txt-sm" style="margin-top:.55em;">
+                <a href="https://www.julien-dubois.com/conferences" target="_blank" rel="noopener noreferrer">julien-dubois.com/conferences</a>
+            </figcaption>
+        </figure>
+    </div>
+</section>
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<!-- ── Reveal.js ─────────────────────────────────────────────────── -->
+<script src="vendor/reveal/reveal.js"></script>
+<script src="vendor/reveal/plugin/notes.js"></script>
+
+<script>
+document.querySelectorAll('.slides .fragment').forEach(function(frag) {
+    if (frag.closest('.quiz-section')) return;
+    frag.classList.remove(
+        'fragment',
+        'fade-up', 'fade-down', 'fade-left', 'fade-right',
+        'fade-in', 'fade-out', 'fade-in-then-out',
+        'zoom-in', 'grow', 'shrink', 'highlight-red',
+        'highlight-green', 'highlight-blue', 'current-visible',
+        'semi-fade-out'
+    );
+});
+
+Reveal.initialize({
+    hash:                 true,
+    slideNumber:          'c/t',
+    transition:           'slide',
+    transitionSpeed:      'default',
+    backgroundTransition: 'none',
+    center:               true,
+    width:                1280,
+    height:               720,
+    margin:               0.04,
+    autoAnimate:          false,
+    plugins: [ RevealNotes ],
+});
+</script>
+</body>
+</html>
