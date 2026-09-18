@@ -1,0 +1,53 @@
+.closing-section .closing-flow {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: .55em;
+    margin: .8em 0;
+}
+.closing-section .closing-flow .card { padding: .65em .6em; }
+.closing-section .closing-flow h3 { font-size: var(--t-sm); }
+.closing-section .closing-source {
+    font-size: var(--t-xs);
+    color: var(--muted);
+    margin: .8em 0 0;
+    line-height: 1.4;
+}
+.closing-section a { color: var(--blue); text-decoration: underline; }
+.closing-section a:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+.closing-section .dtable th { font-size: 1em; }
+.closing-section .closing-authors {
+    display: flex;
+    overflow: hidden;
+    border-radius: var(--radius);
+    margin: .6em 0 .35em;
+}
+.closing-section .closing-authors > div {
+    padding: .7em .5em;
+    color: #fff;
+    font-size: var(--t-xs);
+    font-weight: 600;
+    text-align: center;
+}
+.closing-section .author-human { flex: 184; background: var(--blue); }
+.closing-section .author-dependabot { flex: 60; background: var(--emerald); }
+.closing-section .author-copilot { flex: 56; background: var(--violet); }
+.closing-section .closing-lede { margin: -.1em 0 .7em; }
+.closing-section .closing-number { color: var(--blue); }
+.closing-section .closing-table { margin: .6em 0; }
+.closing-section .closing-callout { font-size: var(--t-body); }
+.closing-section .closing-app-download {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    align-items: center;
+    gap: 1.5em;
+}
+.closing-section .closing-app-qr { margin: 0; text-align: center; }
+.closing-section .closing-app-qr img {
+    display: block;
+    width: 320px;
+    height: auto;
+    max-width: 100%;
+    margin: 0 auto .4em;
+    padding: 16px;
+    background: #fff;
+}
