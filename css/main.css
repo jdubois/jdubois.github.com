@@ -518,6 +518,14 @@ ul li {
     margin-left: 0.85rem;
 }
 
+.talk-slides:has(+ .talk-slides) {
+    margin-bottom: 0;
+}
+
+.talk-slides + .talk-slides {
+    margin-top: 0.35rem;
+}
+
 /* Chevron indicator */
 .talk > summary::after {
     content: "";
