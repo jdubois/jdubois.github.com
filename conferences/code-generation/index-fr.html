@@ -10,11 +10,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/theme/white.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/plugin/highlight/monokai.css" />
 
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
-
     <style>
         /* ── Design tokens (same as julien-dubois.com) ─────────────────── */
         :root {
@@ -38,7 +33,7 @@
 
         /* ── Base ─────────────────────────────────────────────────────── */
         .reveal {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Mona Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             font-size: 28px;
             color: var(--text-primary);
         }
@@ -49,7 +44,7 @@
             box-sizing: border-box;
         }
         .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Mona Sans', sans-serif;
             line-height: 1.25;
             text-transform: none;
             letter-spacing: -0.01em;
@@ -150,7 +145,7 @@
             color: #e5e7eb !important;
             border-radius: 8px;
             padding: 0.3em 0.75em;
-            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-family: 'Mona Sans Mono', 'Courier New', monospace;
             font-size: 0.52em;
             font-weight: 600;
         }
@@ -367,7 +362,7 @@
             height: auto;
             padding: 0.85em 0.7em;
             color: var(--speaker-ink);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Mona Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             font-size: 28px;
             line-height: 1.4;
             letter-spacing: normal;
@@ -464,6 +459,8 @@
             font-weight: 700;
         }
     </style>
+    <!-- GitHub brand theme, shared by every deck (see conferences/DESIGN.md) -->
+    <link rel="stylesheet" href="../github-theme/github-slides.css" />
 </head>
 <body>
 <div class="reveal">
@@ -472,35 +469,27 @@
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 1 — TITLE
 ══════════════════════════════════════════════════════════════ -->
-<section data-background="linear-gradient(150deg,#1e40af 0%,#2563eb 55%,#3b82f6 100%)">
-    <div style="display:flex;flex-direction:column;justify-content:center;height:100%;padding:1.5em 0.5em;">
-
-        <div style="margin-bottom:1em;display:flex;gap:0.5em;flex-wrap:wrap;">
-            <span style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:0.5em;color:#fff;">GitHub Copilot</span>
-            <span style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:0.5em;color:#fff;">28 mai 2026</span>
+<section class="gh-full gh-cover" data-background-color="#101411">
+    <div class="gh-frame">
+        <div class="gh-rail">
+            <img class="gh-mark" src="../github-theme/img/invertocat-white.svg" width="72" height="72" alt="GitHub">
+            <div class="gh-cells is-copilot" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         </div>
-
-        <h1 style="color:#fff;font-size:1.85em;font-weight:800;line-height:1.15;margin:0 0 0.5em;">
-            L'IA et la génération<br/>de code Java
-        </h1>
-
-        <p style="color:rgba(255,255,255,.8);font-size:0.68em;margin:0 0 1.5em;line-height:1.5;">
-            Comment l'IA générative a bouleversé le développement
-        </p>
-
-        <div style="display:flex;align-items:center;gap:1.1em;">
-            <img src="https://www.julien-dubois.com/img/photos/julien-dubois.png"
-                 alt="Julien Dubois"
-                 style="width:72px;height:72px;border-radius:50%;object-fit:cover;
-                        border:3px solid rgba(255,255,255,.5);flex-shrink:0;" />
-            <div>
-                <div style="font-weight:700;font-size:0.7em;color:#fff;">Julien Dubois</div>
-                <div style="font-size:0.55em;color:rgba(255,255,255,.75);">
-                    Java Champion &nbsp;•&nbsp; <span lang="en">Principal Manager, Developer Relations at GitHub / Microsoft</span>
+        <div class="gh-main">
+            <h1>L'IA et la génération<br/>de code Java</h1>
+            <p class="gh-lede">Comment l'IA générative a bouleversé le développement</p>
+            <div class="gh-foot">
+                <ul class="gh-tags"><li>GitHub Copilot</li><li>28 mai 2026</li></ul>
+                <div class="gh-speaker">
+                    <img src="https://www.julien-dubois.com/img/photos/julien-dubois.png" width="64" height="64" alt="">
+                    <div>
+                        <div class="nm">Julien Dubois</div>
+                        <div class="rl">Java Champion &nbsp;•&nbsp; <span lang="en">Principal Manager, Developer Relations at GitHub / Microsoft</span></div>
+                        <div class="ln">github.com/jdubois · julien-dubois.com</div>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 </section>
 
@@ -539,7 +528,7 @@
 
     <div style="display:flex;flex-direction:column;gap:0.7em;margin-top:0.4em;">
 
-        <div class="card fragment fade-up" style="border-left:4px solid #94a3b8;">
+        <div class="card fragment fade-up" style="border-top:2px solid var(--gh-gray-3);">
             <div style="display:flex;align-items:center;gap:0.9em;">
                 <div style="font-size:1.8em;">📅</div>
                 <div>
@@ -553,7 +542,7 @@
             </div>
         </div>
 
-        <div class="card fragment fade-up" style="border-left:4px solid #f59e0b;">
+        <div class="card fragment fade-up" style="border-top:2px solid var(--gh-orange-4);">
             <div style="display:flex;align-items:center;gap:0.9em;">
                 <div style="font-size:1.8em;">💡</div>
                 <div>
@@ -603,7 +592,7 @@
                 <li>Lance les tests automatiquement</li>
                 <li>Corrige les erreurs seul</li>
             </ul>
-            <div class="mt-sm" style="background:#eff6ff;border-radius:8px;padding:0.45em 0.7em;font-size:0.5em;color:var(--primary-dark);font-weight:600;">
+            <div class="mt-sm" style="background:var(--gh-subtle-bg);border-radius:8px;padding:0.45em 0.7em;font-size:0.5em;color:var(--primary-dark);font-weight:600;">
                 💡 GitHub Copilot Agent Mode
             </div>
         </div>
@@ -620,7 +609,7 @@
                 <li>Exécute étape par étape</li>
                 <li>Revient en arrière si besoin</li>
             </ul>
-            <div class="mt-sm" style="background:#eff6ff;border-radius:8px;padding:0.45em 0.7em;font-size:0.5em;color:var(--primary-dark);font-weight:600;">
+            <div class="mt-sm" style="background:var(--gh-subtle-bg);border-radius:8px;padding:0.45em 0.7em;font-size:0.5em;color:var(--primary-dark);font-weight:600;">
                 💡 Moins d'erreurs grâce à la réflexion préalable
             </div>
         </div>
@@ -637,7 +626,7 @@
                 <li>Isolation complète des changements</li>
                 <li>Merge final maîtrisé</li>
             </ul>
-            <div class="mt-sm" style="background:#eff6ff;border-radius:8px;padding:0.45em 0.7em;font-size:0.5em;color:var(--primary-dark);font-weight:600;">
+            <div class="mt-sm" style="background:var(--gh-subtle-bg);border-radius:8px;padding:0.45em 0.7em;font-size:0.5em;color:var(--primary-dark);font-weight:600;">
                 💡 <code>git worktree add</code> + 1 agent par dossier
             </div>
         </div>
@@ -701,7 +690,7 @@
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 5b — DEMO PROMPT : SERVEUR MCP GITHUB
 ══════════════════════════════════════════════════════════════ -->
-<section data-background="#000000" data-transition="none" data-background-transition="none">
+<section data-background-color="#101411" data-transition="none" data-background-transition="none">
     <h2 style="color:#fff;border-color:rgba(255,255,255,.25);">
         Demo : Utiliser le serveur MCP de GitHub
     </h2>
@@ -751,7 +740,7 @@
     </div>
 
     <div class="grid-2 fragment fade-up" style="gap:1em;margin-bottom:0.8em;">
-        <div class="card" style="border-left:4px solid var(--primary);">
+        <div class="card" style="border-top:2px solid var(--gh-green);">
             <h3 class="txt-primary">📦 dr-jskill</h3>
             <p class="txt-xs txt-muted" style="margin-bottom:0.5em;">
                 Mon skill pour créer des applications <strong class="txt-primary">Spring Boot 4.x</strong>
@@ -784,7 +773,7 @@
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 6b — DEMO PROMPT : DR-JSKILL
 ══════════════════════════════════════════════════════════════ -->
-<section data-background="#000000" data-transition="none" data-background-transition="none">
+<section data-background-color="#101411" data-transition="none" data-background-transition="none">
     <h2 style="color:#fff;border-color:rgba(255,255,255,.25);">
         Demo : Spring Boot 4 + Java 25 + Vue.js avec dr-jskill
     </h2>
@@ -925,7 +914,7 @@ Here are the specifications:
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 8b — DEMO PROMPT : /init
 ══════════════════════════════════════════════════════════════ -->
-<section data-background="#000000" data-transition="none" data-background-transition="none">
+<section data-background-color="#101411" data-transition="none" data-background-transition="none">
     <h2 style="color:#fff;border-color:rgba(255,255,255,.25);">
         Demo : Génération d'un <code>copilot-instructions.md</code> avec <code>/init</code>
     </h2>
@@ -1003,7 +992,7 @@ Here are the specifications:
                 <li>Boucle : générer &rarr; <code>verify</code> &rarr; lire les erreurs &rarr; corriger</li>
             </ul>
         </div>
-        <div class="card fragment fade-up" style="grid-column:1/-1;background:#eff6ff;border-color:#bfdbfe;">
+        <div class="card fragment fade-up" style="grid-column:1/-1;background:var(--gh-subtle-bg);border-color:var(--gh-border);">
             <h3 class="txt-primary">🚫 Déconseillé dans une boucle d'agent</h3>
             <p class="txt-xs txt-muted" style="margin:0;">
                 <code>-DskipTests</code>, les tests <strong class="txt-primary">doivent</strong> tourner.
@@ -1062,7 +1051,7 @@ Here are the specifications:
             </ul>
         </div>
 
-        <div class="card fragment fade-up" style="grid-column:1/-1;background:#eff6ff;border-color:#bfdbfe;">
+        <div class="card fragment fade-up" style="grid-column:1/-1;background:var(--gh-subtle-bg);border-color:var(--gh-border);">
             <h3 class="txt-primary">💡 Conséquence pratique</h3>
             <p class="txt-xs txt-muted" style="margin:0;">
                 Le même modèle, dans deux harness différents, donne des résultats très éloignés
@@ -1129,7 +1118,7 @@ Here are the specifications:
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 11b — DEMO PROMPTS : COPILOT APP (3 sessions parallèles)
 ══════════════════════════════════════════════════════════════ -->
-<section data-background="#000000" data-transition="none" data-background-transition="none">
+<section data-background-color="#101411" data-transition="none" data-background-transition="none">
     <h2 style="color:#fff;border-color:rgba(255,255,255,.25);">
         Demo : 3 sessions en parallèle avec GitHub Copilot App
     </h2>
@@ -1197,8 +1186,14 @@ Here are the specifications:
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 12 — CONCLUSION
 ══════════════════════════════════════════════════════════════ -->
-<section data-background="linear-gradient(150deg,#1e40af 0%,#2563eb 55%,#3b82f6 100%)">
-    <h2 style="color:#fff;border-color:rgba(255,255,255,.25);">Conclusion</h2>
+<section class="gh-full gh-dark gh-conclusion" data-background-color="#101411">
+    <div class="gh-frame">
+        <div class="gh-rail">
+            <img class="gh-mark" src="../github-theme/img/invertocat-white.svg" width="72" height="72" alt="GitHub">
+            <div class="gh-cells is-copilot" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="gh-main">
+    <h2>Conclusion</h2>
     <div class="grid-2" style="gap:1.4em;margin-top:0.4em;">
 
         <div>
@@ -1265,23 +1260,33 @@ Here are the specifications:
         </div>
 
     </div>
+        </div>
+    </div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
      FINAL SLIDE — CONFERENCE TALKS
 ══════════════════════════════════════════════════════════════ -->
-<section>
-    <div class="flex-col" style="justify-content:center;align-items:center;height:100%;">
-        <h2 class="center" style="border:none;margin:0 0 .45em;">Retrouvez mes conférences</h2>
-        <p class="txt-sm txt-muted center" style="margin:0 0 1em;">Scannez le QR code pour les conférences actuelles, les slides et les informations sur les ateliers.</p>
-        <figure style="margin:0;text-align:center;">
-            <a href="https://www.julien-dubois.com/conferences" target="_blank" rel="noopener noreferrer">
-                <img src="assets/conferences-qr.png" width="360" height="360" alt="Scannez pour ouvrir la page des conférences de Julien Dubois">
-            </a>
-            <figcaption class="txt-sm" style="margin-top:.55em;">
-                <a href="https://www.julien-dubois.com/conferences" target="_blank" rel="noopener noreferrer">julien-dubois.com/conferences</a>
-            </figcaption>
-        </figure>
+<section class="gh-full gh-closing" data-background-color="#101411">
+    <div class="gh-frame">
+        <div class="gh-rail">
+            <img class="gh-mark" src="../github-theme/img/invertocat-white.svg" width="72" height="72" alt="GitHub">
+            <div class="gh-cells" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="gh-main">
+            <div class="gh-closing-grid">
+                <div>
+                    <h2>Retrouvez mes conférences</h2>
+                    <p>Scannez le QR code pour les conférences actuelles, les slides et les informations sur les ateliers.</p>
+                    <a class="gh-url" href="https://www.julien-dubois.com/conferences" target="_blank" rel="noopener noreferrer">julien-dubois.com/conferences</a>
+                </div>
+                <figure class="gh-qr">
+                    <a href="https://www.julien-dubois.com/conferences" target="_blank" rel="noopener noreferrer">
+                        <img src="../github-theme/img/conferences-qr.png" width="300" height="300" alt="Scannez pour ouvrir la page des conférences de Julien Dubois">
+                    </a>
+                </figure>
+            </div>
+        </div>
     </div>
 </section>
 

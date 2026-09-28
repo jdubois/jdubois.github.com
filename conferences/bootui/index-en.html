@@ -9,9 +9,6 @@
     <link rel="stylesheet" href="vendor/reveal/reveal.css" />
     <link rel="stylesheet" href="vendor/reveal/theme/white.css" />
 
-    <!-- Fonts (vendored locally — no Google Fonts dependency) -->
-    <link rel="stylesheet" href="vendor/fonts/fonts.local.css" />
-
     <style>
         /* ── Tokens ───────────────────────────────────────────────────── */
         :root {
@@ -52,18 +49,8 @@
         }
 
         /* ── Base ─────────────────────────────────────────────────────── */
-        .reveal-viewport {
-            background:
-                linear-gradient(rgba(29,78,216,.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(29,78,216,.05) 1px, transparent 1px),
-                radial-gradient(1000px 560px at 12% -8%, #dce7f8 0%, transparent 55%),
-                radial-gradient(920px 520px at 96% 0%, #d8e3f6 0%, transparent 50%),
-                radial-gradient(1000px 680px at 52% 122%, #cfe0f2 0%, transparent 55%),
-                #e4ebf5;
-            background-size:36px 36px, 36px 36px, auto, auto, auto, auto;
-        }
         .reveal {
-            font-family:'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family:'Mona Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             font-size:28px;
             color:var(--ink);
             font-kerning:normal;
@@ -78,9 +65,9 @@
         }
 
         /* ── Headings ─────────────────────────────────────────────────── */
-        .reveal h1 { font-family:'Space Grotesk', sans-serif; font-weight:700; line-height:1.04; letter-spacing:var(--track-display); color:var(--ink); text-wrap:balance; }
+        .reveal h1 { font-family:'Mona Sans', sans-serif; font-weight:700; line-height:1.04; letter-spacing:var(--track-display); color:var(--ink); text-wrap:balance; }
         .reveal h2 {
-            font-family:'Space Grotesk', sans-serif; font-weight:700;
+            font-family:'Mona Sans', sans-serif; font-weight:700;
             font-size:var(--t-h2); color:var(--ink); letter-spacing:var(--track-title);
             margin:0 0 .5em; padding-bottom:.25em;
             border-bottom:3px solid transparent;
@@ -88,7 +75,7 @@
             display:flex; align-items:center; gap:.4em;
         }
         .reveal h3 {
-            font-family:'Space Grotesk', sans-serif; font-weight:600;
+            font-family:'Mona Sans', sans-serif; font-weight:600;
             color:var(--indigo); font-size:var(--t-body); margin:0 0 .35em; letter-spacing:var(--track-label);
         }
 
@@ -174,17 +161,17 @@
             border-radius:12px; padding:.5em .7em; font-size:var(--t-2xs);
             color:#cbd8f2; line-height:1.4;
         }
-        .night-slide .proof b { color:#ffffff; font-family:'Space Grotesk',sans-serif; font-weight:600; display:block; margin-bottom:.15em; }
+        .night-slide .proof b { color:#ffffff; font-family:'Mona Sans',sans-serif; font-weight:600; display:block; margin-bottom:.15em; }
 
         /* Demo fallback screenshot slides (vertical sub-slides under the demo) */
         .shot-head { display:flex; align-items:baseline; gap:.6em; margin:0 0 .4em; }
         .shot-eyebrow {
-            font-family:'JetBrains Mono', monospace; font-size:var(--t-2xs); font-weight:700;
+            font-family:'Mona Sans Mono', monospace; font-size:var(--t-2xs); font-weight:700;
             letter-spacing:.06em; text-transform:uppercase; color:var(--violet);
             border:1px solid rgba(124,58,237,.28); background:rgba(124,58,237,.07);
             border-radius:999px; padding:.18em .7em; white-space:nowrap;
         }
-        .shot-title { font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:var(--t-sm); color:var(--ink); }
+        .shot-title { font-family:'Mona Sans', sans-serif; font-weight:600; font-size:var(--t-sm); color:var(--ink); }
         .reveal section img.shot {
             display:block; margin:0 auto; max-height:584px; max-width:100%; height:auto; width:auto;
             border-radius:12px; border:1px solid var(--line);
@@ -194,14 +181,14 @@
         .shot-cap { font-size:var(--t-xs); color:var(--muted); text-align:center; margin-top:.5em; }
 
         /* ── Stats ────────────────────────────────────────────────────── */
-        .stat-num { font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:var(--t-stat); line-height:1; color:var(--ink); font-variant-numeric:tabular-nums; letter-spacing:-.01em; }
+        .stat-num { font-family:'Mona Sans', sans-serif; font-weight:700; font-size:var(--t-stat); line-height:1; color:var(--ink); font-variant-numeric:tabular-nums; letter-spacing:-.01em; }
         .stat-label { font-size:var(--t-2xs); color:var(--muted); margin-top:.35em; line-height:1.3; font-weight:500; }
         .stat-strip { display:flex; gap:1.6em; align-items:baseline; }
-        .stat-inline { font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:var(--t-lg); line-height:1; font-variant-numeric:tabular-nums; }
+        .stat-inline { font-family:'Mona Sans', sans-serif; font-weight:700; font-size:var(--t-lg); line-height:1; font-variant-numeric:tabular-nums; }
 
         /* ── Thesis lede ──────────────────────────────────────────────── */
         .thesis-lede {
-            text-align:center; font-family:'Space Grotesk', sans-serif; font-weight:600;
+            text-align:center; font-family:'Mona Sans', sans-serif; font-weight:600;
             font-size:var(--t-lead); color:var(--ink); letter-spacing:-.01em;
             margin:.2em 0 .9em; text-wrap:balance;
         }
@@ -209,12 +196,12 @@
         /* ── Playbook numbered list ───────────────────────────────────── */
         .pb-item { display:flex; gap:.7em; align-items:baseline; padding:.32em 0; border-bottom:1px solid var(--line); }
         .pb-item:last-child { border-bottom:none; }
-        .pb-num { font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:var(--t-sm); min-width:1.5em; font-variant-numeric:tabular-nums; color:var(--blue); }
+        .pb-num { font-family:'Mona Sans', sans-serif; font-weight:700; font-size:var(--t-sm); min-width:1.5em; font-variant-numeric:tabular-nums; color:var(--blue); }
         .pb-text { font-size:var(--t-sm); color:var(--ink-soft); line-height:1.35; }
         .pb-text b { color:var(--ink); }
 
         /* ── Slide number / progress ──────────────────────────────────── */
-        .reveal .slide-number { background:transparent; color:var(--muted); font-family:'JetBrains Mono', monospace; font-size:var(--t-xs); right:14px; bottom:12px; font-variant-numeric:tabular-nums; }
+        .reveal .slide-number { background:transparent; color:var(--muted); font-family:'Mona Sans Mono', monospace; font-size:var(--t-xs); right:14px; bottom:12px; font-variant-numeric:tabular-nums; }
         .reveal .progress { color:var(--blue); background-color:rgba(11,31,58,.08); }
         .reveal.has-dark-background .slide-number { color:#93a7cf; }
 
@@ -231,8 +218,8 @@
         .amber  { color:var(--amber); }
         .emerald{ color:var(--emerald); }
         .rose   { color:var(--rose); }
-        .mono   { font-family:'JetBrains Mono', monospace; }
-        .sg     { font-family:'Space Grotesk', sans-serif; }
+        .mono   { font-family:'Mona Sans Mono', monospace; }
+        .sg     { font-family:'Mona Sans', sans-serif; }
         .fw-700 { font-weight:700; }
         .mt-xs  { margin-top:.35em; }
         .mt-sm  { margin-top:.5em; }
@@ -245,35 +232,35 @@
         /* ── Section dividers ─────────────────────────────────────────── */
         .divider-wrap { display:flex; flex-direction:column; justify-content:center; height:100%; }
         .divider-kicker {
-            font-family:'JetBrains Mono', monospace; font-size:var(--t-sm); font-weight:600;
+            font-family:'Mona Sans Mono', monospace; font-size:var(--t-sm); font-weight:600;
             letter-spacing:.14em; text-transform:uppercase; color:var(--violet); margin-bottom:.1em;
         }
         .divider-num {
-            font-family:'Space Grotesk', sans-serif; font-weight:700; line-height:.86;
+            font-family:'Mona Sans', sans-serif; font-weight:700; line-height:.86;
             font-size:6.4em; letter-spacing:-.04em;
             color:transparent; -webkit-text-stroke:3px var(--blue);
         }
         .divider h1 { font-size:2.1em; margin:.06em 0 .14em; }
-        .divider .sub { font-size:var(--t-lead); color:var(--muted); font-family:'Space Grotesk',sans-serif; font-weight:500; text-wrap:balance; }
+        .divider .sub { font-size:var(--t-lead); color:var(--muted); font-family:'Mona Sans',sans-serif; font-weight:500; text-wrap:balance; }
 
         /* ── Data table ───────────────────────────────────────────────── */
         .dtable { width:100%; border-collapse:collapse; font-size:var(--t-sm); }
         .dtable th, .dtable td { text-align:left; padding:.38em .7em; border-bottom:1px solid var(--line); vertical-align:top; }
         .dtable thead th {
-            font-family:'Space Grotesk',sans-serif; font-weight:700; color:var(--ink);
+            font-family:'Mona Sans',sans-serif; font-weight:700; color:var(--ink);
             font-size:var(--t-xs); letter-spacing:var(--track-label); text-transform:uppercase;
             border-bottom:2px solid var(--ink-soft);
         }
         .dtable td { color:var(--ink-soft); line-height:1.3; }
-        .dtable td.num { font-family:'JetBrains Mono',monospace; font-weight:600; color:var(--ink); white-space:nowrap; font-variant-numeric:tabular-nums; }
-        .dtable td.nm { font-family:'Space Grotesk',sans-serif; font-weight:600; color:var(--ink); white-space:nowrap; }
+        .dtable td.num { font-family:'Mona Sans Mono',monospace; font-weight:600; color:var(--ink); white-space:nowrap; font-variant-numeric:tabular-nums; }
+        .dtable td.nm { font-family:'Mona Sans',sans-serif; font-weight:600; color:var(--ink); white-space:nowrap; }
         .dtable tr:last-child td { border-bottom:none; }
 
         /* ── Feature grid ─────────────────────────────────────────────── */
         .feat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.5em; }
         .feat-grid.c5 { grid-template-columns:repeat(5,1fr); }
         .feat { background:#f3f7fc; border:1px solid var(--line); border-radius:12px; padding:.5em .65em; font-size:var(--t-2xs); color:var(--muted); line-height:1.35; }
-        .feat b { color:var(--ink); font-family:'Space Grotesk',sans-serif; font-weight:600; display:block; font-size:1.12em; margin-bottom:.15em; }
+        .feat b { color:var(--ink); font-family:'Mona Sans',sans-serif; font-weight:600; display:block; font-size:1.12em; margin-bottom:.15em; }
 
         /* ── Architecture stack ───────────────────────────────────────── */
         .arch { display:flex; flex-direction:column; gap:.32em; }
@@ -281,7 +268,7 @@
             border:1px solid var(--line); border-radius:12px; background:#fff;
             box-shadow:var(--shadow-sm); padding:.45em .8em; text-align:center;
         }
-        .arch-layer .nm { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:var(--t-sm); color:var(--ink); }
+        .arch-layer .nm { font-family:'Mona Sans',sans-serif; font-weight:700; font-size:var(--t-sm); color:var(--ink); }
         .arch-layer .ds { font-size:var(--t-2xs); color:var(--muted); margin-top:.14em; line-height:1.3; }
         .arch-layer.top { background:var(--grad); border-color:transparent; box-shadow:var(--shadow); }
         .arch-layer.top .nm, .arch-layer.top .ds { color:#fff; }
@@ -291,7 +278,7 @@
         .arch-adapters .arch-layer:nth-child(2) { border-top-color:var(--teal); }
         .arch-adapters .arch-layer:nth-child(3) { border-top-color:var(--violet); }
         .arch-tie {
-            text-align:center; font-family:'JetBrains Mono',monospace; font-size:var(--t-2xs);
+            text-align:center; font-family:'Mona Sans Mono',monospace; font-size:var(--t-2xs);
             color:var(--blue); font-weight:600; letter-spacing:.03em;
         }
 
@@ -301,12 +288,12 @@
             background:#fff; border:1px solid var(--line); border-radius:14px;
             padding:.55em .75em; box-shadow:var(--shadow-sm);
         }
-        .sig-item .st { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:var(--t-xs); color:var(--ink); }
+        .sig-item .st { font-family:'Mona Sans',sans-serif; font-weight:700; font-size:var(--t-xs); color:var(--ink); }
         .sig-item .sd { font-size:var(--t-2xs); color:var(--muted); margin-top:.2em; line-height:1.35; }
 
         /* ── Tags ─────────────────────────────────────────────────────── */
         .tag {
-            display:inline-block; font-family:'JetBrains Mono',monospace; font-size:var(--t-2xs);
+            display:inline-block; font-family:'Mona Sans Mono',monospace; font-size:var(--t-2xs);
             font-weight:600; padding:2px 9px; border-radius:999px;
             background:#eef3fb; color:var(--indigo); border:1px solid var(--line);
         }
@@ -318,11 +305,11 @@
 
         /* ── Tier rows ────────────────────────────────────────────────── */
         .tier { display:flex; align-items:center; gap:.55em; font-size:var(--t-xs); padding:.2em 0; color:var(--ink-soft); }
-        .tier .tn { font-family:'Space Grotesk',sans-serif; font-weight:600; color:var(--ink); min-width:6.4em; }
+        .tier .tn { font-family:'Mona Sans',sans-serif; font-weight:600; color:var(--ink); min-width:6.4em; }
 
         /* ── Code block ───────────────────────────────────────────────── */
         .codeblock {
-            font-family:'JetBrains Mono',monospace; font-size:var(--t-2xs);
+            font-family:'Mona Sans Mono',monospace; font-size:var(--t-2xs);
             background:#0f1b36; color:#dbe6ff; border-radius:12px;
             padding:.65em .85em; line-height:1.55; white-space:pre; overflow:hidden;
             box-shadow:var(--shadow-sm);
@@ -344,7 +331,7 @@
             height: auto;
             padding: 0.85em 0.7em;
             color: var(--speaker-ink);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Mona Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             font-size: 28px;
             line-height: 1.4;
             letter-spacing: normal;
@@ -441,6 +428,8 @@
             font-weight: 700;
         }
     </style>
+    <!-- GitHub brand theme, shared by every deck (see conferences/DESIGN.md) -->
+    <link rel="stylesheet" href="../github-theme/github-slides.css" />
 </head>
 <body>
 <div class="reveal">
@@ -449,40 +438,29 @@
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 1 — COVER
 ══════════════════════════════════════════════════════════════ -->
-<section>
-    <div class="cover-wrap">
-        <div style="display:flex;gap:.5em;flex-wrap:wrap;margin-bottom:1em;">
-            <span class="chip">Developer console</span>
-            <span class="chip blue">Spring Boot 4 · Quarkus</span>
-            <span class="chip teal">Local-only · fail-closed</span>
+<section class="gh-full gh-cover" data-background-color="#101411">
+    <div class="gh-frame">
+        <div class="gh-rail">
+            <img class="gh-mark" src="../github-theme/img/invertocat-white.svg" width="72" height="72" alt="GitHub">
+            <div class="gh-cells" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         </div>
-
-        <h1 style="font-size:var(--t-display);margin:0;">Introduction to<br/><span class="grad">BootUI</span></h1>
-
-        <div class="sg" style="font-size:.8em;font-weight:600;margin-top:.7em;color:var(--ink-soft);">
-            Your app is a black box. BootUI turns the lights on.
-        </div>
-        <div class="txt-sm muted" style="margin-top:.3em;">
-            An embedded developer console for Spring Boot 4 and Quarkus. One codebase, three stacks, 58 panels. 🔦
-        </div>
-
-        <div class="mono muted" style="font-size:.5em;margin-top:1.6em;letter-spacing:.02em;">
-            Julien Dubois&nbsp;&nbsp;·&nbsp;&nbsp;github.com/jdubois/boot-ui&nbsp;&nbsp;·&nbsp;&nbsp;julien-dubois.com
-        </div>
-
-        <div style="display:flex;align-items:center;gap:1.3em;margin-top:1.7em;">
-            <span style="display:inline-flex;align-items:center;gap:.5em;">
-                <svg height="24" viewBox="0 0 98 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="GitHub"><path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.014 7.822 5.014 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z" fill="#181717"/></svg>
-                <span class="sg" style="font-size:18px;font-weight:700;color:#181717;letter-spacing:-.01em;">GitHub</span>
-            </span>
-            <span style="width:1px;height:22px;background:var(--line);"></span>
-            <span style="display:inline-flex;align-items:center;gap:.55em;">
-                <svg width="22" height="22" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Microsoft"><rect x="1" y="1" width="10" height="10" fill="#F25022"/><rect x="12" y="1" width="10" height="10" fill="#7FBA00"/><rect x="1" y="12" width="10" height="10" fill="#00A4EF"/><rect x="12" y="12" width="10" height="10" fill="#FFB900"/></svg>
-                <span class="sg" style="font-size:18px;font-weight:600;color:#5E5E5E;letter-spacing:-.005em;">Microsoft</span>
-            </span>
+        <div class="gh-main">
+            <h1>Introduction to<br/><span class="grad">BootUI</span></h1>
+            <p class="gh-lede">Your app is a black box. BootUI turns the lights on.</p>
+            <p class="gh-sub">An embedded developer console for Spring Boot 4 and Quarkus. One codebase, three stacks, 58 panels. 🔦</p>
+            <div class="gh-foot">
+                <ul class="gh-tags"><li>Developer console</li><li>Spring Boot 4 · Quarkus</li><li>Local-only · fail-closed</li></ul>
+                <div class="gh-speaker">
+                    <img src="https://www.julien-dubois.com/img/photos/julien-dubois.png" width="64" height="64" alt="">
+                    <div>
+                        <div class="nm">Julien Dubois</div>
+                        <div class="rl" lang="en">Principal Manager, Developer Relations at GitHub / Microsoft</div>
+                        <div class="ln">github.com/jdubois/boot-ui · julien-dubois.com</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
     <aside class="notes">
         25 minutes. Product talk. Thesis: your running app is a black box, BootUI makes it legible — and it is honest
         about what it does and doesn't know.
@@ -518,12 +496,17 @@
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 3 — DIVIDER 01 · THE PROBLEM
 ══════════════════════════════════════════════════════════════ -->
-<section data-background-color="#e8eef9" data-background-gradient="radial-gradient(900px 540px at 14% -6%, #d6e3f7 0%, transparent 56%), radial-gradient(820px 540px at 102% 104%, #e7ddf6 0%, transparent 55%), #e8eef9">
-    <div class="divider divider-wrap">
-        <div class="divider-kicker">Part 01 · The problem</div>
-        <div class="divider-num" style="-webkit-text-stroke:3px var(--blue);">01</div>
-        <h1>Why are Java applications opaque?</h1>
-        <div class="sub">Spring Boot and Quarkus are missing a good developer console.</div>
+<section class="gh-full gh-divider" data-background-color="#101411">
+    <div class="gh-frame">
+        <div class="gh-rail">
+            <span class="gh-num">01</span>
+            <div class="gh-cells" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="gh-main">
+            <h1>Why are Java applications opaque?</h1>
+            <p class="gh-sub gh-divider-sub">Spring Boot and Quarkus are missing a good developer console.</p>
+            <div class="gh-foot"><span class="gh-part">Part 01 · The problem</span></div>
+        </div>
     </div>
 </section>
 
@@ -620,12 +603,17 @@
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 6 — DIVIDER 02 · THE PRODUCT
 ══════════════════════════════════════════════════════════════ -->
-<section data-background-color="#e8eef9" data-background-gradient="radial-gradient(900px 540px at 86% -6%, #dde6f9 0%, transparent 56%), radial-gradient(820px 540px at 0% 104%, #d8eef0 0%, transparent 55%), #e8eef9">
-    <div class="divider divider-wrap">
-        <div class="divider-kicker">Part 02 · The product</div>
-        <div class="divider-num" style="-webkit-text-stroke:3px var(--teal);">02</div>
-        <h1>One console, three stacks</h1>
-        <div class="sub">Spring MVC, Spring WebFlux and Quarkus — from a single codebase.</div>
+<section class="gh-full gh-divider" data-background-color="#101411">
+    <div class="gh-frame">
+        <div class="gh-rail">
+            <span class="gh-num">02</span>
+            <div class="gh-cells" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="gh-main">
+            <h1>One console, three stacks</h1>
+            <p class="gh-sub gh-divider-sub">Spring MVC, Spring WebFlux and Quarkus — from a single codebase.</p>
+            <div class="gh-foot"><span class="gh-part">Part 02 · The product</span></div>
+        </div>
     </div>
 </section>
 
@@ -743,13 +731,15 @@
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 10 — DIVIDER 03 · INSIDE
 ══════════════════════════════════════════════════════════════ -->
-<section data-background-color="#e8eef9" data-background-gradient="radial-gradient(900px 540px at 14% -6%, #d6e3f7 0%, transparent 56%), radial-gradient(820px 540px at 102% 104%, #ded7f6 0%, transparent 55%), #e8eef9">
-    <div class="divider divider-wrap">
-        <div class="divider-kicker">Part 03 · Inside</div>
-        <div class="divider-num" style="-webkit-text-stroke:3px var(--violet);">03</div>
-        <h1>Capture honestly.</h1>
-        <div class="sub">Three engineering signatures run through every panel that follows.</div>
-
+<section class="gh-full gh-divider" data-background-color="#101411">
+    <div class="gh-frame">
+        <div class="gh-rail">
+            <span class="gh-num">03</span>
+            <div class="gh-cells" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="gh-main">
+            <h1>Capture honestly.</h1>
+            <p class="gh-sub gh-divider-sub">Three engineering signatures run through every panel that follows.</p>
         <div class="sig">
             <div class="sig-item">
                 <div class="st">1 · Own the capture</div>
@@ -769,6 +759,8 @@
             We walk the console's own menu, top to bottom — Overview, Live Activity, Runtime, Configuration, Database,
             Security, Services, Diagnostics. The ninth group, <span class="ink fw-700">Developer tools</span>, gets its
             own part.
+        </div>
+            <div class="gh-foot"><span class="gh-part">Part 03 · Inside</span></div>
         </div>
     </div>
 
@@ -1345,12 +1337,17 @@
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 27 — DIVIDER 04 · THE SECOND USER
 ══════════════════════════════════════════════════════════════ -->
-<section data-background-color="#e8eef9" data-background-gradient="radial-gradient(900px 540px at 86% -6%, #dde6f9 0%, transparent 56%), radial-gradient(820px 540px at 0% 104%, #d8eef0 0%, transparent 55%), #e8eef9">
-    <div class="divider divider-wrap">
-        <div class="divider-kicker">Part 04 · The second user</div>
-        <div class="divider-num" style="-webkit-text-stroke:3px var(--emerald);">04</div>
-        <h1>Your agent reads the same panels.</h1>
-        <div class="sub">An AI agent reading only your source code is guessing about the runtime.</div>
+<section class="gh-full gh-divider" data-background-color="#101411">
+    <div class="gh-frame">
+        <div class="gh-rail">
+            <span class="gh-num">04</span>
+            <div class="gh-cells" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="gh-main">
+            <h1>Your agent reads the same panels.</h1>
+            <p class="gh-sub gh-divider-sub">An AI agent reading only your source code is guessing about the runtime.</p>
+            <div class="gh-foot"><span class="gh-part">Part 04 · The second user</span></div>
+        </div>
     </div>
 </section>
 
@@ -1488,49 +1485,52 @@ gh skill install jdubois/boot-ui bootui</div>
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 31 — OUTRO
 ══════════════════════════════════════════════════════════════ -->
-<section>
-    <div class="outro-wrap">
-        <div style="display:flex;gap:.5em;flex-wrap:wrap;margin-bottom:.7em;">
-            <span class="chip">Apache 2.0</span>
-            <span class="chip blue">Maven Central</span>
-            <span class="chip teal">Spring Boot 4 · Quarkus 3 LTS · Java 17</span>
+<section class="gh-full gh-cover gh-outro" data-background-color="#101411">
+    <div class="gh-frame">
+        <div class="gh-rail">
+            <img class="gh-mark" src="../github-theme/img/invertocat-white.svg" width="72" height="72" alt="GitHub">
+            <div class="gh-cells" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         </div>
-
-        <h1 style="font-size:var(--t-display);margin:.1em 0 0;">Go turn the <span class="grad">lights on.</span> 🔦</h1>
-
-        <div class="sg" style="font-size:.8em;font-weight:600;margin-top:.6em;color:var(--ink-soft);">
-            Add one dependency. Open <span class="mono">/bootui</span>. Ask your app a question.
-        </div>
-
-        <div class="grid-3 mt-md">
+        <div class="gh-main">
+            <h1>Go turn the <span class="grad">lights on.</span> 🔦</h1>
+            <p class="gh-lede">Add one dependency. Open <span class="mono">/bootui</span>. Ask your app a question.</p>
+            <div class="gh-trio">
             <div class="feat"><b>🟢 BootUI</b>Observes the app from the inside — <span class="mono">julien-dubois.com/boot-ui</span></div>
             <div class="feat"><b>🔵 Coffilot</b>Builds, runs and scans it from the Copilot side panel</div>
             <div class="feat"><b>🟤 Dr JSkill</b>Generates the Spring Boot app to start from</div>
-        </div>
-
-        <div class="mono muted" style="font-size:.5em;margin-top:1.3em;letter-spacing:.02em;">
-            🌐 julien-dubois.com&nbsp;&nbsp;·&nbsp;&nbsp;𝕏 @juliendubois&nbsp;&nbsp;·&nbsp;&nbsp;🐙 github.com/jdubois/boot-ui&nbsp;&nbsp;·&nbsp;&nbsp;📚 julien-dubois.com/boot-ui
+            </div>
+            <div class="gh-foot">
+                <ul class="gh-tags"><li>Apache 2.0</li><li>Maven Central</li><li>Spring Boot 4 · Quarkus 3 LTS · Java 17</li></ul>
+                <p class="gh-links">🌐 julien-dubois.com · 𝕏 @juliendubois · 🐙 github.com/jdubois/boot-ui · 📚 julien-dubois.com/boot-ui</p>
+            </div>
         </div>
     </div>
-
     <aside class="notes">Leave this up for questions.</aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
      FINAL SLIDE — CONFERENCE TALKS
 ══════════════════════════════════════════════════════════════ -->
-<section>
-    <div class="outro-wrap">
-        <h2 class="center" style="justify-content:center;border:none;margin:0 0 .45em;">Find my conference talks</h2>
-        <p class="txt-sm muted center" style="margin:0 0 1em;">Scan the QR code for current talks, slides and workshop information.</p>
-        <figure style="margin:0;text-align:center;">
-            <a href="https://www.julien-dubois.com/conferences" target="_blank" rel="noopener noreferrer">
-                <img src="assets/conferences-qr.png" width="360" height="360" alt="Scan to open Julien Dubois's conference talks page">
-            </a>
-            <figcaption class="txt-sm" style="margin-top:.55em;">
-                <a href="https://www.julien-dubois.com/conferences" target="_blank" rel="noopener noreferrer">julien-dubois.com/conferences</a>
-            </figcaption>
-        </figure>
+<section class="gh-full gh-closing" data-background-color="#101411">
+    <div class="gh-frame">
+        <div class="gh-rail">
+            <img class="gh-mark" src="../github-theme/img/invertocat-white.svg" width="72" height="72" alt="GitHub">
+            <div class="gh-cells" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="gh-main">
+            <div class="gh-closing-grid">
+                <div>
+                    <h2>Find my conference talks</h2>
+                    <p>Scan the QR code for current talks, slides and workshop information.</p>
+                    <a class="gh-url" href="https://www.julien-dubois.com/conferences" target="_blank" rel="noopener noreferrer">julien-dubois.com/conferences</a>
+                </div>
+                <figure class="gh-qr">
+                    <a href="https://www.julien-dubois.com/conferences" target="_blank" rel="noopener noreferrer">
+                        <img src="../github-theme/img/conferences-qr.png" width="300" height="300" alt="Scan to open Julien Dubois's conference talks page">
+                    </a>
+                </figure>
+            </div>
+        </div>
     </div>
 </section>
 

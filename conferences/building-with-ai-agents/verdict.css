@@ -1,7 +1,7 @@
 #verdict .verdict-charts { gap: 1.3em; margin-top: .7em; }
 :is(#verdict, #solo-breakdown) figure { margin: 0; }
 #verdict figcaption {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Mona Sans', sans-serif;
     font-size: var(--t-lead);
     font-weight: 700;
     margin-bottom: .4em;
