@@ -24,7 +24,7 @@
     transition: border-color 200ms ease, background-color 200ms ease;
 }
 .quiz-section .quiz-letter {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Mona Sans', sans-serif;
     font-size: var(--t-lead);
     font-weight: 700;
     color: var(--violet);
