@@ -3,8 +3,8 @@
    THESIS: every deck reads as a GitHub talk: neutral stage, one green
      hero, and the brand's speaker-card rail. Refuses per-deck gradient
      washes, gradient text and the generic blue/violet "AI keynote".
-   OWN-WORLD: White content slides; Black (#101411) cover, dividers,
-     demos and closing. Mona Sans / Mona Sans Mono. 2px neutral rules,
+   OWN-WORLD: GitHub Black theme on every slide (#101411 stage, #171C18
+     cards); the rail marks cover, dividers and closing. Mona Sans / Mona Sans Mono. 2px neutral rules,
      one 2px green rail line, contribution-graph cells as bullets and
      slide chrome. Copilot Purple only where Copilot or AI is the subject.
    STORY: the audience knows within one slide that this is a GitHub
@@ -67,14 +67,18 @@
     --gh-orange-4: #C53211;
 
     /* Roles: White theme (content slides) */
-    --gh-bg: #FFFFFF;
-    --gh-subtle-bg: var(--gh-gray-1);
-    --gh-text: var(--gh-gray-6);
-    --gh-text-body: var(--gh-gray-5);
-    --gh-text-subtle: #5F6B63;          /* 5.6:1 on white */
-    --gh-accent-text: var(--gh-green-5); /* 4.7:1 on white; large or bold use */
-    --gh-border: var(--gh-gray-2);
-    --gh-border-strong: var(--gh-gray-3);
+    /* Roles: Black theme (every slide) */
+    --gh-bg: var(--gh-gray-6);
+    --gh-surface: #171C18;              /* cards, one step above the stage */
+    --gh-subtle-bg: #1C221E;
+    --gh-text: #FFFFFF;
+    --gh-text-body: #C9D1CB;            /* 12.6:1 on #101411 */
+    --gh-text-subtle: #96A199;          /* 7.0:1 */
+    --gh-accent-text: var(--gh-green);  /* 7.6:1 */
+    --gh-purple-text: var(--gh-purple-2); /* 6.0:1 */
+    --gh-orange-text: var(--gh-orange-2); /* 7.4:1 */
+    --gh-border: #2C342E;
+    --gh-border-strong: #434C45;
 
     --gh-font: 'Mona Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
     --gh-mono: 'Mona Sans Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
@@ -86,21 +90,21 @@
     --ink-soft: var(--gh-text-body);
     --muted: var(--gh-text-subtle);
     --line: var(--gh-border);
-    --track: var(--gh-gray-2);
-    --surface: var(--gh-bg);
+    --track: var(--gh-border);
+    --surface: var(--gh-surface);
     --blue: var(--gh-accent-text);
     --emerald: var(--gh-accent-text);
     --indigo: var(--gh-text);
     --teal: var(--gh-text-body);
     --cyan: var(--gh-text-body);
-    --violet: var(--gh-purple);
-    --amber: var(--gh-orange-4);
-    --rose: var(--gh-orange-4);
+    --violet: var(--gh-purple-text);
+    --amber: var(--gh-orange-text);
+    --rose: var(--gh-orange-text);
     --radius: var(--gh-radius);
     --shadow: none;
     --shadow-sm: none;
-    --grad: var(--gh-gray-6);
-    --grad-night: var(--gh-gray-6);
+    --grad: var(--gh-gray-5);
+    --grad-night: var(--gh-gray-5);
     --grad-dawn: var(--gh-gray-5);
     --grad-green: var(--gh-green-6);
     --track-display: -.015em;
@@ -109,15 +113,15 @@
 
     /* code-generation deck tokens */
     --primary: var(--gh-accent-text);
-    --primary-dark: var(--gh-gray-6);
-    --primary-light: var(--gh-gray-1);
+    --primary-dark: var(--gh-text-body);
+    --primary-light: var(--gh-subtle-bg);
     --accent-green: var(--gh-accent-text);
-    --accent-amber: var(--gh-orange-4);
-    --accent-purple: var(--gh-purple);
-    --accent-rose: var(--gh-orange-4);
+    --accent-amber: var(--gh-orange-text);
+    --accent-purple: var(--gh-purple-text);
+    --accent-rose: var(--gh-orange-text);
     --text-primary: var(--gh-text);
     --text-secondary: var(--gh-text-subtle);
-    --bg-light: var(--gh-gray-1);
+    --bg-light: var(--gh-subtle-bg);
     --border: var(--gh-border);
     --shadow-md: none;
     --shadow-lg: none;
@@ -602,3 +606,61 @@
 .reveal.has-dark-background .controls { color: #5F6B63; }
 .card:has(.stat-num).t-violet, .card:has(.stat-num).t-amber, .card:has(.stat-num).t-rose { border-top-color: var(--gh-gray-5); }
 .reveal:has(.slides > section.present.gh-full) .slide-number { left: 216px; }
+
+/* ══════════════════════════════════════════════════════════════════
+   Black theme: every slide sits on the GitHub black stage.
+   Components that assumed a white page are re-toned here.
+   ══════════════════════════════════════════════════════════════════ */
+.reveal-viewport { background: var(--gh-bg) !important; }
+.reveal ul li { color: var(--gh-text-body); }
+.reveal .slide-number { color: var(--gh-text-subtle); }
+.reveal .controls { color: #5F6B63; }
+.reveal .progress { background-color: rgba(255,255,255,.08); }
+
+.card, .agent, .org-node, .sig-item, .arch-layer { background: var(--gh-surface); border-color: var(--gh-border); }
+.card.t-indigo, .card.t-teal, .card.t-cyan,
+.card:has(.stat-num).t-violet, .card:has(.stat-num).t-amber, .card:has(.stat-num).t-rose { border-top-color: var(--gh-border-strong); }
+.card.t-violet { border-top-color: var(--gh-purple); }
+.card.t-amber, .card.t-rose { border-top-color: var(--gh-orange-2); }
+.feat, .arch-layer.core, .detail-demote .card { background: var(--gh-subtle-bg); border-color: var(--gh-border); color: var(--gh-text-subtle); }
+.detail-demote .bar-fill { background: var(--gh-border-strong); }
+.arch-layer.top { background: var(--gh-gray-5); border-color: var(--gh-green); }
+
+/* Labels on black: deep tints, light text */
+.chip, .tag, .repo-pill, .chip.teal, .chip.slate, .tag.slate { background: var(--gh-subtle-bg); color: var(--gh-text-body); border-color: var(--gh-border); }
+.chip.blue, .tag.green, .agent .pill, .tag-green { background: var(--gh-green-6); color: var(--gh-green-3); border-color: #174A30; }
+.agent .pill.run, .shot-eyebrow, .tag-purple { background: #1E0E4A; color: #C898FD; border-color: #3B1F7A; }
+.tag.amber, .tag.rose, .tag-amber { background: #2A1208; color: #F4A876; border-color: #5A2512; }
+
+/* Emphasis blocks: a lifted panel, not black on black */
+.banner, .banner.night, .banner.dawn,
+.box-blue, .box-dark { background: var(--gh-gray-5); border: var(--gh-rule) solid #343C37; }
+.banner.green, .box-green { background: var(--gh-green-6); border: var(--gh-rule) solid #174A30; }
+.banner.sunrise, .box-purple { background: var(--gh-purple); border: 0; }
+.org-mgr { background: #FFFFFF; color: var(--gh-gray-6); }
+.ingredient .ix { background: var(--gh-gray-5); }
+
+/* Code sits in a recessed well */
+.snippet, .codeblock { background: #0B0E0C; border: var(--gh-rule) solid var(--gh-border); }
+
+.tl-band { background: var(--gh-subtle-bg); border-color: var(--gh-border-strong); }
+.tl-dots::before { background: var(--gh-border-strong); }
+.tl-dot { box-shadow: 0 0 0 4px var(--gh-bg), 0 0 0 6px var(--gh-green); }
+.tl-dot.night { background: var(--gh-purple-2); box-shadow: 0 0 0 4px var(--gh-bg), 0 0 0 6px var(--gh-purple-2); }
+.tl-dot.dawn { background: var(--gh-orange-2); box-shadow: 0 0 0 4px var(--gh-bg), 0 0 0 6px var(--gh-orange-2); }
+.tl-dot.ship { background: #FFFFFF; box-shadow: 0 0 0 4px var(--gh-bg), 0 0 0 6px #FFFFFF; }
+.org-fan path { stroke: var(--gh-border-strong); }
+
+.dtable thead th { border-bottom-color: var(--gh-text-body); }
+.dtable tr.total td { background: var(--gh-subtle-bg); border-top-color: var(--gh-text-body); }
+
+.quiz-section .quiz-answer,
+.quiz-section:has(.quiz-answer.visible) .quiz-correct { background: var(--gh-green-6); }
+.quiz-section .quiz-choice { background: var(--gh-surface); }
+
+.closing-section .closing-app-qr img { background: #FFFFFF; }
+.reveal section img.shot { border-color: var(--gh-border-strong); }
+.github-pill { background: var(--gh-gray-5); }
+.quote { color: var(--gh-accent-text); }
+.copy-btn { color: var(--gh-gray-6); background: var(--gh-green); }
+.copy-btn:hover { background: var(--gh-green-3); }
