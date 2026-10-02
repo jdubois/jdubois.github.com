@@ -585,7 +585,7 @@
     </div>
 
     <aside class="notes">
-        The map for Part 03: advisors are its opening, the console is the rest of it. Keep the MCP server and the
+        The map for Part 03: the live console and its advisors, walked in sidebar order. Keep the MCP server and the
         bootui CLI for Part 04 — don't mention them yet. Don't detail anything here — just plant the two pillars so
         people know where we're going.
         Say the zero-config line out loud instead of putting it on the slide — one dependency, open /bootui, no agent,
@@ -749,8 +749,8 @@
         </div>
 
         <div class="txt-xs muted" style="margin-top:.9em;">
-            We walk the console's own menu, top to bottom — Overview, Live Activity, Runtime, Database, Security,
-            Services, Diagnostics. Configuration shows up in the demo, and
+            We walk the console's own menu, top to bottom — Overview, Live Activity, Advisors, Runtime, Database,
+            Security, Services, Diagnostics. Configuration shows up in the demo, and
             Developer tools gets its own part.
         </div>
             <div class="gh-foot"><span class="gh-part">Part 03 · Inside</span></div>
@@ -764,7 +764,51 @@
     </aside>
 </section>
 <!-- ==============================================================
-     SLIDE 11 — OVERVIEW · ADVISORS + SCORE
+     SLIDE 11 — OVERVIEW · LIVE ACTIVITY + PROFILER
+============================================================== -->
+<section>
+    <h2>📡 Live Activity — and the per-request profiler</h2>
+
+    <div class="grid-2">
+        <div class="card t-teal">
+            <h3 class="teal">One feed, ten signals</h3>
+            <div class="tagrow">
+                <span class="tag">Requests</span><span class="tag">SQL</span><span class="tag">Exceptions</span>
+                <span class="tag">Security</span><span class="tag">Emails</span><span class="tag">Scheduled</span>
+                <span class="tag">Messaging</span><span class="tag">REST client</span><span class="tag">Cache</span>
+                <span class="tag">Fault tolerance</span>
+            </div>
+            <ul class="tight mt-sm">
+                <li>Signals <span class="ink fw-700">nest under the request</span> that caused them</li>
+                <li>Slow rows tinted on a heat scale at 100 / 200 / 500 / 1000&nbsp;ms</li>
+                <li>An <span class="tag rose">N+1</span> badge on the row itself — same rule the profiler uses, so the two never disagree</li>
+                <li>Refreshes over <span class="ink fw-700">Server-Sent Events</span>, not a polling timer</li>
+            </ul>
+        </div>
+        <div class="card t-blue">
+            <h3 class="blue">Click a request → the drawer</h3>
+            <div class="txt-xs muted" style="margin-bottom:.3em;">Every correlation is labelled with <em>how</em> it was established:</div>
+            <div class="tier"><span class="tn">Trace id</span> <span class="tag green">exact</span> <span class="muted">Micrometer traceId, threaded from the MDC</span></div>
+            <div class="tier"><span class="tn">Serving thread</span> <span class="tag green">exact</span> <span class="muted">The one worker that served it</span></div>
+            <div class="tier"><span class="tn">Time window</span> <span class="tag amber">approximate</span> <span class="muted">Method, path and window</span></div>
+            <ul class="tight mt-sm">
+                <li>It degrades gracefully and <span class="ink fw-700">never fabricates</span> a correlation</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md sm">
+        ⚡ Six of the ten signals reuse buffers other panels <em>already</em> fill — so the feed adds almost no new
+        instrumentation, and every value arrives already masked and bounded.
+    </div>
+
+    <aside class="notes">
+        Signature 3 in its purest form. "Exact" vs "approximate" printed in the UI is the detail people remember.
+    </aside>
+</section>
+
+<!-- ==============================================================
+     SLIDE 12 — ADVISORS + SCORE
 ============================================================== -->
 <section>
     <h2>🩺 Advisors — findings with fixes, on demand</h2>
@@ -833,50 +877,6 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 12 — OVERVIEW · LIVE ACTIVITY + PROFILER
-============================================================== -->
-<section>
-    <h2>📡 Live Activity — and the per-request profiler</h2>
-
-    <div class="grid-2">
-        <div class="card t-teal">
-            <h3 class="teal">One feed, ten signals</h3>
-            <div class="tagrow">
-                <span class="tag">Requests</span><span class="tag">SQL</span><span class="tag">Exceptions</span>
-                <span class="tag">Security</span><span class="tag">Emails</span><span class="tag">Scheduled</span>
-                <span class="tag">Messaging</span><span class="tag">REST client</span><span class="tag">Cache</span>
-                <span class="tag">Fault tolerance</span>
-            </div>
-            <ul class="tight mt-sm">
-                <li>Signals <span class="ink fw-700">nest under the request</span> that caused them</li>
-                <li>Slow rows tinted on a heat scale at 100 / 200 / 500 / 1000&nbsp;ms</li>
-                <li>An <span class="tag rose">N+1</span> badge on the row itself — same rule the profiler uses, so the two never disagree</li>
-                <li>Refreshes over <span class="ink fw-700">Server-Sent Events</span>, not a polling timer</li>
-            </ul>
-        </div>
-        <div class="card t-blue">
-            <h3 class="blue">Click a request → the drawer</h3>
-            <div class="txt-xs muted" style="margin-bottom:.3em;">Every correlation is labelled with <em>how</em> it was established:</div>
-            <div class="tier"><span class="tn">Trace id</span> <span class="tag green">exact</span> <span class="muted">Micrometer traceId, threaded from the MDC</span></div>
-            <div class="tier"><span class="tn">Serving thread</span> <span class="tag green">exact</span> <span class="muted">The one worker that served it</span></div>
-            <div class="tier"><span class="tn">Time window</span> <span class="tag amber">approximate</span> <span class="muted">Method, path and window</span></div>
-            <ul class="tight mt-sm">
-                <li>It degrades gracefully and <span class="ink fw-700">never fabricates</span> a correlation</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="banner mt-md sm">
-        ⚡ Six of the ten signals reuse buffers other panels <em>already</em> fill — so the feed adds almost no new
-        instrumentation, and every value arrives already masked and bounded.
-    </div>
-
-    <aside class="notes">
-        Signature 3 in its purest form. "Exact" vs "approximate" printed in the UI is the detail people remember.
-    </aside>
-</section>
-
-<!-- ==============================================================
      SLIDE 13 — RUNTIME GROUP
 ============================================================== -->
 <section>
@@ -919,85 +919,7 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 14 — DATABASE · SQL TRACE
-============================================================== -->
-<section>
-    <h2>🗄️ SQL Trace — no proxy library, no guessing</h2>
-
-    <div class="grid-2">
-        <div class="card t-emerald">
-            <h3 class="emerald">Capture</h3>
-            <ul class="tight">
-                <li>A hand-written JDBC tracer on the <span class="ink fw-700">JDK's own dynamic proxies</span> — BootUI bundles <span class="ink fw-700">no</span> database-proxy library</li>
-                <li>Wrapping <span class="tag green">fails open</span>: a <span class="mono">DataSource</span> that can't be proxied is left untouched rather than breaking startup</li>
-                <li>Works in a <span class="ink fw-700">GraalVM native image</span> — the proxies are registered as native metadata</li>
-                <li>Quarkus reaches parity with <span class="ink fw-700">two feeders</span>: an Agroal <span class="mono">@Alternative</span> plus a Hibernate <span class="mono">StatementInspector</span>, because ORM SQL bypasses the CDI <span class="mono">DataSource</span></li>
-            </ul>
-        </div>
-        <div class="card t-blue">
-            <h3 class="blue">Read</h3>
-            <ul class="tight">
-                <li>Rankings normalize literals and bind markers to <span class="mono">?</span> and fold <span class="mono">IN (…)</span> — equivalent statements group <span class="ink fw-700">without ever exposing a bound value</span></li>
-                <li><span class="ink fw-700">Database time by request route</span> — which endpoint is spending your database budget</li>
-                <li>N+1 groups list the distinct <span class="ink fw-700">call sites</span>: class, method, line</li>
-                <li>Unplaceable statements go to explicit <span class="tag slate">Unattributed</span> and <span class="tag slate">Ambiguous</span> buckets</li>
-            </ul>
-        </div>
-    </div>
-
-    <aside class="notes">
-        Best technical slide in the deck. If time is short, drop the GraalVM bullet.
-        The privacy story behind the Unattributed/Ambiguous buckets, if you want it: to group SQL by endpoint BootUI
-        needs a route template like /api/users/{id}. When the framework doesn't supply one it matches the real URL
-        against your declared routes, and only accepts an exact, unambiguous match — because it cannot tell whether
-        "alice" in /api/users/alice is a username or a fixed segment, and masking can't tell either. Two equally
-        plausible routes produce no template at all. That is why the buckets exist.
-    </aside>
-</section>
-
-<!-- ==============================================================
-     SLIDE 15 — DATABASE · TRANSACTIONS
-============================================================== -->
-<section>
-    <h2>🔄 Transactions — the boundaries nobody shows you</h2>
-
-    <div class="grid-2">
-        <div class="card t-indigo">
-            <h3 class="indigo">Captured by Spring's own SPI</h3>
-            <ul class="tight">
-                <li>A <span class="mono">TransactionExecutionListener</span> (Spring Framework 6.1+) — <span class="ink fw-700">BootUI's own wiring</span>, not a third-party observability library</li>
-                <li>It <span class="ink fw-700">composes with</span>, never replaces, your transaction management and your own listeners</li>
-                <li>Managers that don't implement the SPI simply stay <span class="ink fw-700">unobserved</span> — nothing is monkey-patched to force it</li>
-            </ul>
-        </div>
-        <div class="card t-teal">
-            <h3 class="teal">What a boundary records</h3>
-            <ul class="tight">
-                <li>A <span class="ink fw-700">parent/child tree</span> — nested calls sit under their root</li>
-                <li>Propagation as <span class="tag">NEW</span> or <span class="tag">PARTICIPATING</span> — and it says plainly that Spring's SPI does <em>not</em> expose the declared <span class="mono">@Transactional</span> enum</li>
-                <li>Isolation at begin, outcome (<span class="mono">COMMITTED</span> / <span class="mono">ROLLED_BACK</span> / <span class="mono">UNKNOWN</span>), thread, trace id</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="banner mt-md sm">
-        🔗 Each transaction is correlated to <span class="ink fw-700">SQL Trace</span> by thread and time window — so you see how many
-        statements and how many JDBC connections a boundary touched,
-        <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">without instrumenting anything twice.</span>
-    </div>
-
-    <div class="txt-xs muted mt-sm center">
-        Fails closed with a clear reason when there's no <span class="mono">PlatformTransactionManager</span>, or on a WebFlux app using only R2DBC.
-        Honestly <span class="tag amber">not applicable</span> on Quarkus: Narayana and the CDI interceptor expose no comparable per-boundary hook.
-    </div>
-
-    <aside class="notes">
-        The N/A footnote is the point, not an apology: they refused to fake parity with invasive instrumentation.
-    </aside>
-</section>
-
-<!-- ==============================================================
-     SLIDE 16 — DATABASE · POSTGRESQL + MYSQL
+     SLIDE 14 — DATABASE · POSTGRESQL + MYSQL
 ============================================================== -->
 <section>
     <h2>🐘 PostgreSQL &amp; MySQL — what the server itself says</h2>
@@ -1051,6 +973,84 @@
         marks those sections partial instead of showing a confidently empty list.
         Agents and scripts get the same thing: get_postgresql_report / postgresql_read over MCP, and
         bootui db postgres report / read in the terminal — the report never touches the database, the read is an action.
+    </aside>
+</section>
+
+<!-- ==============================================================
+     SLIDE 15 — DATABASE · TRANSACTIONS
+============================================================== -->
+<section>
+    <h2>🔄 Transactions — the boundaries nobody shows you</h2>
+
+    <div class="grid-2">
+        <div class="card t-indigo">
+            <h3 class="indigo">Captured by Spring's own SPI</h3>
+            <ul class="tight">
+                <li>A <span class="mono">TransactionExecutionListener</span> (Spring Framework 6.1+) — <span class="ink fw-700">BootUI's own wiring</span>, not a third-party observability library</li>
+                <li>It <span class="ink fw-700">composes with</span>, never replaces, your transaction management and your own listeners</li>
+                <li>Managers that don't implement the SPI simply stay <span class="ink fw-700">unobserved</span> — nothing is monkey-patched to force it</li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">What a boundary records</h3>
+            <ul class="tight">
+                <li>A <span class="ink fw-700">parent/child tree</span> — nested calls sit under their root</li>
+                <li>Propagation as <span class="tag">NEW</span> or <span class="tag">PARTICIPATING</span> — and it says plainly that Spring's SPI does <em>not</em> expose the declared <span class="mono">@Transactional</span> enum</li>
+                <li>Isolation at begin, outcome (<span class="mono">COMMITTED</span> / <span class="mono">ROLLED_BACK</span> / <span class="mono">UNKNOWN</span>), thread, trace id</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md sm">
+        🔗 Each transaction is correlated to <span class="ink fw-700">SQL Trace</span> by thread and time window — so you see how many
+        statements and how many JDBC connections a boundary touched,
+        <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">without instrumenting anything twice.</span>
+    </div>
+
+    <div class="txt-xs muted mt-sm center">
+        Fails closed with a clear reason when there's no <span class="mono">PlatformTransactionManager</span>, or on a WebFlux app using only R2DBC.
+        Honestly <span class="tag amber">not applicable</span> on Quarkus: Narayana and the CDI interceptor expose no comparable per-boundary hook.
+    </div>
+
+    <aside class="notes">
+        The N/A footnote is the point, not an apology: they refused to fake parity with invasive instrumentation.
+    </aside>
+</section>
+
+<!-- ==============================================================
+     SLIDE 16 — DATABASE · SQL TRACE
+============================================================== -->
+<section>
+    <h2>🗄️ SQL Trace — no proxy library, no guessing</h2>
+
+    <div class="grid-2">
+        <div class="card t-emerald">
+            <h3 class="emerald">Capture</h3>
+            <ul class="tight">
+                <li>A hand-written JDBC tracer on the <span class="ink fw-700">JDK's own dynamic proxies</span> — BootUI bundles <span class="ink fw-700">no</span> database-proxy library</li>
+                <li>Wrapping <span class="tag green">fails open</span>: a <span class="mono">DataSource</span> that can't be proxied is left untouched rather than breaking startup</li>
+                <li>Works in a <span class="ink fw-700">GraalVM native image</span> — the proxies are registered as native metadata</li>
+                <li>Quarkus reaches parity with <span class="ink fw-700">two feeders</span>: an Agroal <span class="mono">@Alternative</span> plus a Hibernate <span class="mono">StatementInspector</span>, because ORM SQL bypasses the CDI <span class="mono">DataSource</span></li>
+            </ul>
+        </div>
+        <div class="card t-blue">
+            <h3 class="blue">Read</h3>
+            <ul class="tight">
+                <li>Rankings normalize literals and bind markers to <span class="mono">?</span> and fold <span class="mono">IN (…)</span> — equivalent statements group <span class="ink fw-700">without ever exposing a bound value</span></li>
+                <li><span class="ink fw-700">Database time by request route</span> — which endpoint is spending your database budget</li>
+                <li>N+1 groups list the distinct <span class="ink fw-700">call sites</span>: class, method, line</li>
+                <li>Unplaceable statements go to explicit <span class="tag slate">Unattributed</span> and <span class="tag slate">Ambiguous</span> buckets</li>
+            </ul>
+        </div>
+    </div>
+
+    <aside class="notes">
+        Best technical slide in the deck. If time is short, drop the GraalVM bullet.
+        The privacy story behind the Unattributed/Ambiguous buckets, if you want it: to group SQL by endpoint BootUI
+        needs a route template like /api/users/{id}. When the framework doesn't supply one it matches the real URL
+        against your declared routes, and only accepts an exact, unambiguous match — because it cannot tell whether
+        "alice" in /api/users/alice is a username or a fixed segment, and masking can't tell either. Two equally
+        plausible routes produce no template at all. That is why the buckets exist.
     </aside>
 </section>
 
