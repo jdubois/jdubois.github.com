@@ -427,6 +427,71 @@
             color: var(--speaker-ink);
             font-weight: 700;
         }
+
+        /* ── Outro torch: a click switches it on, it sweeps the slide and its beam reveals binary rain ── */
+        .torch-slide .gh-frame { z-index: 1; }
+
+        .torch-home {
+            display: inline-block;
+            width: .9em;
+            height: .45em;
+            margin-left: .12em;
+            vertical-align: .05em;
+        }
+        .torch-home .torch-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-30deg);
+            transform-origin: 50% 50%;
+        }
+        .torch-slide.torch-flying .torch-home { visibility: hidden; }
+
+        .torch-svg { display: block; overflow: visible; color: #96A199; transition: color .2s ease; }
+        .torch-on .torch-svg { color: #FFF6D5; filter: drop-shadow(0 0 8px rgba(255, 246, 213, .55)); }
+
+        .torch-fly {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            pointer-events: none;
+            transform-origin: 0 0;
+            visibility: hidden;
+        }
+        .torch-slide.torch-flying .torch-fly { visibility: visible; }
+
+        .torch-beam {
+            --bx: 0px;
+            --by: 0px;
+            --ba: 90deg;
+            --bh: 18deg;
+            --br: 600px;
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0;
+            -webkit-mask-image:
+                conic-gradient(from calc(var(--ba) - var(--bh)) at var(--bx) var(--by),
+                    transparent 0deg, #000 calc(var(--bh) * .35), #000 calc(var(--bh) * 1.65),
+                    transparent calc(var(--bh) * 2), transparent 360deg),
+                radial-gradient(circle var(--br) at var(--bx) var(--by), #000 0%, #000 45%, transparent 100%);
+            mask-image:
+                conic-gradient(from calc(var(--ba) - var(--bh)) at var(--bx) var(--by),
+                    transparent 0deg, #000 calc(var(--bh) * .35), #000 calc(var(--bh) * 1.65),
+                    transparent calc(var(--bh) * 2), transparent 360deg),
+                radial-gradient(circle var(--br) at var(--bx) var(--by), #000 0%, #000 45%, transparent 100%);
+            -webkit-mask-composite: source-in;
+            mask-composite: intersect;
+        }
+        .torch-beam canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+        .torch-beam::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle var(--br) at var(--bx) var(--by),
+                rgba(255, 246, 213, .14) 0%, rgba(255, 246, 213, .04) 55%, transparent 100%);
+        }
     </style>
     <!-- GitHub brand theme, shared by every deck (see conferences/DESIGN.md) -->
     <link rel="stylesheet" href="../github-theme/github-slides.css" />
@@ -1475,14 +1540,15 @@ gh skill install jdubois/boot-ui bootui</div>
 <!-- ══════════════════════════════════════════════════════════════
      SLIDE 30 — OUTRO
 ══════════════════════════════════════════════════════════════ -->
-<section class="gh-full gh-cover gh-outro" data-background-color="#101411">
+<section class="gh-full gh-cover gh-outro torch-slide" data-background-color="#101411">
+    <div class="torch-beam" aria-hidden="true"><canvas width="2560" height="1440"></canvas></div>
     <div class="gh-frame">
         <div class="gh-rail">
             <img class="gh-mark" src="../github-theme/img/invertocat-white.svg" width="72" height="72" alt="GitHub">
             <div class="gh-cells" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         </div>
         <div class="gh-main">
-            <h1>Go turn the <span class="grad">lights on.</span> 🔦</h1>
+            <h1>Go turn the <span class="grad">lights on.</span><span class="torch-home" aria-hidden="true"><svg class="torch-svg" viewBox="0 0 72 36"><use href="#torch-shape"/></svg></span></h1>
             <p class="gh-lede">Add one dependency. Open <span class="mono">/bootui</span>. Ask your app a question.</p>
             <div class="gh-trio">
             <div class="feat"><b>🟢 BootUI</b>Observes the app from the inside — <span class="mono">julien-dubois.com/boot-ui</span></div>
@@ -1495,7 +1561,24 @@ gh skill install jdubois/boot-ui bootui</div>
             </div>
         </div>
     </div>
-    <aside class="notes">Leave this up for questions.</aside>
+    <svg class="torch-fly torch-svg" viewBox="0 0 72 36" aria-hidden="true">
+        <defs>
+            <g id="torch-shape">
+                <rect x="0" y="12" width="5" height="12" rx="2" fill="#6E7A72"/>
+                <rect x="3" y="10" width="40" height="16" rx="4" fill="#96A199"/>
+                <path d="M10 11v14M15 11v14M20 11v14" stroke="#6E7A72" stroke-width="1.6"/>
+                <rect x="27" y="6.5" width="9" height="4.5" rx="1.5" fill="#0FBF3E"/>
+                <path d="M42 9 L60 2 L60 34 L42 27 Z" fill="#C9D1CB"/>
+                <rect x="59" y="2" width="7" height="32" rx="2.5" fill="currentColor"/>
+            </g>
+        </defs>
+        <use href="#torch-shape"/>
+    </svg>
+    <span class="fragment torch-cue" aria-hidden="true"></span>
+    <aside class="notes">
+        Click once: the torch switches on, sweeps the slide, and its beam reveals the binary running underneath —
+        the black box, lit up. Then leave this up for questions.
+    </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
@@ -1545,6 +1628,136 @@ Reveal.initialize({
     autoAnimate:          false,
     plugins: [ RevealNotes ],
 });
+
+// Outro torch: the .torch-cue fragment switches it on; it sweeps the slide and its beam reveals binary rain.
+(() => {
+    const slide = document.querySelector('.torch-slide');
+    if (!slide) return;
+    const beam = slide.querySelector('.torch-beam');
+    const canvas = beam.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+    const home = slide.querySelector('.torch-home');
+    const fly = slide.querySelector('.torch-fly');
+    const cue = slide.querySelector('.torch-cue');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const W = 1280, H = 720, FONT = 16, COLS = Math.ceil(W / FONT);
+    const LENS_X = 66, SVG_W = 72, DURATION = 6.2;
+    const drops = new Array(COLS).fill(0);
+    let rainTimer = 0, frame = 0, keys = null, torch = { w: 72, h: 36 };
+
+    ctx.scale(canvas.width / W, canvas.height / H);
+    const bit = () => (Math.random() < .5 ? '0' : '1');
+
+    function resetRain() {
+        ctx.fillStyle = '#101411';
+        ctx.fillRect(0, 0, W, H);
+        for (let i = 0; i < COLS; i++) drops[i] = -Math.random() * (H / FONT);
+    }
+    function stepRain() {
+        ctx.fillStyle = 'rgba(16, 20, 17, .14)';
+        ctx.fillRect(0, 0, W, H);
+        ctx.font = `500 ${FONT}px 'Mona Sans Mono', ui-monospace, monospace`;
+        ctx.textBaseline = 'top';
+        for (let i = 0; i < COLS; i++) {
+            const y = drops[i] * FONT;
+            if (y >= 0) {
+                ctx.fillStyle = '#0FBF3E';
+                ctx.fillText(bit(), i * FONT, y - FONT);
+                ctx.fillStyle = '#D9FFE2';
+                ctx.fillText(bit(), i * FONT, y);
+            }
+            drops[i] = y > H && Math.random() > .97 ? -Math.random() * 8 : drops[i] + 1;
+        }
+    }
+    function startRain() {
+        resetRain();
+        for (let i = 0; i < 70; i++) stepRain();
+        if (!reduceMotion.matches && !rainTimer) rainTimer = setInterval(stepRain, 55);
+    }
+    function stopRain() {
+        clearInterval(rainTimer);
+        rainTimer = 0;
+    }
+
+    // Keyframes in slide pixels: lens position, pointing angle (0 = right, clockwise), beam half-angle, reach, intensity.
+    function buildKeys() {
+        const s = slide.getBoundingClientRect();
+        const r = home.getBoundingClientRect();
+        const scale = s.width / slide.offsetWidth;
+        torch = { w: r.width / scale, h: r.height / scale };
+        const cx = (r.left - s.left + r.width / 2) / scale;
+        const cy = (r.top - s.top + r.height / 2) / scale;
+        const reach = torch.w * (LENS_X - SVG_W / 2) / SVG_W;
+        const a = -30 * Math.PI / 180;
+        const hx = cx + Math.cos(a) * reach, hy = cy + Math.sin(a) * reach;
+        fly.style.width = `${torch.w}px`;
+        fly.style.height = `${torch.h}px`;
+        keys = [
+            { t: 0,   x: hx,   y: hy,  a: -30, h: 14, r: 0,    i: 0 },
+            { t: .5,  x: hx,   y: hy,  a: -30, h: 16, r: 520,  i: 1 },
+            { t: 1.7, x: 300,  y: 500, a: 170, h: 18, r: 560,  i: 1 },
+            { t: 2.6, x: 300,  y: 500, a: 355, h: 20, r: 620,  i: 1 },
+            { t: 4.9, x: 880,  y: 480, a: 365, h: 20, r: 620,  i: 1 },
+            { t: DURATION, x: 1190, y: 650, a: 225, h: 34, r: 1250, i: 1 },
+        ];
+    }
+
+    const smooth = e => e * e * (3 - 2 * e);
+    function stateAt(t) {
+        let k = 0;
+        while (k < keys.length - 2 && t > keys[k + 1].t) k++;
+        const p = keys[k], q = keys[k + 1];
+        const e = Math.min(1, Math.max(0, (t - p.t) / (q.t - p.t)));
+        const s = smooth(e), mix = (u, v, f = s) => u + (v - u) * f;
+        const st = { x: mix(p.x, q.x), y: mix(p.y, q.y), a: mix(p.a, q.a), h: mix(p.h, q.h), r: mix(p.r, q.r), i: mix(p.i, q.i) };
+        if (k === 1) { st.x = mix(p.x, q.x, 1 - (1 - e) ** 2); st.y = mix(p.y, q.y, e * e); }
+        if (k === 3) st.y += Math.sin(e * Math.PI * 4) * 8;
+        return st;
+    }
+    function apply(st) {
+        fly.style.transform =
+            `translate(${st.x}px, ${st.y}px) rotate(${st.a}deg) translate(${-torch.w * LENS_X / SVG_W}px, ${-torch.h / 2}px)`;
+        beam.style.setProperty('--bx', `${st.x}px`);
+        beam.style.setProperty('--by', `${st.y}px`);
+        beam.style.setProperty('--ba', `${st.a + 90}deg`);
+        beam.style.setProperty('--bh', `${st.h}deg`);
+        beam.style.setProperty('--br', `${st.r}px`);
+        beam.style.opacity = st.i;
+        slide.classList.toggle('torch-on', st.i > .3);
+    }
+
+    function reset() {
+        cancelAnimationFrame(frame);
+        stopRain();
+        slide.classList.remove('torch-flying', 'torch-on');
+        beam.style.opacity = 0;
+    }
+    function play(animate) {
+        reset();
+        buildKeys();
+        slide.classList.add('torch-flying');
+        startRain();
+        if (!animate || reduceMotion.matches) return apply(stateAt(DURATION));
+        const t0 = performance.now();
+        const tick = now => {
+            const t = (now - t0) / 1000;
+            apply(stateAt(Math.min(t, DURATION)));
+            if (t < DURATION) frame = requestAnimationFrame(tick);
+        };
+        frame = requestAnimationFrame(tick);
+    }
+    function sync(current) {
+        if (current === slide && cue.classList.contains('visible')) play(false);
+        else reset();
+    }
+
+    Reveal.on('fragmentshown', e => { if (e.fragment === cue) play(true); });
+    Reveal.on('fragmenthidden', e => { if (e.fragment === cue) reset(); });
+    Reveal.on('slidechanged', e => sync(e.currentSlide));
+    Reveal.on('ready', e => sync(e.currentSlide));
+    if (Reveal.isReady()) sync(Reveal.getCurrentSlide());
+})();
 </script>
 </body>
 </html>
