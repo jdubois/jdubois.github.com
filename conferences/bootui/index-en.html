@@ -594,7 +594,7 @@
 
     <aside class="notes">
         The map for the rest of the talk: advisors are Part 03's opening, the console is all of Part 03, the MCP server
-        is Part 04. Don't detail anything here — just plant the three pillars so people know where we're going.
+        and the bootui CLI are Part 04. Don't detail anything here — just plant the three pillars so people know where we're going.
         Say the zero-config line out loud instead of putting it on the slide — one dependency, open /bootui, no agent,
         no sidecar, nothing to configure — then move straight to the coordinates on the next slide.
     </aside>
@@ -1049,7 +1049,65 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 17 — SECURITY
+     SLIDE 17 — DATABASE · POSTGRESQL + MYSQL
+============================================================== -->
+<section>
+    <h2>🐘 PostgreSQL &amp; MySQL — what the server itself says</h2>
+
+    <div class="grid-2">
+        <div class="card t-blue">
+            <h3 class="blue">The server's own numbers</h3>
+            <ul class="tight">
+                <li>One card per datasource: <span class="ink fw-700">vital signs</span> always in view, everything
+                    else in tabs — sessions and blocking, statement ranking, index usage, table sizes, replication,
+                    settings</li>
+                <li><span class="ink fw-700">PostgreSQL</span> reads <span class="mono">pg_stat_*</span> and
+                    <span class="mono">pg_catalog</span>, including autovacuum health, checkpoints and WAL</li>
+                <li><span class="ink fw-700">MySQL</span> reads Performance Schema and Information Schema, plus
+                    InnoDB evidence — tested on <span class="mono">8.4 LTS</span></li>
+                <li>No rules, no severity, no score: <span class="ink fw-700">the server's numbers, your
+                    judgement</span></li>
+            </ul>
+        </div>
+        <div class="card t-emerald">
+            <h3 class="emerald">Explicit, bounded, read-only</h3>
+            <ul class="tight">
+                <li>Opening the panel shows the last report — the database is queried only when you press
+                    <span class="ink fw-700">Run read</span></li>
+                <li>PostgreSQL runs one read-only transaction: <span class="mono">statement_timeout 5s</span>,
+                    <span class="mono">lock_timeout 2s</span>, a 15&nbsp;s budget, each query in its own
+                    savepoint</li>
+                <li>Missing <span class="mono">pg_monitor</span> rights or a capped section is
+                    <span class="tag amber">partial</span>, and an unknown value stays unknown — never a silent
+                    zero</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md sm">
+        🧭 Three angles on one database: the <span class="ink fw-700">Database advisor</span> checks the schema ·
+        <span class="ink fw-700">SQL Trace</span> shows what this JVM sent ·
+        <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">PostgreSQL and MySQL show what the server saw from every client.</span>
+    </div>
+
+    <div class="txt-xs muted mt-sm center">
+        All three stacks, through your existing JDBC datasources. The panel only appears when that vendor's driver is on
+        the classpath. MariaDB, R2DBC-only and reactive-client-only apps are not supported.
+    </div>
+
+    <aside class="notes">
+        The new operational panels. The point is the third angle: SQL Trace only sees this JVM, the server sees
+        everyone — the batch job, the other service, your colleague's psql session.
+        The permissions story is worth one sentence: without pg_monitor, PostgreSQL silently hides other sessions and
+        replaces statement text with "insufficient privilege". BootUI probes pg_read_all_stats membership first and
+        marks those sections partial instead of showing a confidently empty list.
+        Agents and scripts get the same thing: get_postgresql_report / postgresql_read over MCP, and
+        bootui db postgres report / read in the terminal — the report never touches the database, the read is an action.
+    </aside>
+</section>
+
+<!-- ==============================================================
+     SLIDE 18 — SECURITY
 ============================================================== -->
 <section>
     <h2>🔐 Security — who can reach what, and who got refused</h2>
@@ -1097,7 +1155,7 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 18 — SERVICES
+     SLIDE 19 — SERVICES
 ============================================================== -->
 <section>
     <h2>🔌 Support for all the main services your app uses</h2>
@@ -1140,7 +1198,7 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 19 — DIAGNOSTICS · OPENTELEMETRY
+     SLIDE 20 — DIAGNOSTICS · OPENTELEMETRY
 ============================================================== -->
 <section>
     <h2>🔭 OpenTelemetry — one pipeline, four panels</h2>
@@ -1178,7 +1236,7 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 20 — DIAGNOSTICS · EXCEPTIONS
+     SLIDE 21 — DIAGNOSTICS · EXCEPTIONS
 ============================================================== -->
 <section>
     <h2>💥 Exceptions — triage, with regression detection</h2>
@@ -1229,7 +1287,7 @@
     </aside>
 </section>
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 21 — DEMO
+     SLIDE 22 — DEMO
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>🎬 Demo — five minutes, four beats</h2>
@@ -1249,15 +1307,15 @@
     </div>
 
     <aside class="notes">
-        Hard stop at 5 minutes. If beat 3 runs long, cut beat 4 and describe it — slide 20 already made the point.
+        Hard stop at 5 minutes. If beat 3 runs long, cut beat 4 and describe it — slide 21 already made the point.
         Have the sample app already running and the browser already open on a blank tab.
-        FALLBACK: slides 22-26 are screenshots of each beat. If the live demo worked, click through them fast as a
-        recap, or skip to slide 27.
+        FALLBACK: slides 23-27 are screenshots of each beat. If the live demo worked, click through them fast as a
+        recap, or skip to slide 28.
     </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 22 — FALLBACK · BEAT 1 (Beans)
+     SLIDE 23 — FALLBACK · BEAT 1 (Beans)
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
@@ -1272,7 +1330,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 23 — FALLBACK · BEAT 2 (Overview + score)
+     SLIDE 24 — FALLBACK · BEAT 2 (Overview + score)
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
@@ -1287,7 +1345,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 24 — FALLBACK · BEAT 3a (Live Activity)
+     SLIDE 25 — FALLBACK · BEAT 3a (Live Activity)
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
@@ -1302,7 +1360,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 25 — FALLBACK · BEAT 3b (SQL Trace)
+     SLIDE 26 — FALLBACK · BEAT 3b (SQL Trace)
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
@@ -1317,7 +1375,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 26 — FALLBACK · BEAT 4 (Exceptions)
+     SLIDE 27 — FALLBACK · BEAT 4 (Exceptions)
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
@@ -1336,7 +1394,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 27 — DIVIDER 04 · THE SECOND USER
+     SLIDE 28 — DIVIDER 04 · THE SECOND USER
 ══════════════════════════════════════════════════════════════ -->
 <section class="gh-full gh-divider" data-background-color="#101411">
     <div class="gh-frame">
@@ -1353,7 +1411,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 28 — MCP SERVER
+     SLIDE 29 — MCP SERVER
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>🤖 The MCP server — opt-in, loopback, same DTOs</h2>
@@ -1405,7 +1463,57 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 29 — THE FIX-AND-VERIFY LOOP
+     SLIDE 30 — THE COMMAND LINE
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>⌨️ The <span class="mono" style="font-size:.8em;">bootui</span> CLI — one question, one answer</h2>
+
+    <div class="grid-2">
+        <div class="card t-violet">
+            <h3 class="violet">Ask the running app from a terminal</h3>
+<div class="codeblock"><span class="c"># Linux and macOS — or JBang, or the jar</span>
+curl -fsSL https://www.julien-dubois.com/boot-ui/install.sh | sh
+
+bootui beans --query dataSource
+bootui http exchanges --limit 20
+bootui hibernate scan --json | jq <span class="s">'.severityCounts'</span>
+bootui tools  <span class="c"># what this app answers</span></div>
+            <div class="txt-xs muted mt-xs">One runnable jar, JDK 17+. No MCP client, no agent, nothing to enable.</div>
+        </div>
+        <div class="card t-blue">
+            <h3 class="blue">Built for scripts and CI</h3>
+            <ul class="tight">
+                <li><span class="ink fw-700">90 commands</span>, one per MCP tool, generated from the same registry —
+                    a test fails if the two ever diverge</li>
+                <li>Tables on a terminal; the application's <span class="ink fw-700">exact JSON bytes</span> when piped
+                    or with <span class="mono">--json</span></li>
+                <li>Exit codes a pipeline can branch on: <span class="mono">0</span> answered ·
+                    <span class="mono">1</span> error · <span class="mono">2</span>
+                    <span class="ink fw-700">BootUI declined</span> — panel off or read-only, so CI treats it as a
+                    skip</li>
+                <li>Gate a build on <span class="mono">severityCounts</span>: every scan reports it the same way</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md sm">
+        🛡️ Not a new exposure: the same loopback, <span class="mono">Host</span> and token guards, the same per-panel
+        policy, the same masking — <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">a second spelling of the same panel data.</span>
+    </div>
+
+    <aside class="notes">
+        The third user after the human and the agent: a shell script or a CI job. Start the app, ask it one question,
+        stop it — fail the build on HIGH Hibernate findings, for example.
+        Exit code 2 is the detail to land: a read-only panel refusing a scan is a fact about the target's
+        configuration, not a broken build, and CI can tell the two apart without parsing stderr.
+        If asked: it needs no bootui.mcp.enabled — /bootui/api/cli is a separate endpoint, on by default, turned off
+        with bootui.cli.enabled=false. Developer tools → Command Line in the console shows every command this instance
+        exposes. Update checks are silent when piped, so CI makes no unexpected network calls.
+    </aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 31 — THE FIX-AND-VERIFY LOOP
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>🔁 The loop that closes</h2>
@@ -1440,7 +1548,7 @@ gh skill install jdubois/boot-ui bootui</div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 30 — LEARN MORE
+     SLIDE 32 — LEARN MORE
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>📚 Learn more</h2>
@@ -1452,6 +1560,7 @@ gh skill install jdubois/boot-ui bootui</div>
                 <li><span class="mono">julien-dubois.com/boot-ui</span> — the documentation site</li>
                 <li><span class="mono">/features</span> — every panel, group by group</li>
                 <li><span class="mono">/properties</span> — the full configuration reference</li>
+                <li><span class="mono">/cli</span> — every <span class="mono">bootui</span> command</li>
             </ul>
         </div>
         <div class="card t-teal">
@@ -1485,7 +1594,7 @@ gh skill install jdubois/boot-ui bootui</div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 31 — OUTRO
+     SLIDE 33 — OUTRO
 ══════════════════════════════════════════════════════════════ -->
 <section class="gh-full gh-cover gh-outro" data-background-color="#101411">
     <div class="gh-frame">
