@@ -447,7 +447,7 @@
         <div class="gh-main">
             <h1>Introduction to<br/><span class="grad">BootUI</span></h1>
             <p class="gh-lede">Your app is a black box. BootUI turns the lights on.</p>
-            <p class="gh-sub">An embedded developer console for Spring Boot 4 and Quarkus. One codebase, three stacks, 58 panels. 🔦</p>
+            <p class="gh-sub">An embedded developer console for Spring Boot 4 and Quarkus. One codebase, three stacks, 60 panels. 🔦</p>
             <div class="gh-foot">
                 <ul class="gh-tags"><li>Developer console</li><li>Spring Boot 4 · Quarkus</li><li>Local-only · fail-closed</li></ul>
                 <div class="gh-speaker">
@@ -462,7 +462,7 @@
         </div>
     </div>
     <aside class="notes">
-        25 minutes. Product talk. Thesis: your running app is a black box, BootUI makes it legible — and it is honest
+        30-minute slot: about 26 minutes of content, leaving a few minutes for Q&amp;A. Product talk. Thesis: your running app is a black box, BootUI makes it legible — and it is honest
         about what it does and doesn't know.
     </aside>
 </section>
@@ -550,8 +550,8 @@
 
     <aside class="notes">
         Land the pain first. You already have the data — the JVM knows everything. You just can't read it.
-        These four questions are deliberate: each one is answered by a panel we see later — Configuration,
-        Transactions, Exceptions, SQL Trace. Plant them here and call back when we get there.
+        These four questions are deliberate: each one is answered by a panel we see later — Transactions,
+        Exceptions, SQL Trace, and Configuration in demo beat 1 (Beans and Conditions). Plant them here and call back when we get there.
     </aside>
 </section>
 
@@ -561,13 +561,13 @@
 <section>
     <h2>🧰 What BootUI actually provides</h2>
 
-    <p class="thesis-lede">One dependency. One local URL. <span class="grad">Three ways to read your app.</span></p>
+    <p class="thesis-lede">One dependency. One local URL. <span class="grad">Two ways to read your app.</span></p>
 
-    <div class="grid-3">
+    <div class="grid-2">
         <div class="card t-blue">
             <h3 class="blue">🩺 Advisors</h3>
             <ul class="tight">
-                <li><span class="ink fw-700">437 rules</span> across 10 advisors — architecture, security,
+                <li><span class="ink fw-700">411 rules</span> across 10 advisors — architecture, security,
                     Hibernate, memory, dependencies</li>
                 <li>Every finding names the cause and the <span class="ink fw-700">fix</span></li>
                 <li>One score out of 100, on demand — never on page load</li>
@@ -576,25 +576,18 @@
         <div class="card t-teal">
             <h3 class="teal">📊 A live console</h3>
             <ul class="tight">
-                <li><span class="ink fw-700">58 panels</span> in 9 groups, in your browser</li>
+                <li><span class="ink fw-700">60 panels</span> in 9 groups, in your browser</li>
                 <li>Requests, SQL, transactions, exceptions and the JVM —
                     <span class="ink fw-700">as they happen</span></li>
                 <li>Explains what it means first; raw JSON one click away</li>
             </ul>
         </div>
-        <div class="card t-violet">
-            <h3 class="violet">🤖 An MCP server</h3>
-            <ul class="tight">
-                <li>The same data, <span class="ink fw-700">≈79 tools</span>, for your coding agent</li>
-                <li>Opt-in and loopback only — off until you turn it on</li>
-                <li>Your agent stops guessing and <span class="ink fw-700">reads the running app</span></li>
-            </ul>
-        </div>
     </div>
 
     <aside class="notes">
-        The map for the rest of the talk: advisors are Part 03's opening, the console is all of Part 03, the MCP server
-        is Part 04. Don't detail anything here — just plant the three pillars so people know where we're going.
+        The map for Part 03: the live console and its advisors, walked in sidebar order. Keep the MCP server and the
+        bootui CLI for Part 04 — don't mention them yet. Don't detail anything here — just plant the two pillars so
+        people know where we're going.
         Say the zero-config line out loud instead of putting it on the slide — one dependency, open /bootui, no agent,
         no sidecar, nothing to configure — then move straight to the coordinates on the next slide.
     </aside>
@@ -629,7 +622,7 @@
 <div class="codeblock">&lt;<span class="k">dependency</span>&gt;
   &lt;<span class="k">groupId</span>&gt;<span class="s">com.julien-dubois.bootui</span>&lt;/<span class="k">groupId</span>&gt;
   &lt;<span class="k">artifactId</span>&gt;<span class="s">bootui-spring-boot-starter</span>&lt;/<span class="k">artifactId</span>&gt;
-  &lt;<span class="k">version</span>&gt;<span class="s">1.15.0</span>&lt;/<span class="k">version</span>&gt;
+  &lt;<span class="k">version</span>&gt;<span class="s">1.19.0</span>&lt;/<span class="k">version</span>&gt;
 &lt;/<span class="k">dependency</span>&gt;</div>
             <div class="txt-xs muted mt-xs"><span class="mono">-reactive</span> for WebFlux.</div>
         </div>
@@ -638,7 +631,7 @@
 <div class="codeblock">&lt;<span class="k">dependency</span>&gt;
   &lt;<span class="k">groupId</span>&gt;<span class="s">com.julien-dubois.bootui</span>&lt;/<span class="k">groupId</span>&gt;
   &lt;<span class="k">artifactId</span>&gt;<span class="s">bootui-quarkus</span>&lt;/<span class="k">artifactId</span>&gt;
-  &lt;<span class="k">version</span>&gt;<span class="s">1.15.0</span>&lt;/<span class="k">version</span>&gt;
+  &lt;<span class="k">version</span>&gt;<span class="s">1.19.0</span>&lt;/<span class="k">version</span>&gt;
 &lt;/<span class="k">dependency</span>&gt;</div>
             <div class="txt-xs muted mt-xs">A real Quarkus extension — runtime + deployment.</div>
         </div>
@@ -656,38 +649,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 8 — THE NUMBERS + THE MAP
-══════════════════════════════════════════════════════════════ -->
-<section>
-    <h2>🧭 58 panels, 9 groups, one question each</h2>
-
-    <div class="grid-4" style="margin:0 0 .7em;">
-        <div class="card t-indigo"><div class="stat-num indigo">58</div><div class="stat-label">panels across 9 groups</div></div>
-        <div class="card t-teal"><div class="stat-num teal">3</div><div class="stat-label">stacks · one codebase</div></div>
-        <div class="card t-violet"><div class="stat-num violet">1</div><div class="stat-label">Vue UI · one JSON contract</div></div>
-        <div class="card t-emerald"><div class="stat-num emerald">0</div><div class="stat-label">extra processes to run</div></div>
-    </div>
-
-    <div class="feat-grid c5">
-        <div class="feat"><b>Overview</b>Is my app healthy — and what did it just do?</div>
-        <div class="feat"><b>Advisors</b>What is wrong, and how do I fix it?</div>
-        <div class="feat"><b>Runtime</b>How is the JVM behaving right now?</div>
-        <div class="feat"><b>Configuration</b>What config and wiring is <em>effective</em>?</div>
-        <div class="feat"><b>Database</b>What is my app doing to the database?</div>
-        <div class="feat"><b>Security</b>How is access actually enforced?</div>
-        <div class="feat"><b>Services</b>What is my app talking to?</div>
-        <div class="feat"><b>Diagnostics</b>Why did that request fail?</div>
-        <div class="feat"><b>Developer tools</b>What is my toolchain doing locally?</div>
-        <div class="feat" style="background:var(--gh-surface);border-color:var(--gh-green);"><b>Every group</b>…answers one question, not "here is some data"</div>
-    </div>
-
-    <aside class="notes">
-        Read two or three of the questions out loud — that framing is the product. Don't read all nine.
-    </aside>
-</section>
-
-<!-- ══════════════════════════════════════════════════════════════
-     SLIDE 9 — ARCHITECTURE
+     SLIDE 8 — ARCHITECTURE
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>🧱 How one codebase serves three stacks</h2>
@@ -729,7 +691,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 10 — DIVIDER 03 · INSIDE
+     SLIDE 9 — DIVIDER 03 · INSIDE
 ══════════════════════════════════════════════════════════════ -->
 <section class="gh-full gh-divider" data-background-color="#101411">
     <div class="gh-frame">
@@ -756,9 +718,9 @@
         </div>
 
         <div class="txt-xs muted" style="margin-top:.9em;">
-            We walk the console's own menu, top to bottom — Overview, Live Activity, Runtime, Configuration, Database,
-            Security, Services, Diagnostics. The ninth group, <span class="ink fw-700">Developer tools</span>, gets its
-            own part.
+            We walk the console's own menu, top to bottom — the Overview score and its Advisors, Live Activity, Runtime,
+            Database, Security, Services, Diagnostics. Configuration shows up in the demo, and
+            Developer tools gets its own part.
         </div>
             <div class="gh-foot"><span class="gh-part">Part 03 · Inside</span></div>
         </div>
@@ -771,18 +733,18 @@
     </aside>
 </section>
 <!-- ==============================================================
-     SLIDE 11 — OVERVIEW · ADVISORS + SCORE
+     SLIDE 10 — ADVISORS + SCORE
 ============================================================== -->
 <section>
     <h2>🩺 Advisors — findings with fixes, on demand</h2>
 
     <div class="grid-2">
         <div class="card t-blue">
-            <h3 class="blue">437 rules, written with AI</h3>
+            <h3 class="blue">411 rules, written with AI</h3>
             <ul class="tight mt-sm">
                 <li>Every rule is its own class with a <span class="ink fw-700">stable id</span>, a severity and a
-                    <span class="ink fw-700">concrete recommendation</span> — Hibernate alone has 75, Security 61,
-                    REST&nbsp;API 56</li>
+                    <span class="ink fw-700">concrete recommendation</span> — Hibernate alone has 72, Security 54,
+                    REST&nbsp;API 53</li>
                 <li>Written with AI, then reviewed <span class="ink fw-700">one rule at a time</span>: the strongest
                     models applied to framework expertise, not a generic linter</li>
                 <li>No other console for Spring&nbsp;Boot or Quarkus carries a ruleset of this depth — it is
@@ -797,7 +759,7 @@
             <ul class="tight">
                 <li>9 severity-scored scanners, each starting at 100</li>
                 <li>Fixed penalties: <span class="mono">critical −25</span> · <span class="mono">high −10</span> · <span class="mono">medium −3</span> · <span class="mono">low −1</span></li>
-                <li>Overall = the mean of scanners that <span class="ink fw-700">actually scored</span></li>
+                <li>Overall = the mean of scanners that <span class="ink fw-700">actually scored</span> — plus GitHub's security-alert score when connected</li>
             </ul>
             <div class="mt-sm">
                 <div class="band"><span class="dot" style="background:var(--emerald);"></span> <b>80+</b>&nbsp; Good</div>
@@ -808,24 +770,24 @@
     </div>
 
     <div class="tagrow mt-md" style="justify-content:center;">
-        <span class="tag">Architecture 41</span><span class="tag">REST API 56</span><span class="tag">Spring 41</span>
-        <span class="tag">Quarkus 19</span><span class="tag">Database 28</span><span class="tag">Hibernate 75</span>
-        <span class="tag">Memory 36</span><span class="tag">Security 61</span><span class="tag">Pentesting 80</span>        <span class="tag">Vulnerabilities ∞</span>
+        <span class="tag">Architecture 40</span><span class="tag">REST API 53</span><span class="tag">Spring 41</span>
+        <span class="tag">Quarkus 14</span><span class="tag">Database 28</span><span class="tag">Hibernate 72</span>
+        <span class="tag">Memory 32</span><span class="tag">Security 54</span><span class="tag">Pentesting 77</span><span class="tag">Vulnerabilities ∞</span>
     </div>
 
     <div class="banner mt-sm sm">
         🛑 <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">Nothing is scanned on page load.</span>
-        Before any run, the gauge shows how many scanners have scored — not a fake zero. <span class="mono">Vulnerabilities</span> has no fixed count: it queries OSV.dev for known CVEs and adds how likely each one is to actually be exploited.
+        Before any run, Overview reads <em>Not scored</em> — never a fake zero. <span class="mono">Vulnerabilities</span> has no fixed count: it queries OSV.dev for known CVEs and adds how likely each one is to actually be exploited.
     </div>
 
     <aside class="notes">
-        Land the number: 437 rules, one class each, across the ten advisors on the slide. This is the moat — anyone can
+        Land the number: 411 rules, one class each, across the ten advisors on the slide. This is the moat — anyone can
         render a bean graph, nobody else has spent the time on the ruleset. Be straight about how it was built: written
         with AI, the strongest models pointed at real framework expertise, then reviewed rule by rule.
-        If asked, the shipped library is larger still: Quarkus apps swap Spring Security's 61 rules for 49
-        Quarkus-native ones, and WebFlux gets 26 reactive security rules — 512 rules in total, ported per stack rather
+        If asked, the shipped library is larger still: Quarkus apps swap Spring Security's 54 rules for 45
+        Quarkus-native ones, and WebFlux gets 26 reactive security rules — 482 rules in total, ported per stack rather
         than faked.
-        Two details worth saying out loud but not putting on the slide: Pentesting is 80 OWASP Top 10 2025 checks and
+        Two details worth saying out loud but not putting on the slide: Pentesting is 77 OWASP Top 10 2025 checks and
         sends at most one GET and one OPTIONS to literal 127.0.0.1; and when evidence is bounded away the scan is
         marked PARTIAL and the score is hidden rather than faked.
         The restraint is the story: a security tool that refuses to phone home until asked. Worth saying out loud:
@@ -840,18 +802,19 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 12 — OVERVIEW · LIVE ACTIVITY + PROFILER
+     SLIDE 11 — OVERVIEW · LIVE ACTIVITY + PROFILER
 ============================================================== -->
 <section>
     <h2>📡 Live Activity — and the per-request profiler</h2>
 
     <div class="grid-2">
         <div class="card t-teal">
-            <h3 class="teal">One feed, nine signals</h3>
+            <h3 class="teal">One feed, ten signals</h3>
             <div class="tagrow">
                 <span class="tag">Requests</span><span class="tag">SQL</span><span class="tag">Exceptions</span>
                 <span class="tag">Security</span><span class="tag">Emails</span><span class="tag">Scheduled</span>
                 <span class="tag">Messaging</span><span class="tag">REST client</span><span class="tag">Cache</span>
+                <span class="tag">Fault tolerance</span>
             </div>
             <ul class="tight mt-sm">
                 <li>Signals <span class="ink fw-700">nest under the request</span> that caused them</li>
@@ -873,7 +836,7 @@
     </div>
 
     <div class="banner mt-md sm">
-        ⚡ Six of the nine signals reuse buffers other panels <em>already</em> fill — so the feed adds almost no new
+        ⚡ Six of the ten signals reuse buffers other panels <em>already</em> fill — so the feed adds almost no new
         instrumentation, and every value arrives already masked and bounded.
     </div>
 
@@ -883,7 +846,7 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 13 — RUNTIME GROUP
+     SLIDE 12 — RUNTIME GROUP
 ============================================================== -->
 <section>
     <h2>🔬 Runtime — ten panels on the running JVM</h2>
@@ -900,7 +863,7 @@
                 <li><span class="ink fw-700">Heap Dump</span> — capture and analyse locally, class histogram only, never object values</li>
                 <li><span class="ink fw-700">Startup Timeline</span> and <span class="ink fw-700">Metrics</span> — where the seconds went, and every Micrometer meter grouped by who registered it</li>
                 <li><span class="ink fw-700">Health</span> and <span class="ink fw-700">HTTP Sessions</span> — the full contributor tree; sessions masked by default</li>
-                <li><span class="ink fw-700">GraalVM</span> and <span class="ink fw-700">CRaC</span> — 27 and 17 curated readiness checks</li>
+                <li><span class="ink fw-700">GraalVM</span> and <span class="ink fw-700">CRaC</span> — 30 and 19 curated readiness checks</li>
             </ul>
         </div>
         <div class="card t-indigo">
@@ -925,47 +888,101 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 14 — CONFIGURATION
+     SLIDE 13 — DATABASE · POSTGRESQL + MYSQL
 ============================================================== -->
 <section>
-    <h2>⚙️ Configuration — what is <em>actually</em> effective</h2>
+    <h2>🐘 PostgreSQL &amp; MySQL — what the server itself says</h2>
 
     <div class="grid-2">
         <div class="card t-blue">
-            <h3 class="blue">Read the truth, not the file</h3>
+            <h3 class="blue">The server's own numbers</h3>
             <ul class="tight">
-                <li>Every effective property with its <span class="ink fw-700">source</span>, metadata description and
-                    default — and its value already masked</li>
-                <li><span class="ink fw-700">Profile Diff</span>: exactly what changes between two local profiles</li>
-                <li><span class="ink fw-700">Conditions</span>: positive, negative and unconditional matches — why an
-                    auto-configuration applied, or why it was skipped</li>
-                <li><span class="ink fw-700">Beans</span> and <span class="ink fw-700">Mappings</span>: the wiring and
-                    the HTTP surface, read from the running route table</li>
+                <li>One card per datasource: <span class="ink fw-700">vital signs</span> always in view, everything
+                    else in tabs — sessions and blocking, statement ranking, index usage, table sizes, replication,
+                    settings</li>
+                <li><span class="ink fw-700">PostgreSQL</span> reads <span class="mono">pg_stat_*</span> and
+                    <span class="mono">pg_catalog</span>, including autovacuum health, checkpoints and WAL</li>
+                <li><span class="ink fw-700">MySQL</span> reads Performance Schema and Information Schema, plus
+                    InnoDB evidence — tested on <span class="mono">8.4 LTS</span></li>
+                <li>No rules, no severity, no score: <span class="ink fw-700">the server's numbers, your
+                    judgement</span></li>
             </ul>
         </div>
-        <div class="card t-violet">
-            <h3 class="violet">Then change it — with the caveat attached</h3>
+        <div class="card t-emerald">
+            <h3 class="emerald">Explicit, bounded, read-only</h3>
             <ul class="tight">
-                <li>Runtime overrides are persisted to
-                    <span class="mono">.bootui/application-bootui.properties</span> — a real file you can read and
-                    delete</li>
-                <li>Every mutation shows its <span class="ink fw-700">restart and rebinding caveat</span>, because not
-                    every property re-binds live</li>
-                <li>Big property, bean, condition and mapping tables page <span class="ink fw-700">server-side</span>,
-                    and filters run on the server — the browser never needs the full report</li>
+                <li>Opening the panel shows the last report — the database is queried only when you press
+                    <span class="ink fw-700">Run read</span></li>
+                <li>PostgreSQL runs one read-only transaction: <span class="mono">statement_timeout 5s</span>,
+                    <span class="mono">lock_timeout 2s</span>, a 15&nbsp;s budget, each query in its own
+                    savepoint</li>
+                <li>Missing <span class="mono">pg_monitor</span> rights or a capped section is
+                    <span class="tag amber">partial</span>, and an unknown value stays unknown — never a silent
+                    zero</li>
             </ul>
         </div>
     </div>
 
     <div class="banner mt-md sm">
-        🫥 These panels hide <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">BootUI's own beans, conditions, loggers and metrics</span>
-        by default. The console must not show up in its own answers.
+        🧭 Three angles on one database: the <span class="ink fw-700">Database advisor</span> checks the schema ·
+        <span class="ink fw-700">SQL Trace</span> shows what this JVM sent ·
+        <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">PostgreSQL and MySQL show what the server saw from every client.</span>
+    </div>
+
+    <div class="txt-xs muted mt-sm center">
+        All three stacks, through your existing JDBC datasources. The panel only appears when that vendor's driver is on
+        the classpath. MariaDB, R2DBC-only and reactive-client-only apps are not supported.
     </div>
 
     <aside class="notes">
-        The override file is the honest bit: BootUI does not pretend a live property change is free — it names the
-        restart or rebinding caveat next to the thing you just changed. And self-exclusion is a small detail that
-        people notice immediately when a tool gets it wrong.
+        The new operational panels. The point is the third angle: SQL Trace only sees this JVM, the server sees
+        everyone — the batch job, the other service, your colleague's psql session.
+        The permissions story is worth one sentence: without pg_monitor, PostgreSQL silently hides other sessions and
+        replaces statement text with "insufficient privilege". BootUI probes pg_read_all_stats membership first and
+        marks those sections partial instead of showing a confidently empty list.
+        Agents and scripts get the same thing: get_postgresql_report / postgresql_read over MCP, and
+        bootui db postgres report / read in the terminal — the report never touches the database, the read is an action.
+    </aside>
+</section>
+
+<!-- ==============================================================
+     SLIDE 14 — DATABASE · TRANSACTIONS
+============================================================== -->
+<section>
+    <h2>🔄 Transactions — the boundaries nobody shows you</h2>
+
+    <div class="grid-2">
+        <div class="card t-indigo">
+            <h3 class="indigo">Captured by Spring's own SPI</h3>
+            <ul class="tight">
+                <li>A <span class="mono">TransactionExecutionListener</span> (Spring Framework 6.1+) — <span class="ink fw-700">BootUI's own wiring</span>, not a third-party observability library</li>
+                <li>It <span class="ink fw-700">composes with</span>, never replaces, your transaction management and your own listeners</li>
+                <li>Managers that don't implement the SPI simply stay <span class="ink fw-700">unobserved</span> — nothing is monkey-patched to force it</li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">What a boundary records</h3>
+            <ul class="tight">
+                <li>A <span class="ink fw-700">parent/child tree</span> — nested calls sit under their root</li>
+                <li>Propagation as <span class="tag">NEW</span> or <span class="tag">PARTICIPATING</span> — and it says plainly that Spring's SPI does <em>not</em> expose the declared <span class="mono">@Transactional</span> enum</li>
+                <li>Isolation at begin, outcome (<span class="mono">COMMITTED</span> / <span class="mono">ROLLED_BACK</span> / <span class="mono">UNKNOWN</span>), thread, trace id</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md sm">
+        🔗 Each transaction is correlated to <span class="ink fw-700">SQL Trace</span> by thread and time window — so you see how many
+        statements and how many JDBC connections a boundary touched,
+        <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">without instrumenting anything twice.</span>
+    </div>
+
+    <div class="txt-xs muted mt-sm center">
+        Fails closed with a clear reason when there's no <span class="mono">PlatformTransactionManager</span>, or on a WebFlux app using only R2DBC.
+        Honestly <span class="tag amber">not applicable</span> on Quarkus: Narayana and the CDI interceptor expose no comparable per-boundary hook.
+    </div>
+
+    <aside class="notes">
+        The N/A footnote is the point, not an apology: they refused to fake parity with invasive instrumentation.
     </aside>
 </section>
 
@@ -1007,48 +1024,7 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 16 — DATABASE · TRANSACTIONS
-============================================================== -->
-<section>
-    <h2>🔄 Transactions — the boundaries nobody shows you</h2>
-
-    <div class="grid-2">
-        <div class="card t-indigo">
-            <h3 class="indigo">Captured by Spring's own SPI</h3>
-            <ul class="tight">
-                <li>A <span class="mono">TransactionExecutionListener</span> (Spring Framework 6.1+) — <span class="ink fw-700">BootUI's own wiring</span>, not a third-party observability library</li>
-                <li>It <span class="ink fw-700">composes with</span>, never replaces, your transaction management and your own listeners</li>
-                <li>Managers that don't implement the SPI simply stay <span class="ink fw-700">unobserved</span> — nothing is monkey-patched to force it</li>
-            </ul>
-        </div>
-        <div class="card t-teal">
-            <h3 class="teal">What a boundary records</h3>
-            <ul class="tight">
-                <li>A <span class="ink fw-700">parent/child tree</span> — nested calls sit under their root</li>
-                <li>Propagation as <span class="tag">NEW</span> or <span class="tag">PARTICIPATING</span> — and it says plainly that Spring's SPI does <em>not</em> expose the declared <span class="mono">@Transactional</span> enum</li>
-                <li>Isolation at begin, outcome (<span class="mono">COMMITTED</span> / <span class="mono">ROLLED_BACK</span> / <span class="mono">UNKNOWN</span>), thread, trace id</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="banner mt-md sm">
-        🔗 Each transaction is correlated to <span class="ink fw-700">SQL Trace</span> by thread and time window — so you see how many
-        statements and how many JDBC connections a boundary touched,
-        <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">without instrumenting anything twice.</span>
-    </div>
-
-    <div class="txt-xs muted mt-sm center">
-        Fails closed with a clear reason when there's no <span class="mono">PlatformTransactionManager</span>, or on a WebFlux app using only R2DBC.
-        Honestly <span class="tag amber">not applicable</span> on Quarkus: Narayana and the CDI interceptor expose no comparable per-boundary hook.
-    </div>
-
-    <aside class="notes">
-        The N/A footnote is the point, not an apology: they refused to fake parity with invasive instrumentation.
-    </aside>
-</section>
-
-<!-- ==============================================================
-     SLIDE 17 — SECURITY
+     SLIDE 16 — SECURITY
 ============================================================== -->
 <section>
     <h2>🔐 Security — who can reach what, and who got refused</h2>
@@ -1063,7 +1039,7 @@
                 <li>What it can't determine is marked <span class="tag amber">best effort</span>, not guessed</li>
                 <li>WebFlux reads reactive <span class="mono">SecurityWebFilterChain</span> beans, non-blocking</li>
                 <li>Quarkus has no filter chains: <span class="tag slate">not applicable</span>, and the advisor swaps
-                    in <span class="ink fw-700">49 Quarkus-native checks</span></li>
+                    in <span class="ink fw-700">45 Quarkus-native checks</span></li>
             </ul>
         </div>
         <div class="card t-teal">
@@ -1096,7 +1072,7 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 18 — SERVICES
+     SLIDE 17 — SERVICES
 ============================================================== -->
 <section>
     <h2>🔌 Support for all the main services your app uses</h2>
@@ -1139,45 +1115,7 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 19 — DIAGNOSTICS · OPENTELEMETRY
-============================================================== -->
-<section>
-    <h2>🔭 OpenTelemetry — one pipeline, four panels</h2>
-
-    <div class="grid-2">
-        <div class="card t-cyan">
-            <h3 class="cyan">Tracing with zero configuration</h3>
-            <ul class="tight">
-                <li>The starter contributes the tracing dependencies and the sampling default — <span class="ink fw-700">you write no <span class="mono">management.*</span> properties</span></li>
-                <li>Sampling is raised to <span class="mono">1.0</span> locally, so every request produces spans</li>
-                <li>…and it pins <span class="mono">io.opentelemetry</span> / <span class="mono">io.micrometer.tracing</span> to <span class="mono">INFO</span> so a <span class="mono">DEBUG</span> root logger doesn't flood your console</li>
-                <li>Self-traces are dropped <span class="ink fw-700">whole</span>: recognize one BootUI span, discard the entire trace</li>
-            </ul>
-        </div>
-        <div class="card t-violet">
-            <h3 class="violet">An OTLP receiver <em>inside</em> your app</h3>
-            <ul class="tight">
-                <li><span class="mono">POST /bootui/api/otlp/v1/traces</span> — cooperating local services export spans <span class="ink fw-700">into your app's console</span></li>
-                <li>Open a trace: a <span class="ink fw-700">waterfall</span> across services, with errors and parent/child spans</li>
-                <li>On Quarkus: in-process <span class="mono">SpanProcessor</span> with <span class="mono">quarkus-opentelemetry</span> — same store, same panel</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="banner mt-md sm">
-        🕸️ And it's the <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">spine of the product</span>:
-        tier-1 correlation for the profiler · route attribution for SQL · the <em>only</em> way to correlate requests on
-        Quarkus and WebFlux · and the source for the <span class="ink fw-700">AI Framework</span> panel — Spring AI and
-        LangChain4j GenAI spans, grouped by conversation, with token usage.
-    </div>
-
-    <aside class="notes">
-        The "mini local tracing backend" beat usually gets an audible reaction. Pause after it.
-    </aside>
-</section>
-
-<!-- ==============================================================
-     SLIDE 20 — DIAGNOSTICS · EXCEPTIONS
+     SLIDE 18 — DIAGNOSTICS · EXCEPTIONS
 ============================================================== -->
 <section>
     <h2>💥 Exceptions — triage, with regression detection</h2>
@@ -1228,7 +1166,7 @@
     </aside>
 </section>
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 21 — DEMO
+     SLIDE 19 — DEMO
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>🎬 Demo — five minutes, four beats</h2>
@@ -1248,15 +1186,15 @@
     </div>
 
     <aside class="notes">
-        Hard stop at 5 minutes. If beat 3 runs long, cut beat 4 and describe it — slide 20 already made the point.
+        Hard stop at 5 minutes. If beat 3 runs long, cut beat 4 and describe it — slide 18 already made the point.
         Have the sample app already running and the browser already open on a blank tab.
-        FALLBACK: slides 22-26 are screenshots of each beat. If the live demo worked, click through them fast as a
-        recap, or skip to slide 27.
+        FALLBACK: slides 20-24 are screenshots of each beat. If the live demo worked, click through them fast as a
+        recap, or skip to slide 25.
     </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 22 — FALLBACK · BEAT 1 (Beans)
+     SLIDE 20 — FALLBACK · BEAT 1 (Beans)
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
@@ -1271,29 +1209,29 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 23 — FALLBACK · BEAT 2 (Overview + score)
+     SLIDE 21 — FALLBACK · BEAT 2 (Overview + score)
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
         <span class="shot-eyebrow">Fallback · Beat 2</span>
         <span class="shot-title">Run all scanners — the score appears from nothing</span>
     </div>
-    <img class="shot" src="img/bootui-overview.webp" alt="BootUI Overview panel showing an overall score of 86 out of 100 with 10 of 10 scanners scored" />
+    <img class="shot" src="img/bootui-overview.webp" alt="BootUI Overview panel showing an overall score of 86 out of 100, the average of 10 scores, with 9 of 9 advisors assessed" />
     <div class="shot-cap">
         <span class="ink fw-700">86 / 100</span>, and — the important part —
-        <span class="mono">10 of 10 scanners scored</span>. Before the run it says <em>0 of 10</em>, never a fake zero.
+        <span class="mono">9 of 9 advisors assessed</span>, plus GitHub's alert score. Before the run it reads <em>Not scored</em>, never a fake zero.
     </div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 24 — FALLBACK · BEAT 3a (Live Activity)
+     SLIDE 22 — FALLBACK · BEAT 3a (Live Activity)
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
         <span class="shot-eyebrow">Fallback · Beat 3a</span>
-        <span class="shot-title">Live Activity — nine signals, and a live service map</span>
+        <span class="shot-title">Live Activity — vital signs, and a live service map</span>
     </div>
-    <img class="shot" src="img/bootui-activity.webp" alt="BootUI Live Activity panel with nine signal tiles and a live flow service map" />
+    <img class="shot" src="img/bootui-activity.webp" alt="BootUI Live Activity panel with summary tiles and a live flow service map" />
     <div class="shot-cap">
         The map is assembled from evidence BootUI <span class="ink fw-700">already retained</span> — opening it
         contacts nothing and probes nothing.
@@ -1301,7 +1239,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 25 — FALLBACK · BEAT 3b (SQL Trace)
+     SLIDE 23 — FALLBACK · BEAT 3b (SQL Trace)
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
@@ -1316,7 +1254,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 26 — FALLBACK · BEAT 4 (Exceptions)
+     SLIDE 24 — FALLBACK · BEAT 4 (Exceptions)
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
@@ -1335,7 +1273,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 27 — DIVIDER 04 · THE SECOND USER
+     SLIDE 25 — DIVIDER 04 · THE SECOND USER
 ══════════════════════════════════════════════════════════════ -->
 <section class="gh-full gh-divider" data-background-color="#101411">
     <div class="gh-frame">
@@ -1352,7 +1290,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 28 — MCP SERVER
+     SLIDE 26 — MCP SERVER
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>🤖 The MCP server — opt-in, loopback, same DTOs</h2>
@@ -1378,15 +1316,15 @@
             <table class="dtable" style="font-size:var(--t-xs);">
                 <tbody>
                     <tr><td class="num">11</td><td>advisor scans — the same button the panel runs</td></tr>
-                    <tr><td class="num">11</td><td>cached reports — read without re-scanning</td></tr>
-                    <tr><td class="num">10</td><td>diagnostics reads — activity, exceptions, SQL, traces</td></tr>
-                    <tr><td class="num">33</td><td>context reads — overview, health, config, beans, mappings…</td></tr>
-                    <tr><td class="num">14</td><td>bounded controls — clear, pause, resume</td></tr>
+                    <tr><td class="num">18</td><td>cached reports and rule details — read without re-scanning</td></tr>
+                    <tr><td class="num">11</td><td>diagnostics reads — activity, exceptions, SQL, routes, traces</td></tr>
+                    <tr><td class="num">35</td><td>context reads — overview, health, config, beans, mappings…</td></tr>
+                    <tr><td class="num">15</td><td>bounded controls — clear, pause, resume, bounded DB reads</td></tr>
                 </tbody>
             </table>
             <div class="txt-xs muted mt-xs">Tools whose panel is absent are simply <span class="ink fw-700">not advertised</span>.</div>
             <div class="stat-strip mt-sm">
-                <div><span class="stat-inline indigo">≈79</span> <span class="txt-xs muted">tools · one loopback endpoint</span></div>
+                <div><span class="stat-inline indigo">90</span> <span class="txt-xs muted">tools · one loopback endpoint</span></div>
                 <div><span class="stat-inline emerald">0</span> <span class="txt-xs muted">screenshots to interpret</span></div>
             </div>
         </div>
@@ -1399,11 +1337,62 @@
 
     <aside class="notes">
         Emphasise: the agent sees exactly the masked, bounded shape a human sees. It is not a privileged back door.
+        90 is the Spring MVC catalog; Quarkus declares 74, because tools behind Spring-only panels are withheld.
     </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 29 — THE FIX-AND-VERIFY LOOP
+     SLIDE 27 — THE COMMAND LINE
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>⌨️ The <span class="mono" style="font-size:.8em;">bootui</span> CLI — one question, one answer</h2>
+
+    <div class="grid-2">
+        <div class="card t-violet">
+            <h3 class="violet">Ask the running app from a terminal</h3>
+<div class="codeblock"><span class="c"># Linux and macOS — or JBang, or the jar</span>
+curl -fsSL https://www.julien-dubois.com/boot-ui/install.sh | sh
+
+bootui beans --query dataSource
+bootui http exchanges --limit 20
+bootui hibernate scan --json | jq <span class="s">'.severityCounts'</span>
+bootui tools  <span class="c"># what this app answers</span></div>
+            <div class="txt-xs muted mt-xs">One runnable jar, JDK 17+. No MCP client, no agent, nothing to enable.</div>
+        </div>
+        <div class="card t-blue">
+            <h3 class="blue">Built for scripts and CI</h3>
+            <ul class="tight">
+                <li><span class="ink fw-700">90 commands</span>, one per MCP tool, generated from the same registry —
+                    a test fails if the two ever diverge</li>
+                <li>Tables on a terminal; the application's <span class="ink fw-700">exact JSON bytes</span> when piped
+                    or with <span class="mono">--json</span></li>
+                <li>Exit codes a pipeline can branch on: <span class="mono">0</span> answered ·
+                    <span class="mono">1</span> error · <span class="mono">2</span>
+                    BootUI declined — panel off or read-only, so CI treats it as a
+                    skip</li>
+                <li>Gate a build on <span class="mono">severityCounts</span>: every scan reports it the same way</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md sm">
+        🛡️ Not a new exposure: the same loopback, <span class="mono">Host</span> and token guards, the same per-panel
+        policy, the same masking — <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">a second spelling of the same panel data.</span>
+    </div>
+
+    <aside class="notes">
+        The third user after the human and the agent: a shell script or a CI job. Start the app, ask it one question,
+        stop it — fail the build on HIGH Hibernate findings, for example.
+        Exit code 2 is the detail to land: a read-only panel refusing a scan is a fact about the target's
+        configuration, not a broken build, and CI can tell the two apart without parsing stderr.
+        If asked: it needs no bootui.mcp.enabled — /bootui/api/cli is a separate endpoint, on by default, turned off
+        with bootui.cli.enabled=false. Developer tools → Command Line in the console shows every command this instance
+        exposes. Update checks are silent when piped, so CI makes no unexpected network calls.
+    </aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SLIDE 28 — THE FIX-AND-VERIFY LOOP
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>🔁 The loop that closes</h2>
@@ -1438,7 +1427,7 @@ gh skill install jdubois/boot-ui bootui</div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 30 — LEARN MORE
+     SLIDE 29 — LEARN MORE
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>📚 Learn more</h2>
@@ -1450,6 +1439,7 @@ gh skill install jdubois/boot-ui bootui</div>
                 <li><span class="mono">julien-dubois.com/boot-ui</span> — the documentation site</li>
                 <li><span class="mono">/features</span> — every panel, group by group</li>
                 <li><span class="mono">/properties</span> — the full configuration reference</li>
+                <li><span class="mono">/cli</span> — every <span class="mono">bootui</span> command</li>
             </ul>
         </div>
         <div class="card t-teal">
@@ -1483,7 +1473,7 @@ gh skill install jdubois/boot-ui bootui</div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 31 — OUTRO
+     SLIDE 30 — OUTRO
 ══════════════════════════════════════════════════════════════ -->
 <section class="gh-full gh-cover gh-outro" data-background-color="#101411">
     <div class="gh-frame">
