@@ -462,7 +462,7 @@
         </div>
     </div>
     <aside class="notes">
-        25 minutes. Product talk. Thesis: your running app is a black box, BootUI makes it legible — and it is honest
+        30-minute slot: about 26 minutes of content, leaving a few minutes for Q&amp;A. Product talk. Thesis: your running app is a black box, BootUI makes it legible — and it is honest
         about what it does and doesn't know.
     </aside>
 </section>
@@ -550,8 +550,8 @@
 
     <aside class="notes">
         Land the pain first. You already have the data — the JVM knows everything. You just can't read it.
-        These four questions are deliberate: each one is answered by a panel we see later — Configuration,
-        Transactions, Exceptions, SQL Trace. Plant them here and call back when we get there.
+        These four questions are deliberate: each one is answered by a panel we see later — Transactions,
+        Exceptions, SQL Trace, and Configuration in demo beat 1 (Beans and Conditions). Plant them here and call back when we get there.
     </aside>
 </section>
 
@@ -756,9 +756,9 @@
         </div>
 
         <div class="txt-xs muted" style="margin-top:.9em;">
-            We walk the console's own menu, top to bottom — Overview, Live Activity, Runtime, Configuration, Database,
-            Security, Services, Diagnostics. The ninth group, <span class="ink fw-700">Developer tools</span>, gets its
-            own part.
+            We walk the console's own menu, top to bottom — Overview, Live Activity, Runtime, Database, Security,
+            Services, Diagnostics. <span class="ink fw-700">Configuration</span> shows up in the demo, and
+            <span class="ink fw-700">Developer tools</span> gets its own part.
         </div>
             <div class="gh-foot"><span class="gh-part">Part 03 · Inside</span></div>
         </div>
@@ -926,52 +926,7 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 14 — CONFIGURATION
-============================================================== -->
-<section>
-    <h2>⚙️ Configuration — what is <em>actually</em> effective</h2>
-
-    <div class="grid-2">
-        <div class="card t-blue">
-            <h3 class="blue">Read the truth, not the file</h3>
-            <ul class="tight">
-                <li>Every effective property with its <span class="ink fw-700">source</span>, metadata description and
-                    default — and its value already masked</li>
-                <li><span class="ink fw-700">Profile Diff</span>: exactly what changes between two local profiles</li>
-                <li><span class="ink fw-700">Conditions</span>: positive, negative and unconditional matches — why an
-                    auto-configuration applied, or why it was skipped</li>
-                <li><span class="ink fw-700">Beans</span> and <span class="ink fw-700">Mappings</span>: the wiring and
-                    the HTTP surface, read from the running route table</li>
-            </ul>
-        </div>
-        <div class="card t-violet">
-            <h3 class="violet">Then change it — with the caveat attached</h3>
-            <ul class="tight">
-                <li>Runtime overrides are persisted to
-                    <span class="mono">.bootui/application-bootui.properties</span> — a real file you can read and
-                    delete</li>
-                <li>Every mutation shows its <span class="ink fw-700">restart and rebinding caveat</span>, because not
-                    every property re-binds live</li>
-                <li>Big property, bean, condition and mapping tables page <span class="ink fw-700">server-side</span>,
-                    and filters run on the server — the browser never needs the full report</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="banner mt-md sm">
-        🫥 These panels hide <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">BootUI's own beans, conditions, loggers and metrics</span>
-        by default. The console must not show up in its own answers.
-    </div>
-
-    <aside class="notes">
-        The override file is the honest bit: BootUI does not pretend a live property change is free — it names the
-        restart or rebinding caveat next to the thing you just changed. And self-exclusion is a small detail that
-        people notice immediately when a tool gets it wrong.
-    </aside>
-</section>
-
-<!-- ==============================================================
-     SLIDE 15 — DATABASE · SQL TRACE
+     SLIDE 14 — DATABASE · SQL TRACE
 ============================================================== -->
 <section>
     <h2>🗄️ SQL Trace — no proxy library, no guessing</h2>
@@ -1008,7 +963,7 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 16 — DATABASE · TRANSACTIONS
+     SLIDE 15 — DATABASE · TRANSACTIONS
 ============================================================== -->
 <section>
     <h2>🔄 Transactions — the boundaries nobody shows you</h2>
@@ -1049,7 +1004,7 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 17 — DATABASE · POSTGRESQL + MYSQL
+     SLIDE 16 — DATABASE · POSTGRESQL + MYSQL
 ============================================================== -->
 <section>
     <h2>🐘 PostgreSQL &amp; MySQL — what the server itself says</h2>
@@ -1107,7 +1062,7 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 18 — SECURITY
+     SLIDE 17 — SECURITY
 ============================================================== -->
 <section>
     <h2>🔐 Security — who can reach what, and who got refused</h2>
@@ -1155,7 +1110,7 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 19 — SERVICES
+     SLIDE 18 — SERVICES
 ============================================================== -->
 <section>
     <h2>🔌 Support for all the main services your app uses</h2>
@@ -1198,45 +1153,7 @@
 </section>
 
 <!-- ==============================================================
-     SLIDE 20 — DIAGNOSTICS · OPENTELEMETRY
-============================================================== -->
-<section>
-    <h2>🔭 OpenTelemetry — one pipeline, four panels</h2>
-
-    <div class="grid-2">
-        <div class="card t-cyan">
-            <h3 class="cyan">Tracing with zero configuration</h3>
-            <ul class="tight">
-                <li>The starter contributes the tracing dependencies and the sampling default — <span class="ink fw-700">you write no <span class="mono">management.*</span> properties</span></li>
-                <li>Sampling is raised to <span class="mono">1.0</span> locally, so every request produces spans</li>
-                <li>…and it pins <span class="mono">io.opentelemetry</span> / <span class="mono">io.micrometer.tracing</span> to <span class="mono">INFO</span> so a <span class="mono">DEBUG</span> root logger doesn't flood your console</li>
-                <li>Self-traces are dropped <span class="ink fw-700">whole</span>: recognize one BootUI span, discard the entire trace</li>
-            </ul>
-        </div>
-        <div class="card t-violet">
-            <h3 class="violet">An OTLP receiver <em>inside</em> your app</h3>
-            <ul class="tight">
-                <li><span class="mono">POST /bootui/api/otlp/v1/traces</span> — cooperating local services export spans <span class="ink fw-700">into your app's console</span></li>
-                <li>Open a trace: a <span class="ink fw-700">waterfall</span> across services, with errors and parent/child spans</li>
-                <li>On Quarkus: in-process <span class="mono">SpanProcessor</span> with <span class="mono">quarkus-opentelemetry</span> — same store, same panel</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="banner mt-md sm">
-        🕸️ And it's the <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">spine of the product</span>:
-        tier-1 correlation for the profiler · route attribution for SQL · the <em>only</em> way to correlate requests on
-        Quarkus and WebFlux · and the source for the <span class="ink fw-700">AI Framework</span> panel — Spring AI and
-        LangChain4j GenAI spans, grouped by conversation, with token usage.
-    </div>
-
-    <aside class="notes">
-        The "mini local tracing backend" beat usually gets an audible reaction. Pause after it.
-    </aside>
-</section>
-
-<!-- ==============================================================
-     SLIDE 21 — DIAGNOSTICS · EXCEPTIONS
+     SLIDE 19 — DIAGNOSTICS · EXCEPTIONS
 ============================================================== -->
 <section>
     <h2>💥 Exceptions — triage, with regression detection</h2>
@@ -1287,7 +1204,7 @@
     </aside>
 </section>
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 22 — DEMO
+     SLIDE 20 — DEMO
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>🎬 Demo — five minutes, four beats</h2>
@@ -1307,15 +1224,15 @@
     </div>
 
     <aside class="notes">
-        Hard stop at 5 minutes. If beat 3 runs long, cut beat 4 and describe it — slide 21 already made the point.
+        Hard stop at 5 minutes. If beat 3 runs long, cut beat 4 and describe it — slide 19 already made the point.
         Have the sample app already running and the browser already open on a blank tab.
-        FALLBACK: slides 23-27 are screenshots of each beat. If the live demo worked, click through them fast as a
-        recap, or skip to slide 28.
+        FALLBACK: slides 21-25 are screenshots of each beat. If the live demo worked, click through them fast as a
+        recap, or skip to slide 26.
     </aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 23 — FALLBACK · BEAT 1 (Beans)
+     SLIDE 21 — FALLBACK · BEAT 1 (Beans)
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
@@ -1330,7 +1247,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 24 — FALLBACK · BEAT 2 (Overview + score)
+     SLIDE 22 — FALLBACK · BEAT 2 (Overview + score)
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
@@ -1345,7 +1262,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 25 — FALLBACK · BEAT 3a (Live Activity)
+     SLIDE 23 — FALLBACK · BEAT 3a (Live Activity)
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
@@ -1360,7 +1277,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 26 — FALLBACK · BEAT 3b (SQL Trace)
+     SLIDE 24 — FALLBACK · BEAT 3b (SQL Trace)
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
@@ -1375,7 +1292,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 27 — FALLBACK · BEAT 4 (Exceptions)
+     SLIDE 25 — FALLBACK · BEAT 4 (Exceptions)
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
@@ -1394,7 +1311,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 28 — DIVIDER 04 · THE SECOND USER
+     SLIDE 26 — DIVIDER 04 · THE SECOND USER
 ══════════════════════════════════════════════════════════════ -->
 <section class="gh-full gh-divider" data-background-color="#101411">
     <div class="gh-frame">
@@ -1411,7 +1328,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 29 — MCP SERVER
+     SLIDE 27 — MCP SERVER
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>🤖 The MCP server — opt-in, loopback, same DTOs</h2>
@@ -1463,7 +1380,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 30 — THE COMMAND LINE
+     SLIDE 28 — THE COMMAND LINE
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>⌨️ The <span class="mono" style="font-size:.8em;">bootui</span> CLI — one question, one answer</h2>
@@ -1513,7 +1430,7 @@ bootui tools  <span class="c"># what this app answers</span></div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 31 — THE FIX-AND-VERIFY LOOP
+     SLIDE 29 — THE FIX-AND-VERIFY LOOP
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>🔁 The loop that closes</h2>
@@ -1548,7 +1465,7 @@ gh skill install jdubois/boot-ui bootui</div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 32 — LEARN MORE
+     SLIDE 30 — LEARN MORE
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>📚 Learn more</h2>
@@ -1594,7 +1511,7 @@ gh skill install jdubois/boot-ui bootui</div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 33 — OUTRO
+     SLIDE 31 — OUTRO
 ══════════════════════════════════════════════════════════════ -->
 <section class="gh-full gh-cover gh-outro" data-background-color="#101411">
     <div class="gh-frame">
