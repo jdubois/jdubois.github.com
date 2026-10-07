@@ -1395,8 +1395,7 @@
         </div>
         <div class="gh-main">
             <h1>The GitHub <span class="grad">advantage</span></h1>
-            <p class="gh-sub gh-divider-sub">The platform, the models, and the economics.</p>
-        <p class="txt-sm muted mt-md">Copilot writes the code. The platform around it helps you ship it.</p>
+            <p class="gh-sub gh-divider-sub">The GitHub platform provides the full agentic loop.</p>
             <div class="gh-foot"><span class="gh-part">Part 03 · The GitHub advantage</span></div>
         </div>
     </div>
@@ -1412,16 +1411,16 @@
             <div class="txt-xs muted">The brief lives with the code: scope, priorities and acceptance criteria.</div>
         </div>
         <div class="card t-violet">
-            <h3>🤖 Copilot agent</h3>
-            <div class="txt-xs muted">CLI, app or cloud: work from task context and repository instructions.</div>
-        </div>
-        <div class="card t-violet">
             <h3>🔀 Pull request</h3>
             <div class="txt-xs muted">The unit of review: diff, evidence and conversation in one place.</div>
         </div>
         <div class="card t-teal">
             <h3>⚙️ Actions + security</h3>
             <div class="txt-xs muted">Build, tests, CodeQL and compatibility checks give feedback.</div>
+        </div>
+        <div class="card t-violet">
+            <h3>🤖 Copilot agent</h3>
+            <div class="txt-xs muted">CLI, app or cloud: work from task context and repository instructions.</div>
         </div>
         <div class="card t-emerald">
             <h3>🚢 Merge &amp; release</h3>
@@ -1435,72 +1434,80 @@
 
 <section id="github-cloud" class="closing-section">
     <h2>🤖 Delegate beyond your laptop</h2>
-    <p class="txt-sm muted closing-lede">A historical snapshot of <span class="ink fw-700">300 merged BootUI PRs</span>, from the AI coding presentation.</p>
-    <div class="closing-authors" role="img" aria-label="Of 300 PRs, the cloud agent authored 56, Dependabot 60, and Julien 184.">
-        <div class="author-cloud-agent">Cloud Agent · 56</div>
-        <div class="author-dependabot">Dependabot · 60</div>
-        <div class="author-human">Me · 184</div>
-    </div>
-    <p class="txt-xs muted">19% Cloud Agent · 20% Dependabot · 61% me. Authorship does not measure human involvement.</p>
+    <p class="txt-sm muted closing-lede">Cloud agents run in their own environment, not on your machine.</p>
     <div class="grid-2 mt-md">
         <div class="card t-violet">
-            <h3>📱 Assign an issue, close the laptop</h3>
+            <h3>☁️ Offload the work to the cloud</h3>
             <ul>
-                <li>Assign an issue to Copilot, including from mobile</li>
-                <li>The cloud agent works in its own environment</li>
-                <li>Review its PR, checks and proposed changes</li>
+                <li>Assign an issue to Copilot's cloud agent</li>
+                <li>It works in an isolated environment, in parallel with you</li>
+                <li>Review its PR, checks and proposed changes when ready</li>
             </ul>
         </div>
         <div class="card t-emerald">
-            <h3>🌱 Keep the maintenance queue moving</h3>
+            <h3>📱 Run agents from your phone</h3>
             <ul>
-                <li>Dependabot proposes dependency updates</li>
-                <li>Delegate failed upgrades or follow-up fixes to an agent</li>
-                <li>Keep human attention on design and review</li>
+                <li>The GitHub Mobile app assigns issues to Copilot</li>
+                <li>Follow progress and review PRs on the go</li>
+                <li>Merge once checks pass, no laptop required</li>
             </ul>
         </div>
     </div>
     <div class="banner night mt-md closing-callout">Parallelism can extend beyond my laptop. <b>The runners are the machine.</b></div>
-    <p class="closing-source">Original 300-PR snapshot · date not recorded; not the v1.0.0 sprint.</p>
-    <aside class="notes">These are the original AI coding deck's counts, not a fresh measurement. 116 of 300 PRs, about 39%, had bot authors. This does not prove that the work involved no human direction, local execution or review. A human-authored PR may also contain agent work. Dependabot repair requires explicit delegation or a configured workflow; it is not an assumed automatic feature.</aside>
+    <p class="closing-source"><a href="https://docs.github.com/en/copilot/using-github-copilot/coding-agent/about-assigning-tasks-to-copilot" target="_blank" rel="noopener noreferrer">Copilot coding agent</a> · <a href="https://docs.github.com/en/get-started/accessing-github-using-mobile" target="_blank" rel="noopener noreferrer">GitHub Mobile</a></p>
+    <aside class="notes">Rewritten to focus on cloud agents and GitHub Mobile, dropping the BootUI authorship snapshot (that bar chart and its data are gone). The point is where and how work gets delegated: an isolated cloud environment that runs in parallel, reachable from a phone.</aside>
 </section>
 
 <section id="github-security" class="closing-section">
-    <h2>🛡️ Review that scales with the output</h2>
-    <p class="txt-sm muted closing-lede">More code per day needs more feedback per day. Use the platform's verification layers.</p>
+    <h2>🛡️ GitHub Advanced Security</h2>
+    <p class="txt-sm muted closing-lede">The same verification layer covers human and agent-authored code alike.</p>
     <div class="grid-3">
         <div class="card t-blue">
-            <h3>🔍 CodeQL &amp; review</h3>
+            <h3>🔍 CodeQL</h3>
             <ul class="compact">
-                <li>Analyze both Java and JavaScript changes</li>
-                <li>Bring findings into the PR conversation</li>
-                <li>Ask the agent to address review feedback</li>
+                <li>Static analysis across Java, JavaScript and more</li>
+                <li>Findings surface directly in the PR conversation</li>
+                <li>Ask the agent to address what it flags</li>
             </ul>
         </div>
         <div class="card t-emerald">
-            <h3>📦 Supply chain</h3>
+            <h3>📦 Dependabot</h3>
             <ul class="compact">
-                <li>Dependabot for updates and known vulnerabilities</li>
-                <li>Secret scanning and push protection for supported credential patterns</li>
-                <li>Pinned action SHAs and dependency guardrails</li>
+                <li>Automated dependency and version update PRs</li>
+                <li>Vulnerability alerts for known CVEs</li>
+                <li>Delegate failed upgrades to an agent</li>
             </ul>
         </div>
         <div class="card t-amber">
-            <h3>🧱 Rules of the road</h3>
+            <h3>🔐 Secret protection</h3>
             <ul class="compact">
-                <li>Required checks and review approvals</li>
-                <li>CODEOWNERS and PR templates for agent changes too</li>
-                <li>PR conversations and logs for traceability</li>
+                <li>Secret scanning for supported credential patterns</li>
+                <li>Push protection blocks leaks before they merge</li>
+                <li>Covers commits from humans and agents alike</li>
             </ul>
         </div>
     </div>
     <div class="banner green mt-md closing-callout">The verification layer already exists. <b>Use it for human and agent contributions alike.</b></div>
     <p class="closing-source"><a href="https://docs.github.com/en/code-security" target="_blank" rel="noopener noreferrer">GitHub security documentation</a> · availability and enforcement depend on configuration.</p>
-    <aside class="notes">Adapted from AI coding's Review that scales with the output. These are layered controls, not a guarantee that code is safe. Push protection detects supported patterns and can have configured bypass paths. Review and branch rules must be enabled to enforce anything. Automated review supports accountable maintainers; logs support traceability, not necessarily full replay. Undated alert counts from the other deck are not presented as current facts.</aside>
+    <aside class="notes">Rewritten to focus explicitly on GitHub Advanced Security: CodeQL, Dependabot and secret protection. Dropped the "Rules of the road" card (required checks, CODEOWNERS) to keep the slide focused on the security product suite rather than general repo governance. Push protection detects supported patterns and can have configured bypass paths.</aside>
+</section>
+
+<section id="token-economics-intro" class="gh-full gh-divider closing-section" data-background-color="#101411">
+    <div class="gh-frame">
+        <div class="gh-rail">
+            <span class="gh-num">04</span>
+            <div class="gh-cells" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="gh-main">
+            <h1>Token <span class="grad">economics</span></h1>
+            <p class="gh-sub gh-divider-sub">Calculating token cost and optimizing it.</p>
+            <div class="gh-foot"><span class="gh-part">Part 04 · Token economics</span></div>
+        </div>
+    </div>
 </section>
 
 <section id="token-economics" class="closing-section">
-    <h2>💰 Token economics: what Copilot meters</h2>
+    <h2>🧾 What Copilot meters</h2>
     <div class="banner">On usage-based plans, <b>1 AI credit = $0.01 of usage.</b></div>
     <div class="grid-2 mt-md">
         <div class="card t-blue">
