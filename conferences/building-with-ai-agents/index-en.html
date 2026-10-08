@@ -1586,24 +1586,6 @@
     <aside class="notes">Prompt caching saves intermediate model computation, such as attention key/value states, rather than replaying a previous answer. Reuse requires a matching eligible prefix and an available cache entry; providers impose minimum lengths, breakpoints, lifetimes and routing constraints. Switching models cannot transfer the old model's state, but the selected model could already have its own matching cache. Changing a file on disk does not directly flush a provider cache: it matters only when the client rereads that file and changes the model's input. If AGENTS.md is replaced near the beginning, much of the later prefix may lose reuse. If the update is appended as a new message, the old prefix can remain reusable. The exact placement and refresh behavior are client-specific, not a documented universal Copilot guarantee. Tool schemas, their ordering, relevant settings and compaction can also change the rendered prefix. A miss does not imply deletion of the old entry. Correct instructions take priority over preserving cache hits; make necessary edits, avoid needless churn, and do not assume any one provider's TTL applies to all Copilot models.</aside>
 </section>
 
-<section id="quiz-cache-discount" class="quiz-section">
-    <h2>Quiz: 90% cached. How much cheaper?</h2>
-    <p class="quiz-question">A request has <b>100,000 input tokens</b> and <b>10,000 output tokens</b>.<br>Cache hits cover <b>90% of the input</b>. How much does the total bill fall?</p>
-    <p class="quiz-assumption">GPT-5.5 default tier, per million tokens: fresh input $5; cached input $0.50; output $30.</p>
-    <div class="quiz-choices">
-        <div class="quiz-choice"><span class="quiz-letter">A</span><p><b>90%</b><br>Obviously.</p></div>
-        <div class="quiz-choice"><span class="quiz-letter">B</span><p><b>81%</b><br>I spotted the trick.</p></div>
-        <div class="quiz-choice quiz-correct"><span class="quiz-letter">C</span><p><b>About 51%</b><br>There's another trick.</p></div>
-    </div>
-    <p class="quiz-cue">Vote A, B or C · then advance to reveal</p>
-    <div class="fragment quiz-answer" data-fragment-index="0">
-        <h3>C — About 51% off the total</h3>
-        <p>Input: <b>$0.500 → $0.095</b>. Output stays <b>$0.300</b>.<br>Total: <b>$0.800 → $0.395</b>.</p>
-        <p class="quiz-punchline">The reading got cheaper. The talking didn't.</p>
-    </div>
-    <aside class="notes">Advance once after the vote. Total savings are 50.625%; 81% is the reduction in input cost alone. This assumes an available cache hit and excludes earlier cold requests and Auto discounts. GPT-5.5 has no cache-write charge in the cited rate table. Continue to the existing calculation slide for the full breakdown. Source: https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing, rates checked 7 September 2026.</aside>
-</section>
-
 <section id="cache" class="closing-section">
     <h2>♻️ A cache hit changes the price of context</h2>
     <p class="txt-sm muted closing-lede">Illustration: GPT-5.5 default tier · 100k input + 10k output per call.</p>
