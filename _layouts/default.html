@@ -85,8 +85,17 @@
         </main> <!-- /container -->
 
         <footer>
-            <p>&copy; <span id="year"></span> Julien Dubois - <a href="https://x.com/juliendubois" target="_blank">@juliendubois</a></p>
+            <p>&copy; <span id="year"></span> Julien Dubois - <a href="https://x.com/juliendubois" target="_blank">@juliendubois</a> - <button type="button" class="consent-manage" data-consent-manage>Cookie settings</button></p>
         </footer>
+
+        <div id="consent-banner" class="consent-banner" role="region" aria-labelledby="consent-title" hidden>
+            <p id="consent-title" class="consent-title">Analytics cookies</p>
+            <p class="consent-text">I'd like to use Google Analytics to see which pages are read. Nothing is loaded or stored unless you accept; you can change your mind from the footer at any time. Your choice is remembered in your browser and shared across julien-dubois.com (including its sub-sites).</p>
+            <div class="consent-actions">
+                <button type="button" id="consent-accept" class="btn btn-ink">Accept</button>
+                <button type="button" id="consent-decline" class="btn btn-ghost">Decline</button>
+            </div>
+        </div>
         
         <script>
             document.getElementById('year').textContent = new Date().getFullYear();
@@ -97,14 +106,6 @@
 
         <script src="/js/main.js?v={{ site.github.build_revision | default: site.time | date: '%s' }}"></script>
 
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-92TRR0HJMQ"></script>
-        <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-92TRR0HJMQ');
-        </script>
+        <script src="/js/analytics.js?v={{ site.github.build_revision | default: site.time | date: '%s' }}"></script>
     </body>
 </html>

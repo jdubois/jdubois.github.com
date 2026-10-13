@@ -835,3 +835,63 @@ html {
 
 
 
+
+/* Cookie consent */
+.consent-banner {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    max-width: 28rem;
+    z-index: 1080;
+    padding: 1.25rem;
+    background: var(--bg-white);
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+}
+
+.consent-banner[hidden] {
+    display: none;
+}
+
+.consent-title {
+    margin: 0 0 0.25rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.consent-text {
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.consent-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.consent-manage {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-weight: 600;
+    color: var(--primary-color);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.consent-manage:hover {
+    color: var(--primary-dark);
+}
+
+.consent-banner button:focus-visible,
+.consent-manage:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
