@@ -512,7 +512,7 @@
         <div class="gh-main">
             <h1>Introduction to<br/><span class="grad">BootUI</span></h1>
             <p class="gh-lede">Your app is a black box. BootUI turns the lights on.</p>
-            <p class="gh-sub">An embedded developer console for Spring Boot 4 and Quarkus. One codebase, three stacks, 60 panels. 🔦</p>
+            <p class="gh-sub">BootUI 2.2.0 — an embedded developer console for Spring Boot 4 and Quarkus, with Runtime Insights and optional Java instrumentation. 🔦</p>
             <div class="gh-foot">
                 <ul class="gh-tags"><li>Developer console</li><li>Spring Boot 4 · Quarkus</li><li>Local-only · fail-closed</li></ul>
                 <div class="gh-speaker">
@@ -529,6 +529,9 @@
     <aside class="notes">
         30-minute slot: about 26 minutes of content, leaving a few minutes for Q&amp;A. Product talk. Thesis: your running app is a black box, BootUI makes it legible — and it is honest
         about what it does and doesn't know.
+        Release baseline: v2.2.0, published on Maven Central, checked 3 November 2026.
+        Sources: https://github.com/jdubois/boot-ui/blob/v2.2.0/CHANGELOG.md and
+        https://github.com/jdubois/boot-ui/tree/v2.2.0/docs.
     </aside>
 </section>
 
@@ -632,7 +635,7 @@
         <div class="card t-blue">
             <h3 class="blue">🩺 Advisors</h3>
             <ul class="tight">
-                <li><span class="ink fw-700">411 rules</span> across 10 advisors — architecture, security,
+                <li><span class="ink fw-700">Hundreds of rules</span> across the advisors — architecture, security,
                     Hibernate, memory, dependencies</li>
                 <li>Every finding names the cause and the <span class="ink fw-700">fix</span></li>
                 <li>One score out of 100, on demand — never on page load</li>
@@ -641,7 +644,7 @@
         <div class="card t-teal">
             <h3 class="teal">📊 A live console</h3>
             <ul class="tight">
-                <li><span class="ink fw-700">60 panels</span> in 9 groups, in your browser</li>
+                <li>From the <span class="ink fw-700">Scorecard</span> to Runtime Insights and Java-agent instrumentation</li>
                 <li>Requests, SQL, transactions, exceptions and the JVM —
                     <span class="ink fw-700">as they happen</span></li>
                 <li>Explains what it means first; raw JSON one click away</li>
@@ -653,8 +656,9 @@
         The map for Part 03: the live console and its advisors, walked in sidebar order. Keep the MCP server and the
         bootui CLI for Part 04 — don't mention them yet. Don't detail anything here — just plant the two pillars so
         people know where we're going.
-        Say the zero-config line out loud instead of putting it on the slide — one dependency, open /bootui, no agent,
-        no sidecar, nothing to configure — then move straight to the coordinates on the next slide.
+        Start with one dependency and open /bootui in local development — no sidecar or Java agent is required.
+        The optional BootUI Java agent adds instrumentation; it is separate from the AI coding agent using MCP.
+        Do not promise that every capability needs no configuration.
     </aside>
 </section>
 
@@ -687,29 +691,30 @@
 <div class="codeblock">&lt;<span class="k">dependency</span>&gt;
   &lt;<span class="k">groupId</span>&gt;<span class="s">com.julien-dubois.bootui</span>&lt;/<span class="k">groupId</span>&gt;
   &lt;<span class="k">artifactId</span>&gt;<span class="s">bootui-spring-boot-starter</span>&lt;/<span class="k">artifactId</span>&gt;
-  &lt;<span class="k">version</span>&gt;<span class="s">1.19.0</span>&lt;/<span class="k">version</span>&gt;
+  &lt;<span class="k">version</span>&gt;<span class="s">2.2.0</span>&lt;/<span class="k">version</span>&gt;
 &lt;/<span class="k">dependency</span>&gt;</div>
-            <div class="txt-xs muted mt-xs"><span class="mono">-reactive</span> for WebFlux.</div>
+            <div class="txt-xs muted mt-xs">The same starter for MVC and WebFlux; your app supplies its web stack.</div>
         </div>
         <div class="card t-violet">
             <h3 class="violet">Quarkus</h3>
 <div class="codeblock">&lt;<span class="k">dependency</span>&gt;
   &lt;<span class="k">groupId</span>&gt;<span class="s">com.julien-dubois.bootui</span>&lt;/<span class="k">groupId</span>&gt;
   &lt;<span class="k">artifactId</span>&gt;<span class="s">bootui-quarkus</span>&lt;/<span class="k">artifactId</span>&gt;
-  &lt;<span class="k">version</span>&gt;<span class="s">1.19.0</span>&lt;/<span class="k">version</span>&gt;
+  &lt;<span class="k">version</span>&gt;<span class="s">2.2.0</span>&lt;/<span class="k">version</span>&gt;
 &lt;/<span class="k">dependency</span>&gt;</div>
             <div class="txt-xs muted mt-xs">A real Quarkus extension — runtime + deployment.</div>
         </div>
     </div>
 
     <div class="grid-3 mt-md">
-        <div class="feat"><b>Activates in dev</b><span class="mono">dev</span> / <span class="mono">local</span> profiles, or devtools on the classpath</div>
+        <div class="feat"><b>Activates in dev</b>Spring: <span class="mono">dev</span> / <span class="mono">local</span> or DevTools. Quarkus: dev / test modes.</div>
         <div class="feat"><b>Serves two things</b>The console at <span class="mono">/bootui</span>, the JSON at <span class="mono">/bootui/api/**</span></div>
         <div class="feat"><b>Dark in production</b>Ambiguous activation leaves it <span class="ink fw-700">disabled</span></div>
     </div>
 
     <aside class="notes">
-        Do not oversell the install. The point is that it's one dependency and there is no separate process to run.
+        No separate process is required. The optional Java agent is a matching-version jar attached with -javaagent
+        at JVM startup, not another dependency that silently instruments the app.
     </aside>
 </section>
 
@@ -733,11 +738,11 @@
         <div class="arch-tie">▲ &nbsp; thin, and native to their framework &nbsp; ▲</div>
         <div class="arch-layer">
             <div class="nm">bootui-engine</div>
-            <div class="ds">All reusable behaviour and policy — capture, buffers, masking, advisors, scoring, MCP</div>
+            <div class="ds">Framework-neutral DTOs, capture, runtime journal, masking, advisors, scoring and MCP</div>
         </div>
         <div class="arch-layer core">
-            <div class="nm">bootui-core</div>
-            <div class="ds">Immutable DTO records. No Spring. No Quarkus. <span class="ink fw-700">No JSON library.</span></div>
+            <div class="nm">Optional: bootui-agent + bootui-agent-bridge</div>
+            <div class="ds">Explicit <span class="mono">-javaagent</span> attachment. Dormant until claimed; adds execution and method evidence.</div>
         </div>
     </div>
 
@@ -749,9 +754,10 @@
     </div>
 
     <aside class="notes">
-        The punchline is bottom-up: because core knows nothing about any framework, a panel written once behaves the
-        same everywhere. This is what makes the honesty claims later actually enforceable. Second line replaces the old
-        parity table: BootUI never pretends — a Quarkus panel that can't work states the reason and the alternative.
+        Since 2.0, bootui-core is merged into bootui-engine and one Spring starter serves both MVC and WebFlux.
+        The engine owns framework-neutral contracts and policy; the optional agent feeds it extra evidence through
+        a bootstrap bridge. Never leave bootui-core 1.x beside bootui-engine 2.x: that duplicates the DTO classes.
+        BootUI never pretends — a panel that cannot work states the reason and the alternative.
     </aside>
 </section>
 
@@ -783,8 +789,8 @@
         </div>
 
         <div class="txt-xs muted" style="margin-top:.9em;">
-            We walk the console's own menu, top to bottom — the Overview score and its Advisors, Live Activity, Runtime,
-            Database, Security, Services, Diagnostics. Configuration shows up in the demo, and
+            We start with the Scorecard and Advisors, then Live Activity and Runtime Insights, Runtime,
+            Database, Security, Services, Diagnostics and Instrumentation. Configuration shows up in the demo, and
             Developer tools gets its own part.
         </div>
             <div class="gh-foot"><span class="gh-part">Part 03 · Inside</span></div>
@@ -794,7 +800,7 @@
     <aside class="notes">
         Set these up carefully — 30 seconds. Every following slide is an instance of one of the three. That's what
         makes this a section rather than a feature list. The menu order is deliberate: if they open BootUI tomorrow,
-        the sidebar will be in the same order as this section.
+        the same groups and panel names will help them find their way.
     </aside>
 </section>
 <!-- ==============================================================
@@ -805,16 +811,15 @@
 
     <div class="grid-2">
         <div class="card t-blue">
-            <h3 class="blue">411 rules, written with AI</h3>
+            <h3 class="blue">Hundreds of rules, written with AI</h3>
             <ul class="tight mt-sm">
                 <li>Every rule is its own class with a <span class="ink fw-700">stable id</span>, a severity and a
-                    <span class="ink fw-700">concrete recommendation</span> — Hibernate alone has 72, Security 54,
-                    REST&nbsp;API 53</li>
+                    <span class="ink fw-700">concrete recommendation</span> — including 48 Database checks in 2.2</li>
                 <li>Written with AI, then reviewed <span class="ink fw-700">one rule at a time</span>: the strongest
                     models applied to framework expertise, not a generic linter</li>
-                <li>No other console for Spring&nbsp;Boot or Quarkus carries a ruleset of this depth — it is
-                    <span class="ink fw-700">unique to BootUI</span></li>
-                <li>The result is insight you cannot get elsewhere: findings tied to
+                <li>Hibernate and Database show <span class="ink fw-700">new, resolved and unchanged findings</span>
+                    since the previous scan; individual findings can be dismissed and restored</li>
+                <li>Findings tied to
                     <span class="ink fw-700">your</span> beans, queries and configuration, so you can actually
                     improve the application</li>
             </ul>
@@ -824,7 +829,7 @@
             <ul class="tight">
                 <li>9 severity-scored scanners, each starting at 100</li>
                 <li>Fixed penalties: <span class="mono">critical −25</span> · <span class="mono">high −10</span> · <span class="mono">medium −3</span> · <span class="mono">low −1</span></li>
-                <li>Overall = the mean of scanners that <span class="ink fw-700">actually scored</span> — plus GitHub's security-alert score when connected</li>
+                <li>Overall = the mean of <span class="ink fw-700">eligible known-findings scores</span> — plus GitHub's alert score when eligible</li>
             </ul>
             <div class="mt-sm">
                 <div class="band"><span class="dot" style="background:var(--emerald);"></span> <b>80+</b>&nbsp; Good</div>
@@ -835,34 +840,26 @@
     </div>
 
     <div class="tagrow mt-md" style="justify-content:center;">
-        <span class="tag">Architecture 40</span><span class="tag">REST API 53</span><span class="tag">Spring 41</span>
-        <span class="tag">Quarkus 14</span><span class="tag">Database 28</span><span class="tag">Hibernate 72</span>
-        <span class="tag">Memory 32</span><span class="tag">Security 54</span><span class="tag">Pentesting 77</span><span class="tag">Vulnerabilities ∞</span>
+        <span class="tag">Architecture</span><span class="tag">REST API</span><span class="tag">Spring</span>
+        <span class="tag">Quarkus</span><span class="tag">Database 48</span><span class="tag">Hibernate</span>
+        <span class="tag">Memory</span><span class="tag">Security</span><span class="tag">Pentesting</span><span class="tag">Vulnerabilities</span>
     </div>
 
     <div class="banner mt-sm sm">
         🛑 <span style="text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);">Nothing is scanned on page load.</span>
-        Before any run, Overview reads <em>Not scored</em> — never a fake zero. <span class="mono">Vulnerabilities</span> has no fixed count: it queries OSV.dev for known CVEs and adds how likely each one is to actually be exploited.
+        Before any run, the Scorecard reads <em>Not scored</em> — never a fake zero. A score summarizes known findings, <span class="ink fw-700">not application safety or complete coverage.</span>
     </div>
 
     <aside class="notes">
-        Land the number: 411 rules, one class each, across the ten advisors on the slide. This is the moat — anyone can
-        render a bean graph, nobody else has spent the time on the ruleset. Be straight about how it was built: written
-        with AI, the strongest models pointed at real framework expertise, then reviewed rule by rule.
-        If asked, the shipped library is larger still: Quarkus apps swap Spring Security's 54 rules for 45
-        Quarkus-native ones, and WebFlux gets 26 reactive security rules — 482 rules in total, ported per stack rather
-        than faked.
-        Two details worth saying out loud but not putting on the slide: Pentesting is 77 OWASP Top 10 2025 checks and
-        sends at most one GET and one OPTIONS to literal 127.0.0.1; and when evidence is bounded away the scan is
-        marked PARTIAL and the score is hidden rather than faked.
-        The restraint is the story: a security tool that refuses to phone home until asked. Worth saying out loud:
-        Vulnerabilities is the only advisor that makes a network call at all — everything else reads the running JVM —
-        and even that one only fires when you press the button.
-        Mention that a clean scan genuinely stays at 100 — the penalties are fixed and published, not a black-box grade.
-        If someone asks how likelihood is computed: it is EPSS, from FIRST.org — the modelled probability a CVE is
-        exploited in the wild in the next 30 days. It complements CVSS rather than replacing it: CVSS says how bad it
-        is if exploited, EPSS says how likely that is. Shown as a badge like "2.3% EPSS", disableable, and a failed
-        lookup never fails the scan.
+        Be straight about how the rules were built: written with AI, then reviewed rule by rule.
+        Rule catalogs vary by stack, so do not sum overlapping Spring and Quarkus catalogs as if every app runs them.
+        2.2 adds driver, pool and server checks to the Database advisor, taking it from 28 to 48.
+        A usable partial assessment can score its known findings while explicitly reporting missing evidence.
+        Failed, unscanned, unusable and confirmed-empty assessments never inflate the mean with a fake 0 or 100.
+        Dismissal removes a penalty, not a safety concern. Hibernate and Database compare findings only when the
+        retained evidence supports the comparison; missing evidence is never called resolved.
+        Vulnerabilities queries OSV.dev on demand, with optional EPSS likelihood enrichment; neither the score nor
+        an unloaded vulnerable class proves safety.
     </aside>
 </section>
 
@@ -874,12 +871,15 @@
 
     <div class="grid-2">
         <div class="card t-teal">
-            <h3 class="teal">One feed, ten signals</h3>
+            <h3 class="teal">One journal-backed feed, 17 signal types</h3>
             <div class="tagrow">
                 <span class="tag">Requests</span><span class="tag">SQL</span><span class="tag">Exceptions</span>
                 <span class="tag">Security</span><span class="tag">Emails</span><span class="tag">Scheduled</span>
                 <span class="tag">Messaging</span><span class="tag">REST client</span><span class="tag">Cache</span>
                 <span class="tag">Fault tolerance</span>
+                <span class="tag">Transactions</span><span class="tag">AI</span><span class="tag">Logs</span>
+                <span class="tag">App events</span><span class="tag">WebSockets</span><span class="tag">ORM</span>
+                <span class="tag">Async handoffs</span>
             </div>
             <ul class="tight mt-sm">
                 <li>Signals <span class="ink fw-700">nest under the request</span> that caused them</li>
@@ -891,7 +891,9 @@
         <div class="card t-blue">
             <h3 class="blue">Click a request → the drawer</h3>
             <div class="txt-xs muted" style="margin-bottom:.3em;">Every correlation is labelled with <em>how</em> it was established:</div>
-            <div class="tier"><span class="tn">Trace id</span> <span class="tag green">exact</span> <span class="muted">Micrometer traceId, threaded from the MDC</span></div>
+            <div class="tier"><span class="tn">Request id</span> <span class="tag green">exact</span> <span class="muted">Stamped when the signal was recorded</span></div>
+            <div class="tier"><span class="tn">Propagated</span> <span class="tag green">exact</span> <span class="muted">Executor work followed by the optional Java agent</span></div>
+            <div class="tier"><span class="tn">Trace id</span> <span class="tag green">exact</span> <span class="muted">A trace id identifying one captured request</span></div>
             <div class="tier"><span class="tn">Serving thread</span> <span class="tag green">exact</span> <span class="muted">The one worker that served it</span></div>
             <div class="tier"><span class="tn">Time window</span> <span class="tag amber">approximate</span> <span class="muted">Method, path and window</span></div>
             <ul class="tight mt-sm">
@@ -901,12 +903,51 @@
     </div>
 
     <div class="banner mt-md sm">
-        ⚡ Six of the ten signals reuse buffers other panels <em>already</em> fill — so the feed adds almost no new
-        instrumentation, and every value arrives already masked and bounded.
+        ⚡ The runtime journal is on by default, bounded to the smaller of <span class="mono">32 MB</span> and
+        <span class="mono">5% of heap</span>. Signals stay masked and bounded; missing correlation stays explicit.
     </div>
 
     <aside class="notes">
         Signature 3 in its purest form. "Exact" vs "approximate" printed in the UI is the detail people remember.
+        The default feed reads the runtime journal, not just snapshots of the old panel buffers.
+        Serving-thread and time-window matching are MVC fallbacks; WebFlux and Quarkus do not guess on shared threads.
+        Async handoffs need the Java agent. Framework integrations still supply useful exact request ids without it.
+    </aside>
+</section>
+
+<!-- Runtime Insights — BootUI 2.x -->
+<section>
+    <h2>🔎 Runtime Insights — what this run actually did</h2>
+
+    <div class="grid-2">
+        <div class="card t-blue">
+            <h3 class="blue">28 evidence-backed observations</h3>
+            <ul class="tight">
+                <li>Repeated SELECTs, errors behind a 2xx, transactions across remote calls, blocking on event loops</li>
+                <li>2.2 adds slow flushes, connection reacquisition, unbatched writes, read-only candidates and paging without order</li>
+                <li>Each observation names its evidence, exemplar requests, checks to perform and <span class="ink fw-700">coverage limits</span></li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">Did the change make a difference?</h3>
+            <ul class="tight">
+                <li><span class="ink fw-700">Changes</span> compares retained runs; Change impact lists the routes that exercised a resource</li>
+                <li>With the Java agent: changed methods, whether they ran, and newly observed side effects</li>
+                <li>Copy for AI, MCP and CLI expose the same facts — <span class="ink fw-700">not an invented root cause</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="banner mt-md sm">
+        Opening the panel starts <span class="ink fw-700">no scan, probe or network call</span>.
+        It reads retained evidence. Missing evidence is not a clean bill of health.
+    </div>
+
+    <aside class="notes">
+        Keep this to 45 seconds. Advisors inspect rules; Runtime Insights correlates what the application did.
+        It works without the Java agent while the journal is enabled, but agent-backed observations require their sensors.
+        Quarkus records no transactions; Spring does not record R2DBC statements. A comparison says when sources
+        were not comparable instead of calling missing data unchanged. JFR profiling is available on demand, not on load.
     </aside>
 </section>
 
@@ -924,7 +965,7 @@
         <div class="card t-teal">
             <h3 class="teal">What the group covers</h3>
             <ul class="tight">
-                <li><span class="ink fw-700">Live Memory</span> and <span class="ink fw-700">Threads</span> — heap, pools, thread states and deadlock detection, live</li>
+                <li><span class="ink fw-700">Live Memory</span> and <span class="ink fw-700">Threads</span> — heap, pools and deadlocks; low-footprint mode pauses recording and frees its memory</li>
                 <li><span class="ink fw-700">Heap Dump</span> — capture and analyse locally, class histogram only, never object values</li>
                 <li><span class="ink fw-700">Startup Timeline</span> and <span class="ink fw-700">Metrics</span> — where the seconds went, and every Micrometer meter grouped by who registered it</li>
                 <li><span class="ink fw-700">Health</span> and <span class="ink fw-700">HTTP Sessions</span> — the full contributor tree; sessions masked by default</li>
@@ -949,6 +990,8 @@
         Two more honesty details if there is time: it detects virtual threads and still refuses to infer a smaller
         native-stack budget from that signal, and in a GraalVM native image it hides itself entirely because none of it
         applies.
+        Low-footprint mode arrived in 2.1; 2.2 also exposes its pause/resume controls through MCP and the CLI.
+        It pauses BootUI recording, not the application, and affected results say they are paused.
     </aside>
 </section>
 
@@ -1104,7 +1147,7 @@
                 <li>What it can't determine is marked <span class="tag amber">best effort</span>, not guessed</li>
                 <li>WebFlux reads reactive <span class="mono">SecurityWebFilterChain</span> beans, non-blocking</li>
                 <li>Quarkus has no filter chains: <span class="tag slate">not applicable</span>, and the advisor swaps
-                    in <span class="ink fw-700">45 Quarkus-native checks</span></li>
+                    in <span class="ink fw-700">Quarkus-native checks</span></li>
             </ul>
         </div>
         <div class="card t-teal">
@@ -1231,30 +1274,73 @@
     </aside>
 </section>
 <!-- ══════════════════════════════════════════════════════════════
+     OPTIONAL JAVA AGENT — INSTRUMENTATION
+══════════════════════════════════════════════════════════════ -->
+<section>
+    <h2>🔬 Optional Java agent — did my change actually run?</h2>
+
+    <div class="grid-2">
+        <div class="card t-blue">
+            <h3 class="blue">Opt in at JVM startup</h3>
+<div class="codeblock">mvn dependency:get \
+  -Dartifact=com.julien-dubois.bootui:bootui-agent:2.2.0
+
+<span class="c"># VM option — use the jar matching BootUI's version</span>
+-javaagent:/path/to/bootui-agent-2.2.0.jar</div>
+            <ul class="tight mt-sm">
+                <li>Development JVMs only — <span class="ink fw-700">not production or AOT/native-image runs</span></li>
+                <li>Dormant until BootUI claims it; status and setup in the <span class="ink fw-700">Java Agent</span> panel</li>
+                <li>No agent attached? The embedded console still works.</li>
+            </ul>
+        </div>
+        <div class="card t-teal">
+            <h3 class="teal">What the extra evidence buys you</h3>
+            <ul class="tight">
+                <li><span class="ink fw-700">Code Paths</span>: method timings and call trees per request</li>
+                <li><span class="ink fw-700">Code Inventory</span>: changed methods, whether they ran, and loaded dependency classes</li>
+                <li><span class="ink fw-700">Side Effects</span>: processes, network, file patterns, blocking calls and resource leaks</li>
+                <li>Executor propagation follows work <span class="ink fw-700">after the response</span>; bounded method probes need separate approval</li>
+            </ul>
+        </div>
+    </div>
+
+    <aside class="notes">
+        45 seconds. Distinguish the BootUI Java instrumentation agent from the AI coding agent using MCP.
+        Default sensors include executors, inventory, code-paths, processes, network, files, blocking and resources.
+        Caught exceptions and security sinks are additional opt-ins; sink evidence is a check to perform, not a
+        vulnerability verdict. The agent reports names, metadata and path patterns, not file contents or network bytes.
+        Some sensors can be switched at runtime, but attaching the agent still requires a JVM restart.
+        A method probe returns starting: wait until active, rerun the request within its bounded window, then read it.
+        Zero recorded calls outside a proven active window is inconclusive, not proof the method never ran.
+    </aside>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
      SLIDE 19 — DEMO
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <h2>🎬 Demo — five minutes, four beats</h2>
 
     <p class="txt-sm muted" style="margin:-.1em 0 .5em;">
-        The Spring sample app, running locally. Nothing pre-warmed, nothing pre-scanned.
+        The Spring sample app on 2.2.0, running locally with its matching Java agent. Nothing pre-scanned.
     </p>
 
-    <div class="pb-item"><span class="pb-num">1</span><span class="pb-text"><b>Understand an unfamiliar app in 90 seconds.</b> Open <span class="mono">/bootui</span> — framework, version, active profiles, health. Then Beans and Conditions: what is wired, and <em>why</em> that auto-configuration was skipped.</span></div>
+    <div class="pb-item"><span class="pb-num">1</span><span class="pb-text"><b>Understand an unfamiliar app.</b> Check the Java Agent status, then Beans and Conditions: what is wired, and <em>why</em> that auto-configuration was skipped.</span></div>
     <div class="pb-item"><span class="pb-num">2</span><span class="pb-text"><b>Run all scanners.</b> Watch the score appear from nothing, then open one real finding and read its recommendation.</span></div>
     <div class="pb-item"><span class="pb-num">3</span><span class="pb-text"><b>Trigger a slow request with an N+1.</b> Live Activity shows the row tinted and badged; click it to open the profiler drawer, and follow it into SQL Trace — down to the call site.</span></div>
-    <div class="pb-item"><span class="pb-num">4</span><span class="pb-text"><b>Resolve an exception. Then throw it again.</b> The group reopens with <span class="tag rose">Reopened ×1</span>.</span></div>
+    <div class="pb-item"><span class="pb-num">4</span><span class="pb-text"><b>Exercise a change and verify it.</b> Runtime Insights → Changes and Code Inventory: which edited methods ran, on which route? If none ran, don't claim the fix worked.</span></div>
 
     <div class="txt-xs muted mt-md center">
-        🛟 The next five slides are screenshots of every beat — if the demo gods are unkind,
+        🛟 The next slides show the console and Runtime Insights — if the demo gods are unkind,
         <span class="ink fw-700">keep talking and keep moving</span>.
     </div>
 
     <aside class="notes">
-        Hard stop at 5 minutes. If beat 3 runs long, cut beat 4 and describe it — slide 18 already made the point.
-        Have the sample app already running and the browser already open on a blank tab.
-        FALLBACK: slides 20-24 are screenshots of each beat. If the live demo worked, click through them fast as a
-        recap, or skip to slide 25.
+        Hard stop at 5 minutes. Keep beats 1 and 2 brief to leave room for verification.
+        Have the sample app running with bootui-agent 2.2.0 and one known edit ready for a DevTools restart.
+        Confirm that a previous run is retained before presenting the Changes tab.
+        FALLBACK: the screenshot slides illustrate the panels; they are not a recorded before/after verification.
+        If the live demo worked, skip them and go straight to Part 04.
     </aside>
 </section>
 
@@ -1274,17 +1360,17 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 21 — FALLBACK · BEAT 2 (Overview + score)
+     SLIDE 21 — FALLBACK · BEAT 2 (Scorecard)
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
         <span class="shot-eyebrow">Fallback · Beat 2</span>
         <span class="shot-title">Run all scanners — the score appears from nothing</span>
     </div>
-    <img class="shot" src="img/bootui-overview.webp" alt="BootUI Overview panel showing an overall score of 86 out of 100, the average of 10 scores, with 9 of 9 advisors assessed" />
+    <img class="shot" src="img/bootui-overview.webp" alt="BootUI Scorecard showing known findings and advisor assessment coverage" />
     <div class="shot-cap">
-        <span class="ink fw-700">86 / 100</span>, and — the important part —
-        <span class="mono">9 of 9 advisors assessed</span>, plus GitHub's alert score. Before the run it reads <em>Not scored</em>, never a fake zero.
+        A <span class="ink fw-700">known-findings score</span>, with coverage stated separately.
+        Before the run it reads <em>Not scored</em>, never a fake zero. A high score is not a safety guarantee.
     </div>
 </section>
 
@@ -1319,22 +1405,36 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
-     SLIDE 24 — FALLBACK · BEAT 4 (Exceptions)
+     SLIDE 24 — FALLBACK · EXCEPTIONS
 ══════════════════════════════════════════════════════════════ -->
 <section>
     <div class="shot-head">
-        <span class="shot-eyebrow">Fallback · Beat 4</span>
+        <span class="shot-eyebrow">Fallback · Exceptions</span>
         <span class="shot-title">Exceptions — resolved, then thrown again</span>
     </div>
-    <img class="shot" src="img/bootui-exceptions.webp" alt="BootUI Exceptions panel showing a group marked Resolved with a Reopened times 2 badge" />
+    <img class="shot" src="img/bootui-exceptions.webp" alt="BootUI Exceptions panel with grouped exceptions and triage controls" />
     <div class="shot-cap">
-        <span class="tag green">Resolved</span> <span class="tag rose">Reopened ×2</span> — the regression announces
-        itself. Note the message: <span class="mono">apiToken=******</span>, masked before it left the process.
+        Resolve a group, then throw it again: the regression <span class="ink fw-700">reopens it</span>.
+        With the opt-in caught-exceptions sensor, application catch handlers add another source of evidence.
     </div>
 
     <aside class="notes">
-        Last fallback. Next slide is divider 04 — the second user.
+        Exceptions are an optional detour if there is time; the next fallback shows Runtime Insights.
     </aside>
+</section>
+
+<!-- Fallback — Runtime Insights -->
+<section>
+    <div class="shot-head">
+        <span class="shot-eyebrow">Fallback · Beat 4</span>
+        <span class="shot-title">Runtime Insights — evidence, changes and coverage</span>
+    </div>
+    <img class="shot" src="img/bootui-runtime-insights.webp" alt="BootUI Runtime Insights with route timing evidence and performance deep dives" />
+    <div class="shot-cap">
+        Read the observation and its evidence, then use <span class="ink fw-700">Changes</span> and
+        <span class="ink fw-700">Change impact</span> to investigate the next run. Not exercised is not verified.
+    </div>
+    <aside class="notes">This screenshot illustrates the panel, not proof of a successful before/after comparison.</aside>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════
@@ -1358,7 +1458,7 @@
      SLIDE 26 — MCP SERVER
 ══════════════════════════════════════════════════════════════ -->
 <section>
-    <h2>🤖 The MCP server — opt-in, loopback, same DTOs</h2>
+    <h2>🤖 The MCP server — opt-in, loopback, same evidence</h2>
 
     <div class="grid-2">
         <div class="card t-blue">
@@ -1380,16 +1480,16 @@
             <h3 class="emerald">What it exposes</h3>
             <table class="dtable" style="font-size:var(--t-xs);">
                 <tbody>
-                    <tr><td class="num">11</td><td>advisor scans — the same button the panel runs</td></tr>
-                    <tr><td class="num">18</td><td>cached reports and rule details — read without re-scanning</td></tr>
-                    <tr><td class="num">11</td><td>diagnostics reads — activity, exceptions, SQL, routes, traces</td></tr>
-                    <tr><td class="num">35</td><td>context reads — overview, health, config, beans, mappings…</td></tr>
-                    <tr><td class="num">15</td><td>bounded controls — clear, pause, resume, bounded DB reads</td></tr>
+                    <tr><td class="nm">Scan</td><td>advisors, with compact summaries and cached report details</td></tr>
+                    <tr><td class="nm">Diagnose</td><td>activity, request profiles, exceptions, SQL and traces</td></tr>
+                    <tr><td class="nm">Compare</td><td>Runtime Insights, change impact and retained runs</td></tr>
+                    <tr><td class="nm">Verify</td><td>Java-agent status, Code Inventory, Code Paths and side effects</td></tr>
+                    <tr><td class="nm">Control</td><td>bounded actions, sensor switches and method probes</td></tr>
                 </tbody>
             </table>
             <div class="txt-xs muted mt-xs">Tools whose panel is absent are simply <span class="ink fw-700">not advertised</span>.</div>
             <div class="stat-strip mt-sm">
-                <div><span class="stat-inline indigo">90</span> <span class="txt-xs muted">tools · one loopback endpoint</span></div>
+                <div><span class="stat-inline indigo">1</span> <span class="txt-xs muted">shared registry · loopback endpoint</span></div>
                 <div><span class="stat-inline emerald">0</span> <span class="txt-xs muted">screenshots to interpret</span></div>
             </div>
         </div>
@@ -1397,12 +1497,15 @@
 
     <div class="banner mt-md sm">
         🛡️ Same controllers. Same masking. Same rules — action tools are <span class="ink fw-700">refused</span> when a panel is read-only,
-        and the controls can never capture a heap dump, probe, mutate a database or clear a cache.
+        and sensitive actions need separate approval. No heap-dump capture, HTTP probes, database mutation or cache clearing.
     </div>
 
     <aside class="notes">
         Emphasise: the agent sees exactly the masked, bounded shape a human sees. It is not a privileged back door.
-        90 is the Spring MVC catalog; Quarkus declares 74, because tools behind Spring-only panels are withheld.
+        The catalog depends on the stack, available panels and enabled sensors; do not promise a fixed tool count.
+        Since 2.0, scans and controls use compact projections rather than always returning the browser's full report.
+        Read cached reports and violation pages when more detail is needed. Method probes are available with explicit
+        approval; that is different from the HTTP Probe panel, which MCP cannot execute.
     </aside>
 </section>
 
@@ -1420,22 +1523,23 @@ curl -fsSL https://www.julien-dubois.com/boot-ui/install.sh | sh
 
 bootui beans --query dataSource
 bootui http exchanges --limit 20
-bootui hibernate scan --json | jq <span class="s">'.severityCounts'</span>
+bootui hibernate scan --fail-on high --json
+bootui insights compare --json
 bootui tools  <span class="c"># what this app answers</span></div>
-            <div class="txt-xs muted mt-xs">One runnable jar, JDK 17+. No MCP client, no agent, nothing to enable.</div>
+            <div class="txt-xs muted mt-xs">One runnable jar, JDK 17+. No MCP client needed; Java-agent-backed reads need its instrumentation.</div>
         </div>
         <div class="card t-blue">
             <h3 class="blue">Built for scripts and CI</h3>
             <ul class="tight">
-                <li><span class="ink fw-700">90 commands</span>, one per MCP tool, generated from the same registry —
+                <li><span class="ink fw-700">One diagnostic command per MCP tool</span>, generated from the same registry —
                     a test fails if the two ever diverge</li>
                 <li>Tables on a terminal; the application's <span class="ink fw-700">exact JSON bytes</span> when piped
                     or with <span class="mono">--json</span></li>
                 <li>Exit codes a pipeline can branch on: <span class="mono">0</span> answered ·
                     <span class="mono">1</span> error · <span class="mono">2</span>
                     BootUI declined — panel off or read-only, so CI treats it as a
-                    skip</li>
-                <li>Gate a build on <span class="mono">severityCounts</span>: every scan reports it the same way</li>
+                    skip · <span class="mono">3</span> severity threshold reached</li>
+                <li><span class="mono">--fail-on high</span> gates scans and reports — an unevaluable gate exits <span class="mono">1</span>, not a silent pass</li>
             </ul>
         </div>
     </div>
@@ -1450,6 +1554,9 @@ bootui tools  <span class="c"># what this app answers</span></div>
         stop it — fail the build on HIGH Hibernate findings, for example.
         Exit code 2 is the detail to land: a read-only panel refusing a scan is a fact about the target's
         configuration, not a broken build, and CI can tell the two apart without parsing stderr.
+        New in 2.2: --fail-on is CLI-only. Exit 3 means at least one retained finding at or above the threshold.
+        A usable partial scan can pass the threshold while warning about missing evidence: no finding is not proof
+        there is none. Scans answer with topFindings; use the report and violation commands for the retained detail.
         If asked: it needs no bootui.mcp.enabled — /bootui/api/cli is a separate endpoint, on by default, turned off
         with bootui.cli.enabled=false. Developer tools → Command Line in the console shows every command this instance
         exposes. Update checks are silent when piped, so CI makes no unexpected network calls.
@@ -1462,19 +1569,19 @@ bootui tools  <span class="c"># what this app answers</span></div>
 <section>
     <h2>🔁 The loop that closes</h2>
 
-    <div class="pb-item"><span class="pb-num">1</span><span class="pb-text"><b>Consult.</b> The agent calls <span class="mono">hibernate_scan</span> against your <em>running</em> app and gets severity-ranked findings with remediation hints.</span></div>
-    <div class="pb-item"><span class="pb-num">2</span><span class="pb-text"><b>Correlate.</b> <span class="mono">get_live_activity</span> and <span class="mono">get_exception_detail(id)</span> tie a failure to the request, the SQL and the full stack trace behind it.</span></div>
+    <div class="pb-item"><span class="pb-num">1</span><span class="pb-text"><b>Consult.</b> Read <span class="mono">get_runtime_insights</span> and the relevant advisor. Check <span class="mono">get_agent_status</span> before asking for Java-agent evidence.</span></div>
+    <div class="pb-item"><span class="pb-num">2</span><span class="pb-text"><b>Correlate.</b> Open an exemplar with <span class="mono">get_request_profile</span>. Read its SQL, exceptions and coverage limits instead of inferring the cause from a symptom.</span></div>
     <div class="pb-item"><span class="pb-num">3</span><span class="pb-text"><b>Fix.</b> It edits your source with runtime evidence instead of a guess about what the code probably does.</span></div>
-    <div class="pb-item"><span class="pb-num">4</span><span class="pb-text"><b>Verify.</b> It rescans. The finding is gone, or it isn't — and it can tell the difference.</span></div>
+    <div class="pb-item"><span class="pb-num">4</span><span class="pb-text"><b>Exercise, then verify.</b> Rerun the request or test. With the Java agent, read <span class="mono">get_code_inventory</span> for changed methods; compare runs and rescan. Not executed is not fixed.</span></div>
 
     <div class="grid-2 mt-md">
         <div class="card t-violet">
             <h3 class="violet">Teach the agent first</h3>
 <div class="codeblock"><span class="c"># inspect it before you trust it</span>
-gh skill preview jdubois/boot-ui bootui
+gh skill preview jdubois/boot-ui skills/bootui
 
 <span class="c"># then install for this project</span>
-gh skill install jdubois/boot-ui bootui</div>
+gh skill install jdubois/boot-ui skills/bootui</div>
         </div>
         <div class="card t-blue">
             <h3 class="blue">Why it works</h3>
@@ -1488,6 +1595,9 @@ gh skill install jdubois/boot-ui bootui</div>
 
     <aside class="notes">
         Land the last line hard — it is the whole argument for exposing a console to an agent.
+        The verify_after_change prompt follows this workflow. If a changed method still did not run, ask permission
+        for a bounded method probe, wait for active, and exercise the request within its window. Never interpret a
+        missing sensor or incomplete comparison as a successful verification.
     </aside>
 </section>
 
@@ -1505,6 +1615,7 @@ gh skill install jdubois/boot-ui bootui</div>
                 <li><span class="mono">/features</span> — every panel, group by group</li>
                 <li><span class="mono">/properties</span> — the full configuration reference</li>
                 <li><span class="mono">/cli</span> — every <span class="mono">bootui</span> command</li>
+                <li><span class="mono">/features/runtime-insights</span> — observations and run comparison</li>
             </ul>
         </div>
         <div class="card t-teal">
@@ -1513,13 +1624,14 @@ gh skill install jdubois/boot-ui bootui</div>
                 <li><span class="mono">/setup</span> — Spring Boot and Quarkus in a few lines</li>
                 <li><span class="mono">/try-sample-app</span> — a running app, already wired up</li>
                 <li>Or just add the dependency to a project you already have</li>
+                <li><span class="mono">/setup/java-agent</span> — optional instrumentation and its limits</li>
             </ul>
         </div>
         <div class="card t-violet">
             <h3 class="violet">Wire up your agent</h3>
             <ul class="tight">
                 <li><span class="mono">/ai-agents</span> — the MCP server, end to end</li>
-                <li>Works with Copilot, Claude Code and any MCP client</li>
+                <li>Consumer skill, Claude Code and Cursor plugins, or any MCP client</li>
                 <li>Off by default — one property turns it on</li>
             </ul>
         </div>
