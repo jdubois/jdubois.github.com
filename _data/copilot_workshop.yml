@@ -1,0 +1,30 @@
+- title: Overview
+  slug: ""
+- title: Prepare your workshop
+  slug: setup/
+- title: Reproduce the cart bug
+  slug: ticket/
+- title: Plan with Copilot
+  slug: fusion/
+- title: Skills and regression tests
+  slug: skills/
+- title: Fix, review, verify
+  slug: verify/
+- title: Generate item removal
+  slug: generate/
+- title: Investigate N+1 with MCP
+  slug: tools/
+- title: Parallel sessions
+  slug: parallel/
+- title: Integrate the branches
+  slug: integrate/
+- title: Chronicle and token usage
+  slug: tokens/
+- title: Review and hand off
+  slug: finish/
+- title: Prompt cards
+  slug: prompts/
+- title: Worksheet
+  slug: worksheet/
+- title: Facilitate and recover
+  slug: facilitator/

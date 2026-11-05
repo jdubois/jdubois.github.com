@@ -1,0 +1,55 @@
+---
+layout: default
+title: Reproduce the cart bug
+description: "Give Copilot a reproducible bug report with clear expected behavior."
+permalink: /workshops/copilot-app/ticket/
+workshop: true
+next: fusion
+next_title: Plan with Copilot
+---
+
+## What you will learn
+
+Give Copilot a clear bug report and ask it to trace the cause before editing code.
+
+## “I added it twice. There is still only one.”
+
+In the shop, click **Reset cart**, then **Add Notebook to cart** twice.
+The Notebook costs €10. The starter shows **quantity 1 / €10**;
+the customer expects **quantity 2 / €20**.
+
+This is not just a label problem. The server has replaced the existing quantity.
+Your fix must survive a page reload.
+
+## Give Copilot a useful ticket
+
+In **Cart: quantity bug**, describe the reproduction and expected result.
+Ask it to explain the flow without editing yet:
+
+```copilot
+Trace adding the same product twice from the shop UI through
+POST /api/cart/items to persisted state. Explain why the quantity
+does not accumulate. Do not edit files yet. Name the relevant
+files and any assumptions that need a test.
+```
+
+**App tip:** attach or reference the relevant files when you know them, rather
+than pasting the whole repository or every log. Ask for the path from click to
+database, not a generic review of Spring Boot.
+
+## Acceptance criteria
+
+- Adding 1 Notebook twice produces one line, quantity 2, total 2000 cents.
+- Adding 2 more units to an existing quantity 3 produces quantity 5.
+- Adding a new product still works. Quantities remain 1–99, including
+  the accumulated quantity; rejected input leaves state unchanged.
+- Prices and totals come from the server. Do not patch only the UI.
+
+Keep the scope small: no checkout, stock management, accounts, new dependencies
+or query optimization yet. The later performance ticket is a separate task.
+
+## What you have learned
+
+- Describe reproduction steps, the observed result and the expected result in a focused App session.
+- Ask Copilot to trace a request from the UI to the database without making changes, using relevant files instead of the whole repository.
+- Set acceptance criteria and exclusions so Copilot fixes the reported behavior without expanding the task.

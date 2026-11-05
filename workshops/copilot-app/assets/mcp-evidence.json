@@ -1,0 +1,610 @@
+{
+  "label": "Reference: real shop HTTP MCP capture; not Copilot App execution or Chronicle accounting",
+  "redaction": "Only synthetic cart request evidence is published. Original response sizes are UTF-8 bytes, not tokens.",
+  "stages": {
+    "start": {
+      "identity": {
+        "application": "shopping-cart",
+        "revision": "326f95840e3d42dcbb83d1bb182091cdda38382e",
+        "processId": 98991
+      },
+      "workload": {
+        "method": "GET",
+        "path": "/api/cart",
+        "distinctProducts": 8
+      },
+      "cart": {
+        "items": [
+          {
+            "productId": 1,
+            "name": "Notebook",
+            "priceCents": 1000,
+            "quantity": 1,
+            "lineTotalCents": 1000
+          },
+          {
+            "productId": 2,
+            "name": "Coffee mug",
+            "priceCents": 1200,
+            "quantity": 1,
+            "lineTotalCents": 1200
+          },
+          {
+            "productId": 3,
+            "name": "Pen set",
+            "priceCents": 1300,
+            "quantity": 1,
+            "lineTotalCents": 1300
+          },
+          {
+            "productId": 4,
+            "name": "Desk pad",
+            "priceCents": 1400,
+            "quantity": 1,
+            "lineTotalCents": 1400
+          },
+          {
+            "productId": 5,
+            "name": "Laptop sleeve",
+            "priceCents": 1500,
+            "quantity": 1,
+            "lineTotalCents": 1500
+          },
+          {
+            "productId": 6,
+            "name": "Cable organiser",
+            "priceCents": 1600,
+            "quantity": 1,
+            "lineTotalCents": 1600
+          },
+          {
+            "productId": 7,
+            "name": "Reading lamp",
+            "priceCents": 1700,
+            "quantity": 1,
+            "lineTotalCents": 1700
+          },
+          {
+            "productId": 8,
+            "name": "Book stand",
+            "priceCents": 1800,
+            "quantity": 1,
+            "lineTotalCents": 1800
+          }
+        ],
+        "itemCount": 8,
+        "totalCents": 11500
+      },
+      "activity": {
+        "tool": "get_live_activity",
+        "arguments": {
+          "query": "/api/cart",
+          "limit": 8
+        },
+        "originalResponseBytes": 7252,
+        "matchedRequest": {
+          "id": "205f9d10346caf9f",
+          "method": "GET",
+          "path": "/api/cart",
+          "status": 200
+        }
+      },
+      "profile": {
+        "tool": "get_request_profile",
+        "arguments": {
+          "id": "205f9d10346caf9f"
+        },
+        "originalResponseBytes": 27234,
+        "requestId": "205f9d10346caf9f",
+        "route": "GET /api/cart",
+        "status": 200,
+        "sqlEventCount": 9,
+        "timeline": [
+          {
+            "source": "sql",
+            "label": "select ci1_0.id,ci1_0.product_id,ci1_0.quantity from cart_item ci1_0 order by ci1_0.id",
+            "detail": "dataSource"
+          },
+          {
+            "source": "transaction",
+            "label": "com.juliendubois.workshop.CartService.cart",
+            "detail": "committed · read-only"
+          },
+          {
+            "source": "orm",
+            "label": "Hibernate session",
+            "detail": "9 statements · 0 entities"
+          },
+          {
+            "source": "connection",
+            "label": "Connection held from dataSource",
+            "detail": "waited 18 µs, 9 statements"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          }
+        ]
+      }
+    },
+    "after-bugfix": {
+      "identity": {
+        "application": "shopping-cart",
+        "revision": "8291261524b5e20ce86c111abe909877d8510776",
+        "processId": 99177
+      },
+      "workload": {
+        "method": "GET",
+        "path": "/api/cart",
+        "distinctProducts": 8
+      },
+      "cart": {
+        "items": [
+          {
+            "productId": 1,
+            "name": "Notebook",
+            "priceCents": 1000,
+            "quantity": 1,
+            "lineTotalCents": 1000
+          },
+          {
+            "productId": 2,
+            "name": "Coffee mug",
+            "priceCents": 1200,
+            "quantity": 1,
+            "lineTotalCents": 1200
+          },
+          {
+            "productId": 3,
+            "name": "Pen set",
+            "priceCents": 1300,
+            "quantity": 1,
+            "lineTotalCents": 1300
+          },
+          {
+            "productId": 4,
+            "name": "Desk pad",
+            "priceCents": 1400,
+            "quantity": 1,
+            "lineTotalCents": 1400
+          },
+          {
+            "productId": 5,
+            "name": "Laptop sleeve",
+            "priceCents": 1500,
+            "quantity": 1,
+            "lineTotalCents": 1500
+          },
+          {
+            "productId": 6,
+            "name": "Cable organiser",
+            "priceCents": 1600,
+            "quantity": 1,
+            "lineTotalCents": 1600
+          },
+          {
+            "productId": 7,
+            "name": "Reading lamp",
+            "priceCents": 1700,
+            "quantity": 1,
+            "lineTotalCents": 1700
+          },
+          {
+            "productId": 8,
+            "name": "Book stand",
+            "priceCents": 1800,
+            "quantity": 1,
+            "lineTotalCents": 1800
+          }
+        ],
+        "itemCount": 8,
+        "totalCents": 11500
+      },
+      "activity": {
+        "tool": "get_live_activity",
+        "arguments": {
+          "query": "/api/cart",
+          "limit": 8
+        },
+        "originalResponseBytes": 7254,
+        "matchedRequest": {
+          "id": "24f58ca8fc4b2b2f",
+          "method": "GET",
+          "path": "/api/cart",
+          "status": 200
+        }
+      },
+      "profile": {
+        "tool": "get_request_profile",
+        "arguments": {
+          "id": "24f58ca8fc4b2b2f"
+        },
+        "originalResponseBytes": 27230,
+        "requestId": "24f58ca8fc4b2b2f",
+        "route": "GET /api/cart",
+        "status": 200,
+        "sqlEventCount": 9,
+        "timeline": [
+          {
+            "source": "sql",
+            "label": "select ci1_0.id,ci1_0.product_id,ci1_0.quantity from cart_item ci1_0 order by ci1_0.id",
+            "detail": "dataSource"
+          },
+          {
+            "source": "transaction",
+            "label": "com.juliendubois.workshop.CartService.cart",
+            "detail": "committed · read-only"
+          },
+          {
+            "source": "orm",
+            "label": "Hibernate session",
+            "detail": "9 statements · 0 entities"
+          },
+          {
+            "source": "connection",
+            "label": "Connection held from dataSource",
+            "detail": "waited 20 µs, 9 statements"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          }
+        ]
+      }
+    },
+    "after-feature": {
+      "identity": {
+        "application": "shopping-cart",
+        "revision": "f1b8d4104a3415c5568ea4f7fb15e1294aa3ad3f",
+        "processId": 99350
+      },
+      "workload": {
+        "method": "GET",
+        "path": "/api/cart",
+        "distinctProducts": 8
+      },
+      "cart": {
+        "items": [
+          {
+            "productId": 1,
+            "name": "Notebook",
+            "priceCents": 1000,
+            "quantity": 1,
+            "lineTotalCents": 1000
+          },
+          {
+            "productId": 2,
+            "name": "Coffee mug",
+            "priceCents": 1200,
+            "quantity": 1,
+            "lineTotalCents": 1200
+          },
+          {
+            "productId": 3,
+            "name": "Pen set",
+            "priceCents": 1300,
+            "quantity": 1,
+            "lineTotalCents": 1300
+          },
+          {
+            "productId": 4,
+            "name": "Desk pad",
+            "priceCents": 1400,
+            "quantity": 1,
+            "lineTotalCents": 1400
+          },
+          {
+            "productId": 5,
+            "name": "Laptop sleeve",
+            "priceCents": 1500,
+            "quantity": 1,
+            "lineTotalCents": 1500
+          },
+          {
+            "productId": 6,
+            "name": "Cable organiser",
+            "priceCents": 1600,
+            "quantity": 1,
+            "lineTotalCents": 1600
+          },
+          {
+            "productId": 7,
+            "name": "Reading lamp",
+            "priceCents": 1700,
+            "quantity": 1,
+            "lineTotalCents": 1700
+          },
+          {
+            "productId": 8,
+            "name": "Book stand",
+            "priceCents": 1800,
+            "quantity": 1,
+            "lineTotalCents": 1800
+          }
+        ],
+        "itemCount": 8,
+        "totalCents": 11500
+      },
+      "activity": {
+        "tool": "get_live_activity",
+        "arguments": {
+          "query": "/api/cart",
+          "limit": 8
+        },
+        "originalResponseBytes": 9096,
+        "matchedRequest": {
+          "id": "438ff2f18d53b10a",
+          "method": "GET",
+          "path": "/api/cart",
+          "status": 200
+        }
+      },
+      "profile": {
+        "tool": "get_request_profile",
+        "arguments": {
+          "id": "438ff2f18d53b10a"
+        },
+        "originalResponseBytes": 27248,
+        "requestId": "438ff2f18d53b10a",
+        "route": "GET /api/cart",
+        "status": 200,
+        "sqlEventCount": 9,
+        "timeline": [
+          {
+            "source": "orm",
+            "label": "Hibernate session",
+            "detail": "9 statements · 0 entities"
+          },
+          {
+            "source": "connection",
+            "label": "Connection held from dataSource",
+            "detail": "waited 22 µs, 9 statements"
+          },
+          {
+            "source": "sql",
+            "label": "select ci1_0.id,ci1_0.product_id,ci1_0.quantity from cart_item ci1_0 order by ci1_0.id",
+            "detail": "dataSource"
+          },
+          {
+            "source": "transaction",
+            "label": "com.juliendubois.workshop.CartService.cart",
+            "detail": "committed · read-only"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          },
+          {
+            "source": "sql",
+            "label": "select p1_0.id,p1_0.name,p1_0.price_cents from product p1_0 where p1_0.id=?",
+            "detail": "dataSource"
+          }
+        ]
+      }
+    },
+    "after-performance": {
+      "identity": {
+        "application": "shopping-cart",
+        "revision": "0a7d9dd3962929c7909ecfee64f72b2f03f43970",
+        "processId": 99526
+      },
+      "workload": {
+        "method": "GET",
+        "path": "/api/cart",
+        "distinctProducts": 8
+      },
+      "cart": {
+        "items": [
+          {
+            "productId": 1,
+            "name": "Notebook",
+            "priceCents": 1000,
+            "quantity": 1,
+            "lineTotalCents": 1000
+          },
+          {
+            "productId": 2,
+            "name": "Coffee mug",
+            "priceCents": 1200,
+            "quantity": 1,
+            "lineTotalCents": 1200
+          },
+          {
+            "productId": 3,
+            "name": "Pen set",
+            "priceCents": 1300,
+            "quantity": 1,
+            "lineTotalCents": 1300
+          },
+          {
+            "productId": 4,
+            "name": "Desk pad",
+            "priceCents": 1400,
+            "quantity": 1,
+            "lineTotalCents": 1400
+          },
+          {
+            "productId": 5,
+            "name": "Laptop sleeve",
+            "priceCents": 1500,
+            "quantity": 1,
+            "lineTotalCents": 1500
+          },
+          {
+            "productId": 6,
+            "name": "Cable organiser",
+            "priceCents": 1600,
+            "quantity": 1,
+            "lineTotalCents": 1600
+          },
+          {
+            "productId": 7,
+            "name": "Reading lamp",
+            "priceCents": 1700,
+            "quantity": 1,
+            "lineTotalCents": 1700
+          },
+          {
+            "productId": 8,
+            "name": "Book stand",
+            "priceCents": 1800,
+            "quantity": 1,
+            "lineTotalCents": 1800
+          }
+        ],
+        "itemCount": 8,
+        "totalCents": 11500
+      },
+      "activity": {
+        "tool": "get_live_activity",
+        "arguments": {
+          "query": "/api/cart",
+          "limit": 8
+        },
+        "originalResponseBytes": 8146,
+        "matchedRequest": {
+          "id": "c0094a38e5e5be97",
+          "method": "GET",
+          "path": "/api/cart",
+          "status": 200
+        }
+      },
+      "profile": {
+        "tool": "get_request_profile",
+        "arguments": {
+          "id": "c0094a38e5e5be97"
+        },
+        "originalResponseBytes": 14768,
+        "requestId": "c0094a38e5e5be97",
+        "route": "GET /api/cart",
+        "status": 200,
+        "sqlEventCount": 1,
+        "timeline": [
+          {
+            "source": "sql",
+            "label": "select ci1_0.id,ci1_0.product_id,p1_0.id,p1_0.name,p1_0.price_cents,ci1_0.quantity from cart_item ci1_0 join product p1_0 on p1_0.id=ci1_0.product_id order by c…",
+            "detail": "dataSource"
+          },
+          {
+            "source": "transaction",
+            "label": "com.juliendubois.workshop.CartService.cart",
+            "detail": "committed · read-only"
+          },
+          {
+            "source": "orm",
+            "label": "Hibernate session",
+            "detail": "1 statement · 0 entities"
+          },
+          {
+            "source": "connection",
+            "label": "Connection held from dataSource",
+            "detail": "waited 25 µs, 1 statement"
+          }
+        ]
+      }
+    }
+  }
+}

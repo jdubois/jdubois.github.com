@@ -1,5 +1,82 @@
 /* Fonts loaded via <link> in the page head (Schibsted Grotesk, Hanken Grotesk, JetBrains Mono) */
 
+.workshop-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 3.5rem; padding: 3rem 0 4rem; }
+.workshop-layout aside { min-width: 0; }
+.workshop-mobile-nav { display: none; }
+.workshop-nav { position: sticky; top: 100px; font-size: .88rem; line-height: 1.5; }
+.workshop-nav .workshop-home { display: block; font-weight: 700; color: var(--ink); margin-bottom: 1.25rem; }
+.workshop-nav ol { list-style: none; padding: 0; margin: 0 0 1.5rem; }
+.workshop-nav li { margin: 0; }
+.workshop-nav li a { display: block; padding: .42rem .65rem; border-radius: 5px; color: var(--text-secondary); }
+.workshop-nav a[aria-current="page"] { color: var(--primary-color); background-color: var(--primary-tint); font-weight: 650; }
+.workshop-nav p { font-size: .75rem; color: var(--text-secondary); }
+.workshop-content { min-width: 0; max-width: 860px; }
+.workshop-heading { padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; }
+.workshop-heading h1 { margin-top: 0; max-width: 20ch; }
+.workshop-heading > p { font-size: 1.15rem; color: var(--text-secondary); }
+.workshop-content h2 { margin-top: 2.5rem; }
+.workshop-content h3 { margin-top: 2rem; font-size: 1.25rem; }
+.workshop-content li { margin: .4rem 0; }
+.workshop-content :is(h2,h3) { scroll-margin-top: 100px; }
+.workshop-content blockquote { margin: 1.75rem 0; padding: 1.25rem 1.5rem; background: var(--bg-light); border: 1px solid var(--border-color); border-radius: 8px; }
+.workshop-content blockquote p:last-child { margin-bottom: 0; }
+.workshop-content pre { padding: 1.15rem 1.3rem; background: var(--bg-light); border: 1px solid var(--border-color); border-radius: 8px; overflow-x: auto; font-size: .83rem; line-height: 1.65; }
+.workshop-content code { overflow-wrap: anywhere; color: var(--ink); font-size: .88em; }
+.workshop-content pre code { overflow-wrap: normal; font-size: inherit; }
+.code-copy-block { position: relative; }
+.workshop-content .code-copy-block pre { padding-right: 3.75rem; overflow: visible; }
+.workshop-content .code-copy-block pre code { display: block; overflow-x: auto; }
+.code-copy-button { position: absolute; top: .375rem; right: .375rem; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border: 1px solid transparent; border-radius: 6px; background: transparent; color: var(--text-secondary); cursor: pointer; }
+.code-copy-button:hover { background: var(--bg-white); border-color: var(--border-strong); color: var(--primary-color); }
+.code-copy-button:active { background: var(--primary-tint); }
+.code-copy-button:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+.code-copy-button:disabled { cursor: wait; opacity: .65; }
+.code-copy-button .code-copied-icon, .code-copy-button[data-state="copied"] .code-copy-icon { display: none; }
+.code-copy-button[data-state="copied"] { color: var(--primary-color); }
+.code-copy-button[data-state="copied"] .code-copied-icon { display: block; }
+.code-copy-status { display: block; margin: -.25rem 0 1rem; font-size: .85rem; color: var(--text-secondary); }
+.workshop-content table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 1.5rem 0 2rem; font-size: .9rem; }
+.workshop-content th, .workshop-content td { padding: .85rem 1rem; border-bottom: 1px solid var(--border-color); vertical-align: top; min-width: 7rem; }
+.workshop-content th { color: var(--ink); background: var(--bg-light); font-weight: 650; }
+.workshop-content figure { margin: 2rem 0; }
+.workshop-content figure img { width: 100%; height: auto; border: 1px solid var(--border-strong); border-radius: 8px; }
+.workshop-content figcaption { margin-top: .75rem; color: var(--text-secondary); font-size: .85rem; max-width: 70ch; }
+.workshop-content details { margin: 1.5rem 0; border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem 1.25rem; }
+.workshop-content summary { font-weight: 650; cursor: pointer; }
+.workshop-content details[open] summary { margin-bottom: 1rem; }
+.workshop-note { border: 1px solid var(--border-strong); padding: 1.2rem 1.4rem; border-radius: 8px; margin: 1.75rem 0; }
+.workshop-note p:last-child { margin-bottom: 0; }
+.workshop-routes { padding: 0; list-style: none; }
+.workshop-routes li { display: flex; align-items: baseline; gap: 1.5rem; padding: 1.15rem 0; border-bottom: 1px solid var(--border-color); }
+.workshop-routes a { min-width: 7rem; font-weight: 700; font-size: 1.1rem; }
+.workshop-routes span { color: var(--text-secondary); }
+.workshop-next { display: flex; justify-content: flex-end; border-top: 1px solid var(--border-color); margin-top: 3rem; padding-top: 1.5rem; font-weight: 650; }
+@media (max-width: 991px) {
+    .workshop-layout { grid-template-columns: 175px minmax(0, 1fr); gap: 1.75rem; }
+}
+@media (max-width: 767px) {
+    .workshop-layout { display: flex; flex-direction: column; padding-top: 1.5rem; gap: 1.75rem; }
+    .workshop-desktop-nav { display: none; }
+    .workshop-mobile-nav { display: block; border-bottom: 1px solid var(--border-color); }
+    .workshop-mobile-nav > summary { cursor: pointer; font-weight: 700; padding: .75rem 0; }
+    .workshop-mobile-nav[open] > summary { margin-bottom: .75rem; }
+    .workshop-nav { position: static; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; }
+    .workshop-nav ol { display: flex; flex-wrap: wrap; gap: .15rem; margin-bottom: .75rem; }
+    .workshop-nav .workshop-home { margin-bottom: .6rem; }
+    .workshop-nav li a { padding: .75rem .55rem; }
+    .workshop-nav p { display: none; }
+    .workshop-routes li { flex-direction: column; gap: .35rem; }
+    .workshop-content .code-copy-block pre { padding-left: 1rem; }
+}
+@media print {
+    .workshop-layout { display: block; }
+    .workshop-layout aside, .workshop-next { display: none; }
+    .code-copy-button { display: none; }
+    .workshop-content pre { white-space: pre-wrap; }
+    .workshop-content .code-copy-block pre { padding-right: 1.3rem; }
+    .workshop-content .code-copy-block pre code { overflow: visible; }
+}
+
 /* ==========================================================================
    Author's custom styles - Bootstrap 5 compatible
    ========================================================================== */

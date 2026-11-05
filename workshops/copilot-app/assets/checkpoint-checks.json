@@ -1,0 +1,73 @@
+{
+  "edition": "v2",
+  "verifierRevision": "d7a1ae7dea029ab5b787cf9fdf09e8a1dbdef6c5",
+  "pins": {
+    "edition": "v2",
+    "checkpoints": {
+      "v1-start": "d6e6b5ca3fb5121ebae917621e8417db6a82a5e2",
+      "v1-bugfix": "f0bcbfe617e38a5465f1a62c545b1cc8916bc3b3",
+      "v1-feature": "c7ce44380439bd4e2cf2bc4a4df4d2273d14a35a",
+      "v1-performance": "4e7593afd4d8bceb3c8c4ab005235c6683ff7ead",
+      "v2-start": "326f95840e3d42dcbb83d1bb182091cdda38382e",
+      "v2-bugfix": "8291261524b5e20ce86c111abe909877d8510776",
+      "v2-feature": "f1b8d4104a3415c5568ea4f7fb15e1294aa3ad3f",
+      "v2-performance": "0a7d9dd3962929c7909ecfee64f72b2f03f43970"
+    },
+    "references": {
+      "reference/v1": "4e7593afd4d8bceb3c8c4ab005235c6683ff7ead",
+      "reference/v2": "0a7d9dd3962929c7909ecfee64f72b2f03f43970"
+    }
+  },
+  "revisions": {
+    "v2-start": "326f95840e3d42dcbb83d1bb182091cdda38382e",
+    "v2-bugfix": "8291261524b5e20ce86c111abe909877d8510776",
+    "v2-feature": "f1b8d4104a3415c5568ea4f7fb15e1294aa3ad3f",
+    "v2-performance": "0a7d9dd3962929c7909ecfee64f72b2f03f43970"
+  },
+  "checks": [
+    {
+      "checkpoint": "v2-start",
+      "tests": 4,
+      "expectedAssertionFailures": []
+    },
+    {
+      "checkpoint": "v2-start",
+      "tests": 3,
+      "expectedAssertionFailures": [
+        "CartContractTest.repeatedAddIncrementsQuantityAndTotal",
+        "CartContractTest.addingSeveralUnitsKeepsOneLine"
+      ]
+    },
+    {
+      "checkpoint": "v2-bugfix",
+      "tests": 7,
+      "expectedAssertionFailures": []
+    },
+    {
+      "checkpoint": "v2-bugfix",
+      "tests": 3,
+      "expectedAssertionFailures": [
+        "RemoveContractTest.removingTheLastItemReturnsAnEmptyCart",
+        "RemoveContractTest.removingOneProductPreservesOtherLinesAndTotals"
+      ]
+    },
+    {
+      "checkpoint": "v2-feature",
+      "tests": 10,
+      "expectedAssertionFailures": []
+    },
+    {
+      "checkpoint": "v2-feature",
+      "tests": 2,
+      "expectedAssertionFailures": [
+        "QueryContractTest.doublingTheCartDoesNotGrowTheSelectBudget",
+        "QueryContractTest.eightDistinctProductsUseOneSelect"
+      ]
+    },
+    {
+      "checkpoint": "v2-performance",
+      "tests": 12,
+      "expectedAssertionFailures": []
+    }
+  ]
+}

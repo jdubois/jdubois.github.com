@@ -1,0 +1,26 @@
+{
+  "repository": "https://github.com/jdubois/copilot-shopping-cart-workshop",
+  "edition": "v2",
+  "springBoot": "4.1.2",
+  "bootui": "2.3.0",
+  "javaRelease": 21,
+  "verification": "checkpoint-checks.json",
+  "checkpoints": {
+    "start": {
+      "tag": "v2-start",
+      "commit": "326f95840e3d42dcbb83d1bb182091cdda38382e"
+    },
+    "after-bugfix": {
+      "tag": "v2-bugfix",
+      "commit": "8291261524b5e20ce86c111abe909877d8510776"
+    },
+    "after-feature": {
+      "tag": "v2-feature",
+      "commit": "f1b8d4104a3415c5568ea4f7fb15e1294aa3ad3f"
+    },
+    "after-performance": {
+      "tag": "v2-performance",
+      "commit": "0a7d9dd3962929c7909ecfee64f72b2f03f43970"
+    }
+  }
+}

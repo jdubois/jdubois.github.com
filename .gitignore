@@ -1,3 +1,7 @@
 _site/
 .jdtls-workspace/
 .impeccable/
+tools/copilot-workshop/node_modules/
+tools/copilot-workshop/.build/
+tools/copilot-workshop/.build-verification.log
+tools/copilot-workshop/__pycache__/

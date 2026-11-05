@@ -1,0 +1,74 @@
+{
+  "method": "Playwright actual shop UI; BootUI accessed only through HTTP MCP, no dashboard screenshots",
+  "viewport": {
+    "width": 1600,
+    "height": 1000
+  },
+  "browser": "157.0.8103.39",
+  "browserChannel": "chrome",
+  "playwright": "1.56.1",
+  "javaRuntime": {
+    "version": "27.0.1.0.3",
+    "vendor": "Homebrew",
+    "vm": "OpenJDK 64-Bit Server VM"
+  },
+  "stages": {
+    "start": {
+      "identity": {
+        "application": "shopping-cart",
+        "revision": "326f95840e3d42dcbb83d1bb182091cdda38382e",
+        "processId": 98991
+      },
+      "sourceRepository": "https://github.com/jdubois/copilot-shopping-cart-workshop",
+      "sourceTag": "v2-start",
+      "sourceCommit": "326f95840e3d42dcbb83d1bb182091cdda38382e",
+      "transport": "HTTP JSON-RPC tools/call; terminal reference, not a native App call",
+      "images": {
+        "cart-bug.png": "e14b717509baffcf072f170bdd3ab9c7f5faefabe82e0c442493b3a1b7d548ca"
+      }
+    },
+    "after-bugfix": {
+      "identity": {
+        "application": "shopping-cart",
+        "revision": "8291261524b5e20ce86c111abe909877d8510776",
+        "processId": 99177
+      },
+      "sourceRepository": "https://github.com/jdubois/copilot-shopping-cart-workshop",
+      "sourceTag": "v2-bugfix",
+      "sourceCommit": "8291261524b5e20ce86c111abe909877d8510776",
+      "transport": "HTTP JSON-RPC tools/call; terminal reference, not a native App call",
+      "images": {
+        "cart-fixed.png": "6af756330d7c2da302165eadcc6a8f48f888affd694b1492da1095f0a37258e0"
+      }
+    },
+    "after-feature": {
+      "identity": {
+        "application": "shopping-cart",
+        "revision": "f1b8d4104a3415c5568ea4f7fb15e1294aa3ad3f",
+        "processId": 99350
+      },
+      "sourceRepository": "https://github.com/jdubois/copilot-shopping-cart-workshop",
+      "sourceTag": "v2-feature",
+      "sourceCommit": "f1b8d4104a3415c5568ea4f7fb15e1294aa3ad3f",
+      "transport": "HTTP JSON-RPC tools/call; terminal reference, not a native App call",
+      "images": {
+        "cart-feature.png": "f19046338e7a4249a094d4d95ea484f73e3dcb281a47b87fcf4469f04f9008b1"
+      }
+    },
+    "after-performance": {
+      "identity": {
+        "application": "shopping-cart",
+        "revision": "0a7d9dd3962929c7909ecfee64f72b2f03f43970",
+        "processId": 99526
+      },
+      "sourceRepository": "https://github.com/jdubois/copilot-shopping-cart-workshop",
+      "sourceTag": "v2-performance",
+      "sourceCommit": "0a7d9dd3962929c7909ecfee64f72b2f03f43970",
+      "transport": "HTTP JSON-RPC tools/call; terminal reference, not a native App call",
+      "images": {
+        "cart-performance.png": "7f577260185e30bebec3378236153f0000727fb684d70b058105f52c7cb29275"
+      }
+    }
+  },
+  "mcpEvidenceSha256": "896ef49eba4359a42e959aba90c0fa2d3171d568960cb33cb2a877992e53b192"
+}
