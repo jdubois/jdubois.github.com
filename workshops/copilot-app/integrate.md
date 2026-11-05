@@ -22,8 +22,19 @@ or bypass repository protections. See the
 <a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/managing-issues-and-pull-requests#merging-a-pull-request" target="_blank">App's Agent Merge guide</a>.
 
 Use your own workshop repository, with GitHub Actions enabled and permission to
-push branches, create PRs and merge them. If these are unavailable, use the
+push branches, create PRs and merge them. Confirm your organization allows
+Agent Merge and that any required reviewer can approve your work.
+If these are unavailable, use the
 [local recovery steps](#local-recovery) and record that Agent Merge was not run.
+
+| Where you work | What you do there |
+|---|---|
+| **Cart: empty-state UX** session | Publish, review and merge the UI PR |
+| **Cart: boundary tests** session | Update, review and merge the test PR second |
+| **Cart: integration** session, created below | Test and preview the merged application |
+
+Use the [worksheet](/workshops/copilot-app/worksheet/#agent-merge-and-integration)
+to record each completed step.
 
 ## Inspect both results
 
@@ -40,8 +51,13 @@ and the test worker's test output.
 
 Use **`workshop-complete` as the integration branch**, not `main`: it already
 contains the accepted quantity fix, removal feature and query optimization.
-The workers started from this same version. In the session holding that
-reviewed base, ask Copilot:
+The workers started from this same version.
+Create one project session named **Cart: integration**, choosing **New worktree**
+and **`workshop-complete` as the base branch**. Keep this session for the rest
+of the chapter. If that base is unavailable, ask the facilitator rather than
+choosing `main`.
+
+In **Cart: integration**, ask Copilot:
 
 ```copilot
 Confirm origin is my own workshop repository, not the template repository.
@@ -53,81 +69,144 @@ If the remote branch already exists, compare it and ask before changing it.
 Do not push main, open a PR or merge anything yet.
 ```
 
-In each worker session, use its reviewed handoff to ask Copilot to publish
-**only that worker's branch** and create a PR with **`workshop-complete` as
-the base**. Review the proposed branch and repository before approving a push.
-Check the PR's base and head in the App: the UI PR should contain only the UI
-contribution, and the test PR only the boundary tests, not the earlier tickets.
-Do not start Agent Merge on either PR yet.
+## Open the two worker PRs
+
+**Base** means the branch receiving the changes: `workshop-complete`.
+**Head** means the worker branch supplying the changes.
+
+Paste this once in **Cart: empty-state UX**, then once in **Cart: boundary tests**:
+
+```copilot
+Confirm this session's branch tip equals its reviewed handoff commit and the
+working tree is clean. If not, stop for renewed review.
+Show my repository, this worker's branch and proposed PR target before pushing.
+After I approve, publish only this worker branch without force-pushing,
+then create a PR with base workshop-complete and head this worker branch.
+The diff must contain only this worker's contribution, not the earlier tickets.
+Do not enable Agent Merge or merge anything.
+```
+
+In each PR's overview, check the repository and branch names:
+**`base: workshop-complete` ← `head: your worker branch`**.
+Stop if the base shows `main` or the diff includes the earlier tickets.
 
 ## Merge the UI PR first
 
-1. Open the UI PR in the App and inspect its diff, preview evidence and CI
-   results. The template's **Shopping-cart checks** workflow runs on PRs to
-   this integration branch too. Confirm its **tests** job actually ran;
-   missing, failed or skipped tests are not a pass.
-2. In the UI worker's session, enable **Agent Merge** using the control at
-   the top. Review the allowed actions before authorizing fixes. Leave the
-   test PR's Agent Merge off.
-3. After reviewing the work, enable **Merge pull request** in the Agent Merge
-   options if your App shows that setting, confirm any permission prompt,
-   and explicitly authorize this PR:
+Open the UI PR in the App. Inspect its diff and CI results; use the UI worker's
+session for its preview evidence. The template's **Shopping-cart checks**
+workflow runs on this target branch too. Its **tests** job must actually pass.
+
+Return to **Cart: empty-state UX**. Open the dropdown beside **Create PR**
+(or **Agent Merge**, if already selected), choose **Agent Merge**, and inspect
+its options **before starting it**. First allow repairs only:
+leave **Merge pull request** unchecked. This is the option that grants merge
+permission. If you cannot confirm that merging is off, do not start it; ask
+the facilitator.
+
+Review the repair actions, then select the **Agent Merge** button to start it.
+Tell Copilot to fix blockers only within the UI worker's scope, preserve all
+acceptance tests and ask before any out-of-scope change. Do not authorize a
+merge yet. Leave the test PR's Agent Merge off.
+
+Review the UI PR's complete updated diff, including any repair commits, and
+its latest CI results. Once you accept the result, ask:
 
 ```copilot
-Use Agent Merge for this UI PR only, targeting workshop-complete in my repository.
-Merge once the tests job and all required checks and approvals pass.
-Preserve the acceptance tests and assigned scope. Do not bypass protections
-or change the PR base. Stop and ask if a fix needs changes outside this scope.
-Do not start or merge the boundary-test PR yet.
+Merge this reviewed UI PR into workshop-complete in my repository once the
+tests job and all required checks and approvals pass.
+Preserve the acceptance tests and UI worker scope. Do not bypass protections
+or change the PR base. Ask before any out-of-scope correction.
+Do not start or merge the boundary-test PR.
 ```
 
-Follow progress in the PR view. Review any new commits made to address checks,
-feedback or conflicts. If the combined diff is no longer acceptable, turn off
-merge permission and ask for a correction. Confirm the PR status is **Merged**;
-an enabled Agent Merge control or passing CI alone does not establish that.
+Enable **Merge pull request** in those Agent Merge options and confirm the
+App's authorization prompt. After authorization, Agent Merge may make further
+permitted repairs and merge without another review pause. Keep merging off
+if you need to inspect another correction first.
 
-## Check the result, then merge the test PR
+**Done when:** the UI PR's status is **Merged**, not merely green or waiting.
 
-Open an integration session from the **updated remote `workshop-complete`**
-branch. Ask Copilot to confirm that its checkout contains the merged UI PR and
-has no uncommitted changes, then run:
+<details markdown="1">
+<summary>If checks or merging do not progress</summary>
 
-```sh
-./mvnw -q test
+A queued or running **tests** job means wait. A failed job needs a correction.
+If no run appears, check your repository's **Actions** tab and whether Actions
+is enabled; ask the facilitator to trigger checks for the current PR revision.
+A skipped job is not a pass.
+
+A denied permission, disallowed Agent Merge or unavailable required approval
+is a blocker, not a reason to retry repeatedly or broaden permissions.
+If checks pass but the PR remains open, check **Merge pull request** and the
+PR's reported blockers. Never bypass repository rules.
+If you cannot proceed, turn off Agent Merge in the worker session and use
+[local recovery](#local-recovery).
+
+</details>
+
+## Check the UI merge
+{: #check-ui-merge}
+
+Return to **Cart: integration** and ask:
+
+```copilot
+Fetch origin in my own workshop repository. Use the latest remote
+origin/workshop-complete, not the possibly stale local workshop-complete.
+Fast-forward only this integration session's clean branch to that revision.
+If it has edits or cannot fast-forward, stop and ask; do not reset anything
+or change another session's checkout.
+Confirm it contains the UI PR's actual merged result, including a squash merge,
+not just whether the original worker commit is an ancestor.
+Run ./mvnw -q test and report the executed counts and any failures or skips.
 ```
 
-Stop and resolve failures before proceeding. Before previewing this checkout,
-stop the old shop with **Ctrl+C in its owning terminal**, then start the reviewed
-integration copy from its own directory:
+Stop if verification fails. Before previewing, stop the old shop with
+**Ctrl+C in the terminal that started it**. In the **Cart: integration**
+session's directory, start the reviewed copy:
 
 ```sh
 ./mvnw spring-boot:run
 ```
 
-Preview the empty cart's catalogue link with keyboard navigation and a narrow
-viewport.
+**Done when:** this checkout contains the UI merge, the original 12 tests pass
+without skips, and the empty-cart catalogue link works with a keyboard and
+a narrow viewport.
 
-Return to the test worker's PR. Keep **`workshop-complete` as its base**; do
-not reset that branch to the original shared starting point. Ask Copilot to
-update the test branch with the now-merged UI contribution, without discarding
-either worker's changes or force-pushing. Review any conflict resolution and
-run the full suite. Check fresh CI for the updated PR before granting merge
-permission.
+## Update and merge the test PR
 
-Enable Agent Merge for this second PR and explicitly authorize it to merge
-into `workshop-complete` only after the **tests** job and all required checks
-and approvals pass. Keep the same scope and protection boundaries as the UI
-PR. Confirm this PR is **Merged**, too.
+Return to **Cart: boundary tests**, not the integration session. Ask:
+
+```copilot
+Fetch origin and merge the latest origin/workshop-complete into this test
+worker branch. Keep the PR base workshop-complete and its head this worker branch.
+Do not reset workshop-complete or this branch, discard either worker's changes
+or force-push. Show any proposed conflict resolution for approval.
+Run ./mvnw -q test; stop if tests fail or any acceptance case is skipped.
+Show the updated diff and ask before pushing this branch to update its PR.
+Do not enable Agent Merge or merge the PR yet.
+```
+
+Review the updated test PR and **fresh CI for its new revision**. Use the same
+repair-only Agent Merge steps as for the UI PR, this time in **Cart: boundary
+tests**, with corrections limited to its test scope. Preserve the accepted UI.
+Review any repairs with **Merge pull request** still off. Then explicitly ask:
+
+```copilot
+Merge this reviewed boundary-test PR into workshop-complete in my repository
+once the tests job and all required checks and approvals pass.
+Preserve both workers' contributions, the 12 supplied acceptance tests and
+the boundary tests. Do not bypass protections or change the PR base.
+Ask before any correction outside the test worker's scope.
+```
+
+Enable **Merge pull request** and confirm the App's authorization prompt.
+**Done when:** this second PR is also **Merged**.
 
 ## Verify the combined application
 
-Ask Copilot to update the integration session to the latest remote
-`workshop-complete` without overwriting local work. Confirm it contains both
-merged PRs and is clean, then run the full suite again:
-
-```sh
-./mvnw -q test
-```
+Return to **Cart: integration**. Repeat the
+[synchronization and test prompt](#check-ui-merge), this time asking Copilot to
+confirm **both PRs' merged results** are included. Do not use a worker checkout
+or assume the local branch has updated itself.
 
 The full suite should now contain the original **12 tests plus the new boundary
 cases**, all executed with no failures/errors/skips. Check the reports for every
@@ -148,15 +227,21 @@ combined checks on the [worksheet](/workshops/copilot-app/worksheet/).
 <summary>Recovery: GitHub, CI or Agent Merge is unavailable</summary>
 
 Preserve the worker branches and any open PRs. Record the blocker and which
-PRs, if any, actually merged. Disable Agent Merge on open PRs before integrating
-locally, so it cannot merge them in the background. Do not bypass protections,
+PRs, if any, actually merged. Disable Agent Merge in each worker session with
+an open PR before integrating locally, so it cannot merge in the background.
+Do not bypass protections,
 invent CI results or report a local merge as Agent Merge completion.
 
-In your integration session based on **`workshop-complete`**, give Copilot the
-two reviewed handoffs and ask:
+Use **Cart: integration**. If it does not exist yet, create it with
+**New worktree**, based on local **`workshop-complete`**.
+Give Copilot both reviewed handoffs and ask:
 
 ```copilot
 Inspect the current integration branch, both handoffs and any PRs already merged.
+If GitHub is reachable, fetch origin and fast-forward this clean session
+to origin/workshop-complete first; ask if that would discard or conflict with work.
+Use actual PR merge results to recognize squash merges, not just worker ancestry.
+If remote status cannot be checked, record it as unknown.
 Preserve existing work; do not reset branches or merge a contribution twice.
 Merge the accepted UI contribution if it is not already included.
 Run ./mvnw -q test and stop if it fails.

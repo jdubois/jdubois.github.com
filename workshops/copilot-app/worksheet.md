@@ -72,10 +72,10 @@ merged result.
 | Field | Your observation |
 |---|---|
 | Own repository and integration target (`workshop-complete`, not `main`) | |
-| UI PR link, reviewed head and CI results | |
+| UI PR link, head (worker branch and reviewed commit) and CI results | |
 | UI PR merge authorization and actual status | |
 | Tests and preview after the UI merge | |
-| Boundary-test PR link, updated head and fresh CI results | |
+| Boundary-test PR link, head (worker branch and updated commit) and fresh CI results | |
 | Boundary-test PR merge authorization and actual status | |
 | Agent Merge corrections or conflicts reviewed | |
 | Final integration checkout, both contributions and full-suite results | |

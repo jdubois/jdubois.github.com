@@ -21,10 +21,15 @@ project/worktree creation, base selection, Plan/Interactive/Autopilot controls,
 Fusion availability, visible skill invocation, tool trust and MCP tool calls.
 Rehearse publishing `workshop-complete` to the participant's own repository,
 creating both worker PRs against it, and using Agent Merge sequentially with
-explicit merge permission. Confirm GitHub Actions is enabled, the template's
+repairs first and **Merge pull request** off until the learner has reviewed
+the result. Confirm GitHub Actions is enabled, the template's
 **Shopping-cart checks / tests** job runs on this non-default PR target, and
 the participant can merge under the repository's rules. Do not weaken rules
 to make the exercise proceed.
+Use one named **Cart: integration** session for combined checks. Rehearse
+fetching the latest remote integration branch and fast-forwarding that
+session's branch without touching another worktree. Include squash merges:
+the PR's merged result, not worker-commit ancestry alone, identifies what landed.
 Confirm the `/chronicle` picker and its cost-tips spelling in that build.
 App docs show `cost tips`; the CLI reference shows `cost-tips`.
 
@@ -93,6 +98,11 @@ their expected results are clear and their assertions remain unchanged.
 | GitHub, CI or Agent Merge unavailable | Use the integration chapter's local recovery; record Agent Merge as not completed |
 | Integration tests fail or CI is pending | Keep the second PR's Agent Merge off; record unfinished work and do not force a merge or skip checks |
 
+Distinguish queued/running CI from absent or failed runs. If no **tests** job
+appears, check Actions is enabled and arrange checks for the current PR revision.
+A policy denial or missing required approver is a blocker; repeated prompts
+or broader permissions are not a remedy.
+
 The main integration path uses two worker PRs targeting `workshop-complete`,
 not the starter on `main`. Merge the UI PR, check its combined result, then
 update and merge the test PR. Review any agent-authored corrections and verify
@@ -126,7 +136,13 @@ before the query session. These are local handoff branches, not permission to
 push to the template.
 Its `origin` points to the template, **not your personal repository**: do not
 push to it. To continue with personal GitHub delivery, configure your own remote
-deliberately. Stop the previous workshop app in its own terminal before starting
+deliberately after checking the participant's repository URL.
+For after-performance recovery, activate all three teaching test classes
+unchanged and confirm all 12 supplied tests pass before starting parallel work.
+Then follow the parallel chapter to create `workshop-complete` and both worker
+sessions from this accepted reference-based version. Never overwrite the
+participant's `main` or an existing handoff branch to connect the recovered work.
+Stop the previous workshop app in its own terminal before starting
 this reference. Record that the participant continued from a reference solution.
 
 | Git checkpoint | Reference | Pinned commit |

@@ -21,13 +21,17 @@ If continuing from a separate reference checkout, compare from **`v2-start`**
 instead and note that your work is based on the reference.
 Ask for a review without edits:
 
+The comparison starts at the **`workshop-start` tag**, not the PR's integration
+target. This only selects the diff to review; it does not move your code or
+change where a PR merges.
+
 ```copilot
 Review the full starter-to-current change, including committed tickets,
 staged/unstaged edits and new files, for cart behavior, validation, server
 prices, removal, the query change and both parallel workers' contributions.
-Use workshop-start as the base
+Use workshop-start as the comparison starting point only
 (v2-start only in a separate reference checkout).
-Do not edit yet. Identify concrete regressions or missing evidence,
+Do not edit, reset branches or retarget PRs. Identify concrete regressions or missing evidence,
 not style preferences.
 ```
 
