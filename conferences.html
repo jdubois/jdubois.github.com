@@ -1,42 +1,43 @@
 ---
 layout: default
-title: Conferences
-description: "Julien Dubois speaks at conferences worldwide (Devoxx, Spring One, and more) on Java, Spring, Open Source, and AI — mostly live-coding sessions and workshops."
+title: Conferences and workshops
+description: "Conference talks, hands-on workshops and videos by Julien Dubois on Java, open source and AI. Find slides, code and workshop guides."
 ---
 
-<div class="content-section">
-    <h1>Conferences</h1>
+<!--
+THESIS: A ruled resource index, not a grid of cards.
+OWN-WORLD: Existing ink, cobalt, typography and native disclosures.
+STORY: Find a talk and slides, start a workshop, then watch recordings.
+FIRST VIEWPORT: Full-width introduction above talks beside a large, uncropped stage portrait.
+FORM: User-selected editorial proposal A; sections stay in document order.
+-->
+<div class="content-section conferences-page">
+    <header class="conferences-header">
+        <div>
+            <h1>Conferences &amp; workshops</h1>
+            <p>Java, open source and AI &mdash; on stage, hands-on, and on video.</p>
+            <nav class="conferences-jump-nav" aria-label="On this page">
+                <a href="#conferences">Conferences</a>
+                <a href="#workshops">Workshops</a>
+                <a href="#videos">Videos</a>
+            </nav>
+        </div>
+    </header>
+    <img src="/img/photos/julien-dubois-devoxx.png" class="conferences-portrait" alt="Julien Dubois speaking at Devoxx" width="500" height="750" decoding="async" />
 
-    <div class="row">
-        <div class="col-lg-8">
-            <p>
-                I am a frequent speaker at conferences (Devoxx, Spring One, etc) and user groups around the world.
-            </p>
-            <p>
-                My main topics are on Java, JHipster, Spring, Azure and AI: most of my talks are live-coding sessions or workshops, where I show how to build applications using the Open Source projects I contribute to.
-            </p>
+    <section id="conferences" class="conferences-section" aria-labelledby="conferences-title">
+        <h2 id="conferences-title">Conferences</h2>
+        <p class="conferences-intro">Current talks, with slides and expandable abstracts. Available in English or French.</p>
 
-            <h2>Current talks</h2>
-
-            <p>
-                <em>My talks are always adapted to the audience, and updated until the last minute, so these are just general abstracts. They can be delivered in English or French.</em>
-            </p>
-
+        <article class="conference-talk">
             <details class="talk">
                 <summary>
                     <h3>Building with AI agents: 223 pull requests in 11 days</h3>
+                </summary>
+                <div class="talk-body">
                     <p>
                         A side project I never had time to build shipped in just 11 days &mdash; 223 merged pull requests, mostly written by AI agents working in parallel while I reviewed, guided, and merged. This talk breaks down how it was done, and whether it really counts.
                     </p>
-                    <p class="talk-slides">Full talk:
-                        <a href="/conferences/building-with-ai-agents/index-en.html" target="_blank">English</a>
-                    </p>
-                    <p class="talk-slides">Short talk:
-                        <a href="/conferences/building-with-ai-agents-light/index-en.html" target="_blank">English</a>
-                        <a href="/conferences/building-with-ai-agents-light/index-fr.html" target="_blank">French</a>
-                    </p>
-                </summary>
-                <div class="talk-body">
                     <p>
                         Drawing on the measured facts behind a real 11-day sprint, we'll walk through a practical playbook for building with AI agents:
                     </p>
@@ -52,18 +53,27 @@ description: "Julien Dubois speaks at conferences worldwide (Devoxx, Spring One,
                     </p>
                 </div>
             </details>
+            <p class="conference-talk-description">A side project I never had time to build shipped in just 11 days &mdash; 223 merged pull requests, mostly written by AI agents working in parallel while I reviewed, guided, and merged.</p>
+            <div class="conference-slides">
+                <p class="talk-slides">Full talk:
+                    <a href="/conferences/building-with-ai-agents/index-en.html" target="_blank" rel="noopener">English</a>
+                </p>
+                <p class="talk-slides">Short talk:
+                    <a href="/conferences/building-with-ai-agents-light/index-en.html" target="_blank" rel="noopener">English</a>
+                    <a href="/conferences/building-with-ai-agents-light/index-fr.html" target="_blank" rel="noopener">French</a>
+                </p>
+            </div>
+        </article>
 
+        <article class="conference-talk">
             <details class="talk">
                 <summary>
                     <h3>Introduction to BootUI</h3>
+                </summary>
+                <div class="talk-body">
                     <p>
                         Your Java application already knows everything about itself &mdash; how its beans are wired, what SQL it just ran, which configuration actually won. You just can't see any of it. BootUI is an Open Source developer console that makes a Spring Boot or Quarkus application's running process legible. Start with one dependency; add the optional Java agent for deeper instrumentation.
                     </p>
-                    <p class="talk-slides">Slides:
-                        <a href="/conferences/bootui/index-en.html" target="_blank">English</a>
-                    </p>
-                </summary>
-                <div class="talk-body">
                     <p>In this session, we'll cover:</p>
                     <ul>
                         <li>BootUI 2.2.0: an embedded console at <code>/bootui</code>, with one starter for Spring MVC and WebFlux, or a Quarkus extension &mdash; no sidecar or mandatory Java agent</li>
@@ -77,19 +87,23 @@ description: "Julien Dubois speaks at conferences worldwide (Devoxx, Spring One,
                     </p>
                 </div>
             </details>
+            <p class="conference-talk-description">Your Java application already knows everything about itself &mdash; how its beans are wired, what SQL it just ran, which configuration actually won.</p>
+            <div class="conference-slides">
+                <p class="talk-slides">Slides:
+                    <a href="/conferences/bootui/index-en.html" target="_blank" rel="noopener">English</a>
+                </p>
+            </div>
+        </article>
 
+        <article class="conference-talk">
             <details class="talk">
                 <summary>
                     <h3>AI code generation in Java</h3>
+                </summary>
+                <div class="talk-body">
                     <p>
                         Generative AI has transformed software development. In just a few years, we've moved from basic code completion to fully autonomous coding agents that read your project, write code, run tests, and fix their own mistakes.
                     </p>
-                    <p class="talk-slides">Slides:
-                        <a href="/conferences/code-generation/index-en.html" target="_blank">English</a>
-                        <a href="/conferences/code-generation/index-fr.html" target="_blank">French</a>
-                    </p>
-                </summary>
-                <div class="talk-body">
                     <p>In this session, we'll cover:</p>
                     <ul>
                         <li>The rapid evolution of AI agents: from completion to autonomy, with agent mode, plan mode, and parallel agents using Git worktrees</li>
@@ -103,120 +117,70 @@ description: "Julien Dubois speaks at conferences worldwide (Devoxx, Spring One,
                     </p>
                 </div>
             </details>
+            <p class="conference-talk-description">Generative AI has transformed software development.</p>
+            <div class="conference-slides">
+                <p class="talk-slides">Slides:
+                    <a href="/conferences/code-generation/index-en.html" target="_blank" rel="noopener">English</a>
+                    <a href="/conferences/code-generation/index-fr.html" target="_blank" rel="noopener">French</a>
+                </p>
+            </div>
+        </article>
 
-            <details class="talk">
-                <summary>
-                    <h3>Hackathon: From coder to manager of agents</h3>
-                    <p>
-                        At a hackathon, the winner isn't whoever types fastest &mdash; it's whoever ships the most. This talk shows how to flip from writing every line yourself to managing a fleet of GitHub Copilot agents that build in parallel while you sleep, and how to out-ship the room because of it.
-                    </p>
-                    <p class="talk-slides">Slides:
-                        <a href="/conferences/winning-the-hackathon/index-en.html" target="_blank">English</a>
-                        <a href="/conferences/winning-the-hackathon/index-fr.html" target="_blank">French</a>
-                    </p>
-                </summary>
-                <div class="talk-body">
-                    <p>
-                        Drawing on a month of real GitHub activity &mdash; hundreds of merged pull requests and billions of tokens across 11 models &mdash; we'll walk through a concrete 24-hour playbook:
-                    </p>
-                    <ul>
-                        <li>The mindset shift: from developer to <em>manager of agents</em> &mdash; you don't type faster, you ship wider</li>
-                        <li>Prep in the evening: write the house rules in <code>AGENTS.md</code>, give every agent a build + test harness, and set clear guardrails</li>
-                        <li>Build overnight: run several agents in parallel, each looping on its own branch / worktree &mdash; build, test, open a PR, pick up the next task</li>
-                        <li>Review over coffee: triage tens of PRs, merge the wins, drop or re-task the rest, then relaunch for the day</li>
-                        <li>Guardrails that keep it safe: tests before trust, small reviewable PRs, the right model for each task, and reusable skills</li>
-                    </ul>
-                    <p>
-                        Language-agnostic and demo-driven: the playbook applies whatever your stack. Expect concrete, opinionated advice from really shipping with parallel AI agents.
-                    </p>
-                </div>
-            </details>
+        <p class="conferences-archive">Earlier presentations: <a href="https://www.slideshare.net/julien.dubois/presentations" target="_blank" rel="noopener">SlideShare archive</a>.</p>
+    </section>
 
-            <details class="talk">
-                <summary>
-                    <h3>Workshop: investigate and fix a running application with BootUI</h3>
-                    <p>
-                        A three-hour, hands-on workshop where you use BootUI to understand a running Java application, find problems from runtime evidence, and verify a focused fix with an AI coding agent.
-                    </p>
-                    <p class="talk-links">Links:
-                        <a href="https://www.julien-dubois.com/boot-ui/workshop" target="_blank">Workshop</a>
-                        <a href="https://github.com/jdubois/boot-ui" target="_blank">Code</a>
-                    </p>
-                </summary>
-                <div class="talk-body">
-                    <p>
-                        Starting from a small Spring Boot order service, you will:
-                    </p>
-                    <ul>
-                        <li>Explore configuration and bean wiring to understand how the application runs</li>
-                        <li>Follow requests, SQL and exceptions through the runtime journal, including a failure hidden behind an HTTP 200 response</li>
-                        <li>Read Runtime Insights, check their coverage limits, and use Java instrumentation to inspect executed methods and asynchronous work</li>
-                        <li>Assess the impact of a proposed change, then approve a targeted fix with an AI coding agent</li>
-                        <li>Exercise the application again and compare runs to prove the changed method ran and unnecessary database work was reduced</li>
-                    </ul>
-                    <p>
-                        The timed exercises use Spring MVC, H2 and an in-memory cache; the closing chapter covers WebFlux and Quarkus portability. Basic Java and Maven familiarity is expected, and setup should be completed before the session. Docker and external databases are not required.
-                    </p>
-                </div>
-            </details>
+    <section id="workshops" class="conferences-section" aria-labelledby="workshops-title">
+        <h2 id="workshops-title">Workshops</h2>
+        <p class="conferences-intro">Practical workshops you can follow online or bring to an event.</p>
 
-            <details class="talk">
-                <summary>
-                    <h3>Workshop: build a Spring Boot application with an AI agent</h3>
-                    <p>
-                        A hands-on workshop where you build a complete Spring Boot 4 + Vue.js application from scratch, entirely by talking to an AI coding agent, using the <code>dr-jskill</code> Agent Skill and GitHub Copilot CLI.
-                    </p>
-                    <p class="talk-links">Links:
-                        <a href="https://www.julien-dubois.com/dr-jskill/workshop" target="_blank">Workshop</a>
-                    </p>
-                </summary>
-                <div class="talk-body">
-                    <p>
-                        No prior Spring Boot experience is required &mdash; just a terminal and an editor. Over ten chapters, each ending with a checkpoint, you will:
-                    </p>
-                    <ul>
-                        <li>Install the toolchain: Node.js, Java, Docker, GitHub Copilot CLI, and the <code>dr-jskill</code> Agent Skill</li>
-                        <li>Generate a full Todo application from a single prompt: REST API, Hibernate, PostgreSQL, Vue.js front-end, and Docker for local development</li>
-                        <li>Explore the anatomy of the generated code, then extend it with a user system and per-user filtering</li>
-                        <li>Polish the front-end, add unit and integration tests, and tune performance</li>
-                        <li>Deploy it: run in Docker, build a native image, and outline a cloud deployment</li>
-                    </ul>
-                    <p>
-                        You leave knowing how to drive an AI coding agent to produce real, production-shaped Spring Boot applications &mdash; and how to understand and extend the code it writes.
-                    </p>
-                </div>
-            </details>
+        <article class="conference-workshop">
+            <div>
+                <h3>GitHub Copilot App</h3>
+                <p>Fix a shopping-cart bug, generate a feature, investigate an N+1 query through MCP, coordinate parallel sessions, and improve your workflow with Chronicle.</p>
+                <span class="conference-workshop-meta">Java &middot; Copilot App &middot; MCP</span>
+            </div>
+            <div class="conference-resource-actions">
+                <a class="conference-primary-link" href="/workshops/copilot-app/" aria-label="Start the GitHub Copilot App workshop">Start workshop <span aria-hidden="true">&rarr;</span></a>
+                <a href="https://github.com/jdubois/copilot-shopping-cart-workshop" target="_blank" rel="noopener" aria-label="GitHub Copilot App workshop template code">Code</a>
+            </div>
+        </article>
 
-            <h2>Videos</h2>
+        <article class="conference-workshop">
+            <div>
+                <h3>Investigate a running application with BootUI</h3>
+                <p>Use runtime evidence to understand a Java application, find a problem and verify a focused fix with an AI coding agent.</p>
+                <span class="conference-workshop-meta">3-hour workshop &middot; Java &middot; Runtime debugging</span>
+            </div>
+            <div class="conference-resource-actions">
+                <a class="conference-primary-link" href="https://www.julien-dubois.com/boot-ui/workshop" target="_blank" rel="noopener" aria-label="Start the BootUI workshop">Start workshop <span aria-hidden="true">&rarr;</span></a>
+                <a href="https://github.com/jdubois/boot-ui" target="_blank" rel="noopener" aria-label="BootUI source code">Code</a>
+            </div>
+        </article>
 
-            <p>
-                Here is <a href="https://www.youtube.com/playlist?list=PLCJhCeRfMgNJtjA9ROXKwR-6QtkYCeXK5" target="_blank">a list of YouTube videos</a> with my talks, that I try to update frequently.
-            </p>
+        <article class="conference-workshop">
+            <div>
+                <h3>Build a Spring Boot application with Dr JSkill</h3>
+                <p>Build a Spring Boot and Vue.js application by talking to an AI coding agent, then extend, test and deploy it.</p>
+                <span class="conference-workshop-meta">Spring Boot &middot; Vue.js &middot; Copilot CLI</span>
+            </div>
+            <div class="conference-resource-actions">
+                <a class="conference-primary-link" href="https://www.julien-dubois.com/dr-jskill/workshop" target="_blank" rel="noopener" aria-label="Start the Dr JSkill workshop">Start workshop <span aria-hidden="true">&rarr;</span></a>
+            </div>
+        </article>
 
-            <h2>Workshops</h2>
+        <p class="conferences-archive">More workshop code on <a href="https://github.com/jdubois" target="_blank" rel="noopener">GitHub</a>.</p>
+    </section>
 
-            <p>
-                Most of my work is done through workshops, so if you attended one and are looking for the code, it's very probably available on <a href="https://github.com/jdubois" target="_blank">my GitHub page</a>.
-            </p>
-
-            <p>
-                The <a href="/workshops/copilot-app/">GitHub Copilot App workshop</a> is a hands-on workshop: fix a shopping-cart bug, generate a feature, investigate an N+1 query through MCP, coordinate parallel sessions, and improve token usage with Chronicle. A pilot edition is available here.
-            </p>
-
-            <p>
-                My <a href="https://www.julien-dubois.com/boot-ui/workshop" target="_blank">BootUI workshop</a> is freely available online: investigate a running application and verify a fix with an AI coding agent.
-            </p>
-
-            <p>
-                My <a href="https://www.julien-dubois.com/dr-jskill/workshop" target="_blank">Dr JSkill workshop</a> is freely available online, so you can also follow it on your own.
-            </p>
-
-            <h2>Presentations</h2>
-
-            <p>Most of my talks are live-coding sessions, but when I do presentations they are uploaded on <a href="https://www.slideshare.net/julien.dubois/presentations" target="_blank">my Slideshare account</a>.</p>
+    <section id="videos" class="conferences-section" aria-labelledby="videos-title">
+        <h2 id="videos-title">Videos</h2>
+        <div class="conference-video">
+            <div>
+                <p class="conference-video-title">Watch the talks</p>
+                <p>Conference recordings, collected in one YouTube playlist.</p>
+            </div>
+            <a class="conference-primary-link" href="https://www.youtube.com/playlist?list=PLCJhCeRfMgNJtjA9ROXKwR-6QtkYCeXK5" target="_blank" rel="noopener">Open video playlist <span aria-hidden="true">&rarr;</span></a>
         </div>
-        <div class="col-lg-4">
-            <img src="/img/photos/julien-dubois-devoxx.png" class="profile-image" alt="Julien Dubois at Devoxx" width="500" height="750" decoding="async" />
-        </div>
-    </div>
+    </section>
+
+    <p class="conferences-contact">Organizing an event? <a href="/contact">Get in touch</a>.</p>
 </div>
