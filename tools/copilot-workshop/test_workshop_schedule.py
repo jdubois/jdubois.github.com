@@ -128,6 +128,46 @@ class WorkshopScheduleTests(unittest.TestCase):
                  re.findall(r"^  slug: (.*)$", navigation, re.MULTILINE)]
         self.assertEqual(slugs[:len(SEQUENCE)], SEQUENCE)
 
+    def test_integration_uses_sequential_agent_merge_with_correct_target(self):
+        integration = chapter("integrate")
+        for text in [
+                "**`workshop-complete` as the integration branch**, not `main`",
+                "## Merge the UI PR first",
+                "## Check the result, then merge the test PR",
+                "## Verify the combined application",
+                "Leave the\n   test PR's Agent Merge off.",
+                "Confirm the PR status is **Merged**",
+                "original **12 tests plus the new boundary",
+                "all required checks\nand approvals pass",
+                "without discarding\neither worker's changes or force-pushing"]:
+            with self.subTest(requirement=text):
+                self.assertIn(text, integration)
+        self.assertLess(integration.index("## Merge the UI PR first"),
+                        integration.index("## Check the result, then merge the test PR"))
+        self.assertLess(integration.index("## Check the result, then merge the test PR"),
+                        integration.index("## Verify the combined application"))
+        self.assertEqual(integration.count("\n./mvnw -q test\n"), 2)
+        self.assertNotIn("--no-ff", integration)
+
+    def test_agent_merge_prerequisites_recovery_and_handoff_are_consistent(self):
+        setup = chapter("setup")
+        for text in ["GitHub Actions", "create PRs and merge them", "local recovery"]:
+            self.assertIn(text, setup)
+        self.assertIn("Agent Merge", chapter(""))
+        self.assertIn("Do not let the workers open or merge PRs yet", chapter("parallel"))
+        self.assertIn("## Integrate with Agent Merge", chapter("prompts"))
+        for slug in ["integrate", "worksheet"]:
+            with self.subTest(chapter=slug):
+                self.assertIn("Agent Merge not completed: local recovery used", chapter(slug))
+        recovery = chapter("integrate").split('<summary>Recovery:', 1)[1]
+        self.assertIn("Disable Agent Merge on open PRs", recovery)
+        self.assertIn("Do not push, merge remote PRs or enable Agent Merge", recovery)
+        self.assertIn("two worker PRs targeting `workshop-complete`", chapter("facilitator"))
+        finish = chapter("finish")
+        self.assertIn("not `main`", finish)
+        self.assertNotIn("## Optional GitHub delivery", finish)
+        self.assertNotIn("No remote PR is required", finish)
+
     def test_alternative_route_instructions_are_removed(self):
         paths = list(HANDBOOK.glob("*.md")) + [
             ROOT / "conferences.html", ROOT / "_includes/copilot-workshop-nav.html"

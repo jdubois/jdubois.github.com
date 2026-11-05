@@ -41,7 +41,7 @@ below. Preview repeated adds, removal, empty state and the sample cart.
 | Fixed repeated additions | Notebook added twice → quantity 2 / €20, persists after reload; regression tests pass |
 | Generated removal | Correct DELETE response, working button, other products and totals preserved |
 | Investigated N+1 | Matched MCP before/after request profiles, same workload, query tests green |
-| Coordinated parallel work | Two isolated sessions with the same starting point, reviewed commits and a tested merged result |
+| Coordinated parallel work | Two isolated sessions with the same starting point, two reviewed PRs merged sequentially with Agent Merge, and a tested combined result; or an explicit local-recovery record |
 | Reviewed token usage | Chronicle report or a note that it was unavailable/not run, plus one improvement based on the workshop sessions |
 | Used Copilot App effectively | Reviewed plan, loaded skills, inspected changed files and checked test output |
 
@@ -69,13 +69,15 @@ Review them in **Changes**, then ask it to commit only the accepted changes
 and provide a concise handoff:
 what changed, what was checked, what is still unknown.
 
-## Optional GitHub delivery
+## Where your result lives
 
-Your template-created repository belongs to you. If access and Actions are
-available, use the App to open a PR,
-review its diff and inspect CI results. Passing local tests does not mean CI has
-passed; wait for its results and resolve failures before declaring the PR ready.
-No remote PR is required for local completion.
+The integration exercise landed the two worker PRs on **`workshop-complete`**,
+not `main`. Review that combined branch in your integration session and retain
+both PR links and CI results. No additional PR to `main` is required.
+
+If you used local recovery, keep the local combined branch and record the
+GitHub, CI or Agent Merge blocker. Do not describe open PRs as merged or local
+results as completed CI checks. Record any unfinished work in the handoff.
 
 ## Keep one useful habit
 
@@ -90,5 +92,5 @@ how you work. None replaces your judgment.
 
 - Ask Copilot to review the entire change from **workshop-start**, including earlier commits, current edits and new files.
 - Use **Changes**, test output and a shop preview to assess the result, and record unfinished work or unverified features.
-- Prepare a concise handoff and, if you open a PR through the App, distinguish local results from completed CI checks.
+- Prepare a concise handoff with the integration branch, actual PR/CI status and any local recovery or unfinished work.
 - Carry forward one improved Copilot habit from the workshop, such as a clearer initial prompt or more focused context.

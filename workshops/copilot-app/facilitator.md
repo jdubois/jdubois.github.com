@@ -19,6 +19,12 @@ Before presenting the workshop, rehearse with the App version and accounts you
 will use:
 project/worktree creation, base selection, Plan/Interactive/Autopilot controls,
 Fusion availability, visible skill invocation, tool trust and MCP tool calls.
+Rehearse publishing `workshop-complete` to the participant's own repository,
+creating both worker PRs against it, and using Agent Merge sequentially with
+explicit merge permission. Confirm GitHub Actions is enabled, the template's
+**Shopping-cart checks / tests** job runs on this non-default PR target, and
+the participant can merge under the repository's rules. Do not weaken rules
+to make the exercise proceed.
 Confirm the `/chronicle` picker and its cost-tips spelling in that build.
 App docs show `cost tips`; the CLI reference shows `cost-tips`.
 
@@ -84,7 +90,16 @@ their expected results are clear and their assertions remain unchanged.
 | Integration unfinished | Preserve the state and record missing evidence |
 | Chronicle unavailable/indexing | Review the workshop transcript; record that usage analysis was unavailable |
 | Work remains at handoff | Record limitations; do not claim complete delivery |
-| Integration tests fail or CI is pending | Record unfinished work; do not force a merge or skip checks |
+| GitHub, CI or Agent Merge unavailable | Use the integration chapter's local recovery; record Agent Merge as not completed |
+| Integration tests fail or CI is pending | Keep the second PR's Agent Merge off; record unfinished work and do not force a merge or skip checks |
+
+The main integration path uses two worker PRs targeting `workshop-complete`,
+not the starter on `main`. Merge the UI PR, check its combined result, then
+update and merge the test PR. Review any agent-authored corrections and verify
+the final checkout includes both merged contributions. The workshop finishes
+on the integration branch; no third PR is required. If recovery is needed
+after a partial merge, disable Agent Merge on open PRs and preserve both
+remote and local work before continuing locally.
 
 ### Recover without losing work
 

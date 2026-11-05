@@ -66,3 +66,21 @@ limitations. Both must start from `workshop-complete`; let Copilot capture the
 commit details. Only record a preview or runtime result if that worker ran the
 matching application. Mark integration checks **pending** until you test the
 merged result.
+
+## Agent Merge and integration
+
+| Field | Your observation |
+|---|---|
+| Own repository and integration target (`workshop-complete`, not `main`) | |
+| UI PR link, reviewed head and CI results | |
+| UI PR merge authorization and actual status | |
+| Tests and preview after the UI merge | |
+| Boundary-test PR link, updated head and fresh CI results | |
+| Boundary-test PR merge authorization and actual status | |
+| Agent Merge corrections or conflicts reviewed | |
+| Final integration checkout, both contributions and full-suite results | |
+| Recovery used, open PRs and unfinished work | |
+
+Keep the PRs sequential. A running agent, local test pass or enabled merge
+permission is not confirmation that GitHub merged the PR. If using local
+recovery, record **Agent Merge not completed: local recovery used**.

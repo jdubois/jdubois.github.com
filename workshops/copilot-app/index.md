@@ -54,7 +54,7 @@ and ask for help whenever you need it.
 4. [Generate the remove-item feature](/workshops/copilot-app/generate/).
 5. [Investigate the N+1 query through MCP](/workshops/copilot-app/tools/).
 6. [Work in two isolated sessions](/workshops/copilot-app/parallel/) to improve the empty-cart experience and add boundary tests.
-7. [Review and integrate](/workshops/copilot-app/integrate/) one branch at a time.
+7. [Review and integrate](/workshops/copilot-app/integrate/) the two worker PRs with Agent Merge, one at a time.
 8. [Improve token usage with Chronicle](/workshops/copilot-app/tokens/) using the workshop sessions.
 9. [Review the full change and hand off](/workshops/copilot-app/finish/#final-review).
 
@@ -62,6 +62,8 @@ and ask for help whenever you need it.
 
 You need JDK 21+, Git and a supported Copilot App account. Create your own
 repository from the template; the three Java skills are already included.
+The integration exercise also needs GitHub Actions and permission to push
+branches and merge PRs; local recovery is documented for blocked participants.
 The skills chapter also explains how to install them in another project.
 Keep the [prompt cards](/workshops/copilot-app/prompts/) and
 [worksheet](/workshops/copilot-app/worksheet/) nearby.

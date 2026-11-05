@@ -98,3 +98,24 @@ and exactly 99 units. Do not change production code or existing tests.
 Run the new cases and full suite. Commit and report branch/SHA,
 executed counts and any real defect you found.
 ```
+
+## Integrate with Agent Merge
+
+Follow the [integration chapter](/workshops/copilot-app/integrate/) to publish
+`workshop-complete` and open both reviewed worker PRs against it. Use this card
+in the **UI worker's session first**, not in both sessions at once:
+
+```copilot
+Check this PR targets workshop-complete in my own workshop repository,
+not main or the template repository. Show its current diff and CI results.
+Do not enable merge permission yet. After I review and explicitly authorize
+the merge, use Agent Merge for this PR only.
+Require the tests job and all required checks and approvals to pass.
+Preserve the 12 supplied tests, worker scope and repository protections.
+Ask before any out-of-scope correction. Report Merged only when GitHub
+confirms it. Do not start the second PR.
+```
+
+After the UI PR is merged and its combined result checked, use the same
+review process for the boundary-test PR against the updated integration branch.
+Verify both merged contributions together before continuing.
