@@ -98,3 +98,18 @@ and exactly 99 units. Do not change production code or existing tests.
 Run the new cases and full suite. Commit and report branch/SHA,
 executed counts and any real defect you found.
 ```
+
+## Integrate with Agent Merge
+
+Follow the [integration chapter](/workshops/copilot-app/integrate/) to publish
+`workshop-complete`. Use its [PR creation prompt](/workshops/copilot-app/integrate/#open-the-two-worker-prs)
+once in each worker session. **Base** is the receiving branch,
+`workshop-complete`; **head** is that worker's branch.
+
+Use the chapter's [UI PR steps](/workshops/copilot-app/integrate/#merge-the-ui-pr-first)
+first: allow repairs with **Merge pull request** off, review the result,
+then explicitly authorize merging.
+After checking the merged UI in **Cart: integration**, use the separate
+[test PR prompts](/workshops/copilot-app/integrate/#update-and-merge-the-test-pr).
+Do not reuse the UI authorization prompt for the test PR.
+Return to **Cart: integration** to verify both merged results.

@@ -57,6 +57,9 @@ finished; these tasks do not need additional BootUI work.
 
 Before integration, preserve unfinished branches and review what is actually
 ready. Ask for help if either worker is blocked.
+Do not let the workers open or merge PRs yet. In the next chapter, you will
+publish the shared `workshop-complete` branch, target both worker PRs at it,
+and use **Agent Merge** one PR at a time.
 
 ## What you have learned
 

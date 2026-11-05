@@ -53,6 +53,17 @@ The three skills are **already installed** in `.github/skills/`.
 The [skills chapter](/workshops/copilot-app/skills/) explains how to load them
 and install them in another project.
 
+The [integration exercise](/workshops/copilot-app/integrate/) uses **Agent Merge**
+with two PRs in your own repository. Enable **GitHub Actions** and confirm you
+can push branches, create PRs and merge them under your repository's rules.
+Check that your organization allows Agent Merge and that any required
+reviewer can approve your PRs. A policy denial or unavailable required
+approval is a blocker, not a reason to broaden permissions.
+The template includes the **Shopping-cart checks** workflow. Never weaken
+organization policies or branch protections for the workshop; ask the
+facilitator for help or use the integration chapter's local recovery steps
+if GitHub, CI or Agent Merge is unavailable.
+
 Let Copilot check the checkout and preserve your starting point:
 
 ```copilot
