@@ -639,9 +639,270 @@ ul li {
     margin-top: 0;
 }
 
+/* Editorial conferences and workshop index */
+.conferences-page {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    grid-template-areas:
+        "heading heading"
+        "talks portrait"
+        "workshops workshops"
+        "videos videos"
+        "contact contact";
+    column-gap: 3rem;
+    padding-top: 2.75rem;
+}
+
+.conferences-header {
+    grid-area: heading;
+    padding-bottom: 2rem;
+}
+
+.conferences-header > div {
+    min-width: 0;
+}
+
+.conferences-header h1 {
+    margin-top: 0;
+}
+
+.conferences-header p {
+    margin-bottom: 0.75rem;
+}
+
+.conferences-portrait {
+    grid-area: portrait;
+    align-self: start;
+    margin-top: 1.75rem;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+}
+
+.conferences-page > #conferences {
+    grid-area: talks;
+}
+
+.conferences-page > #workshops {
+    grid-area: workshops;
+}
+
+.conferences-page > #videos {
+    grid-area: videos;
+}
+
+.conferences-jump-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-top: 0.75rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+}
+
+.conferences-jump-nav a,
+.conference-slides a,
+.conference-resource-actions a,
+.conference-video > a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+}
+
+.conferences-section {
+    padding: 1.75rem 0 0.5rem;
+    scroll-margin-top: 100px;
+}
+
+.conferences-section > h2 {
+    margin: 0 0 0.75rem;
+    font-size: 2rem;
+}
+
+.conferences-intro {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+.conference-talk {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.conferences-page .talk {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+}
+
+.conferences-page .talk > summary {
+    min-height: 2.75rem;
+    padding: 0 2.125rem 0.5rem 0;
+    border: 0;
+    border-radius: 0;
+}
+
+.conferences-page .talk > summary h3 {
+    margin: 0;
+    max-width: 55ch;
+    font-size: 1.3125rem;
+}
+
+.conferences-page .talk > summary::after {
+    top: 0.5rem;
+    right: 0.25rem;
+}
+
+.conferences-page .talk[open] > summary h3 {
+    color: var(--primary-color);
+}
+
+.conferences-page .talk-body {
+    padding: 0 0 0.75rem;
+    font-size: 1rem;
+}
+
+.conference-talk-description {
+    max-width: 74ch;
+    margin-bottom: 0.5rem;
+    font-size: 0.9375rem;
+}
+
+.conference-talk:has(.talk[open]) > .conference-talk-description {
+    display: none;
+}
+
+.conference-slides .talk-slides {
+    margin: 0;
+    font-size: 0.875rem;
+}
+
+.conference-slides a {
+    margin-left: 0.5rem;
+    padding: 0 0.25rem;
+}
+
+.conference-workshop {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 11rem;
+    gap: 2.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.conference-workshop h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.4375rem;
+}
+
+.conference-workshop p {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.conference-workshop-meta {
+    font: 0.75rem/1.8 var(--font-mono);
+    color: var(--mono-meta);
+}
+
+.conference-resource-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.125rem;
+    font-size: 0.875rem;
+}
+
+.conference-primary-link {
+    gap: 0.25rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.conference-video {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.5rem;
+    background: var(--bg-light);
+    border-radius: 10px;
+}
+
+.conference-video p {
+    margin: 0;
+    font-size: 0.9375rem;
+}
+
+.conference-video .conference-video-title {
+    margin-bottom: 0.25rem;
+    font-family: var(--font-display);
+    font-size: 1.3125rem;
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.conferences-archive,
+.conferences-contact {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.conferences-contact {
+    grid-area: contact;
+    margin-top: 2.25rem;
+}
+
+@media (max-width: 767px) {
+    .conferences-page {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "heading"
+            "talks"
+            "workshops"
+            "videos"
+            "contact";
+        column-gap: 0;
+        padding-top: 1.5rem;
+    }
+
+    .conferences-portrait {
+        display: none;
+    }
+
+    .conferences-jump-nav {
+        gap: 1.25rem;
+    }
+
+    .conferences-section > h2 {
+        font-size: 1.75rem;
+    }
+
+    .conference-workshop {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.25rem;
+    }
+
+    .conference-resource-actions {
+        flex-direction: row;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .conference-video {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .talk,
-    .talk > summary h2,
+    .talk > summary h3,
     .talk > summary::after,
     .skip-link {
         transition: none;

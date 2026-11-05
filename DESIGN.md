@@ -174,6 +174,18 @@ A **layered** system that is **flat at rest**. Surfaces sit on the page with at 
 - **Border:** 1px hairline at rest; the border turns **cobalt** when the card is open.
 - **Internal Padding:** 1.5rem 1.75rem on the summary; a rotating chevron (45°→-135°) signals open state.
 
+The conferences page uses a flat, ruled variant: talk titles open native
+abstract disclosures, while slide links remain separate and visible.
+Workshop rows pair a short description with direct workshop and code links.
+The page follows **Conferences → Workshops → Videos**, with jump links near the
+title and resource actions below the descriptions on narrow screens.
+On wider screens, the title and introduction span the full page width. A large,
+uncropped portrait sits to the right of the Conferences section, aligned with
+its heading; Workshops and Videos span the full page width below.
+Its compact index typography uses 21px talk titles, 23px workshop titles,
+15–16px summaries, 14–15px resource links and 12px monospace metadata.
+Section headings are 32px, reduced to 28px on narrow screens.
+
 ### Navigation
 - **Style:** Fixed white Bootstrap 5 navbar with a hairline bottom border and shadow-sm; brand wordmark in ink.
 - **States:** Links are ink at 500 weight; hover → cobalt; the active page is marked by a 2px cobalt underline (desktop) or a cobalt-wash background (mobile).
