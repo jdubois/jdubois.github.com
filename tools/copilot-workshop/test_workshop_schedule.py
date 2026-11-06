@@ -150,7 +150,7 @@ class WorkshopScheduleTests(unittest.TestCase):
             "fusion": "Modes, effort and permissions",
             "skills": "Install and use skills",
             "verify": "Review and verify changes",
-            "generate": "Generate and iterate with Copilot",
+            "generate": "Generate and iterate",
             "canvas": "Canvas and Pick & polish",
             "tools": "Investigate runtime with MCP",
             "integrate": "Merge PRs with Agent Merge",
