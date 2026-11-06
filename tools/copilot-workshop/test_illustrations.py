@@ -9,15 +9,18 @@ ROOT = Path(__file__).resolve().parents[2]
 WORKSHOP = ROOT / "workshops/copilot-app"
 SVG = "{http://www.w3.org/2000/svg}"
 ILLUSTRATIONS = {
-    "index": ("shop-to-checkout", 1440, 760),
-    "ticket": ("quantity-bug", 1440, 800),
-    "skills": ("skills-and-tests", 1440, 800),
-    "canvas": ("canvas-focus", 1440, 800),
-    "tools": ("mcp-query", 1440, 820),
-    "parallel": ("parallel-worktrees", 1440, 820),
-    "rubber-duck": ("rubber-duck-review", 1440, 800),
-    "subagents": ("five-specialists", 1440, 1080),
-    "tokens": ("chronicle-history-insights", 1440, 880),
+    "index": (
+        ("learning-with-a-real-project", 1440, 820, "eager"),
+        ("shop-to-checkout", 1440, 760, "lazy"),
+    ),
+    "ticket": (("quantity-bug", 1440, 800, "lazy"),),
+    "skills": (("skills-and-tests", 1440, 800, "lazy"),),
+    "canvas": (("canvas-focus", 1440, 800, "lazy"),),
+    "tools": (("mcp-query", 1440, 820, "lazy"),),
+    "parallel": (("parallel-worktrees", 1440, 820, "lazy"),),
+    "rubber-duck": (("rubber-duck-review", 1440, 800, "lazy"),),
+    "subagents": (("five-specialists", 1440, 1080, "lazy"),),
+    "tokens": (("chronicle-history-insights", 1440, 880, "lazy"),),
 }
 
 
@@ -38,23 +41,32 @@ class IllustrationImages(HTMLParser):
 
 class WorkshopIllustrationsTest(unittest.TestCase):
     def test_selected_artwork_is_linked_from_the_matching_chapter(self):
-        for chapter, (name, width, height) in ILLUSTRATIONS.items():
+        for chapter, illustrations in ILLUSTRATIONS.items():
             with self.subTest(chapter=chapter):
                 page = IllustrationImages((WORKSHOP / f"{chapter}.md").read_text())
-                path = f"/workshops/copilot-app/assets/illustration-{name}.svg"
-                self.assertEqual(len(page.images), 1)
-                image = page.images[0]
-                self.assertEqual(image["src"], path)
-                self.assertTrue(image.get("alt", "").strip())
-                self.assertEqual(image.get("width"), str(width))
-                self.assertEqual(image.get("height"), str(height))
-                self.assertEqual(image.get("loading"), "lazy")
-                self.assertTrue(any(link.get("href") == path
-                                    and link.get("target") == "_blank"
-                                    for link in page.links))
+                self.assertEqual(len(page.images), len(illustrations))
+                for image, (name, width, height, loading) in zip(page.images, illustrations):
+                    with self.subTest(illustration=name):
+                        path = f"/workshops/copilot-app/assets/illustration-{name}.svg"
+                        self.assertEqual(image["src"], path)
+                        self.assertTrue(image.get("alt", "").strip())
+                        self.assertEqual(image.get("width"), str(width))
+                        self.assertEqual(image.get("height"), str(height))
+                        self.assertEqual(image.get("loading"), loading)
+                        self.assertTrue(any(link.get("href") == path
+                                            and link.get("target") == "_blank"
+                                            for link in page.links))
+
+    def test_overview_introduction_precedes_the_scenario(self):
+        source = (WORKSHOP / "index.md").read_text()
+        self.assertLess(source.index("illustration-learning-with-a-real-project.svg"),
+                        source.index("## The scenario"))
+        images = IllustrationImages(source).images
+        self.assertEqual(images[0].get("fetchpriority"), "high")
 
     def test_svg_artwork_is_accessible_and_self_contained(self):
-        for name, width, height in ILLUSTRATIONS.values():
+        for name, width, height, _ in (
+                illustration for chapter in ILLUSTRATIONS.values() for illustration in chapter):
             with self.subTest(illustration=name):
                 root = ET.parse(WORKSHOP / "assets" / f"illustration-{name}.svg").getroot()
                 self.assertEqual(root.tag, SVG + "svg")
@@ -78,7 +90,8 @@ class WorkshopIllustrationsTest(unittest.TestCase):
 
     def test_only_the_selected_illustrations_are_published(self):
         expected = {f"illustration-{name}.svg"
-                    for name, _, _ in ILLUSTRATIONS.values()}
+                    for chapter in ILLUSTRATIONS.values()
+                    for name, _, _, _ in chapter}
         actual = {path.name for path in (WORKSHOP / "assets").glob("illustration-*")}
         self.assertEqual(actual, expected)
 

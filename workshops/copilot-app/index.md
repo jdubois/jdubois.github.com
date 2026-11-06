@@ -8,6 +8,11 @@ next: setup
 next_title: Set up your App workspace
 ---
 
+<figure>
+  <a href="/workshops/copilot-app/assets/illustration-learning-with-a-real-project.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-learning-with-a-real-project.svg" alt="Learning with a real project: an inviting workbench with a Java shop notebook, a rubber duck and an order receipt. Bring your curiosity, fix the bug, polish the experience and build mock checkout." width="1440" height="820" loading="eager" fetchpriority="high"></a>
+  <figcaption>A hands-on project to investigate, improve and make your own. Concept illustration, not an application screenshot.</figcaption>
+</figure>
+
 ## The scenario
 
 > **“I added the notebook twice. Why is there still only one in my cart?”**
