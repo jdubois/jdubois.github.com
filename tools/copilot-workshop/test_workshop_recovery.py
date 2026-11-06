@@ -172,6 +172,48 @@ class WorkshopRecoveryTests(unittest.TestCase):
         self.assertEqual(self.head(ref="origin/main"), cached_main)
         self.assertNotEqual(self.head(self.tests), self.head(ref="origin/main"))
 
+    def prepare_boundary_correction(self):
+        self.git("switch", "--quiet", "-c", "production-correction", "main")
+        self.write("app/quantity-validation.txt", "reject fractional quantities\n")
+        self.write("tests/quantity-validation.txt", "400, unchanged cart\n")
+        self.commit("Reviewed production correction and focused regression")
+        correction = self.head()
+        self.git("switch", "--quiet", "main")
+        self.assertEqual(self.git(
+            "diff", "--name-only", "main", correction).stdout.splitlines(), [
+                "app/quantity-validation.txt", "tests/quantity-validation.txt"])
+        return correction
+
+    def test_separate_production_pr_keeps_both_workers_and_their_scopes(self):
+        self.prepare()
+        correction = self.prepare_boundary_correction()
+        self.git("merge", "--squash", correction)
+        self.commit("Squash production correction PR")
+        self.git("push", "--quiet", "origin", "main")
+        self.recover()
+        for path in ["app/quantity-validation.txt", "tests/quantity-validation.txt"]:
+            self.assertEqual((self.tests / path).read_text(),
+                             (self.repo / path).read_text())
+        self.assertEqual(self.head(self.ui), self.ui_commit)
+        self.assertEqual(self.git(
+            "show", f"HEAD:tests/boundary.txt", cwd=self.tests).stdout,
+            self.git("show", f"{self.test_commit}:tests/boundary.txt").stdout)
+        recovered = self.head(self.tests)
+        self.recover()
+        self.assertEqual(self.head(self.tests), recovered)
+
+    def test_offline_correction_uses_reviewed_handoff_without_moving_main(self):
+        self.prepare()
+        correction = self.prepare_boundary_correction()
+        self.git("merge", "--no-edit", correction, cwd=self.tests)
+        self.recover(online=False)
+        self.assertEqual(self.head(ref="main"), self.main_start)
+        self.assertEqual(self.head(ref="origin/main"), self.main_start)
+        self.assertEqual(
+            (self.tests / "app/quantity-validation.txt").read_text(),
+            "reject fractional quantities\n")
+        self.assertEqual(self.head(ref="production-correction"), correction)
+
     def test_recovery_stops_without_overwriting_uncommitted_work(self):
         self.prepare()
         self.write("tests/boundary.txt", "unfinished worker changes\n", cwd=self.tests)

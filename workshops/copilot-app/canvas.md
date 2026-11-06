@@ -42,17 +42,20 @@ The human owns the one persistent server. Stop it with Ctrl+C in its
 owning terminal before starting another checkout; never kill by process name.
 Tests use isolated H2 databases and random ports. A restart resets shop data.
 Replace the blanket "no agents" restriction with permission for explicitly
-requested, bounded subagent work in the later checkout exercise.
-Clarify that bounded subagent coding and mock-checkout implementation are
-permitted only for the explicitly approved later checkout exercise on its
-own feature branch, not during the earlier tickets. No payments or authentication.
+requested workshop collaboration, only when its chapter is reached and approved:
+the two isolated worktree tasks with their stated file ownership,
+a read-only independent critic after integration, and five bounded checkout
+subagents on the later checkout feature branch.
+Permit mock-checkout implementation only for that approved later exercise,
+not during the earlier tickets. Preserve separate approval for corrections,
+publishing and merging. No payments or authentication.
 Show the diff and wait for my approval. Do not run the app or edit other files.
 ```
 
 This is a narrow update to repository instructions, not permission to bypass
 organization rules or install extra tools. The starter currently excludes
 agents and checkout; leaving those restrictions unchanged would conflict with
-the later checkout exercise.
+the later collaboration exercises. This amendment does not start those tasks.
 
 Review the diff. Stop any old shop with **Ctrl+C in its owning terminal**.
 In this session's directory, start the reviewed copy:
@@ -114,6 +117,17 @@ still work. Run:
 Expect the supplied **10 tests** to pass without removing cases.
 Record the selected issue, skill guidance actually used and before/after
 observations on the [worksheet](/workshops/copilot-app/worksheet/).
+
+<details markdown="1">
+<summary>If generated impeccable files appear in Changes</summary>
+
+Ask Copilot to distinguish generated local state from useful design records.
+For an untracked `.impeccable/hook.cache.json`, request a narrowly scoped
+local Git exclude and review it before approval. Do not commit the cache,
+delete the whole directory or ignore all `.impeccable/` files.
+Keep intentional design records; review any proposed source change separately.
+
+</details>
 
 <details markdown="1" id="canvas-recovery">
 <summary>If the canvas, picker or skill is unavailable</summary>

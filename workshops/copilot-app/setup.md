@@ -47,6 +47,9 @@ settings. You can complete every exercise with a single model.
 
 Review `AGENTS.md`, `.github/skills/` and `.github/mcp.json` before trusting
 repository configuration.
+If a file read is denied, stop and review the App's repository-trust or
+file-access request. MCP approval is separate; approving a server does not
+grant filesystem access. Do not bypass a denial or broaden permissions.
 You need JDK 21+, Git and a supported App account. No Docker or Node installation.
 
 The three skills are **already installed** in `.github/skills/`.
@@ -57,8 +60,8 @@ Later you will use the Browser canvas's **Pick & polish** control and the
 bundled **impeccable** UI skill, then **`/rubber-duck`** and **`/fleet`** in
 the App composer. Check their availability in your build; recovery is included
 in each chapter. The Canvas chapter updates `AGENTS.md` with startup guidance
-and narrow permission for the later mock-checkout implementation with subagents
-on one feature branch. The fourth ticket builds an order and receipt, not
+and staged permission for the two worktree tasks, read-only critic and later
+mock-checkout subagents on one feature branch. The fourth ticket builds an order and receipt, not
 payments or authentication. Earlier ticket scopes and tests stay unchanged.
 
 Before parallel work, merge the three accepted tickets into **`main` through
@@ -99,6 +102,10 @@ java -version
 Expect **4 tests, 0 failures, 0 errors, 0 skipped**. This checks the starter
 and downloads any missing Maven dependencies. It does not yet test adding the
 same product twice.
+
+Maven's `-q` reduces output; application logs may still appear.
+Ask Copilot to report the exit status and executed counts from
+`target/surefire-reports/` if the summary is hidden. Silence is not a pass.
 
 ## Start one application
 

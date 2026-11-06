@@ -16,6 +16,7 @@ below in workshop order:
 | Ticket and acceptance criteria | |
 | App session, source directory and handoff branch | |
 | Mode, model and effort | |
+| Repository/file-access and MCP approvals, denials or unresolved permissions | |
 | Skill loaded and guidance used | |
 | Initial failing tests and assertion messages | |
 | Reviewed production/test/UI changes | |
@@ -67,12 +68,16 @@ Only record a preview or runtime result if that worker ran the
 matching application. Mark integration checks **pending** until you test the
 merged result.
 
+If a boundary case needed a separate production correction, record its
+reviewed branch/PR, checks and actual merge status, then the test worker's
+passing rerun. A failing test is not permission for that worker to edit production.
+
 ## Agent Merge and integration
 
 | Field | Your observation |
 |---|---|
 | Own repository, preparation PR status and worker PR target (`main`) | |
-| UI PR link, head (worker branch and reviewed commit) and CI results | |
+| UI PR link, same PR linked in its worker session, head and CI results | |
 | UI PR merge authorization and actual status | |
 | Tests and preview after the UI merge | |
 | Boundary-test PR link, head (worker branch and updated commit) and fresh CI results | |
@@ -113,7 +118,8 @@ recovery, record **Agent Merge not completed: local recovery used**.
 
 Mark checkout **implemented and verified**, **unfinished**, or **demonstrated**
 according to the evidence. Record actual contributions, not the illustrative
-exchange. Local checkout code is not on `main` until a separate PR actually
+exchange. Write **none exchanged** if there were no questions/answers, and
+**unknown** for concurrency you did not observe. Local checkout code is not on `main` until a separate PR actually
 merges. Keep the approved plan and agent activity available for Chronicle.
 
 ## Chronicle: one better habit

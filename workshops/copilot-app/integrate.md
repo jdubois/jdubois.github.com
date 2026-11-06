@@ -47,6 +47,11 @@ handoffs, changed only their assigned files
 and preserved the existing 12 acceptance tests. Inspect the UI worker's preview
 and the test worker's test output.
 
+If a boundary case failed, first complete the
+[separate production correction](/workshops/copilot-app/parallel/#boundary-fix).
+Keep its reviewed handoff and passing rerun; repair-only Agent Merge does not
+authorize production edits in the test-only worker.
+
 **Both worker PRs target `main`.** The previous chapter already merged the
 quantity fix, removal feature and query optimization there before the workers
 started. **Keep the two existing worker sessions; do not create another session
@@ -83,7 +88,11 @@ workflow runs on this target branch too. Its **tests** job must actually pass.
 
 Return to **Cart: empty-state UX**. Open the dropdown beside **Create PR**
 (or **Agent Merge**, if already selected), choose **Agent Merge**, and inspect
-its options **before starting it**. First allow repairs only:
+its options **before starting it**. Confirm its linked PR number, repository
+and head branch match this worker, not the merged preparation PR.
+If the worker PR is not linked, ask the facilitator to link the existing PR
+in the App; do not create a duplicate or start automation on another PR.
+First allow repairs only:
 leave **Merge pull request** unchecked. This is the option that grants merge
 permission. If you cannot confirm that merging is off, do not start it; ask
 the facilitator.
@@ -201,8 +210,8 @@ tests does not establish that the merged result works.
 
 The combined result is now on **`main`**. Continue to the independent review
 and checkout implementation in the same **Cart: boundary tests** session.
-At this stage there are three PRs: the three-ticket preparation PR,
-the UI PR and the boundary-test PR.
+Without an additional production correction, there are three PRs:
+the three-ticket preparation PR, the UI PR and the boundary-test PR.
 Keep their links, CI results and
 combined checks on the [worksheet](/workshops/copilot-app/worksheet/).
 
@@ -231,6 +240,8 @@ it unknown and use only the recorded reviewed local results.
 Check whether the accepted UI result is already included, accounting for
 squash merges. Merge the reviewed UI handoff commit only if its changes
 are missing. Do not merge the test branch into itself or apply changes twice.
+If boundary tests needed a separate production correction, include its
+reviewed handoff only if missing; do not implement a new fix in this test worker.
 Ask before resolving a conflict, or if a reviewed handoff cannot be found.
 Run ./mvnw -q test and report all counts, failures and skips.
 Do not push, merge remote PRs or enable Agent Merge.

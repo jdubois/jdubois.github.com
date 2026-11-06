@@ -33,12 +33,13 @@ previous chapter. If you used local recovery, keep that recovered checkout;
 do not switch back to incomplete remote `main`. Use **Interactive**.
 
 Type **`/rubber-duck` in the App composer**, not a terminal, with this request:
+If working in a separate reference checkout, replace `workshop-start` with
+`v2-start` in the prompt.
 
 ```copilot
 /rubber-duck Review the full shopping-cart change from workshop-start
 to this checked result, including the quantity fix, removal, Canvas UI
 changes, query optimization and both parallel contributions.
-Use v2-start instead only in a separate reference checkout.
 Look for concrete behavior regressions, missing edge-case coverage,
 incorrect cents/totals and evidence that does not match the code.
 Keep the existing acceptance criteria. Do not edit files, run the app,

@@ -18,6 +18,81 @@ def chapter(slug):
 
 
 class WorkshopScheduleTests(unittest.TestCase):
+    def test_quantity_reproduction_waits_for_completed_requests(self):
+        ticket = re.sub(r"\s+", " ", chapter("ticket"))
+        for text in ["wait for it to finish", "button to re-enable",
+                     "rapid double-click may send only one request",
+                     "waiting for each request to finish"]:
+            self.assertIn(text, ticket)
+        self.assertIn("waiting for each response", chapter("prompts"))
+
+    def test_instruction_permissions_are_staged_before_collaboration(self):
+        canvas = re.sub(r"\s+", " ", chapter("canvas"))
+        prompt = canvas.split("```copilot ", 1)[1].split("```", 1)[0]
+        for text in ["only when its chapter is reached and approved",
+                     "two isolated worktree tasks", "read-only independent critic",
+                     "five bounded checkout subagents", "separate approval",
+                     "publishing and merging", "wait for my approval"]:
+            self.assertIn(text, prompt)
+        self.assertIn("This amendment does not start those tasks", canvas)
+
+    def test_boundary_regressions_have_separate_production_fix_ownership(self):
+        parallel = re.sub(r"\s+", " ", chapter("parallel"))
+        worker = parallel.split("### Cart: boundary tests", 1)[1].split(
+            "```copilot ", 1)[1].split("```", 1)[0]
+        for text in ['numeric 1.5 and string "one"', "HTTP 400",
+                     "GET /api/cart and persisted state are unchanged",
+                     "Only add CartBoundaryTest.java", "Do not fix application code"]:
+            self.assertIn(text, worker)
+        correction = parallel.split('id="boundary-fix"', 1)[1].split(
+            "</details>", 1)[0]
+        for text in ["existing **Cart: query investigation**",
+                     "separate production-fix feature branch",
+                     "outside `CartBoundaryTest.java`", "preserve the 12 supplied tests",
+                     "Do not include either worker's commit",
+                     "own review, checks and merge approval",
+                     "updated `origin/main`", "Do not proceed while",
+                     "separately reviewed correction handoff"]:
+            self.assertIn(text, correction)
+        recovery = re.sub(r"\s+", " ", chapter("integrate").split(
+            '<summary>Recovery:', 1)[1])
+        self.assertIn("reviewed handoff only if missing", recovery)
+        self.assertIn("do not implement a new fix in this test worker", recovery)
+
+    def test_prompt_cards_follow_chapter_order_and_reference_bases_are_conditional(self):
+        cards = chapter("prompts")
+        self.assertEqual(re.findall(r"^## (.+)$", cards, re.MULTILINE), [
+            "Investigate without editing", "Use the test skill", "Generate a feature",
+            "Canvas and UI feedback", "Investigate through MCP", "Parallel worker cards",
+            "Integrate with Agent Merge", "Rubber duck and subagent implementation",
+            "Improve usage", "Review the diff"])
+        for slug in ["prompts", "rubber-duck", "finish"]:
+            text = chapter(slug)
+            self.assertIn("v2-start", text)
+            for prompt in re.findall(r"```copilot\n(.*?)```", text, re.DOTALL):
+                self.assertNotIn("v2-start", prompt)
+
+    def test_cache_recovery_does_not_discard_design_records(self):
+        canvas = re.sub(r"\s+", " ", chapter("canvas"))
+        for text in ["untracked `.impeccable/hook.cache.json`",
+                     "local Git exclude", "review it before approval",
+                     "delete the whole directory or ignore all `.impeccable/`",
+                     "Keep intentional design records"]:
+            self.assertIn(text, canvas)
+
+    def test_agent_evidence_and_empty_checkout_do_not_require_invented_activity(self):
+        agents = re.sub(r"\s+", " ", chapter("subagents"))
+        for text in ["concurrency limit", "during follow-ups as well as launches",
+                     "receiving specialists check the actual upstream interface",
+                     "**none exchanged**", "Do not manufacture dialogue",
+                     "verify the required **409** through HTTP tests",
+                     "do not enable it just for this demonstration"]:
+            self.assertIn(text, agents)
+        worksheet = chapter("worksheet")
+        self.assertIn("none exchanged", worksheet)
+        self.assertIn("**unknown** for concurrency", worksheet)
+        self.assertIn("not the merged preparation PR", chapter("integrate"))
+
     def test_facilitator_keeps_visible_guidance_short_and_recovery_safe(self):
         facilitator = chapter("facilitator")
         body = facilitator.split("---", 2)[2]

@@ -124,6 +124,8 @@ Approve the contract and file list first. The order model comes before service
 code that uses it, and the API depends on that service. UI and HTTP tests can
 be drafted from the agreed contract. **Five assignments do not mean five
 independent coding tasks** or five simultaneous Maven runs.
+Agree on a concurrency limit suited to the machine before launching; check
+active workers again before starting or waking another worker.
 
 In the **same session's composer**, use the App's **`/fleet`** command:
 
@@ -148,6 +150,9 @@ supplied acceptance tests. No payments, authentication, personal data,
 new dependencies, agent profiles or further nested agents.
 Workers edit only assigned files. Schedule dependencies, and coordinate
 interface questions through available messaging; otherwise relay them.
+Before dependent implementation, have receiving specialists check the actual
+upstream interface. Relay unresolved questions and their answers before proceeding.
+Respect the agreed concurrency limit during follow-ups as well as launches.
 Stop and ask before expanding scope or resolving conflicting ownership.
 Workers must not run Maven, start/stop the shop, change branches, commit,
 push, open PRs or merge. You own the integrated test run, not five workers.
@@ -183,6 +188,9 @@ This is an **example exchange**, not evidence that your agents performed it.
 Inspect the actual agent activity and report. Confirm there are five distinct
 contributions and that code and tests use the agreed interfaces.
 Report missing contributions or unsupported messaging honestly.
+Record actual questions and answers, or explicitly **none exchanged**.
+Do not manufacture dialogue to fill the worksheet; assignments alone do not
+demonstrate collaboration.
 
 ## Review and run the integrated feature
 {: #verify-checkout}
@@ -203,8 +211,10 @@ feature branch's directory, restart the changed application:
 
 Ask Copilot to open or reload **http://127.0.0.1:18765** in the Browser canvas.
 Add the €10 Notebook twice: the receipt must show quantity **2** and total
-**2000 cents**, followed by an empty cart. Check an empty checkout and visible
-error feedback, then return to shopping. Confirm keyboard access and a narrow
+**2000 cents**, followed by an empty cart. Check visible error feedback for a
+failed request, then return to shopping. If Place order is disabled on an empty
+cart, verify the required **409** through HTTP tests; do not enable it just
+for this demonstration. Confirm keyboard access and a narrow
 viewport. A disabled button alone does not prove server-side duplicate prevention;
 use the HTTP regression results for retry, rollback and concurrency evidence.
 

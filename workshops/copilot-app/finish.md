@@ -33,9 +33,8 @@ both parallel workers' contributions and the checkout implementation.
 Check stored order snapshots, atomic clearing, retry behavior and receipt UI.
 Distinguish local checkout code from what is actually merged into main.
 Use workshop-start as the comparison starting point only
-(v2-start only in a separate reference checkout).
-Do not edit, reset branches or retarget PRs. Identify concrete regressions or missing evidence,
-not style preferences.
+and do not edit, reset branches or retarget PRs.
+Identify concrete regressions or missing evidence, not style preferences.
 ```
 
 Inspect findings yourself. If corrections are needed, use the current reviewed
@@ -94,7 +93,9 @@ Stay in **Cart: boundary tests**, using the merged main version checked out
 in the integration chapter as the starting point for the now-reviewed
 checkout feature branch. Retain all
 three PR links and CI results, plus the checkout branch/commit and checks.
-Publishing checkout in a fourth PR is optional.
+Publishing checkout in a separate PR is optional.
+If boundary tests required a separate production-correction PR, retain its
+review, checks and actual merge status too.
 
 Checkout is **local feature-branch work** until you separately choose to publish
 and merge it. Do not claim it is on `main` merely because the earlier PRs merged.

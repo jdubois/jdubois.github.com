@@ -14,7 +14,10 @@ Give Copilot a clear bug report and ask it to trace the cause before editing cod
 
 ## “I added it twice. There is still only one.”
 
-In the shop, click **Reset cart**, then **Add Notebook to cart** twice.
+In the shop, click **Reset cart** and wait for it to finish. Click
+**Add Notebook to cart**, wait for the response and the button to re-enable,
+then click it again. A rapid double-click may send only one request because
+the UI disables buttons while a request is pending.
 The Notebook costs €10. The starter shows **quantity 1 / €10**;
 the customer expects **quantity 2 / €20**.
 
@@ -30,7 +33,8 @@ that you created in [setup](/workshops/copilot-app/setup/#open-it-in-copilot-app
 Paste this into that session's composer to investigate without editing yet:
 
 ```copilot
-After resetting the cart, I added the Notebook (1000 cents) twice.
+After resetting the cart, I added the Notebook (1000 cents) twice,
+waiting for each request to finish before the next click.
 The shop shows quantity 1 and total 1000 cents; I expect quantity 2
 and total 2000 cents, including after a page reload.
 Trace adding the same product twice from the shop UI through

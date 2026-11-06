@@ -69,7 +69,7 @@ If GitHub or CI prevents the preparation PR from merging, use the
 | Session | Owns | Done means |
 |---|---|---|
 | Cart: empty-state UX | `src/main/resources/static/` only | Empty cart includes a clear link back to the catalogue, accessible by keyboard and usable on mobile |
-| Cart: boundary tests | A new `CartBoundaryTest.java` only | HTTP tests cover missing quantity, non-integer quantity and exactly 99 units; no production edits |
+| Cart: boundary tests | A new `CartBoundaryTest.java` only | HTTP tests cover missing quantity, fractional `1.5`, string `"one"` and exactly 99 units; rejected input preserves the cart; no production edits |
 
 These tasks touch different files, so the two sessions can work at the same
 time without overwriting each other's changes. Each prompt belongs in only
@@ -105,7 +105,10 @@ commit from the preparation handoff, with all three accepted tickets and tests.
 Stop if it does not match; do not edit a stale checkout.
 Use spring-boot-testing. Only add CartBoundaryTest.java beside the existing tests.
 Use HTTP integration tests for missing quantity, non-integer quantity
-and exactly 99 units. Do not change production code or existing tests.
+(numeric 1.5 and string "one") and exactly 99 units.
+For rejected input, require HTTP 400, then verify GET /api/cart and persisted
+state are unchanged.
+Do not change production code or existing tests.
 If a test exposes an application bug, report it for my review.
 Do not fix application code or weaken an assertion to make the test pass.
 Run the new cases and full suite. Commit the test file and report the
@@ -114,9 +117,37 @@ Do not open or merge a PR yet.
 ```
 
 The testing skill helps this second session write and run the HTTP tests.
-If those tests reveal a bug, **you review the finding and decide how to fix it**.
+If those tests reveal a bug, **keep the failing regression and pause integration**.
 The test session must not change application code: that would go beyond its
-assigned task.
+assigned task. Review the finding and use the separate correction path below.
+
+<details markdown="1" id="boundary-fix">
+<summary>If a boundary test exposes an application bug</summary>
+
+Keep the test worker's reviewed failing test commit. In the existing
+**Cart: query investigation** session, ask Copilot to prepare a separate
+production-fix feature branch from the shared accepted starting point.
+Give it the exact failing request, expected status and unchanged-state rule.
+Review its plan before permitting edits.
+
+The correction must include its own focused regression test, outside
+`CartBoundaryTest.java`, and preserve the 12 supplied tests. Do not include
+either worker's commit or change their files to make the correction pass.
+Review the production diff and full-suite results. If the preparation PR is
+merged, publish and merge this additional correction PR into `main` only after its own review, checks and
+merge approval; it is not covered by either worker's authorization.
+
+Back in **Cart: boundary tests**, ask Copilot to merge the accepted correction
+from updated `origin/main` into its existing branch, preserve its tests and
+rerun the full suite. Review and record the updated handoff before integration.
+Do not proceed while the boundary regression still fails.
+
+If preparation used local recovery, or GitHub, CI or approvals are unavailable,
+preserve the separately reviewed correction handoff
+and use [integration recovery](/workshops/copilot-app/integrate/#local-recovery)
+to include it locally. Do not claim that `main` contains an unmerged correction.
+
+</details>
 
 ## Supervise without sharing a working directory
 

@@ -11,7 +11,8 @@ workshop: true
 
 ```copilot
 In this shopping-cart repository, reproduce the repeated-add bug:
-add one €10 Notebook twice; expect quantity 2 / 2000 cents, actual 1 / 1000.
+reset the cart, then add one €10 Notebook twice, waiting for each response
+before the next click; expect quantity 2 / 2000 cents, actual 1 / 1000.
 Trace the UI, POST /api/cart/items and persistence path.
 Do not edit yet. Explain the cause, relevant files and smallest testable plan.
 Keep removal and query optimization out of this ticket.
@@ -41,6 +42,14 @@ Review the plan first, then implement and run the existing tests plus removal te
 Keep the query unchanged; that is a later ticket.
 ```
 
+## Canvas and UI feedback
+
+Stay in **Cart: remove item**. Use the
+[startup-instruction prompt](/workshops/copilot-app/canvas/#startup-instructions)
+first, then the [Pick & polish prompt](/workshops/copilot-app/canvas/#pick-and-polish)
+on a selected UI element. The chapter saves `workshop-feature` only after
+the reviewed instruction and UI changes, so the query session keeps them.
+
 ## Investigate through MCP
 
 ```copilot
@@ -50,53 +59,6 @@ Select the recent GET /api/cart for the eight-product workload;
 read get_request_profile with that returned ID.
 Check that the request matches this workload and explain the product SELECTs.
 No dashboard tour, scans, extra tools, source edits or server restart yet.
-```
-
-## Canvas and UI feedback
-
-Stay in **Cart: remove item**. Use the
-[startup-instruction prompt](/workshops/copilot-app/canvas/#startup-instructions)
-first, then the [Pick & polish prompt](/workshops/copilot-app/canvas/#pick-and-polish)
-on a selected UI element. The chapter saves `workshop-feature` only after
-the reviewed instruction and UI changes, so the query session keeps them.
-
-## Rubber duck and subagent implementation
-
-Stay in **Cart: boundary tests**, on the checked combined result.
-Use the [rubber duck prompt](/workshops/copilot-app/rubber-duck/#review-prompt)
-for a read-only critique. Then use the
-[five-subagent chapter](/workshops/copilot-app/subagents/) to prepare one
-feature branch, approve the contract and **implement mock checkout**.
-Each prompt names its scope and approval boundaries;
-do not paste both tasks together or launch another set of worktree sessions.
-
-## Review the diff
-
-```copilot
-Review the complete change from workshop-start to current tracked files,
-including committed tickets, current edits and untracked new files.
-In a separate checkout of the reference solution, use v2-start as the base instead.
-Do not edit.
-Look for behavior regressions, weakened tests, wrong totals or scope creep.
-Cite specific code and evidence. Separate findings from unverified assumptions.
-Do not infer that the running app uses this revision or that CI is green.
-```
-
-## Improve usage
-
-Before selecting cost tips, follow the
-[Chronicle privacy decision](/workshops/copilot-app/tokens/#decide-before-analyzing-history).
-The command may immediately access history beyond this workshop; a later scope
-prompt cannot undo that. Opt out and use your local workshop transcript if that
-access is unsuitable. If you decide to run the analysis, request:
-
-```copilot
-Limit analysis to [workshop session IDs/names], [repository], [time window].
-State which records you used. Do not inspect unrelated work or edit files.
-Explain reported token/usage fields with their units and coverage;
-mark missing data unknown. Identify two avoidable workflow patterns
-with concrete examples, and suggest one better next prompt.
-Keep acceptance tests, permission boundaries and review checks unchanged.
 ```
 
 ## Parallel worker cards
@@ -129,3 +91,44 @@ After confirming the UI PR merged and its main-branch CI passed, use the separat
 Do not reuse the UI authorization prompt for the test PR.
 Stay in **Cart: boundary tests** for the chapter's final checks of merged `main`.
 No extra session is needed.
+
+## Rubber duck and subagent implementation
+
+Stay in **Cart: boundary tests**, on the checked combined result.
+Use the [rubber duck prompt](/workshops/copilot-app/rubber-duck/#review-prompt)
+for a read-only critique. Then use the
+[five-subagent chapter](/workshops/copilot-app/subagents/) to prepare one
+feature branch, approve the contract and **implement mock checkout**.
+Each prompt names its scope and approval boundaries;
+do not paste both tasks together or launch another set of worktree sessions.
+
+## Improve usage
+
+Before selecting cost tips, follow the
+[Chronicle privacy decision](/workshops/copilot-app/tokens/#decide-before-analyzing-history).
+The command may immediately access history beyond this workshop; a later scope
+prompt cannot undo that. Opt out and use your local workshop transcript if that
+access is unsuitable. If you decide to run the analysis, request:
+
+```copilot
+Limit analysis to [workshop session IDs/names], [repository], [time window].
+State which records you used. Do not inspect unrelated work or edit files.
+Explain reported token/usage fields with their units and coverage;
+mark missing data unknown. Identify two avoidable workflow patterns
+with concrete examples, and suggest one better next prompt.
+Keep acceptance tests, permission boundaries and review checks unchanged.
+```
+
+## Review the diff
+
+For a separate reference checkout, replace `workshop-start` with `v2-start`.
+Otherwise keep the personal starter tag:
+
+```copilot
+Review the complete change from workshop-start to current tracked files,
+including committed tickets, current edits and untracked new files.
+Do not edit.
+Look for behavior regressions, weakened tests, wrong totals or scope creep.
+Cite specific code and evidence. Separate findings from unverified assumptions.
+Do not infer that the running app uses this revision or that CI is green.
+```

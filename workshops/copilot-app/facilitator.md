@@ -91,6 +91,7 @@ a fallback or reference demonstration is not a successful native App exercise.
 | MCP connection or baseline | Use [matched reference evidence](/workshops/copilot-app/assets/mcp-evidence.json), clearly labelled as reference, not the participant's App tool calls |
 | Preparation PR blocked | Follow [preparation recovery](/workshops/copilot-app/parallel/#local-recovery) only from an accepted local copy with all 12 supplied tests passing; record `main` as not updated |
 | Worker, CI or Agent Merge blocked | Preserve both branches, disable Agent Merge on open PRs and follow [integration recovery](/workshops/copilot-app/integrate/#local-recovery) in **Cart: boundary tests** |
+| Boundary test reveals a production bug | Keep the test worker test-only. Use the [separate correction path](/workshops/copilot-app/parallel/#boundary-fix), review its regression and rerun the worker tests before integration |
 | Independent critic or five-agent delegation unavailable | Use the relevant chapter's demonstration/review fallback; explicitly record the missing independent critique or five-agent run |
 | Checkout coding or tests fail | Keep the checkout branch, mark it unfinished and retain the earlier reviewed result; no checkout reference solution is supplied |
 | Chronicle unavailable or privacy opt-out | Review the workshop transcript without analyzing broader history; mark usage figures unavailable |
