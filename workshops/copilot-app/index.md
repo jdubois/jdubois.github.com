@@ -74,7 +74,7 @@ and ask for help whenever you need it.
 1. [Investigate with Copilot](/workshops/copilot-app/ticket/), using a reproducible cart bug.
 2. [Choose modes, effort and permissions](/workshops/copilot-app/fusion/), then [install and use skills](/workshops/copilot-app/skills/) with the bundled Java guidance and a regression test.
 3. [Review and verify changes](/workshops/copilot-app/verify/) to the repeated-add behavior.
-4. [Generate and iterate with Copilot](/workshops/copilot-app/generate/) to add item removal.
+4. [Generate and iterate](/workshops/copilot-app/generate/) to add item removal.
 5. [Use Canvas and Pick & polish](/workshops/copilot-app/canvas/), with startup instructions and **impeccable**.
 6. [Investigate runtime with MCP](/workshops/copilot-app/tools/), using the N+1 query as the example.
 7. [Merge the three accepted tickets into main, then start two isolated sessions](/workshops/copilot-app/parallel/) to improve the empty-cart experience and add boundary tests.
