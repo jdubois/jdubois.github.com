@@ -18,6 +18,33 @@ def chapter(slug):
 
 
 class WorkshopScheduleTests(unittest.TestCase):
+    def test_facilitator_keeps_visible_guidance_short_and_recovery_safe(self):
+        facilitator = chapter("facilitator")
+        body = facilitator.split("---", 2)[2]
+        visible = re.sub(r"<details\b.*?</details>", "", body, flags=re.DOTALL)
+        self.assertLess(len(re.findall(r"\b[\w'-]+\b", visible)), 900)
+        self.assertEqual(body.count("<details"), 3)
+        for text in ["## Before participants arrive",
+                     "**before running Chronicle**",
+                     "**three PRs targeting `main`**",
+                     "**Cart: boundary tests**",
+                     "**not automatically on `main`**",
+                     "## Recovery", "disable Agent Merge on open PRs",
+                     "do not switch back to incomplete remote `main`",
+                     "do not prove their generated checkout works"]:
+            with self.subTest(visible_requirement=text):
+                self.assertIn(text, visible)
+        for text in ["restore the accepted Canvas instruction/UI changes",
+                     "all 12 supplied tests pass before parallel work",
+                     "participant's **own `main`**",
+                     "changing\nthe remote alone does not make reference commits mergeable",
+                     "Record that a reference solution was used",
+                     "**not through the App**",
+                     "{: #executable-checkpoints}",
+                     "{: #recover-without-losing-work}"]:
+            with self.subTest(recovery_requirement=text):
+                self.assertIn(text, facilitator)
+
     def test_investigation_continues_setup_session_without_creating_an_issue(self):
         investigation = chapter("ticket")
         self.assertIn("name the session **Cart: quantity bug**", chapter("setup"))
