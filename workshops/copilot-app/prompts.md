@@ -102,6 +102,20 @@ feature branch, approve the contract and **implement mock checkout**.
 Each prompt names its scope and approval boundaries;
 do not paste both tasks together or launch another set of worktree sessions.
 
+## Deliver checkout to main
+
+After reviewing the integrated code, tests and preview, use the
+[checkout delivery prompt](/workshops/copilot-app/subagents/#deliver-checkout)
+in the same **Cart: boundary tests** session. Give the orchestrator scoped
+approval to commit, push, open one checkout PR and merge it after checks and
+required approvals pass. The five specialists do not publish or merge.
+Do not reuse the earlier worker PR.
+
+Then use [merged-main verification](/workshops/copilot-app/subagents/#verify-merged-checkout).
+Record the actual merge commit and verified main revision. Restart the one shop
+from that verified directory before checking Place order and the receipt.
+Local-only or blocked delivery is not the completed normal path.
+
 ## Improve usage
 
 Before selecting cost tips, follow the

@@ -49,6 +49,9 @@ subagents on the later checkout feature branch.
 Permit mock-checkout implementation only for that approved later exercise,
 not during the earlier tickets. Preserve separate approval for corrections,
 publishing and merging. No payments or authentication.
+In the checkout chapter, only the orchestrator may publish and merge the
+integrated feature through a reviewed PR after separate explicit approval.
+The five specialists must not publish or merge.
 Show the diff and wait for my approval. Do not run the app or edit other files.
 ```
 

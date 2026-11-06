@@ -113,14 +113,21 @@ recovery, record **Agent Merge not completed: local recovery used**.
 | Full-suite counts, including original classes, boundary and CheckoutContractTest | |
 | Rollback, snapshot and concurrent/later-retry evidence | |
 | Browser canvas receipt, cleared cart, keyboard and narrow-screen observations | |
-| Reviewed checkout commit, local status and optional PR status | |
+| Final diff accepted and scoped orchestrator publishing/merge approval | |
+| Checkout PR URL, repository, feature head and base `main` checked | |
+| Actual merge status/commit and checks for that merged revision | |
+| Verified main commit, local full-suite results and running directory/URL | |
+| Place order and receipt verified after restarting the merged-main application | |
 | Delegation or messaging unavailable, or demonstration | |
 
-Mark checkout **implemented and verified**, **unfinished**, or **demonstrated**
-according to the evidence. Record actual contributions, not the illustrative
+Mark checkout **merged and verified on main**, **unfinished**, or **demonstrated**
+according to the evidence. Use **verified locally; delivery blocked** or
+**merged; post-merge verification blocked** when appropriate.
+Record actual contributions, not the illustrative
 exchange. Write **none exchanged** if there were no questions/answers, and
-**unknown** for concurrency you did not observe. Local checkout code is not on `main` until a separate PR actually
-merges. Keep the approved plan and agent activity available for Chronicle.
+**unknown** for concurrency you did not observe. Local checkout code is not on
+`main` until its checkout PR actually merges. Keep the approved plan and agent
+activity available for Chronicle.
 
 ## Chronicle: one better habit
 

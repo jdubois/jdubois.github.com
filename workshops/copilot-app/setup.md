@@ -62,7 +62,9 @@ the App composer. Check their availability in your build; recovery is included
 in each chapter. The Canvas chapter updates `AGENTS.md` with startup guidance
 and staged permission for the two worktree tasks, read-only critic and later
 mock-checkout subagents on one feature branch. The fourth ticket builds an order and receipt, not
-payments or authentication. Earlier ticket scopes and tests stay unchanged.
+payments or authentication. After review and explicit delivery approval, its
+orchestrator merges one checkout PR into your own `main` and verifies the merged
+application. Earlier ticket scopes and tests stay unchanged.
 
 Before parallel work, merge the three accepted tickets into **`main` through
 one reviewed PR**. The [integration exercise](/workshops/copilot-app/integrate/)

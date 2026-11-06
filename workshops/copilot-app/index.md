@@ -21,6 +21,8 @@ Investigate an N+1 query using **MCP** evidence. Build independent improvements
 in two worktree sessions, then integrate their PRs with **Agent Merge**.
 Get a second opinion from **rubber duck** and coordinate **five subagents**
 to implement mock checkout with an order receipt and safe cart clearing.
+The orchestrator delivers it through a reviewed PR into your own **`main`**
+and verifies the merged application.
 Finish with **Chronicle** and a clear handoff.
 
 The shop is intentionally small: Spring Boot, H2 and plain JavaScript.
@@ -45,7 +47,7 @@ You do not need to create issues in your repository.
 | Fix adding the same product twice | Quantity and total accumulate correctly | Plan, use a Java skill, reproduce a failing test and guide the fix |
 | Generate item removal | Remove one product without losing the others | Define expected behavior, generate backend and UI code, then preview and polish in a Canvas |
 | Fix repeated product queries | The cart keeps its contents with fewer SELECTs | Use MCP evidence, diagnose with a skill, verify the query budget |
-| Build mock checkout | Place a local order, see a receipt and start shopping again | Agree on contracts, coordinate five subagents, integrate code and verify failures/retries |
+| Build and deliver mock checkout | Place a local order, see a receipt and start shopping again from the app on `main` | Agree on contracts, coordinate five subagents, verify failures/retries and let the orchestrator deliver a reviewed PR |
 
 Start with **Fusion Standard**, or a strong coding model if Fusion is unavailable.
 Use higher effort when a problem calls for it, not by default.
@@ -54,6 +56,8 @@ The first three tickets and reviewed UI/boundary-test improvements are
 integrated before checkout. Five subagents then build the fourth ticket on
 **one feature branch** in the existing session. **Mock means no real payments**:
 the order, receipt and cart clearing must actually work.
+The feature branch is a staging point, not the finish line: after your scoped
+approval, the orchestrator merges its checkout PR and verifies actual `main`.
 
 ## Workshop flow
 {: #workshop-flow}
@@ -71,15 +75,15 @@ and ask for help whenever you need it.
 7. [Merge the three accepted tickets into main, then start two isolated sessions](/workshops/copilot-app/parallel/) to improve the empty-cart experience and add boundary tests.
 8. [Merge PRs with Agent Merge](/workshops/copilot-app/integrate/) into `main`, one worker at a time.
 9. [Review with rubber duck](/workshops/copilot-app/rubber-duck/).
-10. [Coordinate five subagents](/workshops/copilot-app/subagents/) to build mock checkout on one feature branch with additional acceptance tests.
+10. [Coordinate five subagents](/workshops/copilot-app/subagents/) to build mock checkout, then have the orchestrator deliver one reviewed PR and verify the merged app on `main`.
 11. [Improve token usage with Chronicle](/workshops/copilot-app/tokens/) using the workshop sessions.
 12. [Review the full change and hand off](/workshops/copilot-app/finish/#final-review).
 
 ## What you will leave with
 
-- A reviewed shop with four tickets, usable UI improvements, a working mock checkout and regression coverage.
+- A reviewed shop on your own `main` with four tickets, usable UI improvements, a working mock checkout and regression coverage.
 - Evidence from previews, tests, MCP, PRs and the independent critique, with unavailable or unfinished work recorded.
-- A committed checkout feature showing how five specialists coordinated code and shared decisions, plus a workflow improvement from Chronicle.
+- A merged checkout PR showing how five specialists coordinated code and shared decisions, plus a workflow improvement from Chronicle.
 
 ## Before you begin
 
