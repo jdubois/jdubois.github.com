@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Reproduce the cart bug
+title: Investigate with Copilot
 description: "Give Copilot a reproducible bug report with clear expected behavior."
 permalink: /workshops/copilot-app/ticket/
 workshop: true
 next: fusion
-next_title: Plan with Copilot
+next_title: Modes, effort and permissions
 ---
 
 ## What you will learn
@@ -21,12 +21,18 @@ the customer expects **quantity 2 / €20**.
 This is not just a label problem. The server has replaced the existing quantity.
 Your fix must survive a page reload.
 
-## Give Copilot a useful ticket
+## Continue in your existing session
+{: #give-copilot-a-useful-ticket}
 
-In **Cart: quantity bug**, describe the reproduction and expected result.
-Ask it to explain the flow without editing yet:
+Continue in the **Copilot App project session** named **Cart: quantity bug**
+that you created in [setup](/workshops/copilot-app/setup/#open-it-in-copilot-app).
+**No new session or GitHub issue is needed.**
+Paste this into that session's composer to investigate without editing yet:
 
 ```copilot
+After resetting the cart, I added the Notebook (1000 cents) twice.
+The shop shows quantity 1 and total 1000 cents; I expect quantity 2
+and total 2000 cents, including after a page reload.
 Trace adding the same product twice from the shop UI through
 POST /api/cart/items to persisted state. Explain why the quantity
 does not accumulate. Do not edit files yet. Name the relevant

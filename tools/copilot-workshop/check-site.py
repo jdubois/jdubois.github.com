@@ -142,7 +142,7 @@ def main():
     args = parser.parse_args()
     pages = [Page(path) for path in (SITE / "workshops/copilot-app").rglob("*.html")]
     content = [page for page in pages if not page.redirect]
-    assert len(content) == 15, f"Expected 15 handbook pages, got {len(content)}"
+    assert len(content) == 18, f"Expected 18 handbook pages, got {len(content)}"
     cache = {page.path: page for page in pages}
     for page in pages:
         if not page.redirect:

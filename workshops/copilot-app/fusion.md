@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Plan with Copilot
+title: Modes, effort and permissions
 description: "Use Plan mode, set task boundaries and review the approach before code changes."
 permalink: /workshops/copilot-app/fusion/
 workshop: true
 next: skills
-next_title: Use a skill and add a regression test
+next_title: Install and use skills
 ---
 
 ## What you will learn

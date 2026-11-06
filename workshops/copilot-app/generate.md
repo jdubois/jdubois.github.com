@@ -1,13 +1,13 @@
 ---
 layout: default
-title: Generate item removal
+title: Generate and iterate with Copilot
 description: "Turn a small customer request into reviewed backend code, a working button and meaningful tests."
 permalink: /workshops/copilot-app/generate/
 redirect_from:
   - /workshops/copilot-app/review/
 workshop: true
-next: tools
-next_title: Investigate the N+1 query
+next: canvas
+next_title: Canvas and Pick & polish
 ---
 
 ## What you will learn
@@ -70,9 +70,9 @@ then ask Copilot:
 
 ```copilot
 Commit only the reviewed removal feature and its test changes, if not yet committed.
-Create a branch workshop-feature at that accepted commit without switching branches.
-Do not replace an existing branch. Confirm the working tree is clean and
-the handoff branch includes both the quantity fix and removal feature.
+Confirm the working tree is clean and includes both the quantity fix and
+removal feature. Do not create the next handoff branch yet; the Canvas
+chapter will save it after the reviewed instruction and UI changes.
 ```
 
 Stop the old shop with **Ctrl+C in its owning terminal**, then restart from this
@@ -94,7 +94,7 @@ total is stale after removal” is better than “make the UI work.”
 
 If the implementation is blocked, preserve your work and use
 [a reference checkpoint](/workshops/copilot-app/facilitator/#recovery).
-Continue to the MCP investigation with a working feature, noting whether you
+Continue to the Canvas exercise with a working feature, noting whether you
 implemented it yourself or continued from the reference.
 
 ## What you have learned

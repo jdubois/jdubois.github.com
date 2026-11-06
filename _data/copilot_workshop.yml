@@ -1,23 +1,29 @@
 - title: Overview
   slug: ""
-- title: Prepare your workshop
+- title: Set up your App workspace
   slug: setup/
-- title: Reproduce the cart bug
+- title: Investigate with Copilot
   slug: ticket/
-- title: Plan with Copilot
+- title: Modes, effort and permissions
   slug: fusion/
-- title: Skills and regression tests
+- title: Install and use skills
   slug: skills/
-- title: Fix, review, verify
+- title: Review and verify changes
   slug: verify/
-- title: Generate item removal
+- title: Generate and iterate with Copilot
   slug: generate/
-- title: Investigate N+1 with MCP
+- title: Canvas and Pick & polish
+  slug: canvas/
+- title: Investigate runtime with MCP
   slug: tools/
 - title: Parallel sessions
   slug: parallel/
-- title: Integrate the branches
+- title: Merge PRs with Agent Merge
   slug: integrate/
+- title: Review with rubber duck
+  slug: rubber-duck/
+- title: Coordinate five subagents
+  slug: subagents/
 - title: Chronicle and token usage
   slug: tokens/
 - title: Review and hand off

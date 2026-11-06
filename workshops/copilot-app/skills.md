@@ -1,19 +1,29 @@
 ---
 layout: default
-title: Use a skill and add a regression test
-description: "Load relevant Java guidance and add a regression test before changing the implementation."
+title: Install and use skills
+description: "Understand skill installation and loading, then use the bundled Java guidance to establish a failing regression test."
 permalink: /workshops/copilot-app/skills/
 workshop: true
 next: verify
-next_title: Fix, review and verify
+next_title: Review and verify changes
 ---
 
 ## What you will learn
 
-Load a relevant skill in Copilot App and use it to establish a failing regression
+Find and load a relevant skill in Copilot App, understand how to install it
+in another project, and use its guidance to establish a failing regression
 test before implementation.
 
-## Skills are already installed
+## What is a skill?
+
+A **skill** is a folder of reusable instructions and resources for a task,
+such as writing Java tests. Its `SKILL.md` explains when and how to use it;
+references or scripts may supply additional guidance.
+Installation makes the skill available. Loading it brings the relevant
+guidance into Copilot's current task. Neither grants new tool permissions.
+
+## Find the installed skills
+{: #skills-are-already-installed}
 
 **No installation is needed for this workshop.** Your repository created from
 the template already includes complete, pinned skills in `.github/skills/`.
@@ -24,12 +34,22 @@ the template already includes complete, pinned skills in `.github/skills/`.
 | `spring-boot-testing` | Generate and review HTTP tests for item removal |
 | `java-hibernate-jpa` | Diagnose the N+1 query during the MCP exercise |
 
-<details markdown="1">
-<summary>Install these skills in another project</summary>
+The later Canvas exercise uses **impeccable**, bundled with the App.
+These three Java skills are instead bundled with the **repository**.
 
+## Install skills in another project
+{: #install-skills}
+
+For a project without these skills, inspect the source and complete skill
+folder before installing it. Use the destination project's root, not this
+workshop's checkout; keep its existing pinned copies unchanged.
 Follow the
 <a href="https://github.com/github/awesome-copilot/blob/main/docs/README.skills.md#how-to-use-agent-skills" target="_blank">official Awesome Copilot instructions</a>.
-With **GitHub CLI 2.90.0+**, from your other project's root:
+With **GitHub CLI 2.90.0+**, install into `.github/skills/` at repository scope
+using the pinned commands below, or copy complete skill folders manually.
+
+<details markdown="1">
+<summary>Pinned installation commands for another project</summary>
 
 ```sh
 gh skills install github/awesome-copilot java-junit --pin 7e408815ddcb64889a3683799a85399331cfd4ef --dir .github/skills
@@ -43,11 +63,23 @@ bundled copies. You can also copy complete skill folders, including references.
 Keep the workshop's existing copies unchanged.
 </details>
 
+Confirm the destination contains each `SKILL.md` and its bundled resources.
+Then ask Copilot in that project's session to load the skill and identify
+the guidance it actually read. If the skill is not discovered, check its
+location and name before retrying; do not claim that installation alone ran it.
+You can learn the installation process here without changing repositories
+or reinstalling the workshop's skills.
+
 ## Load the skill, not just its name
 
-Ask Copilot to **use `java-junit`** to identify the assertions for the repeated-add
-regression, without editing. Check which skill files it reads and ask it to
-identify one rule that applies to this test.
+Stay in **Cart: quantity bug**. Use the installed skill in the App composer:
+
+```copilot
+Use java-junit to review the repeated-add acceptance criteria.
+Read .github/skills/java-junit/SKILL.md and any relevant bundled references.
+Identify the assertions needed and explain one skill rule that applies.
+Report which skill guidance you actually read. Do not edit or implement yet.
+```
 
 **App tip:** load the skill needed for the current task, not every installed skill
 on every turn. General skill advice does not override this
@@ -89,6 +121,7 @@ a reference example, note which steps you ran yourself.
 
 ## What you have learned
 
+- Distinguish installed skills from loaded guidance, and install complete pinned folders in another project without replacing the workshop's copies.
 - Ask Copilot to use a specific installed skill and explain how its guidance applies to the current task.
 - Keep the workshop's stack and dependency limits even when a general-purpose skill suggests other tools.
 - Review a supplied test in **Changes**, commit it before implementation and distinguish an expected assertion failure from a setup problem.

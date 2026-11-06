@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Integrate the branches
+title: Merge PRs with Agent Merge
 description: "Review two pull requests, use Agent Merge one at a time, and verify the combined application."
 permalink: /workshops/copilot-app/integrate/
 workshop: true
-next: tokens
-next_title: Improve usage with Chronicle
+next: rubber-duck
+next_title: Review with rubber duck
 ---
 
 ## What you will learn
@@ -30,8 +30,7 @@ If these are unavailable, use the
 | Where you work | What you do there |
 |---|---|
 | **Cart: empty-state UX** session | Publish, review and merge the UI PR |
-| **Cart: boundary tests** session | Update, review and merge the test PR second |
-| **Cart: integration** session, created below | Test and preview the merged application |
+| **Cart: boundary tests** session | Update and merge the test PR, then check merged `main` |
 
 Use the [worksheet](/workshops/copilot-app/worksheet/#agent-merge-and-integration)
 to record each completed step.
@@ -43,35 +42,20 @@ and handoff. Keep its branch and commit in the handoff; let Copilot use them
 directly rather than copying commit IDs into commands.
 Do not guess branch names from session titles.
 
-Check that both began at `workshop-complete`, changed only their assigned files
+Check that both began at the same updated `main` commit recorded in their
+handoffs, changed only their assigned files
 and preserved the existing 12 acceptance tests. Inspect the UI worker's preview
 and the test worker's test output.
 
-## Prepare the integration branch
-
-Use **`workshop-complete` as the integration branch**, not `main`: it already
-contains the accepted quantity fix, removal feature and query optimization.
-The workers started from this same version.
-Create one project session named **Cart: integration**, choosing **New worktree**
-and **`workshop-complete` as the base branch**. Keep this session for the rest
-of the chapter. If that base is unavailable, ask the facilitator rather than
-choosing `main`.
-
-In **Cart: integration**, ask Copilot:
-
-```copilot
-Confirm origin is my own workshop repository, not the template repository.
-Check that workshop-complete contains the accepted quantity fix, removal
-feature, query optimization and all 12 supplied acceptance tests.
-Run ./mvnw -q test. Stop if tests fail or any acceptance case is skipped.
-Publish workshop-complete to my repository without force-pushing.
-If the remote branch already exists, compare it and ask before changing it.
-Do not push main, open a PR or merge anything yet.
-```
+**Both worker PRs target `main`.** The previous chapter already merged the
+quantity fix, removal feature and query optimization there before the workers
+started. **Keep the two existing worker sessions; do not create another session
+or integration branch.** If the preparation PR is not merged, use
+[local recovery](#local-recovery) instead.
 
 ## Open the two worker PRs
 
-**Base** means the branch receiving the changes: `workshop-complete`.
+**Base** means the branch receiving the changes: `main`.
 **Head** means the worker branch supplying the changes.
 
 Paste this once in **Cart: empty-state UX**, then once in **Cart: boundary tests**:
@@ -81,14 +65,15 @@ Confirm this session's branch tip equals its reviewed handoff commit and the
 working tree is clean. If not, stop for renewed review.
 Show my repository, this worker's branch and proposed PR target before pushing.
 After I approve, publish only this worker branch without force-pushing,
-then create a PR with base workshop-complete and head this worker branch.
+then create a PR with base main and head this worker branch.
 The diff must contain only this worker's contribution, not the earlier tickets.
 Do not enable Agent Merge or merge anything.
 ```
 
 In each PR's overview, check the repository and branch names:
-**`base: workshop-complete` ← `head: your worker branch`**.
-Stop if the base shows `main` or the diff includes the earlier tickets.
+**`base: main` ← `head: your worker branch`**.
+Stop if the target is different or the diff includes the earlier tickets:
+those should already be on `main`.
 
 ## Merge the UI PR first
 
@@ -112,7 +97,7 @@ Review the UI PR's complete updated diff, including any repair commits, and
 its latest CI results. Once you accept the result, ask:
 
 ```copilot
-Merge this reviewed UI PR into workshop-complete in my repository once the
+Merge this reviewed UI PR into main in my repository once the
 tests job and all required checks and approvals pass.
 Preserve the acceptance tests and UI worker scope. Do not bypass protections
 or change the PR base. Ask before any out-of-scope correction.
@@ -146,39 +131,18 @@ If you cannot proceed, turn off Agent Merge in the worker session and use
 ## Check the UI merge
 {: #check-ui-merge}
 
-Return to **Cart: integration** and ask:
-
-```copilot
-Fetch origin in my own workshop repository. Use the latest remote
-origin/workshop-complete, not the possibly stale local workshop-complete.
-Fast-forward only this integration session's clean branch to that revision.
-If it has edits or cannot fast-forward, stop and ask; do not reset anything
-or change another session's checkout.
-Confirm it contains the UI PR's actual merged result, including a squash merge,
-not just whether the original worker commit is an ancestor.
-Run ./mvnw -q test and report the executed counts and any failures or skips.
-```
-
-Stop if verification fails. Before previewing, stop the old shop with
-**Ctrl+C in the terminal that started it**. In the **Cart: integration**
-session's directory, start the reviewed copy:
-
-```sh
-./mvnw spring-boot:run
-```
-
-**Done when:** this checkout contains the UI merge, the original 12 tests pass
-without skips, and the empty-cart catalogue link works with a keyboard and
-a narrow viewport.
+Confirm GitHub shows the UI PR as **Merged** and the **tests** job passes for
+that merged revision on `main`. Stop if it fails. Next, bring that UI change
+into the existing test worker branch; no new session is needed.
 
 ## Update and merge the test PR
 
-Return to **Cart: boundary tests**, not the integration session. Ask:
+Select **Cart: boundary tests** in the App sidebar and ask:
 
 ```copilot
-Fetch origin and merge the latest origin/workshop-complete into this test
-worker branch. Keep the PR base workshop-complete and its head this worker branch.
-Do not reset workshop-complete or this branch, discard either worker's changes
+Fetch origin and merge the latest origin/main into this test
+worker branch. Keep the PR base main and its head this worker branch.
+Do not reset main or this branch, discard either worker's changes
 or force-push. Show any proposed conflict resolution for approval.
 Run ./mvnw -q test; stop if tests fail or any acceptance case is skipped.
 Show the updated diff and ask before pushing this branch to update its PR.
@@ -191,7 +155,7 @@ tests**, with corrections limited to its test scope. Preserve the accepted UI.
 Review any repairs with **Merge pull request** still off. Then explicitly ask:
 
 ```copilot
-Merge this reviewed boundary-test PR into workshop-complete in my repository
+Merge this reviewed boundary-test PR into main in my repository
 once the tests job and all required checks and approvals pass.
 Preserve both workers' contributions, the 12 supplied acceptance tests and
 the boundary tests. Do not bypass protections or change the PR base.
@@ -203,24 +167,43 @@ Enable **Merge pull request** and confirm the App's authorization prompt.
 
 ## Verify the combined application
 
-Return to **Cart: integration**. Repeat the
-[synchronization and test prompt](#check-ui-merge), this time asking Copilot to
-confirm **both PRs' merged results** are included. Do not use a worker checkout
-or assume the local branch has updated itself.
+Stay in **Cart: boundary tests**. Both PRs are merged, so use this same
+session to check the code now on `main`, rather than the old worker version.
+Ask Copilot:
+
+```copilot
+Confirm both worker PRs are Merged in my own repository. Fetch origin.
+Confirm this session's working tree is clean; stop if it has uncommitted work.
+Preserve the worker branches and their commits. In this session's own worktree,
+check out the exact latest origin/main commit for verification, without moving
+the main branch or changing another session's checkout. Do not create a new
+session or branch, reset anything or push.
+Confirm the checked-out commit equals origin/main and contains both PRs'
+actual merged results, including squash merges.
+Run ./mvnw -q test and report the executed counts and any failures or skips.
+```
 
 The full suite should now contain the original **12 tests plus the new boundary
 cases**, all executed with no failures/errors/skips. Check the reports for every
 acceptance class and `CartBoundaryTest`; a successful command that ran no tests
 does not verify the change.
 
-Stop the previous shop in its owning terminal and restart the final reviewed
-copy with the same startup command before previewing it. Confirm repeated adds,
-removal and the empty-cart link still work. An individual PR passing tests does
-not establish that the merged result works.
+Stop the old shop with **Ctrl+C in the terminal that started it**. In the
+**Cart: boundary tests** session's directory, start the checked-out main version:
 
-The combined result is on **`workshop-complete`**, not `main`. Continue to
-Chronicle and the final review from this integration session. No additional PR
-to `main` is required for this exercise. Keep the two PR links, CI results and
+```sh
+./mvnw spring-boot:run
+```
+
+Confirm repeated adds, removal and the empty-cart catalogue link still work,
+including keyboard navigation and a narrow viewport. An individual PR passing
+tests does not establish that the merged result works.
+
+The combined result is now on **`main`**. Continue to the independent review
+and checkout implementation in the same **Cart: boundary tests** session.
+At this stage there are three PRs: the three-ticket preparation PR,
+the UI PR and the boundary-test PR.
+Keep their links, CI results and
 combined checks on the [worksheet](/workshops/copilot-app/worksheet/).
 
 <details markdown="1" id="local-recovery">
@@ -232,39 +215,43 @@ an open PR before integrating locally, so it cannot merge in the background.
 Do not bypass protections,
 invent CI results or report a local merge as Agent Merge completion.
 
-Use **Cart: integration**. If it does not exist yet, create it with
-**New worktree**, based on local **`workshop-complete`**.
-Give Copilot both reviewed handoffs and ask:
+Stay in **Cart: boundary tests** and give Copilot both reviewed handoffs.
+This worker already has the boundary tests; it only needs any missing accepted
+UI changes. Ask:
 
 ```copilot
-Inspect the current integration branch, both handoffs and any PRs already merged.
-If GitHub is reachable, fetch origin and fast-forward this clean session
-to origin/workshop-complete first; ask if that would discard or conflict with work.
-Use actual PR merge results to recognize squash merges, not just worker ancestry.
-If remote status cannot be checked, record it as unknown.
-Preserve existing work; do not reset branches or merge a contribution twice.
-Merge the accepted UI contribution if it is not already included.
-Run ./mvnw -q test and stop if it fails.
-Then merge the accepted boundary-test contribution if not already included.
-Run ./mvnw -q test again.
-Use the actual reviewed commits, not inferred branch names or newer changes.
-Ask before resolving a conflict or using an unavailable handoff.
+Confirm the working tree is clean and this is the reviewed boundary-test
+worker branch with its accepted tests. If not, stop and ask before switching.
+Preserve both worker branches, their commits and any unfinished work.
+If the preparation PR merged and GitHub is reachable, fetch origin and merge
+origin/main into this test worker branch, keeping its boundary tests.
+If preparation used local recovery, keep the accepted local starting point;
+do not replace it with starter main. If remote status is unavailable, mark
+it unknown and use only the recorded reviewed local results.
+Check whether the accepted UI result is already included, accounting for
+squash merges. Merge the reviewed UI handoff commit only if its changes
+are missing. Do not merge the test branch into itself or apply changes twice.
+Ask before resolving a conflict, or if a reviewed handoff cannot be found.
+Run ./mvnw -q test and report all counts, failures and skips.
 Do not push, merge remote PRs or enable Agent Merge.
 ```
 
 Perform the same combined tests and preview described above. If a conflict
 occurs, review both contributions rather than automatically choosing one side.
-Continue from this local integration session, not a remote branch that may
-still be incomplete. Mark **Agent Merge not completed: local recovery used**.
+Continue in **Cart: boundary tests** using this checked local result, not a
+remote `main` that may still be incomplete. Skip the normal-path checkout of
+`origin/main`: it could discard the recovered result from your preview.
+Mark **Agent Merge not completed: local recovery used** and record whether
+remote `main` actually contains the work.
 
 </details>
 
-Record whether the result is ready, needs correction or remains unfinished. Then use
-[Chronicle](/workshops/copilot-app/tokens/) to reflect on the workshop's actual
-sessions, including the parallel work and integration.
+Record whether the result is ready, needs correction or remains unfinished.
+Then [get a second opinion](/workshops/copilot-app/rubber-duck/) on this
+checked result before building the next feature on its own branch.
 
 ## What you have learned
 
 - Use **Changes** and each session's handoff to check its scope, committed code and reported results.
-- Target the reviewed integration branch, authorize Agent Merge for one PR at a time and confirm each PR actually merged.
+- Target updated `main`, authorize Agent Merge for one worker PR at a time and confirm each PR actually merged.
 - Verify the merged application, rather than assuming that two individually passing branches will work together.

@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Prepare your workshop
+title: Set up your App workspace
 description: "Open the project in Copilot App, check the starter tests and run the shop."
 permalink: /workshops/copilot-app/setup/
 workshop: true
 next: ticket
-next_title: Reproduce the cart bug
+next_title: Investigate with Copilot
 ---
 
 ## Open your own shop
@@ -50,18 +50,28 @@ repository configuration.
 You need JDK 21+, Git and a supported App account. No Docker or Node installation.
 
 The three skills are **already installed** in `.github/skills/`.
-The [skills chapter](/workshops/copilot-app/skills/) explains how to load them
-and install them in another project.
+The [Install and use skills chapter](/workshops/copilot-app/skills/) explains
+how to load them and where to find installation instructions for another project.
 
-The [integration exercise](/workshops/copilot-app/integrate/) uses **Agent Merge**
-with two PRs in your own repository. Enable **GitHub Actions** and confirm you
+Later you will use the Browser canvas's **Pick & polish** control and the
+bundled **impeccable** UI skill, then **`/rubber-duck`** and **`/fleet`** in
+the App composer. Check their availability in your build; recovery is included
+in each chapter. The Canvas chapter updates `AGENTS.md` with startup guidance
+and narrow permission for the later mock-checkout implementation with subagents
+on one feature branch. The fourth ticket builds an order and receipt, not
+payments or authentication. Earlier ticket scopes and tests stay unchanged.
+
+Before parallel work, merge the three accepted tickets into **`main` through
+one reviewed PR**. The [integration exercise](/workshops/copilot-app/integrate/)
+then uses **Agent Merge** for two worker PRs targeting `main`.
+Enable **GitHub Actions** and confirm you
 can push branches, create PRs and merge them under your repository's rules.
 Check that your organization allows Agent Merge and that any required
 reviewer can approve your PRs. A policy denial or unavailable required
 approval is a blocker, not a reason to broaden permissions.
 The template includes the **Shopping-cart checks** workflow. Never weaken
 organization policies or branch protections for the workshop; ask the
-facilitator for help or use the integration chapter's local recovery steps
+facilitator for help or use the parallel and integration chapters' local recovery steps
 if GitHub, CI or Agent Merge is unavailable.
 
 Let Copilot check the checkout and preserve your starting point:
