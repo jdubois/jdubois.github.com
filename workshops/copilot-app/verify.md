@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Fix, review and verify
+title: Review and verify changes
 description: "Guide the fix, review changed files and check tests and shop behavior."
 permalink: /workshops/copilot-app/verify/
 workshop: true
 next: generate
-next_title: Generate item removal
+next_title: Generate and iterate with Copilot
 ---
 
 ## What you will learn

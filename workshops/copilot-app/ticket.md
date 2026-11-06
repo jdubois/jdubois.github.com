@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Reproduce the cart bug
+title: Investigate with Copilot
 description: "Give Copilot a reproducible bug report with clear expected behavior."
 permalink: /workshops/copilot-app/ticket/
 workshop: true
 next: fusion
-next_title: Plan with Copilot
+next_title: Modes, effort and permissions
 ---
 
 ## What you will learn
@@ -14,19 +14,29 @@ Give Copilot a clear bug report and ask it to trace the cause before editing cod
 
 ## “I added it twice. There is still only one.”
 
-In the shop, click **Reset cart**, then **Add Notebook to cart** twice.
+In the shop, click **Reset cart** and wait for it to finish. Click
+**Add Notebook to cart**, wait for the response and the button to re-enable,
+then click it again. A rapid double-click may send only one request because
+the UI disables buttons while a request is pending.
 The Notebook costs €10. The starter shows **quantity 1 / €10**;
 the customer expects **quantity 2 / €20**.
 
 This is not just a label problem. The server has replaced the existing quantity.
 Your fix must survive a page reload.
 
-## Give Copilot a useful ticket
+## Continue in your existing session
+{: #give-copilot-a-useful-ticket}
 
-In **Cart: quantity bug**, describe the reproduction and expected result.
-Ask it to explain the flow without editing yet:
+Continue in the **Copilot App project session** named **Cart: quantity bug**
+that you created in [setup](/workshops/copilot-app/setup/#open-it-in-copilot-app).
+**No new session or GitHub issue is needed.**
+Paste this into that session's composer to investigate without editing yet:
 
 ```copilot
+After resetting the cart, I added the Notebook (1000 cents) twice,
+waiting for each request to finish before the next click.
+The shop shows quantity 1 and total 1000 cents; I expect quantity 2
+and total 2000 cents, including after a page reload.
 Trace adding the same product twice from the shop UI through
 POST /api/cart/items to persisted state. Explain why the quantity
 does not accumulate. Do not edit files yet. Name the relevant

@@ -15,8 +15,9 @@ check history privacy and choose one practical workflow improvement.
 
 ## Review your workshop sessions
 
-You have fixed a bug, generated a feature, investigated a query problem and
-coordinated parallel work. Instead of memorizing token prices, use **Chronicle
+You have fixed a bug, generated a feature, polished the UI, investigated a query
+problem, coordinated parallel work, requested a critique and delegated checkout
+implementation. Instead of memorizing token prices, use **Chronicle
 in GitHub Copilot App** to examine those sessions and their integration.
 
 **Goal:** reduce unnecessary token usage without relaxing tests or code review.
@@ -97,6 +98,9 @@ cost field into dollars.
 
 Fusion can make additional calls. Do not infer complete Fusion accounting from
 the main conversation alone. Missing usage is **unknown, not zero**.
+The same applies to the rubber duck and five-subagent exercise: include their
+usage only if exposed, and distinguish five assignments from five simultaneous
+agents. More agents are not proof of lower cost or better quality.
 Caching can change cost without changing task quality or raw token counts.
 
 ## Change one habit
@@ -118,7 +122,10 @@ the analysis itself also consumes resources.
 
 Ask Copilot to suggest **one short repository instruction** for a recurring
 problem you identified. Review it before applying and keep only what helps
-this project. Describe expected savings as a prediction until you measure them.
+this project. If you decide to apply it, use the current reviewed checkout
+feature branch. If you stayed on a verification checkout during recovery,
+ask Copilot to prepare a normal feature branch before editing.
+Describe expected savings as a prediction until you measure them.
 
 Continue with the [final review and handoff](/workshops/copilot-app/finish/).
 

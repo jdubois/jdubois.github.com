@@ -8,8 +8,8 @@ workshop: true
 
 ## What you will learn
 
-Use Copilot App to review the full workshop change, verify the final result and
-prepare a clear handoff.
+Use Copilot App to review the implemented shop and its evidence, then hand
+off the result alongside the independent critique and verified checkout feature.
 
 ## Final review
 {: #final-review}
@@ -28,15 +28,21 @@ change where a PR merges.
 ```copilot
 Review the full starter-to-current change, including committed tickets,
 staged/unstaged edits and new files, for cart behavior, validation, server
-prices, removal, the query change and both parallel workers' contributions.
+prices, removal, startup instructions, Canvas UI changes, the query change
+both parallel workers' contributions and the checkout implementation.
+Check stored order snapshots, atomic clearing, retry behavior and receipt UI.
+Distinguish local checkout code from what is actually merged into main.
 Use workshop-start as the comparison starting point only
-(v2-start only in a separate reference checkout).
-Do not edit, reset branches or retarget PRs. Identify concrete regressions or missing evidence,
-not style preferences.
+and do not edit, reset branches or retarget PRs.
+Identify concrete regressions or missing evidence, not style preferences.
 ```
 
-Inspect findings yourself, request precise corrections, then rerun the suite
-below. Preview repeated adds, removal, empty state and the sample cart.
+Inspect findings yourself. If corrections are needed, use the current reviewed
+checkout feature branch. If recovery left you on a verification checkout,
+ask Copilot to create a normal feature branch before editing; do not commit
+on the verification checkout or push directly to `main`. Review the corrections
+and rerun the suite below. Preview repeated adds, removal, empty state and
+the sample cart, checkout receipt and return to shopping.
 
 ## Check your results
 
@@ -44,8 +50,11 @@ below. Preview repeated adds, removal, empty state and the sample cart.
 |---|---|
 | Fixed repeated additions | Notebook added twice → quantity 2 / €20, persists after reload; regression tests pass |
 | Generated removal | Correct DELETE response, working button, other products and totals preserved |
+| Used a Canvas | Reviewed startup instructions, running shop preview, selected UI issue and checked correction, or an explicit fallback record |
 | Investigated N+1 | Matched MCP before/after request profiles, same workload, query tests green |
-| Coordinated parallel work | Two isolated sessions with the same starting point, two reviewed PRs merged sequentially with Agent Merge, and a tested combined result; or an explicit local-recovery record |
+| Coordinated parallel work | Preparation PR merged into `main`, two isolated sessions from that updated version, two worker PRs merged sequentially with Agent Merge, and a tested combined result; or an explicit local-recovery record |
+| Requested an independent critique | Actual rubber duck findings, decisions and evidence for corrections; or a recorded unavailable critic |
+| Built mock checkout with five subagents | Actual contributions, reviewed code, passing checkout regressions and receipt/cart preview; or an explicit incomplete/demonstration record |
 | Reviewed token usage | Chronicle report or a note that it was unavailable/not run, plus one improvement based on the workshop sessions |
 | Used Copilot App effectively | Reviewed plan, loaded skills, inspected changed files and checked test output |
 
@@ -53,31 +62,46 @@ Use the [worksheet](/workshops/copilot-app/worksheet/); mark demos, reference
 solutions and unavailable features. Use tool responses and test output to
 support the results, not just Copilot's final summary.
 
-## Verify before committing
+## Verify before handing off
 
-After all three tickets and the parallel integration, run the **full suite**,
-including the generated boundary tests:
+After the first three tickets, parallel integration and checkout implementation,
+run the **full suite**, including generated boundary and checkout tests:
 
 ```sh
 ./mvnw -q test
 ```
 
 The supplied classes contain **12 tests**, with no failures/errors/skips;
-the integrated boundary tests add further cases. Check the reports for every
-acceptance class and `CartBoundaryTest`; no supplied case may be removed.
+the boundary and checkout tests add further cases. Check the reports for every
+acceptance class, `CartBoundaryTest` and `CheckoutContractTest`;
+no supplied case may be removed. If checkout was blocked, mark its cases as
+not completed rather than treating an earlier 12-test pass as checkout evidence.
 If a ticket or worker remains unfinished, record that explicitly rather than
 presenting partial work as the complete workshop result.
 
 Ask Copilot to show the intended file list and diff, including new files.
-Review them in **Changes**, then ask it to commit only the accepted changes
-and provide a concise handoff:
+Review them in **Changes**. The accepted workshop work is already committed;
+do not create another commit just to finish. If you made corrections on a
+follow-up feature branch, commit only those accepted corrections there.
+Ask Copilot for a concise handoff:
 what changed, what was checked, what is still unknown.
 
 ## Where your result lives
 
-The integration exercise landed the two worker PRs on **`workshop-complete`**,
-not `main`. Review that combined branch in your integration session and retain
-both PR links and CI results. No additional PR to `main` is required.
+The three-ticket preparation PR and both worker PRs landed on **`main`**.
+Stay in **Cart: boundary tests**, using the merged main version checked out
+in the integration chapter as the starting point for the now-reviewed
+checkout feature branch. Retain all
+three PR links and CI results, plus the checkout branch/commit and checks.
+Publishing checkout in a separate PR is optional.
+If boundary tests required a separate production-correction PR, retain its
+review, checks and actual merge status too.
+
+Checkout is **local feature-branch work** until you separately choose to publish
+and merge it. Do not claim it is on `main` merely because the earlier PRs merged.
+Any optional checkout PR needs its own review, checks and merge authorization.
+If checkout remains unfinished, preserve its branch and hand off the earlier
+reviewed result with that limitation, not a fictional successful order.
 
 If you used local recovery, keep the local combined branch and record the
 GitHub, CI or Agent Merge blocker. Do not describe open PRs as merged or local
@@ -86,15 +110,18 @@ results as completed CI checks. Record any unfinished work in the handoff.
 ## Keep one useful habit
 
 Leave with the reviewed result, a record of unfinished work,
+the independent review decisions, the reviewed checkout feature
 and the reusable prompt or usage habit you chose with Chronicle.
 
 The transferable loop is **reproduce → plan → implement → inspect → verify**.
-Skills provide procedure, MCP provides evidence, and Chronicle helps you improve
-how you work. None replaces your judgment.
+Skills provide procedure, Canvas grounds UI feedback, and MCP provides runtime
+evidence. Rubber duck challenges your reasoning; subagents coordinate focused
+work. Chronicle helps you improve the workflow. None replaces your judgment.
 
 ## What you have learned
 
 - Ask Copilot to review the entire change from **workshop-start**, including earlier commits, current edits and new files.
 - Use **Changes**, test output and a shop preview to assess the result, and record unfinished work or unverified features.
-- Prepare a concise handoff with the integration branch, actual PR/CI status and any local recovery or unfinished work.
+- Prepare a concise handoff with updated `main`, actual PR/CI status and any local recovery or unfinished work.
+- Include the independent critique and checkout branch/commit, with actual verification and local-versus-merged status.
 - Carry forward one improved Copilot habit from the workshop, such as a clearer initial prompt or more focused context.

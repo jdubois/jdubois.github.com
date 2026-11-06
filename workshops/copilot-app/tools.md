@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Investigate the N+1 query
+title: Investigate runtime with MCP
 description: "Give Copilot runtime evidence through MCP, then verify a small Hibernate fix without losing cart behavior."
 permalink: /workshops/copilot-app/tools/
 workshop: true
 next: parallel
-next_title: Work in two isolated sessions
+next_title: Parallel sessions
 ---
 
 ## What you will learn
@@ -15,10 +15,10 @@ a performance fix with the same workload before and after.
 
 ## “Why does a full cart run so many queries?”
 
-Keep the repaired quantity behavior and removal feature. In a focused session
+Keep the repaired quantity behavior, removal feature and reviewed Canvas changes. In a focused session
 named **Cart: query investigation**, select **`workshop-feature` as its base
 branch**. Ask Copilot to confirm that the session starts at `workshop-feature`,
-contains both accepted changes and has no uncommitted edits.
+contains all those accepted changes and has no uncommitted edits.
 If the base cannot be selected, continue in the session containing the reviewed feature.
 Use **`java-hibernate-jpa`** to explain lazy product loading. Do not optimize
 anything until you have a baseline.

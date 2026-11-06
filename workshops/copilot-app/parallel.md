@@ -5,7 +5,7 @@ description: "Give independent tasks clear ownership, a shared accepted base and
 permalink: /workshops/copilot-app/parallel/
 workshop: true
 next: integrate
-next_title: Integrate the branches
+next_title: Merge PRs with Agent Merge
 ---
 
 ## What you will learn
@@ -13,33 +13,141 @@ next_title: Integrate the branches
 Run two Copilot App sessions in separate worktrees, starting from the same
 reviewed version with clear file ownership.
 
-## Start two tasks from the same version
+## Bring the reviewed work into main
+{: #update-main}
 
-Prepare the shared base and two isolated sessions.
-After reviewing the completed cart, removal and query changes, ask Copilot:
+First, stay in the session where you finished the query fix, normally
+**Cart: query investigation**. After reviewing the completed cart, removal
+and query changes, put those **three completed tickets into `main` through
+one reviewed PR**. This gives both workers a normal, up-to-date starting point.
+Paste this prompt in the query session:
 
 ```copilot
+Confirm origin is my own workshop repository, not the template repository.
 Commit only the accepted workshop changes, if not yet committed.
-Create a branch workshop-complete at this commit without switching branches.
-Do not replace an existing branch. Confirm it includes the quantity fix,
-removal feature and query optimization, and the working tree is clean.
+Fetch origin and show this session's complete diff against origin/main.
+Confirm it includes the quantity fix, removal feature, query optimization
+and all 12 supplied acceptance tests, plus the reviewed Canvas AGENTS.md
+and UI changes. Run ./mvnw -q test and report counts.
+Stop if any test fails or an acceptance case is skipped.
+After I review and approve, publish only this session's branch without
+force-pushing and open one PR targeting main for the three completed tickets.
+Do not push directly to main or merge the PR yet.
 ```
 
-`workshop-complete` marks the shared starting point.
+Open that PR in the App. Review **Files changed** and the **tests** CI job;
+resolve failures and obtain any required approvals. After accepting its
+complete diff and checks, ask Copilot:
+
+```copilot
+Merge this reviewed three-ticket PR into main in my own repository only
+once the tests job and all required checks and approvals pass.
+Do not bypass protections or include unreviewed changes.
+Confirm GitHub reports the PR as Merged.
+```
+
+**Do not start the workers until the PR is Merged.** In the query session,
+ask Copilot to fetch `origin/main`, confirm its merged result contains all
+three tickets, the reviewed Canvas instruction/UI changes and the 12 acceptance
+tests, and report the new starting commit.
+This includes squash merges; the original ticket commits need not be ancestors.
+Keep the PR link and shared starting commit on the
+[worksheet](/workshops/copilot-app/worksheet/#parallel-handoff).
+
+## Start two tasks from updated main
+
 In Copilot App, create two project sessions with **isolated worktrees**,
-selecting **`workshop-complete` as the base branch** for both. Do not silently
-use the project's default branch. Ask each worker to confirm that its starting
-commit matches `workshop-complete` and contains the full accepted solution
-before editing.
+selecting **`main` as the base branch** for both. Name them as shown below.
+Each session must start at the same updated `origin/main` commit reported
+above, not a stale local copy of the starter. The worker prompts check this
+before editing. Keep each worker on its own branch; **do not have both edit
+`main` directly**.
+
+If GitHub or CI prevents the preparation PR from merging, use the
+[local recovery steps](#local-recovery) instead of claiming `main` is updated.
 
 | Session | Owns | Done means |
 |---|---|---|
 | Cart: empty-state UX | `src/main/resources/static/` only | Empty cart includes a clear link back to the catalogue, accessible by keyboard and usable on mobile |
-| Cart: boundary tests | A new `CartBoundaryTest.java` only | HTTP tests cover missing quantity, non-integer quantity and exactly 99 units; no production edits |
+| Cart: boundary tests | A new `CartBoundaryTest.java` only | HTTP tests cover missing quantity, fractional `1.5`, string `"one"` and exactly 99 units; rejected input preserves the cart; no production edits |
 
-Use the [worker cards](/workshops/copilot-app/prompts/#parallel).
-The test worker may use `spring-boot-testing`. If it finds a behavior defect,
-report it rather than editing the other worker's files or weakening assertions.
+These tasks touch different files, so the two sessions can work at the same
+time without overwriting each other's changes. Each prompt belongs in only
+one session. **Both prompts are below; you do not need to open another page.**
+
+### Cart: empty-state UX
+{: #ui-worker}
+
+Select **Cart: empty-state UX** in the App sidebar. Paste this prompt into
+that session's composer to improve the screen users see when their cart is empty:
+
+```copilot
+Fetch origin and confirm this session starts at the shared updated origin/main
+commit from the preparation handoff, with all three accepted tickets and tests.
+Stop if it does not match; do not edit a stale checkout.
+Only change src/main/resources/static/.
+Improve the empty-cart state with a clear keyboard-accessible link to the
+catalogue; preserve cart behavior and mobile usability.
+No API changes or dependencies. Preview the UI, review the diff, commit,
+and report the actual branch/commit, checks and limitations.
+Do not open or merge a PR yet.
+```
+
+### Cart: boundary tests
+{: #test-worker}
+
+Now select **Cart: boundary tests** in the App sidebar. Paste this different
+prompt into its composer to check inputs at the limits of the quantity rules:
+
+```copilot
+Fetch origin and confirm this session starts at the shared updated origin/main
+commit from the preparation handoff, with all three accepted tickets and tests.
+Stop if it does not match; do not edit a stale checkout.
+Use spring-boot-testing. Only add CartBoundaryTest.java beside the existing tests.
+Use HTTP integration tests for missing quantity, non-integer quantity
+(numeric 1.5 and string "one") and exactly 99 units.
+For rejected input, require HTTP 400, then verify GET /api/cart and persisted
+state are unchanged.
+Do not change production code or existing tests.
+If a test exposes an application bug, report it for my review.
+Do not fix application code or weaken an assertion to make the test pass.
+Run the new cases and full suite. Commit the test file and report the
+actual branch/commit, executed counts, any failures and limitations.
+Do not open or merge a PR yet.
+```
+
+The testing skill helps this second session write and run the HTTP tests.
+If those tests reveal a bug, **keep the failing regression and pause integration**.
+The test session must not change application code: that would go beyond its
+assigned task. Review the finding and use the separate correction path below.
+
+<details markdown="1" id="boundary-fix">
+<summary>If a boundary test exposes an application bug</summary>
+
+Keep the test worker's reviewed failing test commit. In the existing
+**Cart: query investigation** session, ask Copilot to prepare a separate
+production-fix feature branch from the shared accepted starting point.
+Give it the exact failing request, expected status and unchanged-state rule.
+Review its plan before permitting edits.
+
+The correction must include its own focused regression test, outside
+`CartBoundaryTest.java`, and preserve the 12 supplied tests. Do not include
+either worker's commit or change their files to make the correction pass.
+Review the production diff and full-suite results. If the preparation PR is
+merged, publish and merge this additional correction PR into `main` only after its own review, checks and
+merge approval; it is not covered by either worker's authorization.
+
+Back in **Cart: boundary tests**, ask Copilot to merge the accepted correction
+from updated `origin/main` into its existing branch, preserve its tests and
+rerun the full suite. Review and record the updated handoff before integration.
+Do not proceed while the boundary regression still fails.
+
+If preparation used local recovery, or GitHub, CI or approvals are unavailable,
+preserve the separately reviewed correction handoff
+and use [integration recovery](/workshops/copilot-app/integrate/#local-recovery)
+to include it locally. Do not claim that `main` contains an unmerged correction.
+
+</details>
 
 ## Supervise without sharing a working directory
 
@@ -58,11 +166,30 @@ finished; these tasks do not need additional BootUI work.
 Before integration, preserve unfinished branches and review what is actually
 ready. Ask for help if either worker is blocked.
 Do not let the workers open or merge PRs yet. In the next chapter, you will
-publish the shared `workshop-complete` branch, target both worker PRs at it,
+target both worker PRs at **`main`**,
 and use **Agent Merge** one PR at a time.
+
+<details markdown="1" id="local-recovery">
+<summary>Recovery: the preparation PR cannot be merged</summary>
+
+Ask the facilitator for help. Do not bypass protections or continue with
+failing acceptance tests. If GitHub, CI or approvals are unavailable but the
+reviewed local query-fix version passes all 12 tests, ask Copilot to commit
+only that accepted work and report its actual branch and commit.
+
+Create both isolated worker sessions from **that recorded local branch**
+instead of `main`. In each worker prompt, replace the remote-main check with
+a check against the recorded local starting commit and the three accepted
+tickets. Keep the tasks and file boundaries unchanged.
+
+Record **main not updated: local recovery used** and any open preparation PR.
+Continue with the integration chapter's local recovery, not its remote PR
+steps. Do not report local integration as GitHub or Agent Merge completion.
+
+</details>
 
 ## What you have learned
 
-- Create two isolated App sessions from **workshop-complete** and verify their shared starting point before editing.
+- Merge the three accepted tickets into `main` through a reviewed PR, then create two isolated sessions from the same updated starting point.
 - Assign each session a specific task and set of files so it can work independently without changing the other session's code.
 - Supervise progress and collect reviewed commits, test results and limitations for integration.
