@@ -1,3 +1,7 @@
+---
+layout: null
+lang: en
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -494,6 +498,7 @@
         }
     </style>
     <!-- GitHub brand theme, shared by every deck (see conferences/DESIGN.md) -->
+    <link rel="stylesheet" href="/css/consent.css" />
     <link rel="stylesheet" href="../github-theme/github-slides.css" />
 </head>
 <body>
@@ -1871,5 +1876,6 @@ Reveal.initialize({
     if (Reveal.isReady()) sync(Reveal.getCurrentSlide());
 })();
 </script>
+{% include analytics-consent.html deck=true %}
 </body>
 </html>

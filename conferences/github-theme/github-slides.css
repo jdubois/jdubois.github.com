@@ -46,6 +46,67 @@
     font-display: swap;
 }
 
+/* Consent stays outside Reveal's scaled slide canvas. */
+.consent-banner,
+.consent-manage-deck {
+    --bg-white: var(--gh-surface);
+    --border-strong: var(--gh-border-strong);
+    --text-primary: var(--gh-text);
+    --text-secondary: var(--gh-text-body);
+    --primary-color: var(--gh-accent-text);
+    --primary-dark: var(--gh-green-3);
+    --font-display: var(--gh-font);
+    --font-body: var(--gh-font);
+    --shadow-md: none;
+}
+
+.consent-banner {
+    border-width: var(--gh-rule);
+}
+
+.consent-actions .btn {
+    min-height: 44px;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--gh-border-strong);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--gh-text);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.consent-actions .btn-ink {
+    background: var(--gh-green);
+    border-color: var(--gh-green);
+    color: var(--gh-gray-6);
+}
+
+.consent-actions .btn:hover {
+    border-color: var(--gh-green-3);
+}
+
+.consent-actions .btn-ink:hover {
+    background: var(--gh-green-3);
+}
+
+.consent-manage-deck {
+    position: fixed;
+    left: 1rem;
+    bottom: 0.25rem;
+    z-index: 1070;
+    min-height: 44px;
+    padding: 0.5rem;
+    background: var(--gh-bg);
+    font-family: var(--gh-font);
+    font-size: 15px;
+}
+
+.print-pdf .consent-banner,
+.print-pdf .consent-manage-deck {
+    display: none;
+}
+
 /* ── Tokens ─────────────────────────────────────────────────────────── */
 :root {
     /* Brand primitives */

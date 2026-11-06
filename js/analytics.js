@@ -111,8 +111,8 @@
         }
 
         var current = readConsent();
-        if (current === GRANTED) {
-            apply(GRANTED);
+        if (current !== null) {
+            apply(current);
         } else if (current === null) {
             banner.hidden = false;
         }
@@ -120,12 +120,19 @@
         accept.addEventListener('click', function () { choose(GRANTED, true); });
         decline.addEventListener('click', function () { choose(DENIED, true); });
         banner.addEventListener('keydown', function (e) {
+            // Reveal.js must not interpret consent interactions as slide shortcuts.
+            e.stopPropagation();
             if (e.key === 'Escape') {
                 choose(DENIED, true);
             }
         });
         Array.prototype.forEach.call(manage, function (el) {
             el.addEventListener('click', show);
+            el.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.stopPropagation();
+                }
+            });
         });
 
         window.addEventListener('storage', function (e) {
