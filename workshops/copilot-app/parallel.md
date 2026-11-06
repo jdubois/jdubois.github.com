@@ -66,6 +66,11 @@ before editing. Keep each worker on its own branch; **do not have both edit
 If GitHub or CI prevents the preparation PR from merging, use the
 [local recovery steps](#local-recovery) instead of claiming `main` is updated.
 
+<figure>
+  <a href="/workshops/copilot-app/assets/illustration-parallel-worktrees.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-parallel-worktrees.svg" alt="Normal integration path: two isolated worktrees start at the same reviewed main commit; merge the reviewed UI PR first, update the test branch, merge its reviewed PR, then verify the combined application." width="1440" height="820" loading="lazy"></a>
+  <figcaption>Independent work starts from one reviewed base; delivery brings the two results back together in order.</figcaption>
+</figure>
+
 | Session | Owns | Done means |
 |---|---|---|
 | Cart: empty-state UX | `src/main/resources/static/` only | Empty cart includes a clear link back to the catalogue, accessible by keyboard and usable on mobile |

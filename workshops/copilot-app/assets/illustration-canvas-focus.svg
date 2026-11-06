@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="800" viewBox="0 0 1440 800" role="img" aria-labelledby="title desc">
+  <title id="title">Point to the problem. Keep the scope.</title>
+  <desc id="desc">A conceptual cart-line Remove button is selected for inspection. Propose a correction only for an observed issue, obtain approval, then check keyboard focus and a narrow viewport while preserving DELETE behavior. A Browser canvas displays the server URL; it does not start the application.</desc>
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#e2e6ea"/></pattern>
+    <style>
+      text{font-family:"Schibsted Grotesk",Arial,sans-serif;fill:#0f1419}
+      .body{font-family:"Hanken Grotesk",Arial,sans-serif;font-size:21px;fill:#46505f}
+      .mono{font-family:"JetBrains Mono",monospace;font-size:16px;fill:#475569}
+    </style>
+  </defs>
+  <path fill="#f4f6f8" d="M0 0h1440v800H0z"/>
+  <text x="72" y="95" font-size="46" font-weight="800" letter-spacing="-1.6">Point to the problem. Keep the scope.</text>
+  <text x="74" y="139" class="body">One observed interaction. A small correction. The same working cart.</text>
+  <path d="M64 202h800v424H64z" fill="url(#grid)"/>
+  <g transform="translate(116 272)">
+    <rect width="692" height="225" rx="8" fill="#fff" stroke="#d2d8df" stroke-width="2"/>
+    <path d="M35 42h58v79H35z" fill="#1d4ed8"/>
+    <path d="M35 42h7v79h-7z" fill="#14309c"/>
+    <path d="M54 64h25m-25 10h19" stroke="#fff" stroke-width="2"/>
+    <text x="119" y="72" font-size="27" font-weight="700">Notebook</text>
+    <text x="119" y="109" class="body">Quantity 2 / EUR 20</text>
+    <path d="M34 152h625" stroke="#e2e6ea"/>
+    <text x="35" y="191" class="mono">Conceptual cart line / not App UI</text>
+    <rect x="489" y="48" width="164" height="65" rx="8" fill="#fff" stroke="#0f1419" stroke-width="2"/>
+    <text x="571" y="90" text-anchor="middle" font-size="24" font-weight="700">Remove</text>
+  </g>
+  <path d="M593 307v-20h20m168 0h20v20m0 90v20h-20m-168 0h-20v-20" fill="none" stroke="#1d4ed8" stroke-width="3"/>
+  <path d="m722 381 8 57 13-15 18-3Z" fill="#0f1419" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M819 353h73q24 0 24-24v-55h71" fill="none" stroke="#1d4ed8" stroke-width="2"/>
+  <circle cx="987" cy="274" r="5" fill="#1d4ed8"/>
+  <text x="1016" y="265" font-size="27" font-weight="700">Inspect first</text>
+  <text x="1016" y="301" class="body">Is there a real usability issue?</text>
+  <text x="1016" y="334" class="body">Propose, then get approval.</text>
+  <g transform="translate(941 382)" fill="none" stroke="#0f1419" stroke-width="3">
+    <rect x="0" y="10" width="73" height="48" rx="5"/>
+    <path d="M12 25h8m10 0h8m10 0h8m-44 13h8m10 0h8m10 0h8m-38 10h31"/>
+    <rect x="110" y="0" width="42" height="75" rx="7"/>
+    <path d="M124 11h14m-14 52h14"/>
+  </g>
+  <text x="1124" y="418" font-size="24" font-weight="700">Verify in use</text>
+  <text x="1124" y="454" class="body">Keyboard + narrow view</text>
+  <path d="M964 521h404" stroke="#d2d8df"/>
+  <text x="964" y="561" class="body">Preserve removal, quantities and totals.</text>
+  <text x="964" y="594" class="mono">No whole-page redesign.</text>
+  <path d="M116 633h692" stroke="#d2d8df"/>
+  <text x="116" y="672" class="mono">Running shop URL</text>
+  <path d="M310 663h72" stroke="#475569" stroke-width="2"/>
+  <text x="404" y="672" class="mono">Browser canvas displays it; it does not start it.</text>
+  <path d="M72 730h1296" stroke="#d2d8df"/>
+  <text x="74" y="766" class="mono">Conceptual interaction / not a screenshot or observed defect</text>
+  <text x="1366" y="766" text-anchor="end" class="mono">Canvas + Pick &amp; polish</text>
+</svg>

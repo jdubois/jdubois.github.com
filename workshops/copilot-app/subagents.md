@@ -35,6 +35,11 @@ challenged the result. Here, five specialists agree on shared interfaces
 and build one feature together, with explicit file ownership and dependencies.
 See <a href="https://docs.github.com/en/copilot/concepts/agent-capabilities/choosing-and-delegating-agent-work/delegating-and-parallelizing-work-with-agents" target="_blank">how delegation works</a>.
 
+<figure>
+  <a href="/workshops/copilot-app/assets/illustration-five-specialists.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-five-specialists.svg" alt="One orchestrator coordinates Order model, Checkout service, REST API, UI and Acceptance tests in one session and feature branch. After integrated review and scoped approval, it owns one reviewed PR, merge into main and merged-application verification." width="1440" height="1080" loading="lazy"></a>
+  <figcaption>Five implementation specialists, one delivery owner. This is a conceptual workflow, not evidence that agents have run.</figcaption>
+</figure>
+
 ## Prepare one feature branch
 {: #prepare-checkout}
 

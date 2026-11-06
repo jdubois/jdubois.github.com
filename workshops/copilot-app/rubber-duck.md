@@ -25,6 +25,11 @@ You do not need to open another project session or manually choose the critic mo
 A second opinion can catch blind spots, but it is not proof of correctness.
 See <a href="https://docs.github.com/en/copilot/concepts/agent-capabilities/choosing-and-delegating-agent-work/getting-a-second-opinion" target="_blank">the rubber duck guide</a>.
 
+<figure>
+  <a href="/workshops/copilot-app/assets/illustration-rubber-duck-review.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-rubber-duck-review.svg" alt="Conceptual rubber-duck review: the independent critic reports findings with evidence, you assess them, and corrections require separate approval and verification. The critic does not edit the implementation." width="1440" height="800" loading="lazy"></a>
+  <figcaption>Independent critique informs your decision; it does not grant permission to edit or prove the implementation correct.</figcaption>
+</figure>
+
 ## Challenge the combined result
 {: #review-prompt}
 

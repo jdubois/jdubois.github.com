@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="820" viewBox="0 0 1440 820" role="img" aria-labelledby="title desc">
+  <title id="title">Two worktrees. One reviewed result.</title>
+  <desc id="desc">Two isolated sessions start from the same reviewed main commit: empty-state UX owns static files and boundary tests owns CartBoundaryTest.java. Their reviewed pull requests merge into main sequentially, UI first, tests second after incorporating updated main. The combined application is verified.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="m1 1 5 3-5 3" fill="none" stroke="#1d4ed8" stroke-width="1.5"/></marker>
+    <style>
+      text{font-family:"Schibsted Grotesk",Arial,sans-serif;fill:#0f1419}
+      .body{font-family:"Hanken Grotesk",Arial,sans-serif;font-size:21px;fill:#46505f}
+      .mono{font-family:"JetBrains Mono",monospace;font-size:16px;fill:#475569}
+      .route{fill:none;stroke:#1d4ed8;stroke-width:3}
+    </style>
+  </defs>
+  <path fill="#fff" d="M0 0h1440v820H0z"/>
+  <text x="72" y="95" font-size="46" font-weight="800" letter-spacing="-1.6">Two worktrees. One reviewed result.</text>
+  <text x="74" y="139" class="body">Independent files, isolated sessions, deliberate integration.</text>
+  <path d="M72 190h1296" stroke="#e2e6ea"/>
+  <path d="M233 475V281q0-24 24-24h66" class="route" marker-end="url(#arrow)"/>
+  <path d="M233 475v154q0 24 24 24h66" class="route" marker-end="url(#arrow)"/>
+  <path d="M178 475h1100" stroke="#d2d8df" stroke-width="3"/>
+  <text x="76" y="432" font-size="26" font-weight="700">main</text>
+  <circle cx="233" cy="475" r="13" fill="#fff" stroke="#1d4ed8" stroke-width="4"/>
+  <text x="75" y="524" class="mono">Reviewed base</text>
+  <text x="75" y="549" class="mono">Same commit</text>
+  <rect x="343" y="209" width="430" height="145" rx="8" fill="#f4f6f8" stroke="#d2d8df"/>
+  <path d="M367 239h26v31h-26zM373 246h14m-14 7h14m-14 7h8" stroke="#1d4ed8" stroke-width="2" fill="none"/>
+  <text x="412" y="260" font-size="26" font-weight="700">Empty-state UX</text>
+  <text x="369" y="300" class="body">Clear route back to the catalogue</text>
+  <text x="369" y="329" class="mono">src/main/resources/static/</text>
+  <rect x="343" y="581" width="430" height="145" rx="8" fill="#f4f6f8" stroke="#d2d8df"/>
+  <path d="m368 622 6 6 12-15m-18 25h20" stroke="#1d4ed8" stroke-width="2" fill="none"/>
+  <text x="412" y="632" font-size="26" font-weight="700">Boundary tests</text>
+  <text x="369" y="672" class="body">Quantity limits and rejected inputs</text>
+  <text x="369" y="701" class="mono">CartBoundaryTest.java</text>
+  <path d="M773 281h63q24 0 24 24v152" class="route" marker-end="url(#arrow)"/>
+  <circle cx="860" cy="475" r="13" fill="#1d4ed8"/>
+  <text x="842" y="387" text-anchor="end" class="mono">Reviewed UI PR</text>
+  <text x="860" y="524" text-anchor="middle" class="mono">Merge UI first</text>
+  <path d="M903 485h18q24 0 24 24v144" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="6 6"/>
+  <text x="925" y="561" text-anchor="end" class="mono">Update test branch</text>
+  <path d="M773 653h279q24 0 24-24V493" class="route" marker-end="url(#arrow)"/>
+  <circle cx="1076" cy="475" r="13" fill="#1d4ed8"/>
+  <text x="1100" y="615" class="mono">Reviewed test PR</text>
+  <text x="1076" y="432" text-anchor="middle" class="mono">Then merge tests</text>
+  <path d="M1094 475h176" class="route" marker-end="url(#arrow)"/>
+  <circle cx="1312" cy="475" r="25" fill="#0f1419"/>
+  <path d="m1301 475 8 8 15-17" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="1310" y="535" text-anchor="middle" font-size="21" font-weight="700">Verify</text>
+  <text x="1310" y="562" text-anchor="middle" font-size="21" font-weight="700">combined app</text>
+  <path d="M72 765h1296" stroke="#e2e6ea"/>
+  <text x="74" y="798" class="mono">Conceptual workflow / normal successful delivery path</text>
+  <text x="1366" y="798" text-anchor="end" class="mono">Parallel sessions</text>
+</svg>
