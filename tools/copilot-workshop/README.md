@@ -73,7 +73,10 @@ exercises tampered receipts and missing/moved/lightweight tags without network
 access. Recovery instructions check out full commit SHAs directly, so they cannot
 silently run a different revision behind a moved tag.
 
-Images are actual shop UI, **not** native Copilot or Chronicle captures.
+The reference PNGs are actual shop UI, **not** native Copilot or Chronicle captures.
 Those require an opt-in pilot; never fabricate App screens or usage accounting.
+Supplementary `assets/illustration-*.svg` files are editable conceptual
+illustrations, not captured evidence. They are separate from the screenshot
+and MCP provenance manifests; preserve those receipts when updating artwork.
 Generated clones and the preview under `.build/` are ignored, disposable outputs,
 not maintained sources.

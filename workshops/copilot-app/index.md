@@ -66,6 +66,11 @@ Start with [setup](/workshops/copilot-app/setup/), then follow the chapters in
 order. There are no chapter deadlines. Take a break before the parallel work
 and ask for help whenever you need it.
 
+<figure>
+  <a href="/workshops/copilot-app/assets/illustration-shop-to-checkout.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-shop-to-checkout.svg" alt="Conceptual workshop journey: investigate the notebook quantity bug, build with Copilot, then verify a working order receipt." width="1440" height="760" loading="lazy"></a>
+  <figcaption>From a reproducible cart bug to a verified checkout: the workshop journey, illustrated.</figcaption>
+</figure>
+
 1. [Investigate with Copilot](/workshops/copilot-app/ticket/), using a reproducible cart bug.
 2. [Choose modes, effort and permissions](/workshops/copilot-app/fusion/), then [install and use skills](/workshops/copilot-app/skills/) with the bundled Java guidance and a regression test.
 3. [Review and verify changes](/workshops/copilot-app/verify/) to the repeated-add behavior.

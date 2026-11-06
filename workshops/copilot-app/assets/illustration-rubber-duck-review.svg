@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="800" viewBox="0 0 1440 800" role="img" aria-labelledby="title desc">
+  <title id="title">A second opinion. Not a second implementer.</title>
+  <desc id="desc">A conceptual rubber duck studies the combined implementation. The independent critic reports concrete findings without editing. The human and main agent assess evidence and accept, reject or defer findings. Corrections require separate approval and verification. The illustration is not a record of actual critic findings.</desc>
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#e2e6ea"/></pattern>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="m1 1 5 3-5 3" fill="none" stroke="#1d4ed8" stroke-width="1.5"/></marker>
+    <style>
+      text{font-family:"Schibsted Grotesk",Arial,sans-serif;fill:#0f1419}
+      .body{font-family:"Hanken Grotesk",Arial,sans-serif;font-size:21px;fill:#46505f}
+      .mono{font-family:"JetBrains Mono",monospace;font-size:16px;fill:#475569}
+    </style>
+  </defs>
+  <path fill="#f4f6f8" d="M0 0h1440v800H0z"/>
+  <text x="72" y="95" font-size="46" font-weight="800" letter-spacing="-1.6">A second opinion. Not a second implementer.</text>
+  <text x="74" y="139" class="body">Let the critic challenge the reasoning. Keep the decision and editing approval separate.</text>
+  <path d="M64 202h670v439H64z" fill="url(#grid)"/>
+  <ellipse cx="346" cy="590" rx="200" ry="17" fill="#e2e6ea"/>
+  <g fill="#fff" stroke="#0f1419" stroke-width="4" stroke-linejoin="round">
+    <path d="M271 405c-23-22-32-55-25-86 7-39 39-61 78-61 45 0 81 27 86 66 2 19-6 37-20 51-8 14-4 30 11 40 48 32 64 61 50 99-18 46-77 67-152 67-89 0-148-28-171-73-16-30-19-58-20-87 18 15 37 21 61 18 36-8 63-18 102-34Z"/>
+    <path d="M193 471c32-28 91-25 128 5-12 30-47 47-80 36-23-7-39-21-48-41Z" fill="#f4f6f8" stroke="#d2d8df" stroke-width="3"/>
+  </g>
+  <path d="M399 329c19-4 34 1 50 6 15 4 17 14 4 20-16 7-35 7-54 2Z" fill="#1d4ed8" stroke="#1d4ed8" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M405 345c17 3 33 3 48 0" fill="none" stroke="#14309c" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="363" cy="315" r="7" fill="#0f1419"/>
+  <circle cx="365" cy="313" r="2" fill="#fff"/>
+  <g transform="translate(486 224) rotate(7 84 96)">
+    <path d="M0 0h168v193H0z" fill="#fff" stroke="#d2d8df" stroke-width="2"/>
+    <path d="M25 33h95m-95 21h115m-115 21h83m-83 72h116" stroke="#d2d8df" stroke-width="3"/>
+    <circle cx="93" cy="114" r="37" fill="#fff" stroke="#1d4ed8" stroke-width="3"/>
+    <text x="93" y="129" text-anchor="middle" font-size="44" font-weight="700" style="fill:#1d4ed8">?</text>
+  </g>
+  <path d="M696 421h86" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="828" y="266" font-size="27" font-weight="700">The critic reports</text>
+  <text x="828" y="307" class="body">Location, impact and supporting evidence.</text>
+  <text x="828" y="340" class="mono">Read-only / no edits, commits or merges</text>
+  <path d="M828 376h540" stroke="#d2d8df"/>
+  <text x="828" y="426" font-size="27" font-weight="700">You assess the finding</text>
+  <text x="828" y="467" class="body">Accept, reject or defer it.</text>
+  <text x="828" y="500" class="mono">A second opinion is not proof of correctness.</text>
+  <path d="M828 536h540" stroke="#d2d8df"/>
+  <text x="828" y="586" font-size="27" font-weight="700">Corrections need approval</text>
+  <text x="828" y="627" class="body">Review the change and verify it again.</text>
+  <text x="828" y="660" class="mono">Do not invent findings or agent dialogue.</text>
+  <text x="176" y="666" class="mono">A useful question can expose a blind spot.</text>
+  <path d="M72 730h1296" stroke="#d2d8df"/>
+  <text x="74" y="766" class="mono">Concept illustration / not an actual review finding</text>
+  <text x="1366" y="766" text-anchor="end" class="mono">Rubber duck</text>
+</svg>

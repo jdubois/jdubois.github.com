@@ -49,6 +49,11 @@ The request to measure is the final
 **GET `/api/cart`**, containing eight **different** products. Eight copies of
 one product would not demonstrate this N+1.
 
+<figure>
+  <a href="/workshops/copilot-app/assets/illustration-mcp-query.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-mcp-query.svg" alt="Reference query pattern for GET /api/cart with eight different products: 1 cart query plus 8 product queries before optimization, and 1 SELECT afterward with unchanged cart contents and totals." width="1440" height="820" loading="lazy"></a>
+  <figcaption>The reference workload, illustrated. Use your own matching MCP request profiles to establish before-and-after evidence.</figcaption>
+</figure>
+
 ## Ask Copilot for evidence
 
 Invoke **`get_live_activity`** with `query: "/api/cart"` and `limit: 8`.
