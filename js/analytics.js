@@ -13,6 +13,7 @@
 
     var scriptLoaded = false;
     var sessionConsent = null;
+    var syncSlideTracking = null;
 
     function readConsent() {
         if (sessionConsent) {
@@ -66,11 +67,101 @@
         clearCookies();
     }
 
+    function initSlideTracking() {
+        var deck = window.Reveal;
+        if (!deck) {
+            return null;
+        }
+
+        var slide = null;
+        var details = null;
+        var viewed = false;
+        var startedAt = null;
+        var pageActive = true;
+
+        function send(name, duration) {
+            var params = Object.assign({
+                send_to: GA_ID,
+                transport_type: 'beacon'
+            }, details);
+            if (duration !== undefined) {
+                params.engagement_time_msec = duration;
+                params.slide_duration_ms = duration;
+            }
+            window.gtag('event', name, params);
+        }
+
+        function flush() {
+            if (startedAt === null) {
+                return;
+            }
+            var duration = Math.round(window.performance.now() - startedAt);
+            startedAt = null;
+            if (duration > 0) {
+                send('slide_engagement', duration);
+            }
+        }
+
+        function sync() {
+            if (readConsent() !== GRANTED) {
+                slide = null;
+                details = null;
+                viewed = false;
+                startedAt = null;
+                return;
+            }
+            if (!deck.isReady()) {
+                return;
+            }
+            var current = deck.getCurrentSlide();
+            if (current !== slide) {
+                flush();
+                slide = current;
+                viewed = false;
+                var number = deck.getSlidePastCount(slide) + 1;
+                var heading = slide.querySelector('h1, h2, h3, h4, h5, h6');
+                details = {
+                    deck_path: window.location.pathname,
+                    deck_language: document.documentElement.lang,
+                    slide_number: number,
+                    slide_title: heading ? heading.textContent.replace(/\s+/g, ' ').trim().slice(0, 100) : 'Slide ' + number
+                };
+            }
+            if (!pageActive || document.hidden) {
+                flush();
+                return;
+            }
+            if (!viewed) {
+                send('slide_view');
+                viewed = true;
+            }
+            if (startedAt === null) {
+                startedAt = window.performance.now();
+            }
+        }
+
+        deck.on('ready', sync);
+        deck.on('slidechanged', sync);
+        document.addEventListener('visibilitychange', sync);
+        window.addEventListener('pagehide', function () {
+            pageActive = false;
+            sync();
+        });
+        window.addEventListener('pageshow', function () {
+            pageActive = true;
+            sync();
+        });
+        return sync;
+    }
+
     function apply(consent) {
         if (consent === GRANTED) {
             loadGA();
         } else {
             disableGA();
+        }
+        if (syncSlideTracking) {
+            syncSlideTracking();
         }
     }
 
@@ -92,6 +183,11 @@
         if (!banner || !accept || !decline) {
             return;
         }
+        if (Array.prototype.some.call(manage, function (el) {
+            return el.classList.contains('consent-manage-deck');
+        })) {
+            syncSlideTracking = initSlideTracking();
+        }
 
         function show() {
             banner.hidden = false;
@@ -102,15 +198,25 @@
             banner.hidden = true;
         }
 
+        function updateManage(consent) {
+            Array.prototype.forEach.call(manage, function (el) {
+                if (el.classList.contains('consent-manage-deck')) {
+                    el.hidden = consent === GRANTED;
+                }
+            });
+        }
+
         function choose(consent, returnFocus) {
             setConsent(consent);
             hide();
-            if (returnFocus && manage.length) {
+            updateManage(consent);
+            if (returnFocus && manage.length && !manage[0].hidden) {
                 manage[0].focus();
             }
         }
 
         var current = readConsent();
+        updateManage(current);
         if (current !== null) {
             apply(current);
         } else if (current === null) {
@@ -142,6 +248,7 @@
             var consent = e.newValue === GRANTED ? GRANTED : DENIED;
             sessionConsent = consent;
             apply(consent);
+            updateManage(consent);
             if (consent !== null) {
                 hide();
             }
