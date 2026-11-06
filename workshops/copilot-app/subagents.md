@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Coordinate five subagents
-description: "Use an orchestrator and five focused subagents to implement, review and verify a working local checkout."
+description: "Use an orchestrator and five focused subagents to build checkout, deliver it through a reviewed PR and verify merged main."
 permalink: /workshops/copilot-app/subagents/
 workshop: true
 next: tokens
@@ -11,7 +11,9 @@ next_title: Chronicle and token usage
 ## What you will learn
 
 Use Copilot App to delegate a shared goal to **five subagents**, route questions
-between specialists and integrate their code into one verified feature.
+between specialists and deliver their integrated feature into **`main`**.
+The orchestrator owns the checkout PR, checks, authorized merge and verification
+of the application actually merged.
 
 ## One goal, five perspectives
 
@@ -51,7 +53,9 @@ in this session's existing worktree. Do not replace an existing branch; ask me
 if the name is taken. Preserve worker branches, main and other session checkouts.
 Read AGENTS.md. If needed, propose only a narrow instruction update permitting
 the explicitly approved mock-checkout implementation and five bounded subagents
-on this feature branch. Preserve existing tests, stack, privacy and approvals.
+on this feature branch. Reserve checkout publishing and merging for the
+orchestrator after separate explicit approval of the integrated result.
+Preserve existing tests, stack, privacy and approvals.
 Show any instruction diff and wait for approval. Do not implement checkout,
 spawn subagents, push, open PRs or merge yet.
 ```
@@ -156,7 +160,8 @@ Respect the agreed concurrency limit during follow-ups as well as launches.
 Stop and ask before expanding scope or resolving conflicting ownership.
 Workers must not run Maven, start/stop the shop, change branches, commit,
 push, open PRs or merge. You own the integrated test run, not five workers.
-Once the code is coherent, review the combined diff and run ./mvnw -q test.
+Wait for all five workers to finish and confirm no worker is still writing files.
+Then review the combined diff and run ./mvnw -q test.
 Confirm BaselineTest, CartContractTest, RemoveContractTest, QueryContractTest,
 CartBoundaryTest and new CheckoutContractTest execute without failures or skips.
 Fix actionable failures within the approved ownership; never weaken tests.
@@ -218,23 +223,96 @@ for this demonstration. Confirm keyboard access and a narrow
 viewport. A disabled button alone does not prove server-side duplicate prevention;
 use the HTTP regression results for retry, rollback and concurrency evidence.
 
-After reviewing **Changes**, tests and the running result, ask:
+Review **Changes**, the full starter-to-current result, tests and the running
+checkout before authorizing delivery. Include any corrections from the earlier
+independent critique. The five workers remain implementation specialists:
+only the orchestrator owns Git and PR operations.
+
+## Deliver checkout into main
+{: #deliver-checkout}
+
+Stay in **Cart: boundary tests**. The orchestrator delivers **one checkout PR**,
+not five specialist PRs or another App session. Earlier preparation and worker
+PRs must already be merged into your own `main`; if local recovery was used,
+resolve those delivery blockers first or keep the result explicitly incomplete.
+Do not publish a recovered combined branch against incomplete remote `main`
+as though the earlier PRs had merged.
+
+After accepting the final diff and preview, give this scoped delivery approval:
 
 ```copilot
-Confirm we are on the reviewed checkout feature branch, not detached or main.
-Show the full intended diff and any new files. Commit only the accepted
-checkout implementation, tests and reviewed instruction changes.
-Report this branch and commit, actual test counts, preview observations,
-agent contributions and remaining limitations. Do not push, open a PR or merge.
+I approve this reviewed checkout result for delivery in my own workshop repository.
+You, the orchestrator, own this delivery; the five workers must not publish or merge.
+Confirm all five workers have finished and none can still modify this worktree.
+Confirm the repository, current checkout feature branch, full intended diff and
+new files. Stop if anything is outside the approved checkout and reviewed corrections.
+Confirm the preparation and both worker PRs are merged into this repository's main.
+Fetch origin. If main advanced, review any needed integration, ask before resolving
+conflicts and rerun the full suite before publishing.
+Commit only the accepted implementation, tests and reviewed instruction changes.
+Push only this feature branch without force-pushing, then open one checkout PR
+with base main and head this branch. Reuse an existing PR only if its repository,
+head and base match this checkout delivery.
+Confirm the linked PR is this checkout PR, not the earlier merged boundary-test PR.
+Do not reopen or retarget earlier PRs or create duplicate PRs.
+Address CI failures and review feedback only within the approved contract.
+Preserve all original acceptance tests, boundary tests and checkout regressions.
+Wait for the tests job and all required checks and approvals to pass for the
+current PR head. Missing, skipped, queued or failed checks are not a pass.
+Then squash-merge this checkout PR into main under this approval.
+Do not push directly to main, bypass protections, broaden permissions or delete branches.
+Ask before out-of-scope changes; stop and report unavailable required approval.
+Report the PR URL, accepted head, actual merge status and merge commit.
+Do not call the workshop complete until merged-main verification also succeeds.
 ```
 
-**Done when:** checkout works, the combined checks pass and accepted code is
-committed on this feature branch. Keep the result here for Chronicle and final
-handoff; no new session or mandatory fourth PR is needed.
-Earlier `main` still contains the three-ticket/parallel result, not necessarily
-checkout. If you later choose to publish it, open a separate reviewed checkout
-PR; never retarget the earlier merged PRs or claim unmerged checkout is on `main`.
-Record the result on the [worksheet](/workshops/copilot-app/worksheet/).
+Confirm any required App permission prompts. This authorizes this delivery only,
+not unrelated PRs or later changes. The earlier **Agent Merge** exercise remains
+separate; no second configuration exercise or extra worker is required here.
+
+## Verify the merged application
+{: #verify-merged-checkout}
+
+A green feature branch or a merged PR alone is not the final result. Ask the
+same orchestrator:
+
+```copilot
+Confirm the checkout PR is Merged in my own repository and record its merge commit.
+Check the tests job and all required checks for that exact merged revision on main.
+Fetch origin and show the latest origin/main commit. Confirm it includes checkout
+and all earlier accepted work, accounting for squash merges rather than requiring
+the feature commit to be an ancestor.
+Confirm this worktree is clean; stop without overwriting unfinished work.
+Check out the exact latest origin/main commit for verification in this same worktree.
+If main is checked out elsewhere, use a detached verification checkout here.
+Do not move another worktree, reset branches, delete refs or edit this checkout.
+Confirm the checked-out commit equals origin/main. If main has advanced since the
+merge, require passing checks for this revision too, then run ./mvnw -q test here.
+Confirm the original 12 supplied tests, boundary tests and new checkout tests
+execute without failures, errors or skips.
+Show the absolute directory and shop URL for restarting this verified application.
+Record the checkout PR, merge commit, verified main commit, checks and any blocker.
+```
+
+The human still owns the one persistent server. Stop the previous shop with
+**Ctrl+C in its owning terminal**, then start the app from the absolute directory
+the orchestrator just verified:
+
+```sh
+./mvnw spring-boot:run
+```
+
+Reload **http://127.0.0.1:18765** in the Browser canvas. Confirm **Place order**
+is present, add the €10 Notebook twice and check the receipt shows quantity **2**
+and **2000 cents**, the cart clears, and returning to shopping works.
+Opening a canvas or selecting another repository does not replace a running
+server. Check its owning directory if you still see an older application.
+
+**Done when:** the checkout PR is merged into your own `main`, merged-revision
+checks and local verification pass, and the app running from the verified main
+revision demonstrates checkout. Record the PR, commits, actual five contributions
+and preview evidence on the [worksheet](/workshops/copilot-app/worksheet/).
+Then continue with Chronicle and the final handoff.
 
 <details markdown="1">
 <summary>Availability, cost and recovery</summary>
@@ -250,6 +328,12 @@ approved single-agent implementation. Mark it as **not a completed five-agent ru
 If coding or tests fail, preserve this branch and earlier worker refs; record
 checkout as unfinished and continue the handoff with the earlier reviewed result.
 Do not discard work, weaken assertions or invent a successful receipt.
+If GitHub, CI or required approval blocks publication or merging, preserve the
+branch and any open checkout PR. Mark **verified locally; delivery blocked**,
+not complete. Do not substitute a direct push or local merge into `main`.
+If the PR merged but post-merge checks or preview fail, record **merged;
+post-merge verification blocked**. Any repair needs a separately approved
+follow-up feature branch and reviewed PR; never edit the verification checkout.
 The published reference checkpoints do not include checkout.
 
 </details>
@@ -259,4 +343,5 @@ The published reference checkpoints do not include checkout.
 - Distinguish delegated subagents from separate App worktree sessions and reusable custom-agent definitions.
 - Give each specialist owned files and sufficient context, then use actual questions and answers to coordinate dependent implementations.
 - Verify atomic checkout, immutable receipts and retry behavior alongside all earlier tests and the running UI.
-- Keep the completed feature on a normal branch and distinguish local results from merged PRs and unavailable agent capabilities.
+- Let one orchestrator deliver the integrated feature through a reviewed PR, then verify the exact merged-main application rather than an older running copy.
+- Distinguish locally verified work, merged and verified delivery, and blocked or unavailable capabilities.

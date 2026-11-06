@@ -224,7 +224,7 @@ class WorkshopRecoveryTests(unittest.TestCase):
                          "unfinished worker changes\n")
         self.assertEqual(self.head(ref="main"), self.main_start)
 
-    def test_final_verification_reuses_worktree_without_moving_branches(self):
+    def prepare_checkout(self):
         self.prepare()
         self.merge_ui_pr()
         self.recover()
@@ -245,15 +245,118 @@ class WorkshopRecoveryTests(unittest.TestCase):
         self.git("switch", "--quiet", "-c", "workshop-checkout", cwd=self.tests)
         self.write("app/order.txt", "checkout fixture\n", cwd=self.tests)
         self.commit("Reviewed checkout feature", cwd=self.tests)
-        self.assertEqual(self.head(ref="main"), merged_main)
-        self.assertEqual(self.head(ref="origin/main"), merged_main)
-        self.assertEqual(self.head(ref="test-worker"), worker_tip)
+        self.checkout_tip = self.head(self.tests)
+        self.combined_main = merged_main
+        self.worker_tip = worker_tip
+
+    def verify_merged_main(self):
+        self.assertEqual(self.git("status", "--porcelain", cwd=self.tests).stdout, "")
+        self.git("fetch", "--quiet", "origin", cwd=self.tests)
+        main = self.head(self.tests, ref="origin/main")
+        self.git("checkout", "--quiet", "--detach", main, cwd=self.tests)
+        self.assertEqual(self.head(self.tests), main)
+        self.assertEqual(
+            self.git("branch", "--show-current", cwd=self.tests).stdout.strip(), "")
+        return main
+
+    def assert_checkout_refs_preserved(self):
+        self.assertEqual(self.head(ref="test-worker"), self.worker_tip)
         self.assertEqual(self.head(self.ui), self.ui_commit)
+        self.assertEqual(self.head(ref="workshop-checkout"), self.checkout_tip)
+
+    def squash_checkout_pr(self):
+        self.git("push", "--quiet", "origin", "workshop-checkout", cwd=self.tests)
+        self.git("merge", "--squash", "workshop-checkout")
+        self.commit("Squash approved checkout PR")
+        self.git("push", "--quiet", "origin", "main")
+        merged = self.head()
+        self.git("update-ref", "refs/remotes/origin/main", self.combined_main)
+        return merged
+
+    def test_checkout_preparation_does_not_move_main_or_worker_branches(self):
+        self.prepare_checkout()
+        self.assert_checkout_refs_preserved()
+        self.assertEqual(self.head(ref="main"), self.combined_main)
+        self.assertEqual(self.head(ref="origin/main"), self.combined_main)
         self.assertEqual(
             self.git("branch", "--show-current", cwd=self.tests).stdout.strip(),
             "workshop-checkout")
         self.assertEqual(
             self.git("branch", "--show-current").stdout.strip(), "main")
+
+    def test_checkout_publication_alone_does_not_count_as_merged_main(self):
+        self.prepare_checkout()
+        self.git("push", "--quiet", "origin", "workshop-checkout", cwd=self.tests)
+        self.assertEqual(self.head(ref="origin/workshop-checkout"), self.checkout_tip)
+        self.assertEqual(self.head(ref="main"), self.combined_main)
+        self.assertEqual(self.head(ref="origin/main"), self.combined_main)
+        self.assertNotEqual(self.checkout_tip, self.combined_main)
+        self.assert_checkout_refs_preserved()
+
+    def test_squashed_checkout_verifies_merged_main_without_moving_other_worktrees(self):
+        self.prepare_checkout()
+        merged = self.squash_checkout_pr()
+        self.assertNotEqual(merged, self.checkout_tip)
+        self.assertEqual(self.git(
+            "merge-base", "--is-ancestor", self.checkout_tip, merged,
+            check=False).returncode, 1)
+        self.assertEqual(self.verify_merged_main(), merged)
+        self.assertEqual(
+            self.git("diff", "--exit-code", self.checkout_tip, merged).stdout, "")
+        self.assertEqual((self.tests / "app/order.txt").read_text(),
+                         "checkout fixture\n")
+        self.assert_combined()
+        self.assert_checkout_refs_preserved()
+        self.assertEqual(
+            self.git("branch", "--show-current").stdout.strip(), "main")
+
+    def test_checkout_verification_fetches_later_main_not_stale_feature_or_merge(self):
+        self.prepare_checkout()
+        merged = self.squash_checkout_pr()
+        self.write("docs/other-work.txt", "later accepted main change\n")
+        self.commit("Subsequent accepted change")
+        self.git("push", "--quiet", "origin", "main")
+        latest = self.head()
+        self.git("update-ref", "refs/remotes/origin/main", self.combined_main)
+        self.assertNotEqual(latest, merged)
+        self.assertEqual(self.verify_merged_main(), latest)
+        self.assertEqual((self.tests / "app/order.txt").read_text(),
+                         "checkout fixture\n")
+        self.assertEqual((self.tests / "docs/other-work.txt").read_text(),
+                         "later accepted main change\n")
+        self.assert_checkout_refs_preserved()
+
+    def test_checkout_verification_stops_without_overwriting_dirty_work(self):
+        self.prepare_checkout()
+        self.squash_checkout_pr()
+        self.write("app/order.txt", "unreviewed follow-up\n", cwd=self.tests)
+        with self.assertRaises(AssertionError):
+            self.verify_merged_main()
+        self.assertEqual(self.head(self.tests), self.checkout_tip)
+        self.assertEqual((self.tests / "app/order.txt").read_text(),
+                         "unreviewed follow-up\n")
+        self.assert_checkout_refs_preserved()
+
+    def test_blocked_checkout_publication_preserves_local_work_and_main(self):
+        self.prepare_checkout()
+        self.git("remote", "set-url", "--push", "origin",
+                 str(self.root / "unavailable.git"))
+        pushed = self.git("push", "origin", "workshop-checkout",
+                          cwd=self.tests, check=False)
+        self.assertNotEqual(pushed.returncode, 0)
+        self.assertEqual(self.head(ref="main"), self.combined_main)
+        self.assertEqual(self.head(ref="origin/main"), self.combined_main)
+        self.assertEqual(self.head(self.tests), self.checkout_tip)
+        self.assert_checkout_refs_preserved()
+
+    def test_offline_checkout_verification_does_not_report_cached_main_as_current(self):
+        self.prepare_checkout()
+        self.git("remote", "set-url", "origin", str(self.root / "unavailable.git"))
+        with self.assertRaises(subprocess.CalledProcessError):
+            self.verify_merged_main()
+        self.assertEqual(self.head(self.tests), self.checkout_tip)
+        self.assertEqual(self.head(ref="origin/main"), self.combined_main)
+        self.assert_checkout_refs_preserved()
 
 
 if __name__ == "__main__":

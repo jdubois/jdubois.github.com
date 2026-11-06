@@ -9,11 +9,15 @@ workshop: true
 ## What you will learn
 
 Use Copilot App to review the implemented shop and its evidence, then hand
-off the result alongside the independent critique and verified checkout feature.
+off the completed application on **`main`**, alongside the independent critique,
+five-agent contributions and delivery evidence.
 
 ## Final review
 {: #final-review}
 
+The checkout chapter already reviewed and delivered the code. Keep this final
+review **read-only**, using the verified merged-main revision. If delivery was
+blocked, review the preserved local result and state that limitation instead.
 Inspect **Changes** in the App, then ask Copilot for a full comparison with
 your original starter. Include already committed tickets, current edits and
 new files—not just the latest uncommitted change.
@@ -37,12 +41,13 @@ and do not edit, reset branches or retarget PRs.
 Identify concrete regressions or missing evidence, not style preferences.
 ```
 
-Inspect findings yourself. If corrections are needed, use the current reviewed
-checkout feature branch. If recovery left you on a verification checkout,
-ask Copilot to create a normal feature branch before editing; do not commit
-on the verification checkout or push directly to `main`. Review the corrections
-and rerun the suite below. Preview repeated adds, removal, empty state and
-the sample cart, checkout receipt and return to shopping.
+Inspect findings yourself. If corrections are needed after delivery, ask Copilot
+to create a new follow-up feature branch from the verified result before editing;
+do not commit on the verification checkout, reuse the merged checkout PR or push
+directly to `main`. Review the corrections and rerun the suite below. A follow-up
+PR needs its own publishing and merge approval, passing checks and post-merge
+verification. Do not leave accepted corrections unmerged while claiming a
+completed main-branch result.
 
 ## Check your results
 
@@ -54,7 +59,7 @@ the sample cart, checkout receipt and return to shopping.
 | Investigated N+1 | Matched MCP before/after request profiles, same workload, query tests green |
 | Coordinated parallel work | Preparation PR merged into `main`, two isolated sessions from that updated version, two worker PRs merged sequentially with Agent Merge, and a tested combined result; or an explicit local-recovery record |
 | Requested an independent critique | Actual rubber duck findings, decisions and evidence for corrections; or a recorded unavailable critic |
-| Built mock checkout with five subagents | Actual contributions, reviewed code, passing checkout regressions and receipt/cart preview; or an explicit incomplete/demonstration record |
+| Delivered mock checkout with five subagents | Actual contributions, reviewed code, checkout PR merged into `main`, passing merged-revision checks and receipt/cart preview from verified main; or an explicit incomplete/demonstration record |
 | Reviewed token usage | Chronicle report or a note that it was unavailable/not run, plus one improvement based on the workshop sessions |
 | Used Copilot App effectively | Reviewed plan, loaded skills, inspected changed files and checked test output |
 
@@ -64,8 +69,9 @@ support the results, not just Copilot's final summary.
 
 ## Verify before handing off
 
-After the first three tickets, parallel integration and checkout implementation,
-run the **full suite**, including generated boundary and checkout tests:
+On the merged-main revision verified in the checkout chapter, run the **full
+suite**, including generated boundary and checkout tests. For local recovery,
+use the preserved result and explicitly record that it is not merged:
 
 ```sh
 ./mvnw -q test
@@ -80,37 +86,39 @@ If a ticket or worker remains unfinished, record that explicitly rather than
 presenting partial work as the complete workshop result.
 
 Ask Copilot to show the intended file list and diff, including new files.
-Review them in **Changes**. The accepted workshop work is already committed;
-do not create another commit just to finish. If you made corrections on a
-follow-up feature branch, commit only those accepted corrections there.
+Review them in **Changes**. On the normal path the accepted workshop work is
+already merged; do not create another commit just to finish. If you made corrections
+on a follow-up feature branch, deliver them through their own reviewed PR before
+claiming they are on `main`.
 Ask Copilot for a concise handoff:
 what changed, what was checked, what is still unknown.
 
 ## Where your result lives
 
-The three-ticket preparation PR and both worker PRs landed on **`main`**.
-Stay in **Cart: boundary tests**, using the merged main version checked out
-in the integration chapter as the starting point for the now-reviewed
-checkout feature branch. Retain all
-three PR links and CI results, plus the checkout branch/commit and checks.
-Publishing checkout in a separate PR is optional.
+The three-ticket preparation PR and both worker PRs landed on **`main`**,
+followed by the orchestrator's **checkout PR**. Stay in **Cart: boundary tests**
+on the verified main revision, not the old worker or checkout feature branch.
+Retain all three earlier PR links and CI results, plus the checkout PR,
+feature head, merge commit, verified main commit, checks and running directory/URL.
 If boundary tests required a separate production-correction PR, retain its
 review, checks and actual merge status too.
 
-Checkout is **local feature-branch work** until you separately choose to publish
-and merge it. Do not claim it is on `main` merely because the earlier PRs merged.
-Any optional checkout PR needs its own review, checks and merge authorization.
+**Checkout merged and verified on `main` is required for the completed normal path.**
+The orchestrator performs that delivery under the checkout chapter's explicit
+approval; no fixed PR number is required. Do not claim checkout is on `main`
+merely because the earlier PRs merged.
 If checkout remains unfinished, preserve its branch and hand off the earlier
 reviewed result with that limitation, not a fictional successful order.
 
 If you used local recovery, keep the local combined branch and record the
 GitHub, CI or Agent Merge blocker. Do not describe open PRs as merged or local
-results as completed CI checks. Record any unfinished work in the handoff.
+results as completed CI checks. Record **verified locally; delivery blocked**
+or **merged; post-merge verification blocked**, as appropriate.
 
 ## Keep one useful habit
 
 Leave with the reviewed result, a record of unfinished work,
-the independent review decisions, the reviewed checkout feature
+the independent review decisions, the delivered checkout feature
 and the reusable prompt or usage habit you chose with Chronicle.
 
 The transferable loop is **reproduce → plan → implement → inspect → verify**.
@@ -123,5 +131,5 @@ work. Chronicle helps you improve the workflow. None replaces your judgment.
 - Ask Copilot to review the entire change from **workshop-start**, including earlier commits, current edits and new files.
 - Use **Changes**, test output and a shop preview to assess the result, and record unfinished work or unverified features.
 - Prepare a concise handoff with updated `main`, actual PR/CI status and any local recovery or unfinished work.
-- Include the independent critique and checkout branch/commit, with actual verification and local-versus-merged status.
+- Include the independent critique and checkout branch/commit, checkout PR and verified main revision, with actual verification and local-versus-merged status.
 - Carry forward one improved Copilot habit from the workshop, such as a clearer initial prompt or more focused context.

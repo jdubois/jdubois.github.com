@@ -41,6 +41,7 @@ Rehearse with the App build and accounts you will use.
 - Give each worker its instructions and relevant code. Stage model/service/API dependencies; relay questions when direct messaging is unavailable. Record actual exchanges, not the chapter's example conversation.
 - The orchestrator owns the integrated Maven run. Five assignments can run in smaller batches; do not start five shops, Maven suites or nested fleets.
 - Check the original 12 tests, boundary cases and **new checkout tests**. Verify rollback, immutable receipts, concurrent duplicate requests and replay after new cart items. Restart the changed copy and place an order in the Browser canvas.
+- After final review and scoped approval, the orchestrator delivers one checkout PR, handles checks/reviews and squash-merges when allowed. Workers never publish or merge. Verify exact merged main and restart the shop from that directory.
 
 ### Evidence and privacy
 
@@ -72,10 +73,12 @@ After both worker PRs merge, reuse **Cart: boundary tests** to verify exact
 checkouts; squash-merged results count even when original commits are not ancestors.
 No extra integration session is needed.
 
-Continue in that session: **rubber duck → checkout on `workshop-checkout` →
-Chronicle → handoff**. Checkout is implemented and committed locally; it is
-**not automatically on `main`**. A separate checkout PR is optional and needs
-its own review and merge authorization.
+Continue in that session: **rubber duck → build and review checkout →
+checkout PR merged into `main` → verify merged app → Chronicle → handoff**.
+The orchestrator owns the single checkout PR under explicit delivery approval.
+Confirm its linked PR is checkout, not the earlier boundary-test PR.
+Use actual PR links rather than fixed numbers; a production-correction PR may
+also exist. The template's `main` remains the unsolved starter, not a completed demo.
 
 ## Recovery
 {: #recovery}
@@ -94,6 +97,8 @@ a fallback or reference demonstration is not a successful native App exercise.
 | Boundary test reveals a production bug | Keep the test worker test-only. Use the [separate correction path](/workshops/copilot-app/parallel/#boundary-fix), review its regression and rerun the worker tests before integration |
 | Independent critic or five-agent delegation unavailable | Use the relevant chapter's demonstration/review fallback; explicitly record the missing independent critique or five-agent run |
 | Checkout coding or tests fail | Keep the checkout branch, mark it unfinished and retain the earlier reviewed result; no checkout reference solution is supplied |
+| Checkout publishing or merge blocked | Preserve branch/open PR; mark **verified locally; delivery blocked**. No direct push or substitute local merge into `main` |
+| Checkout merged but checks or preview fail | Record **merged; post-merge verification blocked**. Repairs need a new approved feature branch and PR |
 | Chronicle unavailable or privacy opt-out | Review the workshop transcript without analyzing broader history; mark usage figures unavailable |
 
 **CI:** queued/running means wait; absent, skipped or failed is not a pass.

@@ -65,7 +65,7 @@ class WorkshopScheduleTests(unittest.TestCase):
             "Investigate without editing", "Use the test skill", "Generate a feature",
             "Canvas and UI feedback", "Investigate through MCP", "Parallel worker cards",
             "Integrate with Agent Merge", "Rubber duck and subagent implementation",
-            "Improve usage", "Review the diff"])
+            "Deliver checkout to main", "Improve usage", "Review the diff"])
         for slug in ["prompts", "rubber-duck", "finish"]:
             text = chapter(slug)
             self.assertIn("v2-start", text)
@@ -103,7 +103,7 @@ class WorkshopScheduleTests(unittest.TestCase):
                      "**before running Chronicle**",
                      "**three PRs targeting `main`**",
                      "**Cart: boundary tests**",
-                     "**not automatically on `main`**",
+                     "checkout PR merged into `main`",
                      "## Recovery", "disable Agent Merge on open PRs",
                      "do not switch back to incomplete remote `main`",
                      "do not prove their generated checkout works"]:
@@ -380,7 +380,7 @@ class WorkshopScheduleTests(unittest.TestCase):
             with self.subTest(copyable_contract=text):
                 self.assertIn(text, prompt)
         for text in ["rollback", "snapshots", "concurrent duplicate",
-                     "**2000 cents**", "Do not push, open a PR or merge",
+                     "**2000 cents**", "Then squash-merge this checkout PR into main",
                      "published reference checkpoints do not include checkout",
                      "record checkout as unfinished"]:
             with self.subTest(verification=text):
@@ -537,10 +537,82 @@ class WorkshopScheduleTests(unittest.TestCase):
         self.assertIn("Do not push, merge remote PRs or enable Agent Merge", recovery)
         self.assertIn("**three PRs targeting `main`**", chapter("facilitator"))
         finish = chapter("finish")
-        self.assertIn("all\nthree PR links", finish)
+        self.assertIn("all three earlier PR links", finish)
         self.assertIn("both worker PRs landed on **`main`**", finish)
         self.assertNotIn("## Optional GitHub delivery", finish)
         self.assertNotIn("No remote PR is required", finish)
+
+    def test_checkout_delivery_belongs_to_orchestrator_under_scoped_approval(self):
+        agents = re.sub(r"\s+", " ", chapter("subagents"))
+        delivery = agents.split("## Deliver checkout into main", 1)[1].split(
+            "## Verify the merged application", 1)[0]
+        for text in [
+                "one checkout PR", "not five specialist PRs or another App session",
+                "I approve this reviewed checkout result",
+                "the five workers must not publish or merge",
+                "all five workers have finished and none can still modify this worktree",
+                "preparation and both worker PRs are merged",
+                "base main and head this branch",
+                "repository, head and base match",
+                "not the earlier merged boundary-test PR",
+                "Do not reopen or retarget earlier PRs or create duplicate PRs",
+                "current PR head", "Missing, skipped, queued or failed checks",
+                "Then squash-merge this checkout PR into main under this approval",
+                "Do not push directly to main, bypass protections",
+                "stop and report unavailable required approval"]:
+            with self.subTest(delivery_requirement=text):
+                self.assertIn(text, delivery)
+        self.assertLess(agents.index("Wait for my review before committing"),
+                        agents.index("I approve this reviewed checkout result"))
+        for slug in ["index", "finish", "worksheet", "facilitator", "prompts"]:
+            with self.subTest(surface=slug):
+                self.assertIn("checkout PR", chapter(slug))
+                self.assertNotIn("checkout PR is optional", chapter(slug))
+        canvas = re.sub(r"\s+", " ", chapter("canvas"))
+        self.assertIn("only the orchestrator may publish and merge", canvas)
+        self.assertIn("after separate explicit approval", canvas)
+
+    def test_checkout_verification_uses_merged_main_and_correct_running_copy(self):
+        agents = re.sub(r"\s+", " ", chapter("subagents"))
+        verification = agents.split("## Verify the merged application", 1)[1]
+        for text in [
+                "checkout PR is Merged", "exact merged revision on main",
+                "latest origin/main commit", "accounting for squash merges",
+                "stop without overwriting unfinished work",
+                "detached verification checkout",
+                "Do not move another worktree, reset branches, delete refs or edit",
+                "checked-out commit equals origin/main",
+                "If main has advanced", "passing checks for this revision too",
+                "original 12 supplied tests, boundary tests and new checkout tests",
+                "absolute directory and shop URL",
+                "Ctrl+C in its owning terminal", "Opening a canvas",
+                "does not replace a running server",
+                "app running from the verified main revision demonstrates checkout"]:
+            with self.subTest(verification_requirement=text):
+                self.assertIn(text, verification)
+        self.assertLess(verification.index("stop without overwriting unfinished work"),
+                        verification.index("Check out the exact latest origin/main"))
+        self.assertIn("/subagents/#verify-merged-checkout", chapter("prompts"))
+
+    def test_checkout_blockers_and_postdelivery_edits_are_not_silent_success(self):
+        for slug in ["subagents", "finish", "worksheet", "facilitator"]:
+            text = re.sub(r"\s+", " ", chapter(slug))
+            for state in ["verified locally; delivery blocked",
+                          "merged; post-merge verification blocked"]:
+                with self.subTest(surface=slug, state=state):
+                    self.assertIn(state, text)
+        agents = re.sub(r"\s+", " ", chapter("subagents"))
+        self.assertIn("Do not publish a recovered combined branch", agents)
+        self.assertIn("Do not substitute a direct push or local merge", agents)
+        tokens = re.sub(r"\s+", " ", chapter("tokens"))
+        for text in ["Record it as a suggestion", "do not edit the verified main checkout",
+                     "new follow-up feature branch",
+                     "own review, publishing/merge approval, PR and verification"]:
+            self.assertIn(text, tokens)
+        finish = re.sub(r"\s+", " ", chapter("finish"))
+        self.assertIn("new follow-up feature branch", finish)
+        self.assertIn("reuse the merged checkout PR", finish)
+        self.assertIn("do not create another commit just to finish", finish)
 
     def test_alternative_route_instructions_are_removed(self):
         paths = list(HANDBOOK.glob("*.md")) + [

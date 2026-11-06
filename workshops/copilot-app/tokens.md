@@ -121,10 +121,12 @@ than guessing figures. Run the analysis once, not after every message, because
 the analysis itself also consumes resources.
 
 Ask Copilot to suggest **one short repository instruction** for a recurring
-problem you identified. Review it before applying and keep only what helps
-this project. If you decide to apply it, use the current reviewed checkout
-feature branch. If you stayed on a verification checkout during recovery,
-ask Copilot to prepare a normal feature branch before editing.
+problem you identified. Record it as a suggestion for now; **do not edit the
+verified main checkout** or silently add commits after checkout delivery.
+If you explicitly choose to apply it, use a new follow-up feature branch.
+That change needs its own review, publishing/merge approval, PR and verification.
+For local recovery, preserve the checked result and create a normal branch before
+any separately approved edits.
 Describe expected savings as a prediction until you measure them.
 
 Continue with the [final review and handoff](/workshops/copilot-app/finish/).
