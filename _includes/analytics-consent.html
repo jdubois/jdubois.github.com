@@ -1,0 +1,13 @@
+{% assign consent_lang = page.lang | default: 'en' %}
+{% if include.deck %}
+<button type="button" class="consent-manage consent-manage-deck" data-consent-manage>{% if consent_lang == 'fr' %}Paramètres des cookies{% else %}Cookie settings{% endif %}</button>
+{% endif %}
+<div id="consent-banner" class="consent-banner" role="region" aria-labelledby="consent-title" hidden>
+    <p id="consent-title" class="consent-title">{% if consent_lang == 'fr' %}Cookies de mesure d'audience{% else %}Analytics cookies{% endif %}</p>
+    <p class="consent-text">{% if consent_lang == 'fr' %}J'aimerais utiliser Google Analytics pour savoir quelles pages sont consultées. Aucun outil de suivi n'est chargé et aucun cookie de mesure d'audience n'est déposé sans votre accord. Vous pouvez changer d'avis à tout moment via « Paramètres des cookies ». Votre choix est mémorisé dans votre navigateur et partagé sur julien-dubois.com (y compris ses sous-sites).{% else %}I'd like to use Google Analytics to see which pages are read. Nothing is loaded or stored unless you accept; you can change your mind from Cookie settings at any time. Your choice is remembered in your browser and shared across julien-dubois.com (including its sub-sites).{% endif %}</p>
+    <div class="consent-actions">
+        <button type="button" id="consent-accept" class="btn btn-ink">{% if consent_lang == 'fr' %}Accepter{% else %}Accept{% endif %}</button>
+        <button type="button" id="consent-decline" class="btn btn-ghost">{% if consent_lang == 'fr' %}Refuser{% else %}Decline{% endif %}</button>
+    </div>
+</div>
+<script src="/js/analytics.js?v={{ site.github.build_revision | default: site.time | date: '%s' }}"></script>
