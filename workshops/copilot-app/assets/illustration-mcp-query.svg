@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="820" viewBox="0 0 1440 820" role="img" aria-labelledby="title desc">
+  <title id="title">Same cart. Fewer queries.</title>
+  <desc id="desc">The reference workload is GET /api/cart containing eight different products. Before optimization, one cart SELECT and eight product SELECTs total nine. After optimization the same workload requires one SELECT with unchanged contents and totals. Use matching fresh MCP request profiles after restarting the reviewed application.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="m1 1 5 3-5 3" fill="none" stroke="#1d4ed8" stroke-width="1.5"/></marker>
+    <g id="db" fill="#fff" stroke="#0f1419" stroke-width="2.5">
+      <path d="M0 18v91c0 25 120 25 120 0V18"/>
+      <ellipse cx="60" cy="18" rx="60" ry="18"/>
+      <path d="M0 62c0 25 120 25 120 0"/>
+    </g>
+    <style>
+      text{font-family:"Schibsted Grotesk",Arial,sans-serif;fill:#0f1419}
+      .body{font-family:"Hanken Grotesk",Arial,sans-serif;font-size:21px;fill:#46505f}
+      .mono{font-family:"JetBrains Mono",monospace;font-size:16px;fill:#475569}
+    </style>
+  </defs>
+  <path fill="#fff" d="M0 0h1440v820H0z"/>
+  <text x="72" y="95" font-size="46" font-weight="800" letter-spacing="-1.6">Same cart. Fewer queries.</text>
+  <text x="74" y="139" class="body">Measure one request with eight different products, before and after the fix.</text>
+  <rect x="72" y="200" width="1296" height="74" rx="8" fill="#f4f6f8" stroke="#d2d8df"/>
+  <text x="99" y="245" class="mono">GET /api/cart</text>
+  <g fill="#fff" stroke="#475569" stroke-width="1.5">
+    <rect x="373" y="220" width="28" height="33" rx="2"/><rect x="419" y="220" width="28" height="33" rx="2"/>
+    <rect x="465" y="220" width="28" height="33" rx="2"/><rect x="511" y="220" width="28" height="33" rx="2"/>
+    <rect x="557" y="220" width="28" height="33" rx="2"/><rect x="603" y="220" width="28" height="33" rx="2"/>
+    <rect x="649" y="220" width="28" height="33" rx="2"/><rect x="695" y="220" width="28" height="33" rx="2"/>
+  </g>
+  <text x="1338" y="245" text-anchor="end" class="mono">8 distinct products / same contents and totals</text>
+  <text x="101" y="339" font-size="29" font-weight="700">Before</text>
+  <text x="897" y="339" font-size="29" font-weight="700">After</text>
+  <path d="M720 312v334" stroke="#e2e6ea"/>
+  <path d="M120 387h152m-152 18h152m-152 18h152m-152 18h152m-152 18h152m-152 18h152m-152 18h152m-152 18h152m-152 18h152" stroke="#475569" stroke-width="2"/>
+  <path d="M272 387h25v144h-25m25-72h32" fill="none" stroke="#475569" stroke-width="2"/>
+  <use href="#db" transform="translate(358 398)"/>
+  <text x="101" y="602" font-size="43" font-weight="800" letter-spacing="-1">9 SELECTs</text>
+  <text x="101" y="638" class="body">1 cart query + 8 product queries</text>
+  <path d="M605 459h220" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M914 459h150" stroke="#1d4ed8" stroke-width="3" marker-end="url(#arrow)"/>
+  <use href="#db" transform="translate(1100 398)"/>
+  <text x="897" y="602" font-size="43" font-weight="800" letter-spacing="-1" style="fill:#1d4ed8">1 SELECT</text>
+  <text x="897" y="638" class="body">Same response. Less repeated work.</text>
+  <text x="74" y="710" class="mono">MCP: match the request, inspect its profile, restart after the fix, measure again.</text>
+  <path d="M72 765h1296" stroke="#e2e6ea"/>
+  <text x="74" y="799" class="mono">Reference query counts / not participant runtime evidence</text>
+  <text x="1366" y="799" text-anchor="end" class="mono">Investigate with MCP</text>
+</svg>

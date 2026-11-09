@@ -24,6 +24,11 @@ the customer expects **quantity 2 / €20**.
 This is not just a label problem. The server has replaced the existing quantity.
 Your fix must survive a page reload.
 
+<figure>
+  <a href="/workshops/copilot-app/assets/illustration-quantity-bug.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-quantity-bug.svg" alt="Conceptual bug reproduction: two completed Notebook additions incorrectly store quantity 1 and EUR 10; the expected stored result is quantity 2 and EUR 20, including after reload." width="1440" height="800" loading="lazy"></a>
+  <figcaption>Two completed requests, one incorrect stored quantity. Trace the behavior beyond the screen.</figcaption>
+</figure>
+
 ## Continue in your existing session
 {: #give-copilot-a-useful-ticket}
 

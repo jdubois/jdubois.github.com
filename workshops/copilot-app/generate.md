@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Generate and iterate with Copilot
+title: Generate and iterate
 description: "Turn a small customer request into reviewed backend code, a working button and meaningful tests."
 permalink: /workshops/copilot-app/generate/
 redirect_from:

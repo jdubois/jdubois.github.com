@@ -10,6 +10,9 @@ next_title: Investigate with Copilot
 
 ## Open your own shop
 
+You need JDK 21+, Git and a supported Copilot App account. No Docker or Node
+installation is needed.
+
 Open the
 <a href="https://github.com/jdubois/copilot-shopping-cart-workshop" target="_blank">shopping-cart template repository</a>
 and choose **Use this template → Create a new repository**. Choose your account
@@ -31,53 +34,28 @@ Do not paste credentials into prompts. See the
 Start a session in this repository. Choose **This computer**, **New worktree**
 and **Interactive**, and name the session **Cart: quantity bug**.
 
-Open the **model picker below the prompt box** and select **Fusion Standard**.
-
-**Copilot Fusion** automatically chooses which AI model to use for each task,
-rather than asking you to pick one yourself. **Standard** balances quality,
-response time and cost. At higher effort levels, Fusion can have one model
-draft a solution and other models review it before returning a single response.
-You still review the code and run the tests yourself. See
-<a href="https://docs.github.com/en/copilot/concepts/models/copilot-fusion" target="_blank">how Fusion works</a>.
-
-If Fusion is not available, choose a strong coding model from the same picker,
-such as **Claude Sonnet 5.5** or **GPT-6.1 Sol**. Turn **Copilot Fusion** off if
-the switch is shown. Available models depend on your plan and organization
-settings. You can complete every exercise with a single model.
+In the **model picker below the prompt box**, select **Fusion Standard**,
+which automatically chooses a model for each task. If unavailable, choose
+**Claude Sonnet 5.5** or **GPT-6.1 Sol** and turn **Copilot Fusion** off if the
+switch is shown. Available models depend on your plan and organization settings.
+See <a href="https://docs.github.com/en/copilot/concepts/models/copilot-fusion" target="_blank">how Fusion works</a>.
 
 Review `AGENTS.md`, `.github/skills/` and `.github/mcp.json` before trusting
-repository configuration.
+repository configuration. The three Java skills are already installed; no
+installation is needed. Their [chapter](/workshops/copilot-app/skills/) covers usage.
+
 If a file read is denied, stop and review the App's repository-trust or
-file-access request. MCP approval is separate; approving a server does not
-grant filesystem access. Do not bypass a denial or broaden permissions.
-You need JDK 21+, Git and a supported App account. No Docker or Node installation.
+file-access request. MCP approval does not grant filesystem access.
+Do not bypass a denial or broaden permissions.
 
-The three skills are **already installed** in `.github/skills/`.
-The [Install and use skills chapter](/workshops/copilot-app/skills/) explains
-how to load them and where to find installation instructions for another project.
+Enable **GitHub Actions** for the included **Shopping-cart checks** workflow.
+Confirm you can push branches, create PRs and merge them, obtain required reviews
+and use **Agent Merge** under your repository's rules. Never weaken policies
+or branch protections. If access or required approval is unavailable, ask the
+facilitator; the [parallel](/workshops/copilot-app/parallel/) and
+[integration](/workshops/copilot-app/integrate/) chapters provide local recovery.
 
-Later you will use the Browser canvas's **Pick & polish** control and the
-bundled **impeccable** UI skill, then **`/rubber-duck`** and **`/fleet`** in
-the App composer. Check their availability in your build; recovery is included
-in each chapter. The Canvas chapter updates `AGENTS.md` with startup guidance
-and staged permission for the two worktree tasks, read-only critic and later
-mock-checkout subagents on one feature branch. The fourth ticket builds an order and receipt, not
-payments or authentication. After review and explicit delivery approval, its
-orchestrator merges one checkout PR into your own `main` and verifies the merged
-application. Earlier ticket scopes and tests stay unchanged.
-
-Before parallel work, merge the three accepted tickets into **`main` through
-one reviewed PR**. The [integration exercise](/workshops/copilot-app/integrate/)
-then uses **Agent Merge** for two worker PRs targeting `main`.
-Enable **GitHub Actions** and confirm you
-can push branches, create PRs and merge them under your repository's rules.
-Check that your organization allows Agent Merge and that any required
-reviewer can approve your PRs. A policy denial or unavailable required
-approval is a blocker, not a reason to broaden permissions.
-The template includes the **Shopping-cart checks** workflow. Never weaken
-organization policies or branch protections for the workshop; ask the
-facilitator for help or use the parallel and integration chapters' local recovery steps
-if GitHub, CI or Agent Merge is unavailable.
+## Check the starter
 
 Let Copilot check the checkout and preserve your starting point:
 
@@ -89,9 +67,9 @@ Never replace an existing tag; if this is not a clean new starter, ask me first.
 Report the source directory, branch and saved starting point. Do not edit files.
 ```
 
-The tag gives Copilot a stable base for the final review. You do not need to
-type Git commands or record commit IDs. If Git asks for a name and email, ask
-Copilot to help configure **your own** identity.
+The tag saves your starting point for the final review; Copilot handles the Git
+bookkeeping. If Git asks for a name and email, ask Copilot to help configure
+**your own** identity.
 
 In this session's working directory, run the baseline check, or ask Copilot to
 run it:
@@ -101,13 +79,10 @@ java -version
 ./mvnw -q -Dtest=BaselineTest test
 ```
 
-Expect **4 tests, 0 failures, 0 errors, 0 skipped**. This checks the starter
-and downloads any missing Maven dependencies. It does not yet test adding the
-same product twice.
-
-Maven's `-q` reduces output; application logs may still appear.
-Ask Copilot to report the exit status and executed counts from
-`target/surefire-reports/` if the summary is hidden. Silence is not a pass.
+Expect **4 tests, 0 failures, 0 errors, 0 skipped**. Maven downloads missing
+dependencies. These tests do not yet cover adding the same product twice.
+If `-q` hides the summary, ask Copilot for the exit status and executed counts
+from `target/surefire-reports/`. Silence is not a pass.
 
 ## Start one application
 
@@ -133,19 +108,16 @@ not the repository's original checkout.
 ### Session handoffs
 {: #session-handoffs}
 
-When you move to a new session, start from your reviewed code, not a fresh
-copy of the starter:
+When a chapter asks for a new session, carry forward your reviewed code:
 
 1. Review the changes in the App, then ask Copilot to commit only the changes you approve.
-2. When a chapter asks for it, have Copilot create a named branch, such as `workshop-quantity`. This saves a starting point for the next session. Do not overwrite an existing branch with the same name.
+2. Ask Copilot to create the branch named in that chapter, such as `workshop-quantity`. Do not overwrite an existing branch.
 3. Create the next session with **New worktree** and select that branch as its base. Before editing, ask Copilot to confirm that it starts from the saved commit and has no uncommitted changes.
 
-The **branch name** selects the code to start from; the **session title** is
-just a label. If the branch is not available in the picker, continue in the
-current session rather than starting from the default branch.
-
-Run Maven commands **in the active session's working directory**. Ask Copilot
-to confirm the path if you are unsure.
+The **branch name** selects the starting code; the **session title** is just a
+label. If the branch is missing from the picker, continue in the current
+session rather than starting from the default branch. Run Maven commands in
+the active session's working directory; ask Copilot to confirm the path if unsure.
 
 The shop belongs to a particular terminal and source copy. Before running a new
 copy, use **Ctrl+C in the terminal that owns the old shop**, then start the
@@ -155,9 +127,8 @@ ask the facilitator; never stop an unknown process to free port 18765.
 ## Connect runtime tools
 
 <a href="https://www.julien-dubois.com/boot-ui/" target="_blank">BootUI</a>
-helps AI coding agents inspect running Java applications. It is preinstalled so
-Copilot can diagnose the shop's N+1 query problem through
-[MCP](/workshops/copilot-app/tools/), using these tools:
+is preinstalled. Connect it through [MCP](/workshops/copilot-app/tools/) so
+Copilot can inspect the running shop:
 
 ```json
 {

@@ -26,6 +26,11 @@ The canvas is not the server. It displays a URL; opening it does not build or
 start Spring Boot. You do not need to create a canvas extension for this exercise.
 See the <a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/working-with-canvas-extensions" target="_blank">Canvas guide</a>.
 
+<figure>
+  <a href="/workshops/copilot-app/assets/illustration-canvas-focus.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-canvas-focus.svg" alt="Conceptual Canvas interaction, not App UI: select the cart's Remove button, inspect an observed issue, approve a bounded correction, then check keyboard and narrow-screen usability while preserving behavior." width="1440" height="800" loading="lazy"></a>
+  <figcaption>Point to one interaction and keep the correction focused. This schematic is not an App screenshot or evidence of a defect.</figcaption>
+</figure>
+
 ## Teach Copilot how to run this project
 {: #startup-instructions}
 

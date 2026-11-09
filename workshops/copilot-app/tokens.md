@@ -22,6 +22,11 @@ in GitHub Copilot App** to examine those sessions and their integration.
 
 **Goal:** reduce unnecessary token usage without relaxing tests or code review.
 
+<figure>
+  <a href="/workshops/copilot-app/assets/illustration-chronicle-history-insights.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-chronicle-history-insights.svg" alt="Chronicle analyzes Copilot session history to summarize and search past work, explain reported usage patterns, provide workflow tips and suggest project-instruction improvements. This chapter focuses on usage insights." width="1440" height="880" loading="lazy"></a>
+  <figcaption>Chronicle turns session history into insights. Here, use its cost tips to understand your workshop workflow.</figcaption>
+</figure>
+
 ## Decide before analyzing history
 
 Chronicle can access history across repositories. Selecting cost tips may start

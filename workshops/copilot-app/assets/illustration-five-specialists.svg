@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1080" viewBox="0 0 1440 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Five specialists. One delivery owner.</title>
+  <desc id="desc">One orchestrator coordinates five subagents in one session and one checkout feature branch, not five worktrees. Model precedes service, which precedes REST API; UI and acceptance tests draft against a shared contract. After integrated review and tests and scoped human delivery approval, the orchestrator delivers one reviewed pull request, waits for required checks and approvals, merges it into main and verifies the merged application.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="m1 1 5 3-5 3" fill="none" stroke="#475569" stroke-width="1.5"/></marker>
+    <marker id="blue-arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="m1 1 5 3-5 3" fill="none" stroke="#1d4ed8" stroke-width="1.5"/></marker>
+    <style>
+      text{font-family:"Schibsted Grotesk",Arial,sans-serif;fill:#0f1419}
+      .body{font-family:"Hanken Grotesk",Arial,sans-serif;font-size:21px;fill:#46505f}
+      .mono{font-family:"JetBrains Mono",monospace;font-size:16px;fill:#475569}
+      .link{fill:none;stroke:#475569;stroke-width:2}
+    </style>
+  </defs>
+  <path fill="#fff" d="M0 0h1440v1080H0z"/>
+  <text x="72" y="95" font-size="46" font-weight="800" letter-spacing="-1.6">Five specialists. One delivery owner.</text>
+  <text x="74" y="139" class="body">Separate contexts. Shared interfaces. A working checkout on main.</text>
+  <rect x="514" y="195" width="412" height="103" rx="8" fill="#0f1419"/>
+  <text x="720" y="237" text-anchor="middle" style="fill:#fff" font-size="29" font-weight="700">Orchestrator</text>
+  <text x="720" y="270" text-anchor="middle" style="fill:#fff" font-size="19">Coordinates work and owns delivery</text>
+  <path d="M720 298v34" stroke="#1d4ed8" stroke-width="3"/>
+  <rect x="72" y="333" width="1296" height="399" rx="8" fill="#f4f6f8" stroke="#d2d8df"/>
+  <text x="100" y="372" font-size="22" font-weight="700">One session / one checkout feature branch</text>
+  <text x="100" y="408" class="body">Shared contract: immutable receipt, atomic cart clearing, safe retries.</text>
+  <path d="M100 432h1240" stroke="#d2d8df"/>
+  <g fill="#fff" stroke="#d2d8df">
+    <rect x="100" y="462" width="340" height="99" rx="6"/>
+    <rect x="550" y="462" width="340" height="99" rx="6"/>
+    <rect x="1000" y="462" width="340" height="99" rx="6"/>
+    <rect x="325" y="599" width="340" height="99" rx="6"/>
+    <rect x="775" y="599" width="340" height="99" rx="6"/>
+  </g>
+  <text x="124" y="502" font-size="25" font-weight="700">Order model</text>
+  <text x="124" y="536" class="body">Snapshots + unique request IDs</text>
+  <text x="574" y="502" font-size="25" font-weight="700">Checkout service</text>
+  <text x="574" y="536" class="body">Transactions + retry safety</text>
+  <text x="1024" y="502" font-size="25" font-weight="700">REST API</text>
+  <text x="1024" y="536" class="body">Request + receipt mapping</text>
+  <path d="M441 512h94" class="link" marker-end="url(#arrow)"/>
+  <path d="M891 512h94" class="link" marker-end="url(#arrow)"/>
+  <text x="349" y="639" font-size="25" font-weight="700">UI</text>
+  <text x="349" y="673" class="body">Pending, errors + receipt</text>
+  <text x="799" y="639" font-size="25" font-weight="700">Acceptance tests</text>
+  <text x="799" y="673" class="body">Rollback, snapshots + replay</text>
+  <text x="100" y="774" class="mono">Schedule dependencies; five assignments do not require five simultaneous workers.</text>
+  <path d="M72 797h1296" stroke="#d2d8df"/>
+  <text x="72" y="840" font-size="24" font-weight="700">The orchestrator carries the integrated result through delivery</text>
+  <path d="M93 891h1229" stroke="#d2d8df" stroke-width="2"/>
+  <path d="M93 891h1229" fill="none" stroke="#1d4ed8" stroke-width="2" marker-end="url(#blue-arrow)"/>
+  <g fill="#fff" stroke="#1d4ed8" stroke-width="3">
+    <circle cx="94" cy="891" r="8"/>
+    <circle cx="384" cy="891" r="8"/>
+    <circle cx="672" cy="891" r="8"/>
+    <circle cx="960" cy="891" r="8"/>
+  </g>
+  <circle cx="1326" cy="891" r="18" fill="#0f1419"/>
+  <path d="m1318 891 6 6 11-13" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="72" y="936" font-size="21" font-weight="700">Review + tests</text>
+  <text x="72" y="965" class="mono">Integrated feature</text>
+  <text x="330" y="936" font-size="21" font-weight="700">Human approval</text>
+  <text x="330" y="965" class="mono">Scoped delivery</text>
+  <text x="625" y="936" font-size="21" font-weight="700">One reviewed PR</text>
+  <text x="625" y="965" class="mono">Checks + approvals</text>
+  <text x="941" y="936" font-size="21" font-weight="700">Merge</text>
+  <text x="941" y="965" class="mono">Into main</text>
+  <text x="1366" y="936" text-anchor="end" font-size="21" font-weight="700">Verify main</text>
+  <text x="1366" y="965" text-anchor="end" class="mono">Tests + running app</text>
+  <path d="M72 1025h1296" stroke="#e2e6ea"/>
+  <text x="74" y="1058" class="mono">Conceptual workflow / not a record of agent activity</text>
+  <text x="1366" y="1058" text-anchor="end" class="mono">Five-subagent checkout</text>
+</svg>

@@ -8,6 +8,11 @@ next: setup
 next_title: Set up your App workspace
 ---
 
+<figure>
+  <a href="/workshops/copilot-app/assets/illustration-learning-with-a-real-project.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-learning-with-a-real-project.svg" alt="Learning with a real project: an inviting workbench with a Java shop notebook, a rubber duck and an order receipt. Bring your curiosity, fix the bug, polish the experience and build mock checkout." width="1440" height="820" loading="eager" fetchpriority="high"></a>
+  <figcaption>A hands-on project to investigate, improve and make your own. Concept illustration, not an application screenshot.</figcaption>
+</figure>
+
 ## The scenario
 
 > **“I added the notebook twice. Why is there still only one in my cart?”**
@@ -66,10 +71,15 @@ Start with [setup](/workshops/copilot-app/setup/), then follow the chapters in
 order. There are no chapter deadlines. Take a break before the parallel work
 and ask for help whenever you need it.
 
+<figure>
+  <a href="/workshops/copilot-app/assets/illustration-shop-to-checkout.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-shop-to-checkout.svg" alt="Conceptual workshop journey: investigate the notebook quantity bug, build with Copilot, then verify a working order receipt." width="1440" height="760" loading="lazy"></a>
+  <figcaption>From a reproducible cart bug to a verified checkout: the workshop journey, illustrated.</figcaption>
+</figure>
+
 1. [Investigate with Copilot](/workshops/copilot-app/ticket/), using a reproducible cart bug.
 2. [Choose modes, effort and permissions](/workshops/copilot-app/fusion/), then [install and use skills](/workshops/copilot-app/skills/) with the bundled Java guidance and a regression test.
 3. [Review and verify changes](/workshops/copilot-app/verify/) to the repeated-add behavior.
-4. [Generate and iterate with Copilot](/workshops/copilot-app/generate/) to add item removal.
+4. [Generate and iterate](/workshops/copilot-app/generate/) to add item removal.
 5. [Use Canvas and Pick & polish](/workshops/copilot-app/canvas/), with startup instructions and **impeccable**.
 6. [Investigate runtime with MCP](/workshops/copilot-app/tools/), using the N+1 query as the example.
 7. [Merge the three accepted tickets into main, then start two isolated sessions](/workshops/copilot-app/parallel/) to improve the empty-cart experience and add boundary tests.

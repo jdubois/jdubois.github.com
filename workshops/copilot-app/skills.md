@@ -119,6 +119,11 @@ a run with no tests are setup problems to resolve.
 If setup or skill loading is blocked, ask the facilitator for help. If you use
 a reference example, note which steps you ran yourself.
 
+<figure>
+  <a href="/workshops/copilot-app/assets/illustration-skills-and-tests.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-skills-and-tests.svg" alt="Conceptual testing sequence: load java-junit, establish the supplied cart regression with 3 tests and 2 expected failures, then verify the approved fix with all 7 supplied baseline and cart tests passing." width="1440" height="800" loading="lazy"></a>
+  <figcaption>Skill guidance supplies the method; executed tests supply the evidence. The final stage previews the next chapter's verification.</figcaption>
+</figure>
+
 ## What you have learned
 
 - Distinguish installed skills from loaded guidance, and install complete pinned folders in another project without replacing the workshop's copies.

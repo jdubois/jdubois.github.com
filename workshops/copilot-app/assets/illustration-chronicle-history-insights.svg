@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="880" viewBox="0 0 1440 880" role="img" aria-labelledby="title desc">
+  <title id="title">Your work history, made useful.</title>
+  <desc id="desc">Chronicle analyzes Copilot App and CLI session history. Its standup and search commands help recall work, cost-tips and tips explain usage patterns and suggest workflow improvements, and improve suggests changes to project instructions. Conceptual explanation of documented capabilities, not a screenshot or real analysis result.</desc>
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#e2e6ea"/></pattern>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="m1 1 5 3-5 3" fill="none" stroke="#1d4ed8" stroke-width="1.5"/></marker>
+    <g id="session">
+      <path d="M8 9h246v100H8z" fill="#e2e6ea"/>
+      <path d="M0 0h246v100H0z" fill="#fff" stroke="#d2d8df" stroke-width="2"/>
+      <path d="M0 0h12v100H0z" fill="#0f1419"/>
+      <path d="M29 56h167m-167 15h138" stroke="#d2d8df" stroke-width="2"/>
+    </g>
+    <style>
+      text{font-family:"Schibsted Grotesk",Arial,sans-serif;fill:#0f1419}
+      .body{font-family:"Hanken Grotesk",Arial,sans-serif;font-size:21px;fill:#46505f}
+      .mono{font-family:"JetBrains Mono",monospace;font-size:16px;fill:#475569}
+    </style>
+  </defs>
+  <path fill="#f4f6f8" d="M0 0h1440v880H0z"/>
+  <text x="72" y="95" font-size="46" font-weight="800" letter-spacing="-1.6">Your work history, made useful.</text>
+  <text x="74" y="139" class="body">Chronicle looks across past Copilot sessions and turns them into answers and insights.</text>
+  <path d="M64 206h754v466H64z" fill="url(#grid)"/>
+  <use href="#session" transform="translate(113 246) rotate(-5 123 50)"/>
+  <text x="144" y="276" font-size="20" font-weight="700" transform="rotate(-5 236 296)">Quantity bug</text>
+  <use href="#session" transform="translate(122 390) rotate(3 123 50)"/>
+  <text x="153" y="420" font-size="20" font-weight="700" transform="rotate(3 245 440)">Query investigation</text>
+  <use href="#session" transform="translate(113 534) rotate(-3 123 50)"/>
+  <text x="144" y="564" font-size="20" font-weight="700" transform="rotate(-3 236 584)">Checkout</text>
+  <path d="M392 299h37q20 0 20 20v236q0 20-20 20h-37m57-136h64" fill="none" stroke="#475569" stroke-width="2"/>
+  <circle cx="640" cy="413" r="85" fill="#fff" stroke="#1d4ed8" stroke-width="4"/>
+  <path d="m701 474 57 57" fill="none" stroke="#1d4ed8" stroke-width="13" stroke-linecap="round"/>
+  <path d="M602 383h75m-75 21h56m-56 21h67m-67 21h43" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+  <text x="640" y="586" text-anchor="middle" font-size="33" font-weight="800">Chronicle</text>
+  <text x="640" y="623" text-anchor="middle" class="mono">Reads and analyzes history</text>
+  <path d="M777 414h38q24 0 24-24V282h39" fill="none" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M777 439h101" fill="none" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M777 464h38q24 0 24 24v108h39" fill="none" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="913" y="267" font-size="28" font-weight="700">Recall your work</text>
+  <text x="913" y="304" class="body">Summaries and searchable past sessions.</text>
+  <text x="913" y="340" class="mono">standup / search</text>
+  <path d="M913 373h454" stroke="#d2d8df"/>
+  <text x="913" y="429" font-size="28" font-weight="700">Understand your usage</text>
+  <text x="913" y="466" class="body">Token-spend patterns and workflow tips.</text>
+  <text x="913" y="502" class="mono">cost-tips / tips</text>
+  <path d="M913 535h454" stroke="#d2d8df"/>
+  <text x="913" y="591" font-size="28" font-weight="700">Improve your instructions</text>
+  <text x="913" y="628" class="body">Suggestions based on recurring friction.</text>
+  <text x="913" y="664" class="mono">improve</text>
+  <path d="M103 723h1234" stroke="#d2d8df"/>
+  <text x="104" y="765" class="body">The input is your session history. The output depends on the Chronicle command you choose.</text>
+  <path d="M72 814h1296" stroke="#d2d8df"/>
+  <text x="74" y="850" class="mono">Documented capabilities / conceptual illustration, not App UI</text>
+  <text x="1366" y="850" text-anchor="end" class="mono">Chronicle / overview</text>
+</svg>

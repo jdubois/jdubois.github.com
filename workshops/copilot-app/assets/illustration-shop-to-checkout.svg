@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="760" viewBox="0 0 1440 760" role="img" aria-labelledby="title desc">
+  <title id="title">A small shop. A complete delivery.</title>
+  <desc id="desc">Conceptual editorial illustration of a cobalt notebook, a shopping cart and a paper order receipt. This is not a screenshot or evidence of an implemented checkout.</desc>
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#e2e6ea" stroke-width="1"/></pattern>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="m1 1 4 3-4 3" fill="none" stroke="#1d4ed8" stroke-width="1.5"/></marker>
+    <style>
+      text{font-family:"Schibsted Grotesk",Arial,sans-serif;fill:#0f1419}
+      .note{font-family:"Hanken Grotesk",Arial,sans-serif;font-size:21px;fill:#46505f}
+      .mono{font-family:"JetBrains Mono",monospace;font-size:15px;fill:#475569}
+    </style>
+  </defs>
+  <path fill="#f4f6f8" d="M0 0h1440v760H0z"/>
+  <path fill="url(#grid)" d="M64 196h1312v404H64z"/>
+  <text x="72" y="95" font-size="46" font-weight="800" letter-spacing="-1.6">A small shop. A complete delivery.</text>
+  <text x="74" y="139" class="note">Investigate the bug. Build together. Deliver the working result.</text>
+  <ellipse cx="288" cy="559" rx="162" ry="13" fill="#e2e6ea"/>
+  <g transform="translate(178 239) rotate(-9 115 148)">
+    <path d="M15 12h224v290H15z" fill="#d2d8df"/>
+    <path d="M7 4h224v290H7z" fill="#fff" stroke="#d2d8df" stroke-width="2"/>
+    <path d="M0 0h224v285H0z" fill="#1d4ed8"/>
+    <path d="M0 0h15v285H0z" fill="#14309c"/>
+    <path d="M31 32h160" stroke="#fff" stroke-opacity=".5"/>
+    <text x="31" y="85" fill="#fff" style="fill:#fff" font-size="32" font-weight="800" letter-spacing="-.8">NOTES</text>
+    <text x="31" y="124" style="fill:#fff" font-size="32" font-weight="800" letter-spacing="-.8">&amp; IDEAS</text>
+    <path d="M31 160h120m-120 12h87" stroke="#fff" stroke-opacity=".45" stroke-width="2"/>
+    <text x="31" y="249" style="fill:#fff" font-size="17">Make something good.</text>
+    <path d="M178 0v55l12-8 12 8V0" fill="#fff" opacity=".8"/>
+  </g>
+  <path d="M449 402h104" fill="none" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrow)"/>
+  <g transform="translate(568 280)" fill="none" stroke="#0f1419" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 16h31l42 183h195l35-139H42"/>
+    <path d="M85 199l-7 29h193"/>
+    <circle cx="104" cy="258" r="13" fill="#f4f6f8"/>
+    <circle cx="247" cy="258" r="13" fill="#f4f6f8"/>
+    <path d="M66 110h223M78 154h199M113 61l16 135M170 61l5 135M229 61l-12 135" stroke="#d2d8df" stroke-width="3"/>
+    <g transform="translate(88 -39) rotate(-9 45 60)" stroke-width="2">
+      <path d="M0 0h80v112H0z" fill="#1d4ed8" stroke="#1d4ed8"/>
+      <path d="M10 0v112" stroke="#14309c" stroke-width="5"/>
+      <path d="M23 27h39m-39 12h29" stroke="#fff" stroke-width="3"/>
+    </g>
+    <path d="M200 25v-49m-24 25h49" stroke="#1d4ed8" stroke-width="3"/>
+  </g>
+  <path d="M904 402h104" fill="none" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrow)"/>
+  <g transform="translate(1051 222) rotate(5 128 160)">
+    <path d="M13 15h244v307l-16-9-16 9-16-9-16 9-16-9-16 9-16-9-16 9-16-9-16 9-16-9-16 9-16-9-16 9-16-9-17 9Z" fill="#e2e6ea"/>
+    <path d="M0 0h244v307l-16-9-16 9-16-9-16 9-16-9-16 9-16-9-16 9-16-9-16 9-16-9-16 9-16-9-16 9-16-9-20 9Z" fill="#fff" stroke="#d2d8df" stroke-width="2"/>
+    <circle cx="122" cy="57" r="22" fill="#1d4ed8"/>
+    <path d="m111 57 8 8 15-17" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="122" y="112" text-anchor="middle" font-size="24" font-weight="700">Order receipt</text>
+    <path d="M26 137h192" stroke="#e2e6ea"/>
+    <text x="26" y="171" font-size="17">Notebook</text>
+    <text x="218" y="171" text-anchor="end" font-size="17">2</text>
+    <text x="26" y="196" class="mono">2 x EUR 10.00</text>
+    <path d="M26 219h192" stroke="#e2e6ea"/>
+    <text x="26" y="255" font-size="18" font-weight="700">Total</text>
+    <text x="218" y="255" text-anchor="end" font-size="25" font-weight="800">EUR 20</text>
+  </g>
+  <text x="288" y="637" text-anchor="middle" font-size="25" font-weight="700">Start with a bug</text>
+  <text x="720" y="637" text-anchor="middle" font-size="25" font-weight="700">Build with Copilot</text>
+  <text x="1180" y="637" text-anchor="middle" font-size="25" font-weight="700">Verify the result</text>
+  <path d="M72 680h1296" stroke="#d2d8df"/>
+  <text x="74" y="715" class="mono">Concept illustration / not an application screenshot</text>
+  <text x="1366" y="715" text-anchor="end" class="mono">Copilot App workshop</text>
+</svg>
