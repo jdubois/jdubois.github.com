@@ -124,6 +124,11 @@ or failing checks.
 result for preview and handoff; do not switch back to incomplete remote `main`
 or report local integration as Agent Merge completion.
 
+**Generated Impeccable state:** for an untracked `.impeccable/hook.cache.json`,
+request a narrowly scoped local Git exclude and review it before approval.
+Do not commit the cache, delete the whole directory or ignore all `.impeccable/`
+files. Keep intentional design records; review source changes separately.
+
 <details markdown="1" id="reference-recovery">
 <summary>Reference checkpoints and safe Git recovery</summary>
 

@@ -75,26 +75,12 @@ If Remove already matches Add to cart and meets these requirements,
 say no change is needed instead of inventing a defect.
 ```
 
-**`/impeccable`** loads the bundled skill's UI design and accessibility guidance; the canvas
-supplies the selected element and visual context. Neither is a test result
-or permission to change the rest of the project.
+Approve the change, then review **Changes** and let Copilot
+**reload the same Browser canvas automatically**.
 
-Review the proposal and approve only the useful correction. Copilot should apply
-it, compile the resources and **reload the same Browser canvas automatically**.
-Inspect **Changes** and the updated preview; you do not need to run a separate
-terminal command or click refresh.
-
-`./mvnw compile` copies the changed UI resources; it does not force a server
-restart. **DevTools** does not normally restart the app for static resources.
-Check the refreshed result with keyboard navigation at narrow
-and desktop widths. Recreate sample products only if the app restarted.
-Compare **Remove** with **Add to cart**: the filled appearance and interaction
-states should use the same theme, while the **Remove** label stays unchanged.
-Use **Tab before manually scrolling**: the whole focus outline, including its
-offset, must remain visible inside both the viewport and any scrolling list.
-A visible button box alone does not prove that its focus ring is unclipped.
-Collect observed defects together, approve one focused correction, then confirm
-the result rather than starting an edit/rebuild loop for every control.
+Compare **Remove** with **Add to cart**: the filled style should match and the
+label stay unchanged. Check keyboard focus remains fully visible, including in
+a scrolling cart, at desktop and narrow widths.
 Confirm removal still deletes the whole product line, including all its units,
 while other products, quantities and totals remain correct. Run:
 
@@ -102,32 +88,16 @@ while other products, quantities and totals remain correct. Run:
 ./mvnw -Dtest=BaselineTest,CartContractTest,RemoveContractTest test
 ```
 
-Expect all baseline and generated cart/removal tests to pass without
-removing cases or weakening reviewed assertions.
-Record the selected issue, skill guidance actually used and before/after
-observations on the [worksheet](/workshops/copilot-app/worksheet/).
-
-<details markdown="1">
-<summary>If generated impeccable files appear in Changes</summary>
-
-Ask Copilot to distinguish generated local state from useful design records.
-For an untracked `.impeccable/hook.cache.json`, request a narrowly scoped
-local Git exclude and review it before approval. Do not commit the cache,
-delete the whole directory or ignore all `.impeccable/` files.
-Keep intentional design records; review any proposed source change separately.
-
-</details>
+All tests must pass without weakening assertions. Record the before/after result
+on the [worksheet](/workshops/copilot-app/worksheet/).
 
 <details markdown="1" id="canvas-recovery">
 <summary>If the canvas, picker or skill is unavailable</summary>
 
-Check the running app's URL and owning terminal first; an unreachable server
-is not a canvas failure. Control labels and availability can vary by build.
-If Browser or Pick & polish is unavailable, preview in your normal browser
-and send a screenshot or specific observation in the same session.
-If impeccable is absent, use explicit UI acceptance criteria without
-claiming that the skill ran. Record the unavailable feature or demonstration.
-Do not install an unrelated canvas, expose a public tunnel or expand permissions.
+Check the shop URL first. If Browser or Pick & polish is unavailable, use your
+normal browser and send a screenshot or specific observation.
+If `/impeccable` is unavailable, use explicit UI criteria instead.
+Record the fallback; do not claim a tool or skill ran when it did not.
 
 </details>
 

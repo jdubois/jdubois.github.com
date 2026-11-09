@@ -352,12 +352,13 @@ class WorkshopScheduleTests(unittest.TestCase):
                 self.assertNotIn("v2-start", prompt)
 
     def test_cache_recovery_does_not_discard_design_records(self):
-        canvas = re.sub(r"\s+", " ", chapter("canvas"))
+        recovery = re.sub(r"\s+", " ", chapter("facilitator"))
         for text in ["untracked `.impeccable/hook.cache.json`",
                      "local Git exclude", "review it before approval",
                      "delete the whole directory or ignore all `.impeccable/`",
                      "Keep intentional design records"]:
-            self.assertIn(text, canvas)
+            self.assertIn(text, recovery)
+        self.assertNotIn(".impeccable/hook.cache.json", chapter("canvas"))
 
     def test_agent_evidence_and_empty_checkout_do_not_require_invented_activity(self):
         agents = re.sub(r"\s+", " ", chapter("subagents"))
@@ -580,7 +581,7 @@ class WorkshopScheduleTests(unittest.TestCase):
                      "./mvnw compile", "DevTools does not switch worktrees",
                      "Static HTML, CSS and JavaScript"]:
             self.assertIn(text, setup.replace("**", ""))
-        for slug in ["skills", "generate", "canvas", "tools", "subagents"]:
+        for slug in ["skills", "generate", "tools", "subagents"]:
             with self.subTest(chapter=slug):
                 self.assertIn("DevTools", chapter(slug))
         for slug in ["skills", "generate"]:
@@ -590,7 +591,7 @@ class WorkshopScheduleTests(unittest.TestCase):
         canvas = re.sub(r"\s+", " ", chapter("canvas"))
         self.assertIn("server already running from this session's directory", canvas)
         self.assertIn("run ./mvnw compile", canvas)
-        self.assertIn("does not normally restart the app for static resources", canvas)
+        self.assertIn("Keep the shop running", canvas)
         tools = re.sub(r"\s+", " ", chapter("tools"))
         self.assertIn("Wait for DevTools before measuring again", tools)
         self.assertIn("Recreate the exact workload", tools)
@@ -667,7 +668,7 @@ class WorkshopScheduleTests(unittest.TestCase):
                         prompt.index("After applying an approved correction"))
         self.assertIn("reload the same Browser canvas automatically", canvas)
         self.assertNotIn("In a second terminal", canvas)
-        self.assertIn("does not force a server restart", canvas)
+        self.assertIn("Keep the shop running", prompt)
 
     def test_canvas_style_request_reuses_add_to_cart_theme(self):
         canvas = re.sub(r"\s+", " ", chapter("canvas"))
@@ -685,6 +686,15 @@ class WorkshopScheduleTests(unittest.TestCase):
             self.assertIn(text, prompt)
         self.assertIn("Compare **Remove** with **Add to cart**", canvas)
         self.assertIn("removal still deletes the whole product line", canvas)
+
+    def test_canvas_postprompt_guidance_stays_concise(self):
+        section = chapter("canvas").split("## Pick one interaction to improve", 1)[1]
+        guidance = section.split("```copilot\n", 1)[1].split("```", 1)[1].split(
+            "<details", 1)[0]
+        self.assertLessEqual(len(guidance.split()), 140)
+        self.assertIn("keyboard focus remains fully visible", guidance)
+        self.assertIn("All tests must pass without weakening assertions", guidance)
+        self.assertEqual(section.count("<details"), 1)
 
     def test_rubber_duck_is_read_only_and_corrections_need_a_branch(self):
         duck = re.sub(r"\s+", " ", chapter("rubber-duck"))
