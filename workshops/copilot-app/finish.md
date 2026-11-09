@@ -32,8 +32,8 @@ change where a PR merges.
 ```copilot
 Review the full starter-to-current change, including committed tickets,
 staged/unstaged edits and new files, for cart behavior, validation, server
-prices, removal, startup instructions, Canvas UI changes, the query change
-both parallel workers' contributions and the checkout implementation.
+prices, removal, Canvas UI changes, the query change, scoped collaboration
+instructions, both parallel workers' contributions and the checkout implementation.
 Check stored order snapshots, atomic clearing, retry behavior and receipt UI.
 Distinguish local checkout code from what is actually merged into main.
 Use workshop-start as the comparison starting point only
@@ -55,7 +55,7 @@ completed main-branch result.
 |---|---|
 | Fixed repeated additions | Notebook added twice → quantity 2 / €20, persists after reload; regression tests pass |
 | Generated removal | Correct DELETE response, working button, other products and totals preserved |
-| Used a Canvas | Reviewed startup instructions, running shop preview, selected UI issue and checked correction, or an explicit fallback record |
+| Used a Canvas | Running shop preview, selected UI issue and checked correction, or an explicit fallback record |
 | Investigated N+1 | Matched MCP before/after request profiles, same workload, query tests green |
 | Coordinated parallel work | Preparation PR merged into `main`, two isolated sessions from that updated version, two worker PRs merged sequentially with Agent Merge, and a tested combined result; or an explicit local-recovery record |
 | Requested an independent critique | Actual rubber duck findings, decisions and evidence for corrections; or a recorded unavailable critic |

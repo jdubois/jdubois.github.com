@@ -29,19 +29,20 @@ Rehearse with the App build and accounts you will use.
 
 ### Skills and Canvas
 
-- The three Java skills are repository-bundled; **impeccable** is App-bundled. Demonstrate loading guidance, not reinstalling the workshop's pinned copies.
-- Follow the [Canvas chapter](/workshops/copilot-app/canvas/): review the narrow `AGENTS.md` amendment, startup directory and one human-owned server. Do not remove all project constraints.
-- Keep quantity, removal, Canvas and MCP in one session on its current branch. Commit each reviewed result; introduce separate worktrees only for the parallel tasks.
+- The three Java skills are repository-bundled; **impeccable** is App-bundled. Invoke it with **`/impeccable`**. Demonstrate loading guidance, not reinstalling the workshop's pinned copies.
+- Follow the [Canvas chapter](/workshops/copilot-app/canvas/): open the running shop and focus on one observed UI issue with Pick & polish. No instruction-file editing exercise is needed.
+- Keep quantity, removal, Canvas and MCP in one session on its current branch. Commit each reviewed result; introduce separate worktrees and their scoped collaboration permission only in the parallel chapter.
+- Keep the shop running during same-worktree edits. DevTools reloads compiled backend changes; Maven tests compile Java and copy resources. After approved UI edits, Copilot runs `./mvnw compile`, reloads the existing Browser canvas and verifies the visible change; no manual refresh is needed. An automatic restart resets cart data; static-resource updates normally do not. Stop/start manually when switching the running app to another worktree or for recovery.
 
 ### Review and five-subagent checkout
 
-- Invoke an actual independent critic for [rubber ducking](/workshops/copilot-app/rubber-duck/), not a main-agent reread. Any correction needs a normal feature branch before editing.
+- Approve a read-only independent critic for [rubber ducking](/workshops/copilot-app/rubber-duck/) without editing the verification checkout's `AGENTS.md`. Use an actual critic, not a main-agent reread. Any correction needs a normal feature branch before editing.
 - In the same **Cart: boundary tests** session, create `workshop-checkout` from the checked result before implementing. Never code on the detached verification checkout.
 - Approve the [checkout contract and file ownership](/workshops/copilot-app/subagents/#checkout-contract), then use `/fleet`: one orchestrator, five bounded implementation assignments, no extra worktrees or custom agent profiles.
 - Give each worker its instructions and relevant code. Stage model/service/API dependencies; relay questions when direct messaging is unavailable. Record actual exchanges, not the chapter's example conversation.
 - The orchestrator owns the integrated Maven run. Five assignments can run in smaller batches; do not start five shops, Maven suites or nested fleets.
-- Check all earlier reviewed tests, boundary cases and **new checkout tests**. Verify rollback, immutable receipts, concurrent duplicate requests and replay after new cart items. Restart the changed copy and place an order in the Browser canvas.
-- After final review and scoped approval, the orchestrator delivers one checkout PR, handles checks/reviews and squash-merges when allowed. Workers never publish or merge. Verify exact merged main and restart the shop from that directory.
+- Check all earlier reviewed tests, boundary cases and **new checkout tests**. Verify rollback, immutable receipts, concurrent duplicate requests and replay after new cart items. Wait for DevTools to load compiled changes, then place an order in the Browser canvas.
+- After final review and scoped approval, the orchestrator delivers one checkout PR, handles checks/reviews and squash-merges when allowed. Workers never publish or merge. Verify exact merged main and that the shop serves its compiled code from the verified directory; change the running server's worktree only if needed.
 
 ### Evidence and privacy
 
@@ -76,7 +77,7 @@ Before checkout, the normal path has **three PRs targeting `main`**:
 
 | Order | Required handoff |
 |---|---|
-| 1. Preparation PR | Merge the three accepted tickets, generated tests and reviewed Canvas instruction/UI changes. Confirm updated `origin/main` before starting workers |
+| 1. Preparation PR | Merge the three accepted tickets, generated tests, any reviewed Canvas UI changes and scoped collaboration instructions. Confirm updated `origin/main` before starting workers |
 | 2. UI worker PR | Both workers start from that same updated `main`. Review UI repairs with Agent Merge's **Merge pull request** off; authorize this PR only, then confirm **Merged** and passing checks on `main` |
 | 3. Boundary-test PR | Bring updated `main` into the test worker branch. Review its diff and fresh CI, then separately authorize its merge |
 
@@ -174,7 +175,7 @@ below and a fresh directory name. If the commit is unavailable, stop.
 
 1. Connect a new App session to the reference copy. Check its directory and starting commit; activate any required teaching tests there and run the matching checks.
 2. Continue the remaining sequential exercises in that reference session on its current branch, committing reviewed results. For feature recovery, complete Canvas before the query exercise.
-3. For performance recovery, restore the accepted Canvas instruction/UI changes, checking startup paths for this copy, and activate all three teaching classes unchanged. Confirm all 12 supplied tests pass before parallel work.
+3. For performance recovery, restore any accepted Canvas UI changes, check startup paths for this copy, and activate all three teaching classes unchanged. Confirm all 12 supplied tests pass before parallel work.
 4. To resume GitHub delivery, apply the reviewed reference changes and any accepted Canvas work in a new worktree based on the participant's **own `main`**. Review the complete diff and rerun tests before the preparation PR. If GitHub is blocked, use the linked local recovery instead.
 
 **Do not push this clone:** its `origin` is the template, not the personal

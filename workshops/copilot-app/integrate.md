@@ -197,7 +197,9 @@ cases**, all executed with no failures/errors/skips. Check the reports for every
 acceptance class and `CartBoundaryTest`; a successful command that ran no tests
 does not verify the change.
 
-Stop the old shop with **Ctrl+C in the terminal that started it**. In the
+Here you are **switching worktrees**: DevTools cannot move the server from the
+original session to this one. Stop the old shop with **Ctrl+C in the terminal
+that started it**. In the
 **Cart: boundary tests** session's directory, start the checked-out main version:
 
 ```sh

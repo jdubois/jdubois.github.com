@@ -33,7 +33,7 @@ you also ran yourself.
 
 | Field | Your observation |
 |---|---|
-| Active session/directory, startup instructions reviewed and server owner | |
+| Active session/directory and server owner | |
 | Browser canvas URL and selected element | |
 | Observed UI issue and accepted scope | |
 | impeccable guidance actually used, or unavailable | |
@@ -117,7 +117,7 @@ recovery, record **Agent Merge not completed: local recovery used**.
 | Checkout PR URL, repository, feature head and base `main` checked | |
 | Actual merge status/commit and checks for that merged revision | |
 | Verified main commit, local full-suite results and running directory/URL | |
-| Place order and receipt verified after restarting the merged-main application | |
+| Place order and receipt verified with the app serving the verified merged-main code | |
 | Delegation or messaging unavailable, or demonstration | |
 
 Mark checkout **merged and verified on main**, **unfinished**, or **demonstrated**

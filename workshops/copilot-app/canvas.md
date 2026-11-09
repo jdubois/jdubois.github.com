@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Canvas and Pick & polish
-description: "Document how to run the shop, open a shared Browser canvas and target one UI improvement."
+description: "Open the running shop in a shared Browser canvas and target one UI improvement."
 permalink: /workshops/copilot-app/canvas/
 workshop: true
 next: tools
@@ -10,9 +10,8 @@ next_title: Investigate runtime with MCP
 
 ## What you will learn
 
-Use a shared Browser canvas in Copilot App, give Copilot reliable startup
-instructions in `AGENTS.md`, and use Pick & polish with **impeccable** to
-improve one visible interaction.
+Use a shared Browser canvas in Copilot App and invoke **`/impeccable`**
+with Pick & polish to improve one visible interaction.
 
 ## What is a Canvas?
 
@@ -31,52 +30,17 @@ See the <a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/w
   <figcaption>Point to one interaction and keep the correction focused. This schematic is not an App screenshot or evidence of a defect.</figcaption>
 </figure>
 
-## Teach Copilot how to run this project
-{: #startup-instructions}
+## Open the running shop
+{: #browser-preview}
 
 Stay in **the same workshop session, on its current branch**, with the accepted
-quantity fix and removal feature. Use **Interactive**.
-Read the existing `AGENTS.md` first, then ask:
+quantity fix and removal feature. Use **Interactive**. Reuse the human-owned
+server already running from this session's directory. If needed, use the
+[startup guidance](/workshops/copilot-app/setup/#start-the-application).
+Keep its terminal open. Give Copilot this prompt in the **same session**:
 
 ```copilot
-Update AGENTS.md only. Preserve the existing acceptance tests, stack,
-money rules, privacy boundaries and approval requirements.
-Document startup from the active session's working directory:
-./mvnw spring-boot:run
-The shop URL is http://127.0.0.1:18765.
-The human owns the one persistent server. Stop it with Ctrl+C in its
-owning terminal before starting another checkout; never kill by process name.
-Tests use isolated H2 databases and random ports. A restart resets shop data.
-Replace the blanket "no agents" restriction with permission for explicitly
-requested workshop collaboration, only when its chapter is reached and approved:
-the two isolated worktree tasks with their stated file ownership,
-a read-only independent critic after integration, and five bounded checkout
-subagents on the later checkout feature branch.
-Permit mock-checkout implementation only for that approved later exercise,
-not during the earlier tickets. Preserve separate approval for corrections,
-publishing and merging. No payments or authentication.
-In the checkout chapter, only the orchestrator may publish and merge the
-integrated feature through a reviewed PR after separate explicit approval.
-The five specialists must not publish or merge.
-Show the diff and wait for my approval. Do not run the app or edit other files.
-```
-
-This is a narrow update to repository instructions, not permission to bypass
-organization rules or install extra tools. The starter currently excludes
-agents and checkout; leaving those restrictions unchanged would conflict with
-the later collaboration exercises. This amendment does not start those tasks.
-
-Review the diff. Stop any old shop with **Ctrl+C in its owning terminal**.
-In this session's directory, start the reviewed copy:
-
-```sh
-./mvnw spring-boot:run
-```
-
-Keep that terminal open. Give Copilot this prompt in the **same session**:
-
-```copilot
-Read AGENTS.md and confirm which source directory owns the running shop.
+Confirm which source directory owns the running shop.
 Check that http://127.0.0.1:18765 responds, then open that URL in the
 Browser canvas beside this conversation. Do not start a second server,
 create a canvas extension or change files.
@@ -89,39 +53,50 @@ then reload; you are using the application, not a screenshot.
 {: #pick-and-polish}
 
 Use the Browser canvas's **Pick & polish** control to select the **Remove**
-button on a cart line. In the feedback associated with that selection, use:
+button on a cart line. In the feedback associated with that selection,
+invoke **`/impeccable`** with a specific styling request that reuses the shop's
+existing theme:
 
 ```copilot
-Use the bundled impeccable skill to inspect this Remove button.
-Keep the current design and DELETE behavior. Improve its keyboard-focus
-visibility and usability on a narrow screen if those are inadequate.
+/impeccable
+Style this Remove button as a filled button using the same visual treatment
+as Add to cart. Reuse the existing button styles and theme tokens for colors,
+typography, spacing, hover, focus and disabled states; do not introduce a new theme.
+Keep its Remove label, accessible name, keyboard access and whole-line DELETE
+behavior. Preserve visible focus and usability on a narrow screen.
 Only change src/main/resources/static/. No backend, dependencies,
-test changes or whole-page redesign. Explain the observed issue and the
-smallest proposed correction before editing; wait for my approval.
-If the selected interaction already works well, say so instead of inventing
-a defect, and help me choose another observed UI issue.
+test changes or whole-page redesign. Explain the smallest proposed change
+before editing; wait for my approval.
+After applying an approved correction, run ./mvnw compile in this session's
+directory, then reload this existing Browser canvas and verify the change.
+Keep the shop running. Report compilation or refresh failures instead of
+claiming the preview is updated.
+If Remove already matches Add to cart and meets these requirements,
+say no change is needed instead of inventing a defect.
 ```
 
-**impeccable** supplies UI design and accessibility guidance; the canvas
+**`/impeccable`** loads the bundled skill's UI design and accessibility guidance; the canvas
 supplies the selected element and visual context. Neither is a test result
 or permission to change the rest of the project.
 
-Review the proposal, approve only the useful correction, then inspect
-**Changes**. Stop the shop with **Ctrl+C in its owning terminal**, then restart
-from this same session's directory so it serves the changed resources:
+Review the proposal and approve only the useful correction. Copilot should apply
+it, compile the resources and **reload the same Browser canvas automatically**.
+Inspect **Changes** and the updated preview; you do not need to run a separate
+terminal command or click refresh.
 
-```sh
-./mvnw spring-boot:run
-```
-
-Reload the canvas, add sample products again after the data reset, and check
-the actual result with keyboard navigation at narrow and desktop widths.
+`./mvnw compile` copies the changed UI resources; it does not force a server
+restart. **DevTools** does not normally restart the app for static resources.
+Check the refreshed result with keyboard navigation at narrow
+and desktop widths. Recreate sample products only if the app restarted.
+Compare **Remove** with **Add to cart**: the filled appearance and interaction
+states should use the same theme, while the **Remove** label stays unchanged.
 Use **Tab before manually scrolling**: the whole focus outline, including its
 offset, must remain visible inside both the viewport and any scrolling list.
 A visible button box alone does not prove that its focus ring is unclipped.
 Collect observed defects together, approve one focused correction, then confirm
 the result rather than starting an edit/rebuild loop for every control.
-Confirm removal, quantities and totals still work. Run:
+Confirm removal still deletes the whole product line, including all its units,
+while other products, quantities and totals remain correct. Run:
 
 ```sh
 ./mvnw -Dtest=BaselineTest,CartContractTest,RemoveContractTest test
@@ -158,10 +133,10 @@ Do not install an unrelated canvas, expose a public tunnel or expand permissions
 
 ## Save your progress
 
-After reviewing the instruction and UI changes, ask Copilot:
+After reviewing and verifying any UI changes, ask Copilot:
 
 ```copilot
-Commit only the reviewed AGENTS.md and UI changes, if not yet committed.
+Commit only the reviewed UI changes, if any and not yet committed.
 Confirm the working tree is clean and the saved result includes the
 quantity fix, removal feature and accepted Canvas changes.
 Keep this session and its current branch; do not create or switch branches.
@@ -173,6 +148,5 @@ Continue to [Investigate runtime with MCP](/workshops/copilot-app/tools/) in
 ## What you have learned
 
 - Distinguish the running server from the Browser canvas that displays it.
-- Keep startup and bounded workshop permissions in `AGENTS.md`, and run the correct session's checkout.
-- Use Pick & polish and **impeccable** for one observed UI issue, then verify behavior rather than trusting the preview alone.
-- Commit the accepted instruction and UI changes before continuing in the same session.
+- Invoke **`/impeccable`** with Pick & polish; have Copilot refresh the same canvas after approved edits, then verify behavior.
+- Commit any accepted UI changes before continuing in the same session.

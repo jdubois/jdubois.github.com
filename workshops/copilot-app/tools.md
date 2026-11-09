@@ -28,9 +28,10 @@ Only the two tools below are needed; use their documented arguments.
 ## Start the reviewed shop
 
 Check the terminal running the shop. If it is already running from the reviewed
-feature code in this session's directory, **reuse it**. Otherwise
-press **Ctrl+C in the shop's owning terminal**, then start the reviewed code
-from this same session:
+feature code in this session's directory, **reuse it**; **DevTools** picks up
+compiled changes. If it is running from another worktree, press **Ctrl+C in the
+shop's owning terminal** first. Only if the server is not running from this
+session's directory, start it here:
 
 ```sh
 ./mvnw spring-boot:run
@@ -156,11 +157,12 @@ The **4 baseline tests and all generated cart, removal and query tests**
 must pass. Report the actual count; no earlier case
 may disappear, be skipped or have its reviewed assertions weakened.
 
-**Restart before measuring again.** Commit the reviewed fix, stop the old app
-in its terminal and start the reviewed copy with the same startup command above.
-Replay the exact workload above, then make the same two MCP calls.
+**Wait for DevTools before measuring again.** The combined test run compiled
+the fix; wait for the automatic restart to finish in the shop's terminal.
+Commit the reviewed fix. Recreate the exact workload above after the data reset,
+then make the same two MCP calls.
 Expect **1 SELECT** and unchanged cart contents. Use a fresh request profile
-after restarting, not the baseline profile from before the fix.
+from the updated app, not the baseline profile from before the fix.
 
 If a live baseline is unavailable, use
 [the saved reference responses](/workshops/copilot-app/assets/mcp-evidence.json).

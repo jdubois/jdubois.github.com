@@ -21,6 +21,19 @@ steps as commits. This chapter introduces separate worktrees for independent
 tasks.
 
 Stay in the **original workshop session** where you finished the query fix.
+The template restricts collaboration by default. Before preparing the shared
+starting point, ask Copilot for this narrow instruction update:
+
+```copilot
+Read AGENTS.md. Update only the collaboration rule to allow two isolated
+worktree tasks: UI changes in src/main/resources/static/ and test-only
+changes in CartBoundaryTest.java. Keep checkout and other restrictions unchanged,
+including separate approval for publishing and merging.
+Show the instruction diff and wait for my approval.
+Do not start workers or edit application code yet.
+```
+
+Review and approve that instruction change before continuing.
 After reviewing the completed cart, removal and query changes,
 put those **three completed tickets into `main` through
 one reviewed PR**. This gives both workers a normal, up-to-date starting point.
@@ -32,7 +45,7 @@ Commit only the accepted workshop changes, if not yet committed.
 Fetch origin and show this session's complete diff against origin/main.
 Confirm it includes the quantity fix, removal feature, query optimization
 and all baseline and generated cart, removal and query tests,
-plus the reviewed Canvas AGENTS.md and UI changes.
+plus any reviewed Canvas UI changes and this scoped instruction update.
 Run ./mvnw test and report counts.
 Stop if any test fails or an acceptance case is skipped.
 After I review and approve, publish only this session's branch without
@@ -53,7 +66,8 @@ Confirm GitHub reports the PR as Merged.
 
 **Do not start the workers until the PR is Merged.** In the original workshop session,
 ask Copilot to fetch `origin/main`, confirm its merged result contains all
-three tickets, the reviewed Canvas instruction/UI changes and all earlier
+three tickets, any reviewed Canvas UI changes, the scoped collaboration
+instructions and all earlier
 reviewed tests, and report the new starting commit.
 This includes squash merges; the original ticket commits need not be ancestors.
 Keep the PR link and shared starting commit on the
