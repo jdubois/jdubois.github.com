@@ -54,22 +54,25 @@ then reload; you are using the application, not a screenshot.
 
 Use the Browser canvas's **Pick & polish** control to select the **Remove**
 button on a cart line. In the feedback associated with that selection,
-invoke **`/impeccable`**:
+invoke **`/impeccable`** with a specific styling request that reuses the shop's
+existing theme:
 
 ```copilot
 /impeccable
-Inspect this Remove button.
-Keep the current design and DELETE behavior. Improve its keyboard-focus
-visibility and usability on a narrow screen if those are inadequate.
+Style this Remove button as a filled button using the same visual treatment
+as Add to cart. Reuse the existing button styles and theme tokens for colors,
+typography, spacing, hover, focus and disabled states; do not introduce a new theme.
+Keep its Remove label, accessible name, keyboard access and whole-line DELETE
+behavior. Preserve visible focus and usability on a narrow screen.
 Only change src/main/resources/static/. No backend, dependencies,
-test changes or whole-page redesign. Explain the observed issue and the
-smallest proposed correction before editing; wait for my approval.
+test changes or whole-page redesign. Explain the smallest proposed change
+before editing; wait for my approval.
 After applying an approved correction, run ./mvnw compile in this session's
 directory, then reload this existing Browser canvas and verify the change.
 Keep the shop running. Report compilation or refresh failures instead of
 claiming the preview is updated.
-If the selected interaction already works well, say so instead of inventing
-a defect, and help me choose another observed UI issue.
+If Remove already matches Add to cart and meets these requirements,
+say no change is needed instead of inventing a defect.
 ```
 
 **`/impeccable`** loads the bundled skill's UI design and accessibility guidance; the canvas
@@ -85,12 +88,15 @@ terminal command or click refresh.
 restart. **DevTools** does not normally restart the app for static resources.
 Check the refreshed result with keyboard navigation at narrow
 and desktop widths. Recreate sample products only if the app restarted.
+Compare **Remove** with **Add to cart**: the filled appearance and interaction
+states should use the same theme, while the **Remove** label stays unchanged.
 Use **Tab before manually scrolling**: the whole focus outline, including its
 offset, must remain visible inside both the viewport and any scrolling list.
 A visible button box alone does not prove that its focus ring is unclipped.
 Collect observed defects together, approve one focused correction, then confirm
 the result rather than starting an edit/rebuild loop for every control.
-Confirm removal, quantities and totals still work. Run:
+Confirm removal still deletes the whole product line, including all its units,
+while other products, quantities and totals remain correct. Run:
 
 ```sh
 ./mvnw -Dtest=BaselineTest,CartContractTest,RemoveContractTest test

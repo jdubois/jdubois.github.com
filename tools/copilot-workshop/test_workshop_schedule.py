@@ -624,7 +624,7 @@ class WorkshopScheduleTests(unittest.TestCase):
                 "human-owned server",
                 "Only change src/main/resources/static/",
                 "`/impeccable`", "**Pick & polish**",
-                "If the selected interaction already works well",
+                "If Remove already matches Add to cart",
                 "includes the quantity fix, removal feature and accepted Canvas changes",
                 "Keep this session and its current branch"]:
             with self.subTest(requirement=text):
@@ -668,6 +668,23 @@ class WorkshopScheduleTests(unittest.TestCase):
         self.assertIn("reload the same Browser canvas automatically", canvas)
         self.assertNotIn("In a second terminal", canvas)
         self.assertIn("does not force a server restart", canvas)
+
+    def test_canvas_style_request_reuses_add_to_cart_theme(self):
+        canvas = re.sub(r"\s+", " ", chapter("canvas"))
+        prompt = canvas.split("## Pick one interaction to improve", 1)[1].split(
+            "```copilot ", 1)[1].split("```", 1)[0]
+        for text in ["Style this Remove button as a filled button",
+                     "same visual treatment as Add to cart",
+                     "Reuse the existing button styles and theme tokens",
+                     "hover, focus and disabled states",
+                     "do not introduce a new theme",
+                     "Keep its Remove label, accessible name, keyboard access",
+                     "whole-line DELETE behavior", "Preserve visible focus",
+                     "If Remove already matches Add to cart",
+                     "say no change is needed"]:
+            self.assertIn(text, prompt)
+        self.assertIn("Compare **Remove** with **Add to cart**", canvas)
+        self.assertIn("removal still deletes the whole product line", canvas)
 
     def test_rubber_duck_is_read_only_and_corrections_need_a_branch(self):
         duck = re.sub(r"\s+", " ", chapter("rubber-duck"))
