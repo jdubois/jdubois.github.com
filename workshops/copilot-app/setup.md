@@ -33,6 +33,8 @@ Do not paste credentials into prompts. See the
 
 Prepare a session in this repository. Choose **This computer**, **New worktree**
 and **Interactive**.
+This creates a separate branch starting from `main`; you are not editing
+`main` directly.
 
 In the **model picker below the prompt box**, select **Fusion Standard**,
 which automatically chooses a model for each task. If unavailable, choose
@@ -71,7 +73,7 @@ the project's commands and conventions in every prompt. It guides Copilot;
 it does not run commands or grant tool permissions.
 
 Open the root `AGENTS.md` in your editor. Find the commands to start the shop,
-run the four baseline tests and run all currently activated tests. Notice the
+run the four baseline tests and run the full suite as you add tests. Notice the
 project boundaries too: keep the existing stack, preserve acceptance tests
 and let the human manage the running shop.
 
@@ -154,20 +156,29 @@ Find the composer, mode/model controls and **Changes** view.
 Your worktree is a separate copy: run and preview the code from this session,
 not the repository's original checkout.
 
-Stay in **this session and on its current branch** for the quantity fix,
-removal feature, Canvas and MCP exercises. You don't need a new session,
-a named handoff branch or a switch to `main` between these steps.
-Review each result and ask Copilot to commit only the accepted changes;
-those commits are your checkpoints.
+Use one named session and one reviewed PR for each task:
 
-The [Parallel sessions](/workshops/copilot-app/parallel/) chapter introduces
-separate worktrees when you have independent tasks to run together.
-Until then, run Maven commands from this same session's working directory.
+| Session | Includes | Merge before |
+|---|---|---|
+| Cart: quantity bug | Investigation, plan, regression tests and quantity fix | Starting removal |
+| Cart: item removal | Removal feature, tests and Canvas polish | Starting MCP |
+| Cart: query optimization | MCP evidence, query tests and N+1 fix | Starting parallel work |
+
+Create each new session in the App from the latest merged **`main`**, using
+**New worktree**. Send its first prompt before naming it. Keep completed
+sessions for their history; do not reuse their branches for the next task.
+The [Parallel sessions](/workshops/copilot-app/parallel/) chapter then runs two
+independent tasks at the same time.
+
+### Move the running shop
+{: #move-running-shop}
 
 The shop belongs to a particular terminal and source copy. **DevTools does not
-switch worktrees.** When a later exercise moves the running shop to another
+switch worktrees.** When a new task moves the running shop to another
 worktree, use **Ctrl+C in the terminal that owns the shop**, then start the
-reviewed copy using the startup command above. A manual restart is also a
+new session's copy using the [startup command above](#start-the-application).
+Run Maven and preview the shop from that session's directory, with only one
+persistent shop running. A manual restart is also a
 recovery option if compiled changes are not picked up or the server has stopped.
 If you cannot identify the owner, ask the facilitator; never stop an unknown
 process to free port 18765.

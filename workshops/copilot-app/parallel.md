@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Work in two isolated sessions
-description: "Give independent tasks clear ownership, a shared accepted base and separate worktrees."
+description: "Create two App sessions from a shared reviewed base, then reconcile their changes with Agent Merge."
 permalink: /workshops/copilot-app/parallel/
 workshop: true
 next: integrate
@@ -10,182 +10,116 @@ next_title: Merge PRs with Agent Merge
 
 ## What you will learn
 
-Run two Copilot App sessions in separate worktrees, starting from the same
-reviewed version with clear file ownership.
+Create two Copilot App sessions in separate worktrees, starting from the same
+reviewed version. Their tasks may touch the same files.
 
-## Bring the reviewed work into main
+## Create two sessions from main
 {: #update-main}
 
-Until now, you have worked in **one session on one branch**, saving reviewed
-steps as commits. This chapter introduces separate worktrees for independent
-tasks.
+The quantity, removal-and-Canvas and MCP PRs must be merged before continuing.
+Use the updated **`main`** verified at the end of the
+[MCP chapter](/workshops/copilot-app/tools/#publish-the-reviewed-result).
 
-Stay in the **original workshop session** where you finished the query fix.
-The template restricts collaboration by default. Before preparing the shared
-starting point, ask Copilot for this narrow instruction update:
+In the **Copilot App UI**, create two project sessions with **isolated worktrees**.
+Choose **New worktree** for each and select **`main` as the base branch** for both.
+Send the corresponding task prompt below to start each session, then rename it
+once the conversation has started.
+Both sessions start from that same published version. Keep each on its own
+branch; **do not have both edit `main` directly**.
 
-```copilot
-Read AGENTS.md. Update only the collaboration rule to allow two isolated
-worktree tasks: UI changes in src/main/resources/static/ and test-only
-changes in CartBoundaryTest.java. Keep checkout and other restrictions unchanged,
-including separate approval for publishing and merging.
-Show the instruction diff and wait for my approval.
-Do not start workers or edit application code yet.
-```
+If you already created the sessions from an older baseline, keep them and ask
+Copilot to update their branches from the verified `origin/main`, preserving
+local work and asking before resolving conflicts.
 
-Review and approve that instruction change before continuing.
-After reviewing the completed cart, removal and query changes,
-put those **three completed tickets into `main` through
-one reviewed PR**. This gives both workers a normal, up-to-date starting point.
-Paste this prompt in the original workshop session:
-
-```copilot
-Confirm origin is my own workshop repository, not the template repository.
-Commit only the accepted workshop changes, if not yet committed.
-Fetch origin and show this session's complete diff against origin/main.
-Confirm it includes the quantity fix, removal feature, query optimization
-and all baseline and generated cart, removal and query tests,
-plus any reviewed Canvas UI changes and this scoped instruction update.
-Run ./mvnw test and report counts.
-Stop if any test fails or an acceptance case is skipped.
-After I review and approve, publish only this session's branch without
-force-pushing and open one PR targeting main for the three completed tickets.
-Do not push directly to main or merge the PR yet.
-```
-
-Open that PR in the App. Review **Files changed** and the **tests** CI job;
-resolve failures and obtain any required approvals. After accepting its
-complete diff and checks, ask Copilot:
-
-```copilot
-Merge this reviewed three-ticket PR into main in my own repository only
-once the tests job and all required checks and approvals pass.
-Do not bypass protections or include unreviewed changes.
-Confirm GitHub reports the PR as Merged.
-```
-
-**Do not start the workers until the PR is Merged.** In the original workshop session,
-ask Copilot to fetch `origin/main`, confirm its merged result contains all
-three tickets, any reviewed Canvas UI changes, the scoped collaboration
-instructions and all earlier
-reviewed tests, and report the new starting commit.
-This includes squash merges; the original ticket commits need not be ancestors.
-Keep the PR link and shared starting commit on the
-[worksheet](/workshops/copilot-app/worksheet/#parallel-handoff).
-
-## Start two tasks from updated main
-
-In Copilot App, create two project sessions with **isolated worktrees**,
-selecting **`main` as the base branch** for both. Name them as shown below.
-Each session must start at the same updated `origin/main` commit reported
-above, not a stale local copy of the starter. The worker prompts check this
-before editing. Keep each worker on its own branch; **do not have both edit
-`main` directly**.
-
-If GitHub or CI prevents the preparation PR from merging, use the
+If the MCP handoff could not be published, use the
 [local recovery steps](#local-recovery) instead of claiming `main` is updated.
 
 <figure>
-  <a href="/workshops/copilot-app/assets/illustration-parallel-worktrees.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-parallel-worktrees.svg" alt="Normal integration path: two isolated worktrees start at the same reviewed main commit; merge the reviewed UI PR first, update the test branch, merge its reviewed PR, then verify the combined application." width="1440" height="820" loading="lazy"></a>
-  <figcaption>Independent work starts from one reviewed base; delivery brings the two results back together in order.</figcaption>
+  <a href="/workshops/copilot-app/assets/illustration-parallel-worktrees.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-parallel-worktrees.svg" alt="Two App sessions start from the same reviewed main in separate worktrees and may edit the same files. Merge the reviewed UI PR first, use Agent Merge to reconcile the second PR, review any conflict resolutions, then verify the combined application." width="1440" height="820" loading="lazy"></a>
+  <figcaption>Separate working copies, reviewed conflict resolutions, one tested result.</figcaption>
 </figure>
 
-| Session | Owns | Done means |
+| Session | Task | Done means |
 |---|---|---|
-| Cart: empty-state UX | `src/main/resources/static/` only | Empty cart includes a clear link back to the catalogue, accessible by keyboard and usable on mobile |
-| Cart: boundary tests | A new `CartBoundaryTest.java` only | HTTP tests cover missing quantity, fractional `1.5`, string `"one"` and exactly 99 units; rejected input preserves the cart; no production edits |
+| Cart: empty-state UX | Improve the empty-cart experience | Empty cart includes a clear link back to the catalogue, accessible by keyboard and usable on mobile |
+| Cart: boundary tests | Test quantity boundaries and review any exposed bugs | HTTP tests cover missing quantity, fractional `1.5`, string `"one"` and exactly 99 units; rejected input preserves the cart |
 
-These tasks touch different files, so the two sessions can work at the same
-time without overwriting each other's changes. Each prompt belongs in only
-one session. **Both prompts are below; you do not need to open another page.**
+Both sessions may edit the same files: each worktree has its own working copy.
+Overlapping changes can conflict when merged. **Agent Merge** can help resolve
+those conflicts; you still review the resolution and test the combined result.
+Each prompt belongs in only one session.
+**Both prompts are below; you do not need to open another page.**
 
 ### Cart: empty-state UX
 {: #ui-worker}
 
-Select **Cart: empty-state UX** in the App sidebar. Paste this prompt into
-that session's composer to improve the screen users see when their cart is empty:
+Prepare the first new session with the settings above. Send this prompt
+to start it:
 
 ```copilot
-Fetch origin and confirm this session starts at the shared updated origin/main
-commit from the preparation handoff, with all three accepted tickets and tests.
-Stop if it does not match; do not edit a stale checkout.
-Only change src/main/resources/static/.
 Improve the empty-cart state with a clear keyboard-accessible link to the
 catalogue; preserve cart behavior and mobile usability.
+Keep changes focused on this interaction and preserve earlier tests.
 No API changes or dependencies. Preview the UI, review the diff, commit,
 and report the actual branch/commit, checks and limitations.
 Do not open or merge a PR yet.
 ```
 
+Once the session has started, rename it **Cart: empty-state UX**.
+Leave it working while you create the second session.
+
 ### Cart: boundary tests
 {: #test-worker}
 
-Now select **Cart: boundary tests** in the App sidebar. Paste this different
-prompt into its composer to check inputs at the limits of the quantity rules:
+Prepare the second new session with its own **New worktree**, also based on
+`main`. Send this prompt to start it:
 
 ```copilot
-Fetch origin and confirm this session starts at the shared updated origin/main
-commit from the preparation handoff, with all three accepted tickets and tests.
-Stop if it does not match; do not edit a stale checkout.
-Use spring-boot-testing. Only add CartBoundaryTest.java beside the existing tests.
+Use spring-boot-testing to add CartBoundaryTest.java and reuse existing fixtures.
 Use HTTP integration tests for missing quantity, non-integer quantity
 (numeric 1.5 and string "one") and exactly 99 units.
 For rejected input, require HTTP 400, then verify GET /api/cart and persisted
 state are unchanged.
-Do not change production code or existing tests.
-If a test exposes an application bug, report it for my review.
-Do not fix application code or weaken an assertion to make the test pass.
-Run the new cases and full suite. Commit the test file and report the
+Preserve earlier tests and reviewed behavior.
+If a test exposes a bug, keep the failing test and propose the smallest fix.
+Wait for my approval before changing application behavior.
+Do not weaken an assertion to make the test pass.
+Run the new cases and full suite. Commit only reviewed changes and report the
 actual branch/commit, executed counts, any failures and limitations.
 Do not open or merge a PR yet.
 ```
 
+Once the session has started, rename it **Cart: boundary tests**.
+
 The testing skill helps this second session write and run the HTTP tests.
-If those tests reveal a bug, **keep the failing regression and pause integration**.
-The test session must not change application code: that would go beyond its
-assigned task. Review the finding and use the separate correction path below.
+If those tests reveal a bug, review the proposed correction before proceeding.
 
 <details markdown="1" id="boundary-fix">
 <summary>If a boundary test exposes an application bug</summary>
 
-Keep the test worker's reviewed failing test commit. In the existing
-original workshop session, ask Copilot to prepare a separate
-production-fix feature branch from the shared accepted starting point.
-Give it the exact failing request, expected status and unchanged-state rule.
-Review its plan before permitting edits.
-
-The correction must include its own focused regression test, outside
-`CartBoundaryTest.java`, and preserve all earlier reviewed tests. Do not include
-either worker's commit or change their files to make the correction pass.
-Review the production diff and full-suite results. If the preparation PR is
-merged, publish and merge this additional correction PR into `main` only after its own review, checks and
-merge approval; it is not covered by either worker's authorization.
-
-Back in **Cart: boundary tests**, ask Copilot to merge the accepted correction
-from updated `origin/main` into its existing branch, preserve its tests and
-rerun the full suite. Review and record the updated handoff before integration.
-Do not proceed while the boundary regression still fails.
-
-If preparation used local recovery, or GitHub, CI or approvals are unavailable,
-preserve the separately reviewed correction handoff
-and use [integration recovery](/workshops/copilot-app/integrate/#local-recovery)
-to include it locally. Do not claim that `main` contains an unmerged correction.
+Keep the failing regression in **Cart: boundary tests**. Review the exact
+request, expected behavior and proposed fix, then approve the smallest correction
+in that same session. Preserve earlier tests and rerun the full suite.
+Do not weaken assertions or proceed while the regression still fails.
+Include the reviewed correction in this session's handoff and PR.
 
 </details>
 
 ## Supervise without sharing a working directory
 
-**App tip:** separate worktrees let both sessions edit without overwriting
-one another. Their changes still need review and integration.
+**App tip:** review each session's changes against its task, not a list of
+exclusively owned files. Separate worktrees do not guarantee conflict-free merges.
 
 Check progress and clarify the task when needed. Give each session time to work
 instead of repeatedly asking for updates or starting more agents.
 Each worker reviews and commits its changes, then reports its branch, commit
 and test results.
 
-Tests use random ports and isolated H2. Do not start two persistent shops or
-reuse evidence from a different branch. The existing MCP investigation is
-finished; these tasks do not need additional BootUI work.
+For the UI preview, [move the running shop](/workshops/copilot-app/setup/#move-running-shop)
+to **Cart: empty-state UX**, then have Copilot reload the existing Browser canvas.
+Tests use random ports and isolated H2; **Cart: boundary tests** does not need
+another persistent shop. Do not reuse preview evidence from a different branch.
+The MCP investigation is finished; these tasks do not need additional BootUI work.
 
 Before integration, preserve unfinished branches and review what is actually
 ready. Ask for help if either worker is blocked.
@@ -194,7 +128,7 @@ target both worker PRs at **`main`**,
 and use **Agent Merge** one PR at a time.
 
 <details markdown="1" id="local-recovery">
-<summary>Recovery: the preparation PR cannot be merged</summary>
+<summary>Recovery: the MCP handoff could not be published</summary>
 
 Ask the facilitator for help. Do not bypass protections or continue with
 failing acceptance tests. If GitHub, CI or approvals are unavailable but the
@@ -202,11 +136,10 @@ reviewed local query-fix version passes all earlier reviewed tests, ask Copilot 
 only that accepted work and report its actual branch and commit.
 
 Create both isolated worker sessions from **that recorded local branch**
-instead of `main`. In each worker prompt, replace the remote-main check with
-a check against the recorded local starting commit and the three accepted
-tickets. Keep the tasks and file boundaries unchanged.
+instead of `main`. Record that shared starting commit before editing, then use
+the same task prompts. Keep the tasks and review requirements unchanged.
 
-Record **main not updated: local recovery used** and any open preparation PR.
+Record **main not updated: local recovery used** and any open MCP handoff PR.
 Continue with the integration chapter's local recovery, not its remote PR
 steps. Do not report local integration as GitHub or Agent Merge completion.
 
@@ -214,6 +147,6 @@ steps. Do not report local integration as GitHub or Agent Merge completion.
 
 ## What you have learned
 
-- Merge the three accepted tickets into `main` through a reviewed PR, then create two isolated sessions from the same updated starting point.
-- Assign each session a specific task and set of files so it can work independently without changing the other session's code.
-- Supervise progress and collect reviewed commits, test results and limitations for integration.
+- Confirm the reviewed work is published on `main`, then create two isolated sessions from that same starting point.
+- Give each session a focused task; separate worktrees keep working copies isolated even when files overlap.
+- Review the contributions and use Agent Merge to help resolve conflicts before verifying the combined result.

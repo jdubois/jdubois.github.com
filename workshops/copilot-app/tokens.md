@@ -63,7 +63,10 @@ spelling may differ from the CLI.
 
 Prepare the request below with the **session names shown in the App sidebar**,
 your repository, and the workshop start/end time. IDs are optional if your App
-exposes them. If your build accepts initial scope instructions, supply them
+exposes them. Include all three task sessions and both parallel sessions.
+**Cart: boundary tests** also contains integration, rubber duck and checkout;
+those are not separate App sessions.
+If your build accepts initial scope instructions, supply them
 before execution. Otherwise, after opting in to the command's broader access,
 use it as a follow-up to narrow the **report**, not as a claim of isolation.
 Check the returned scope; if unrelated work appears, stop and do not share it.

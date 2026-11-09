@@ -88,6 +88,17 @@ class WorkshopIllustrationsTest(unittest.TestCase):
                             self.assertTrue(value.startswith("#"), value)
                             self.assertIn(value[1:], elements)
 
+    def test_parallel_diagram_allows_overlapping_files(self):
+        root = ET.parse(
+            WORKSHOP / "assets/illustration-parallel-worktrees.svg").getroot()
+        description = root.find(SVG + "desc").text
+        self.assertIn("may edit the same files", description)
+        self.assertIn("Agent Merge reconciles updated main and any conflicts", description)
+        self.assertNotIn("owns", description)
+        labels = " ".join(element.text or "" for element in root.iter(SVG + "text"))
+        self.assertIn("overlapping files are allowed", labels)
+        self.assertNotIn("Independent files", labels)
+
     def test_only_the_selected_illustrations_are_published(self):
         expected = {f"illustration-{name}.svg"
                     for chapter in ILLUSTRATIONS.values()

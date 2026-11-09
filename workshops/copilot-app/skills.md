@@ -186,8 +186,10 @@ unrelated cleanup just because the summary sounds convincing.
 
 Keep the shop running **from this reviewed session's directory**. The test run
 compiled the fix; **DevTools** restarts the app automatically. Wait for startup
-to finish in its terminal, then reload the browser. If the server is stopped or
-belongs to another worktree, follow the [startup guidance](/workshops/copilot-app/setup/#start-the-application).
+to finish in its terminal, then reload the browser. If the server is stopped,
+follow the [startup guidance](/workshops/copilot-app/setup/#start-the-application).
+If it belongs to another worktree, use the
+[server handoff](/workshops/copilot-app/setup/#move-running-shop).
 
 Open <a href="http://127.0.0.1:18765" target="_blank">the shop</a>.
 Reset the cart, add the Notebook twice, and reload: quantity **2**, total **€20**.
@@ -199,18 +201,25 @@ a normal browser works too.
   <figcaption>The reference fix. Run the tests and preview your own version to check the same behavior.</figcaption>
 </figure>
 
-## Save your progress
+## Publish the quantity fix
 
-After reviewing and verifying the fix, ask Copilot:
+Review **Changes**, then use **Create PR** in Copilot App, targeting **`main`**
+in your own repository. If the PR already exists, open it instead.
+Review **Files changed** and the **tests** CI job.
+Once you accept the result, ask Copilot:
 
 ```copilot
-Commit only the reviewed quantity fix and its test changes, if not yet committed.
-Confirm the working tree is clean and report the saved commit.
-Keep this session and its current branch; do not create or switch branches.
+Merge this reviewed quantity-fix PR into main in my own repository only after
+all required checks and approvals pass. Do not bypass protections.
+Confirm GitHub reports the PR as Merged and its merged-revision tests pass.
+Fetch origin/main and verify it contains the quantity fix and CartContractTest.java.
+Report the PR link and verified main commit.
 ```
 
-Continue to [Generate and iterate](/workshops/copilot-app/generate/) in
-**this same session, on the same branch**.
+Record the handoff on the [worksheet](/workshops/copilot-app/worksheet/).
+**Do not start removal until this PR is merged and verified.**
+Continue to [Generate and iterate](/workshops/copilot-app/generate/) in a
+**new session from that updated `main`**. Keep this session's history and branch.
 
 If you are stuck, keep your unfinished work and review
 the <a href="https://github.com/jdubois/copilot-shopping-cart-workshop/tree/v2-bugfix" target="_blank">v2-bugfix reference checkpoint</a>
@@ -224,4 +233,4 @@ Do not overwrite your session.
 - Keep the workshop's stack and dependency limits even when a general-purpose skill suggests other tools.
 - Generate regression tests from acceptance criteria, review them in **Changes** and demonstrate the bug before implementing the fix.
 - Guide the fix without weakening the tests, review every changed file and verify that the shop keeps the correct quantity after a reload.
-- Save reviewed work as a commit and continue the next task in the same session and branch.
+- Publish one reviewed quantity-fix PR and verify merged `main` before starting the removal session.

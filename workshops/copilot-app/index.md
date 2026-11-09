@@ -57,9 +57,11 @@ You do not need to create issues in your repository.
 Start with **Fusion Standard**, or a strong coding model if Fusion is unavailable.
 Use higher effort when a problem calls for it, not by default.
 Review permissions, tests and changed files at every stage.
-The first three tickets and reviewed UI/boundary-test improvements are
-integrated before checkout. Five subagents then build the fourth ticket on
-**one feature branch** in the existing session. **Mock means no real payments**:
+Each of the first three tickets has a named session and one reviewed PR,
+merged before the next task. Removal and Canvas polish share a PR.
+After both parallel PRs merge, keep **Cart: boundary tests** for the critique
+and checkout. Five subagents build the fourth ticket on
+**one feature branch** in that same session. **Mock means no real payments**:
 the order, receipt and cart clearing must actually work.
 The feature branch is a staging point, not the finish line: after your scoped
 approval, the orchestrator merges its checkout PR and verifies actual `main`.
@@ -77,13 +79,13 @@ and ask for help whenever you need it.
 </figure>
 
 1. [Investigate with Copilot](/workshops/copilot-app/ticket/), using a reproducible cart bug.
-2. [Choose modes and effort](/workshops/copilot-app/modes/), then [use a skill to fix the bug](/workshops/copilot-app/skills/): generate tests, observe the failure, implement, review and verify.
-3. [Generate and iterate](/workshops/copilot-app/generate/) to add item removal.
-4. [Use Canvas and Pick & polish](/workshops/copilot-app/canvas/) to preview the running shop and improve one interaction with **`/impeccable`**.
-5. [Investigate runtime with MCP](/workshops/copilot-app/tools/), using the N+1 query as the example.
-6. [Merge the three accepted tickets into main, then start two isolated sessions](/workshops/copilot-app/parallel/) to improve the empty-cart experience and add boundary tests.
-7. [Merge PRs with Agent Merge](/workshops/copilot-app/integrate/) into `main`, one worker at a time.
-8. [Review with rubber duck](/workshops/copilot-app/rubber-duck/).
+2. [Choose modes and effort](/workshops/copilot-app/modes/), then [use a skill to fix the bug](/workshops/copilot-app/skills/): generate tests, fix, review and merge the quantity-fix PR.
+3. [Generate and iterate](/workshops/copilot-app/generate/) in a new **Cart: item removal** session from updated `main`.
+4. [Use Canvas and Pick & polish](/workshops/copilot-app/canvas/) in that removal session, then merge the feature and accepted polish in one PR.
+5. [Investigate runtime with MCP](/workshops/copilot-app/tools/) in a new **Cart: query optimization** session, then merge its N+1 fix PR into `main`.
+6. [Start two isolated sessions from the reviewed main](/workshops/copilot-app/parallel/) to improve the empty-cart experience and add boundary tests.
+7. [Merge PRs with Agent Merge](/workshops/copilot-app/integrate/): UI first, then boundary tests, reviewing repairs and authorizing each merge separately.
+8. [Review with rubber duck](/workshops/copilot-app/rubber-duck/) in the existing **Cart: boundary tests** session.
 9. [Coordinate five subagents](/workshops/copilot-app/subagents/) to build mock checkout, then have the orchestrator deliver one reviewed PR and verify the merged app on `main`.
 10. [Improve token usage with Chronicle](/workshops/copilot-app/tokens/) using the workshop sessions.
 11. [Review the full change and hand off](/workshops/copilot-app/finish/#final-review).
@@ -98,8 +100,9 @@ and ask for help whenever you need it.
 
 You need JDK 21+, Git and a supported Copilot App account. Create your own
 repository from the template; the three Java skills are already included.
-The integration exercise also needs GitHub Actions and permission to push
-branches and merge PRs; local recovery is documented for blocked participants.
+Delivery starts with the quantity-fix PR, so you need GitHub Actions and
+permission to push branches and merge PRs throughout the workshop.
+Local recovery is documented for blocked participants.
 The skills chapter also explains how to install them in another project.
 The App's Browser canvas, Pick & polish, bundled **impeccable**, rubber duck
 and `/fleet` are used in later exercises; availability depends on your build

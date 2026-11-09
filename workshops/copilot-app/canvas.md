@@ -33,10 +33,10 @@ See the <a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/w
 ## Open the running shop
 {: #browser-preview}
 
-Stay in **the same workshop session, on its current branch**, with the accepted
-quantity fix and removal feature. Use **Interactive**. Reuse the human-owned
+Stay in **Cart: item removal**, on its current branch, with the accepted
+removal feature. Use **Interactive**. Reuse the human-owned
 server already running from this session's directory. If needed, use the
-[startup guidance](/workshops/copilot-app/setup/#start-the-application).
+[server handoff](/workshops/copilot-app/setup/#move-running-shop).
 Keep its terminal open. Give Copilot this prompt in the **same session**:
 
 ```copilot
@@ -96,22 +96,30 @@ Record the fallback; do not claim a tool or skill ran when it did not.
 
 </details>
 
-## Save your progress
+## Publish removal and Canvas changes
 
-After reviewing and verifying any UI changes, ask Copilot:
+The removal feature and any accepted Canvas polish belong to **one PR**.
+Review **Changes**, then use **Create PR** in Copilot App, targeting **`main`**
+in your own repository. If the PR already exists, open it instead.
+Review **Files changed** and the **tests** CI job.
+Once you accept the result, ask Copilot:
 
 ```copilot
-Commit only the reviewed UI changes, if any and not yet committed.
-Confirm the working tree is clean and the saved result includes the
-quantity fix, removal feature and accepted Canvas changes.
-Keep this session and its current branch; do not create or switch branches.
+Merge this reviewed removal-and-Canvas PR into main in my own repository only
+after all required checks and approvals pass. Do not bypass protections.
+Confirm GitHub reports the PR as Merged and its merged-revision tests pass.
+Fetch origin/main and verify it contains the removal feature, RemoveContractTest.java
+and accepted Canvas changes, preserving the quantity fix and earlier tests.
+Report the PR link and verified main commit.
 ```
 
-Continue to [Investigate runtime with MCP](/workshops/copilot-app/tools/) in
-**this same session, on the same branch**.
+Record the handoff on the [worksheet](/workshops/copilot-app/worksheet/).
+**Do not start MCP until this PR is merged and verified.**
+Continue to [Investigate runtime with MCP](/workshops/copilot-app/tools/) in a
+**new session from that updated `main`**. Keep the removal session's history and branch.
 
 ## What you have learned
 
 - Distinguish the running server from the Browser canvas that displays it.
 - Invoke **`/impeccable`** with Pick & polish; have Copilot refresh the same canvas after approved edits, then verify behavior.
-- Commit any accepted UI changes before continuing in the same session.
+- Publish removal and accepted Canvas polish in one reviewed PR before starting the query session.

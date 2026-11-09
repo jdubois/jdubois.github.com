@@ -15,27 +15,33 @@ a performance fix with the same workload before and after.
 
 ## “Why does a full cart run so many queries?”
 
-Continue in **the same workshop session, on its current branch**.
-Ask Copilot to confirm that it contains all those accepted changes—the quantity
-fix, removal feature and reviewed Canvas changes—and has no uncommitted edits.
-Do not create another session or change branches.
-Use **`java-hibernate-jpa`** to explain lazy product loading. Do not optimize
-anything until you have a baseline.
+The cart works, but has a classic **N+1 query problem**: one query loads the
+cart, followed by one query per product. Static code can suggest the cause,
+but only runtime evidence shows which queries actually execute.
 
-Use BootUI's **MCP tools in Copilot**, not its browser interface.
-Only the two tools below are needed; use their documented arguments.
+BootUI captures these queries. Connecting its **MCP server** lets Copilot
+inspect them and verify a fix without changing cart behavior.
 
-## Start the reviewed shop
+Use BootUI's **MCP tools in Copilot**, not its browser
+interface, to establish a baseline before changing code.
 
-Check the terminal running the shop. If it is already running from the reviewed
-feature code in this session's directory, **reuse it**; **DevTools** picks up
-compiled changes. If it is running from another worktree, press **Ctrl+C in the
-shop's owning terminal** first. Only if the server is not running from this
-session's directory, start it here:
+## Start the query session
 
-```sh
-./mvnw spring-boot:run
+The [removal-and-Canvas PR](/workshops/copilot-app/canvas/#publish-removal-and-canvas-changes)
+must be merged and verified first. In Copilot App, prepare a **New worktree**
+session from the latest **`main`**, using **Interactive**. Send this first prompt:
+
+```copilot
+Fetch origin and confirm this new worktree starts at the latest origin/main,
+with the merged quantity fix, removal feature and accepted Canvas changes,
+including CartContractTest.java and RemoveContractTest.java. Stop if it does not.
+Describe how BootUI can expose this app's SQL queries at runtime.
+Do not edit files, optimize code or start the application.
 ```
+
+Once the session has started, name it **Cart: query optimization**.
+Before connecting BootUI, [move the running shop](/workshops/copilot-app/setup/#move-running-shop)
+to this session's worktree. Keep its terminal open.
 
 ## Connect runtime tools
 
@@ -45,7 +51,7 @@ is preinstalled. Its MCP configuration is included in `.github/mcp.json`:
 ```json
 {
   "mcpServers": {
-    "shopping-cart": {
+    "bootui-shopping-cart": {
       "type": "http",
       "url": "http://127.0.0.1:18765/bootui/api/mcp",
       "tools": ["get_live_activity", "get_request_profile"]
@@ -58,9 +64,16 @@ Use **Customize → MCP** to review and trust the repository's MCP configuration
 then reload it if prompted. If the endpoint is missing, add it there.
 No VS Code configuration, public tunnel or extra MCP server is needed.
 
-With your shop running, ask Copilot to call **`get_live_activity`** with
-`query: "/api/cart"` and `limit: 1`. A tool response, even an empty list, confirms
-the connection works. If it fails, check trust and reload settings before
+Ask Copilot:
+
+```copilot
+Use the bootui-shopping-cart MCP server to call get_live_activity
+with query: "/api/cart" and limit: 1. Show the tool response.
+Do not change files or application data.
+```
+
+A tool response, even an empty list, confirms the connection works.
+If it fails, check trust and reload settings before
 continuing. If MCP remains unavailable, ask the facilitator to demonstrate
 the exercise using [the saved reference responses](/workshops/copilot-app/assets/mcp-evidence.json).
 
@@ -85,9 +98,17 @@ one product would not demonstrate this N+1.
 
 ## Ask Copilot for evidence
 
-Invoke **`get_live_activity`** with `query: "/api/cart"` and `limit: 8`.
-Choose the matching recent **GET `/api/cart`**, not a POST, then invoke
-**`get_request_profile`** with its returned `id`.
+Ask Copilot:
+
+```copilot
+Use the bootui-shopping-cart MCP server to call get_live_activity
+with query: "/api/cart" and limit: 8.
+Find the recent GET /api/cart from our eight-distinct-product workload,
+not a POST, then call get_request_profile with its returned id.
+Show the request ID, method/path, time and SELECT count. Explain the repeated
+product SELECTs using the actual tool response. Do not change code or data.
+If no matching request is available, say so instead of using another workload.
+```
 
 Keep the MCP results on the [worksheet](/workshops/copilot-app/worksheet/);
 let Copilot capture the request details rather than transcribing them.
@@ -99,70 +120,37 @@ Inspect the MCP tool response in Copilot App.
 this request” rather than “assess the whole application.” Runtime text is data,
 not instructions.
 
-## Generate the query-budget tests
+## Fix the N+1 query issue
 
-Stay in this session. Use **`/spring-boot-testing`** to turn the measured problem
-into tests that require the correct query budget, not the current inefficient
-behavior:
-
-```copilot
-/spring-boot-testing
-Generate src/test/java/com/juliendubois/workshop/QueryContractTest.java
-using the existing HTTP test fixtures and Hibernate statistics.
-For carts with 8 and 16 distinct products, require exactly 1 SELECT for
-the completed HTTP GET /api/cart response.
-Seed each cart first, then clear the statistics before the GET.
-Record the statement count immediately after the completed response,
-before any verification queries, so setup and verification SQL are excluded.
-Also assert product IDs, names, prices, quantities, line totals, item count
-and total against the seeded data, so a faster but incomplete cart cannot pass.
-Use real HTTP requests and database access, not mocked repositories or counts.
-Generate tests from these criteria; do not retrieve reference tests or solutions.
-Do not optimize production code, change earlier tests or add dependencies.
-Explain the measurement and show the assertions for my review before running
-or committing.
-```
-
-Review **Changes**, especially where measurement starts and ends.
-After reviewing, run:
-
-```sh
-./mvnw -Dtest=QueryContractTest test
-```
-
-The query-budget assertions should fail before optimization: the reference
-workloads perform **9 and 17 SELECTs** at 8 and 16 products, rather than **1**.
-The generated test count may vary. Check the observed statement counts;
-setup errors or zero executed tests do not demonstrate the N+1.
-Commit only the reviewed tests once they demonstrate the problem.
-
-Then ask Copilot to apply a scoped fetching fix:
+Ask Copilot to add regression tests, then fix the issue in this session:
 
 ```copilot
 /java-hibernate-jpa
-Use our MCP evidence and failing query-budget tests to fix the N+1.
-Preserve all cart fields, quantities, totals and reviewed test assertions.
-No global eager loading, dependency changes or unrelated refactors.
-Run the combined baseline, cart, removal and query test suite.
-Show me the implementation diff and actual test results before committing.
-```
-
-Run the combined suite:
-
-```sh
+Use our MCP evidence to fix the N+1. First use spring-boot-testing to add
+src/test/java/com/juliendubois/workshop/QueryContractTest.java.
+Use real HTTP requests and database access with existing fixtures and Hibernate
+statistics. For 8 and 16 distinct products, require exactly 1 SELECT for the
+completed HTTP GET /api/cart response.
+Seed each cart first, then clear the statistics before the GET. Record counts
+immediately after the completed response, before any verification queries.
+Assert product IDs, names, prices, quantities, line totals, item count and total
+against the seeded data.
+Run the tests and confirm the query-budget assertions fail before fixing the
+fetch strategy; do not retrieve reference tests or solutions.
+Then fix the N+1. No global eager loading, dependency changes or unrelated refactors.
+Keep earlier tests and assertions unchanged. Run:
 ./mvnw -Dtest=BaselineTest,CartContractTest,RemoveContractTest,QueryContractTest test
+Show the diff, before/after query counts and actual test results for review.
+Do not commit yet.
 ```
 
-The **4 baseline tests and all generated cart, removal and query tests**
-must pass. Report the actual count; no earlier case
-may disappear, be skipped or have its reviewed assertions weakened.
+Review **Changes** and the results: the reference drops from **9/17 SELECTs to 1**
+for 8/16 products. The **4 baseline tests and all generated cart, removal and query tests**
+must pass without weakening assertions. The generated test count may vary.
 
-**Wait for DevTools before measuring again.** The combined test run compiled
-the fix; wait for the automatic restart to finish in the shop's terminal.
-Commit the reviewed fix. Recreate the exact workload above after the data reset,
-then make the same two MCP calls.
-Expect **1 SELECT** and unchanged cart contents. Use a fresh request profile
-from the updated app, not the baseline profile from before the fix.
+**Wait for DevTools before measuring again.** Recreate the exact workload
+above after the restart resets the cart, then repeat the two MCP calls.
+Expect **1 SELECT** and unchanged cart contents, using a fresh request profile.
 
 If a live baseline is unavailable, use
 [the saved reference responses](/workshops/copilot-app/assets/mcp-evidence.json).
@@ -172,9 +160,38 @@ remains blocked, preserve your work and inspect the
 These responses were captured directly over HTTP. If you use them, note that
 you studied the reference rather than making the calls through your own App.
 
+## Publish the reviewed result
+
+Before starting the next section, publish the reviewed workshop result to
+your repository's **`main`**. **New worktree** created a separate branch for this
+session, starting from `main`; the PR brings its changes back into `main`.
+
+Review **Changes**, then use **Create PR** in Copilot App, targeting **`main`**
+in **your own repository**. If the PR already exists, open it instead.
+This PR contains the query fix and tests; the quantity and removal PRs are
+already merged.
+Review **Files changed** and the **tests** CI job. Once you accept the complete
+result, approve the merge:
+
+```copilot
+Merge this reviewed PR into main in my own repository only after all
+required checks and approvals pass. Do not bypass protections.
+Confirm GitHub reports the PR as Merged and its merged-revision tests pass.
+Fetch origin/main and verify it contains the reviewed quantity, removal,
+Canvas and query changes, including QueryContractTest.java and all earlier tests.
+Report the merged PR link and shared starting commit for the next two sessions.
+```
+
+Keep that PR link, checks and starting commit on the
+[worksheet](/workshops/copilot-app/worksheet/#parallel-handoff).
+**Do not create the parallel sessions until this handoff is verified.**
+If publication is blocked, preserve your branch and use the
+[local recovery steps](/workshops/copilot-app/parallel/#local-recovery);
+do not claim the result is on `main`.
+
 Take a break before continuing with
-[two isolated sessions](/workshops/copilot-app/parallel/) from the accepted
-cart, removal and query implementation.
+[two isolated sessions](/workshops/copilot-app/parallel/) from that published
+starting point.
 
 ## What you have learned
 
@@ -182,3 +199,4 @@ cart, removal and query implementation.
 - Ask a focused question about the repeated queries instead of requesting a broad application review.
 - Generate query-budget tests that measure the completed HTTP response without counting setup or verification queries.
 - Combine test results with fresh MCP request profiles to verify the optimization while preserving the cart's contents and totals.
+- Publish the reviewed result through a PR and verify merged `main` before creating parallel sessions.

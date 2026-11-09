@@ -69,9 +69,16 @@ suggestions as blocking regressions.
 If a finding needs correction, authorize that correction separately.
 Ask Copilot to prepare a **normal follow-up feature branch from this checked
 result before editing**; never commit on the verification checkout or push
-directly to `main`. Review the corrected diff, run the full suite and repeat
-the affected preview. Any follow-up PR needs its own review and merge approval.
-Otherwise record the finding as deferred and continue without changing code.
+directly to `main`. Keep the existing **Cart: boundary tests** session.
+Review the corrected diff, run the full suite and repeat the affected preview.
+Any follow-up PR needs its own review and merge approval.
+On the normal path, use **Create PR** for the correction, targeting your own
+`main`. Merge and verify that PR, then ask Copilot to return this worktree to
+the verified `origin/main`, preserving the correction branch, before checkout.
+If you used local recovery, keep the corrected local branch and record
+delivery as blocked; do not switch to incomplete remote `main`.
+If you defer a finding, record the reason and continue from the previously
+verified result without applying that correction.
 
 **Done when:** you have an actual critique, a decision for each actionable
 finding and evidence for any correction you accepted.

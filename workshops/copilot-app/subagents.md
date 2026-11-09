@@ -43,7 +43,9 @@ See <a href="https://docs.github.com/en/copilot/concepts/agent-capabilities/choo
 ## Prepare one feature branch
 {: #prepare-checkout}
 
-Stay on the latest reviewed result, including local recovery if used.
+Stay in **Cart: boundary tests**, on the latest verified result, including
+any merged critique corrections. If you used local recovery, keep that checked
+local result rather than incomplete remote `main`.
 Keep **Interactive** and review tool-permission requests.
 The integration chapter may have left this worktree on a detached verification
 checkout. Do not implement there or switch to `main`. In this session's composer:
@@ -269,8 +271,9 @@ only the orchestrator owns Git and PR operations.
 {: #deliver-checkout}
 
 Stay in **Cart: boundary tests**. The orchestrator delivers **one checkout PR**,
-not five specialist PRs or another App session. Earlier preparation and worker
-PRs must already be merged into your own `main`; if local recovery was used,
+not five specialist PRs or another App session. The reviewed starting point and
+both worker PRs and any accepted critique corrections must already be on your
+own `main`; if local recovery was used,
 resolve those delivery blockers first or keep the result explicitly incomplete.
 Do not publish a recovered combined branch against incomplete remote `main`
 as though the earlier PRs had merged.
@@ -283,7 +286,8 @@ You, the orchestrator, own this delivery; the five workers must not publish or m
 Confirm all five workers have finished and none can still modify this worktree.
 Confirm the repository, current checkout feature branch, full intended diff and
 new files. Stop if anything is outside the approved checkout and reviewed corrections.
-Confirm the preparation and both worker PRs are merged into this repository's main.
+Confirm all three task PRs and both worker PRs are merged into main.
+Confirm any approved critique corrections are merged too.
 Fetch origin. If main advanced, review any needed integration, ask before resolving
 conflicts and rerun the full suite before publishing.
 Commit only the accepted implementation, tests and reviewed instruction changes.

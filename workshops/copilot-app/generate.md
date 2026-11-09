@@ -24,15 +24,15 @@ Decreasing quantity is a different feature and is not part of this exercise.
 
 ## Start from the reviewed fix
 
-Continue in **the same workshop session, on its current branch**.
-The previous chapter committed the accepted quantity fix.
-**Do not create a new session or switch branches.** Select **Plan** mode.
+The [quantity-fix PR](/workshops/copilot-app/skills/#publish-the-quantity-fix)
+must be merged and verified first. In Copilot App, prepare a **New worktree**
+session from the latest **`main`** and select **Plan** mode.
 
 Send this prompt to start planning the feature:
 
 ```copilot
-Confirm this session contains the committed quantity fix and has no
-uncommitted changes. If not, stop. Keep the current session and branch.
+Fetch origin and confirm this new worktree starts at the latest origin/main,
+with the merged quantity fix and CartContractTest.java. Stop if it does not.
 
 Customers want to remove a product from their cart without affecting the others.
 Plan a small backend and UI implementation with these acceptance criteria:
@@ -48,6 +48,8 @@ Plan a small backend and UI implementation with these acceptance criteria:
 Plan tests before implementation. No new dependencies, checkout or query changes.
 Do not edit files yet; wait for my review.
 ```
+
+Once the session has started, name it **Cart: item removal**.
 
 Review the plan in the **plan canvas on the right**. Ask for corrections if
 it omits the UI or an edge case.
@@ -119,10 +121,11 @@ If a test fails, fix the implementation rather than weakening the assertions.
 
 ## Preview and iterate
 
-Keep the shop running in this session's directory. The combined test run
-compiled the backend changes, so **DevTools** restarts the app automatically.
-Wait for startup to finish in its terminal. If the server is stopped or belongs
-to another worktree, follow the [startup guidance](/workshops/copilot-app/setup/#start-the-application).
+Move the single running shop from the quantity session to **Cart: item removal**
+using the [server handoff](/workshops/copilot-app/setup/#move-running-shop).
+Keep it running from this worktree. Subsequent test runs compile backend changes
+and **DevTools** restarts this copy automatically; wait for startup to finish
+before checking the browser.
 
 Open <a href="http://127.0.0.1:18765" target="_blank">the shop</a>.
 Add **3 Notebooks** and another product. Click **Remove** on the Notebook line:
@@ -162,7 +165,8 @@ removal feature. Keep the current session and branch.
 ```
 
 Continue to [Canvas and Pick & polish](/workshops/copilot-app/canvas/) in
-**this same session**.
+**this same session, Cart: item removal**. Keep its branch: the removal feature
+and accepted Canvas polish will share one PR at the end of that chapter.
 
 If the implementation is blocked, preserve your work and use
 [a reference checkpoint](/workshops/copilot-app/facilitator/#recovery).
@@ -171,6 +175,6 @@ implemented it yourself or continued from the reference.
 
 ## What you have learned
 
-- Build on the committed quantity fix in the same session and branch.
+- Start a dedicated removal session from the merged quantity fix.
 - Turn a customer request into a reviewed plan, then use **/spring-boot-testing** to generate tests before the backend and UI.
 - Review the full diff, test edge cases and use specific preview feedback to correct the generated feature.

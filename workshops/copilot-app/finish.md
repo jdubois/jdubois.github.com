@@ -32,8 +32,8 @@ change where a PR merges.
 ```copilot
 Review the full starter-to-current change, including committed tickets,
 staged/unstaged edits and new files, for cart behavior, validation, server
-prices, removal, Canvas UI changes, the query change, scoped collaboration
-instructions, both parallel workers' contributions and the checkout implementation.
+prices, removal, Canvas UI changes, the query change, both parallel workers'
+contributions, reviewed instruction updates and the checkout implementation.
 Check stored order snapshots, atomic clearing, retry behavior and receipt UI.
 Distinguish local checkout code from what is actually merged into main.
 Use workshop-start as the comparison starting point only
@@ -57,7 +57,8 @@ completed main-branch result.
 | Generated removal | Correct DELETE response, working button, other products and totals preserved |
 | Used a Canvas | Running shop preview, selected UI issue and checked correction, or an explicit fallback record |
 | Investigated N+1 | Matched MCP before/after request profiles, same workload, query tests green |
-| Coordinated parallel work | Preparation PR merged into `main`, two isolated sessions from that updated version, two worker PRs merged sequentially with Agent Merge, and a tested combined result; or an explicit local-recovery record |
+| Delivered three task PRs | Quantity fix, removal plus Canvas, and query fix each merged and verified before the next task |
+| Coordinated parallel work | Reviewed starting point published on `main`, two isolated sessions from that version, two worker PRs merged sequentially with Agent Merge, and a tested combined result; or an explicit local-recovery record |
 | Requested an independent critique | Actual rubber duck findings, decisions and evidence for corrections; or a recorded unavailable critic |
 | Delivered mock checkout with five subagents | Actual contributions, reviewed code, checkout PR merged into `main`, passing merged-revision checks and receipt/cart preview from verified main; or an explicit incomplete/demonstration record |
 | Reviewed token usage | Chronicle report or a note that it was unavailable/not run, plus one improvement based on the workshop sessions |
@@ -96,12 +97,13 @@ what changed, what was checked, what is still unknown.
 
 ## Where your result lives
 
-The three-ticket preparation PR and both worker PRs landed on **`main`**,
+On the completed normal path, the three task PRs and both worker PRs landed on **`main`**,
 followed by the orchestrator's **checkout PR**. Stay in **Cart: boundary tests**
 on the verified main revision, not the old worker or checkout feature branch.
-Retain all three earlier PR links and CI results, plus the checkout PR,
+Retain the quantity-fix, removal-and-Canvas and MCP handoff PR links,
+both worker PR links and CI results, plus the checkout PR,
 feature head, merge commit, verified main commit, checks and running directory/URL.
-If boundary tests required a separate production-correction PR, retain its
+If any additional delivery or correction PRs were needed, retain their
 review, checks and actual merge status too.
 
 **Checkout merged and verified on `main` is required for the completed normal path.**

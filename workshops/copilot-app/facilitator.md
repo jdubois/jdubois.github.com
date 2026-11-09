@@ -21,7 +21,7 @@ Rehearse with the App build and accounts you will use.
 | Environment | The participant's own repository opens in a worktree; the 4 baseline tests pass; one owned shop runs on port 18765 |
 | App controls | Plan, Interactive, effort and permissions are understood; Fusion Standard or the [setup alternative](/workshops/copilot-app/setup/#open-it-in-copilot-app) is available |
 | Skills and tools | Bundled Java skills load; Browser canvas, Pick & polish, impeccable and the two MCP tools have been tried |
-| GitHub delivery | Actions is enabled; **Shopping-cart checks / tests** runs; the participant can create and merge PRs under repository rules |
+| GitHub delivery | Actions is enabled; **Shopping-cart checks / tests** runs; PR delivery works from the quantity fix onward; Agent Merge is allowed for the parallel PRs |
 | History privacy | Participants decide **before running Chronicle** whether its history access is acceptable; [transcript review](/workshops/copilot-app/tokens/#decide-before-analyzing-history) is an equal alternative |
 
 <details markdown="1">
@@ -31,12 +31,12 @@ Rehearse with the App build and accounts you will use.
 
 - The three Java skills are repository-bundled; **impeccable** is App-bundled. Invoke it with **`/impeccable`**. Demonstrate loading guidance, not reinstalling the workshop's pinned copies.
 - Follow the [Canvas chapter](/workshops/copilot-app/canvas/): open the running shop and focus on one observed UI issue with Pick & polish. No instruction-file editing exercise is needed.
-- Keep quantity, removal, Canvas and MCP in one session on its current branch. Commit each reviewed result; introduce separate worktrees and their scoped collaboration permission only in the parallel chapter.
+- Use three named task sessions: **Cart: quantity bug**, **Cart: item removal** (including Canvas) and **Cart: query optimization**. Merge and verify each task's PR before starting the next from updated `main`; name sessions only after their first prompt. Participants create sessions in the App UI, without changing agent instructions.
 - Keep the shop running during same-worktree edits. DevTools reloads compiled backend changes; Maven tests compile Java and copy resources. After approved UI edits, Copilot runs `./mvnw compile`, reloads the existing Browser canvas and verifies the visible change; no manual refresh is needed. An automatic restart resets cart data; static-resource updates normally do not. Stop/start manually when switching the running app to another worktree or for recovery.
 
 ### Review and five-subagent checkout
 
-- Approve a read-only independent critic for [rubber ducking](/workshops/copilot-app/rubber-duck/) without editing the verification checkout's `AGENTS.md`. Use an actual critic, not a main-agent reread. Any correction needs a normal feature branch before editing.
+- Approve a read-only independent critic for [rubber ducking](/workshops/copilot-app/rubber-duck/) without editing the verification checkout's `AGENTS.md`. Use an actual critic, not a main-agent reread. On the normal path, merge and verify accepted corrections through a follow-up PR before checkout; local recovery keeps the checked local branch.
 - In the same **Cart: boundary tests** session, create `workshop-checkout` from the checked result before implementing. Never code on the detached verification checkout.
 - Approve the [checkout contract and file ownership](/workshops/copilot-app/subagents/#checkout-contract), then use `/fleet`: one orchestrator, five bounded implementation assignments, no extra worktrees or custom agent profiles.
 - Give each worker its instructions and relevant code. Stage model/service/API dependencies; relay questions when direct messaging is unavailable. Record actual exchanges, not the chapter's example conversation.
@@ -73,13 +73,15 @@ code is not proof that the original independent or native App exercise completed
 ## Check the delivery handoffs
 {: #one-workshop}
 
-Before checkout, the normal path has **three PRs targeting `main`**:
+The three task PRs precede **two worker PRs targeting `main`**:
 
 | Order | Required handoff |
 |---|---|
-| 1. Preparation PR | Merge the three accepted tickets, generated tests, any reviewed Canvas UI changes and scoped collaboration instructions. Confirm updated `origin/main` before starting workers |
-| 2. UI worker PR | Both workers start from that same updated `main`. Review UI repairs with Agent Merge's **Merge pull request** off; authorize this PR only, then confirm **Merged** and passing checks on `main` |
-| 3. Boundary-test PR | Bring updated `main` into the test worker branch. Review its diff and fresh CI, then separately authorize its merge |
+| Quantity-fix PR | Merge and verify at the end of Skills before creating **Cart: item removal** from updated `main` |
+| Removal-and-Canvas PR | Keep both chapters in **Cart: item removal**; merge and verify after Canvas before creating the query session |
+| MCP handoff PR | Merge and verify the query fix before creating both parallel sessions from updated `main` |
+| UI worker PR | Use **Create PR** in **Cart: empty-state UX**. Review Agent Merge repairs with **Merge pull request** off; authorize this PR only, then confirm **Merged** and passing checks on `main` |
+| Boundary-test PR | Use **Create PR** in **Cart: boundary tests**. Reconcile updated `main` with merging off; review resolutions and fresh CI, then separately authorize its merge |
 
 After both worker PRs merge, reuse **Cart: boundary tests** to verify exact
 `origin/main` in its own clean worktree. Preserve worker branches and other
@@ -90,8 +92,8 @@ Continue in that session: **rubber duck → build and review checkout →
 checkout PR merged into `main` → verify merged app → Chronicle → handoff**.
 The orchestrator owns the single checkout PR under explicit delivery approval.
 Confirm its linked PR is checkout, not the earlier boundary-test PR.
-Use actual PR links rather than fixed numbers; a production-correction PR may
-also exist. The template's `main` remains the unsolved starter, not a completed demo.
+Use actual PR links rather than fixed numbers. The template's `main` remains
+the unsolved starter, not a completed demo.
 
 ## Recovery
 {: #recovery}
@@ -105,9 +107,9 @@ a fallback or reference demonstration is not a successful native App exercise.
 | Quantity, removal or query fix | Use a separate pinned copy; see [reference recovery](#reference-recovery) below |
 | Browser, Pick & polish or impeccable | Use the [Canvas fallback](/workshops/copilot-app/canvas/#canvas-recovery); record which interaction was unavailable |
 | MCP connection or baseline | Use [matched reference evidence](/workshops/copilot-app/assets/mcp-evidence.json), clearly labelled as reference, not the participant's App tool calls |
-| Preparation PR blocked | Follow [preparation recovery](/workshops/copilot-app/parallel/#local-recovery) only from an accepted local copy with all earlier reviewed tests passing; record `main` as not updated |
+| MCP handoff cannot be published | Follow [MCP handoff recovery](/workshops/copilot-app/parallel/#local-recovery) only from an accepted local copy with all earlier reviewed tests passing; record `main` as not updated |
 | Worker, CI or Agent Merge blocked | Preserve both branches, disable Agent Merge on open PRs and follow [integration recovery](/workshops/copilot-app/integrate/#local-recovery) in **Cart: boundary tests** |
-| Boundary test reveals a production bug | Keep the test worker test-only. Use the [separate correction path](/workshops/copilot-app/parallel/#boundary-fix), review its regression and rerun the worker tests before integration |
+| Boundary test reveals a production bug | Keep the regression, approve the [smallest correction in that session](/workshops/copilot-app/parallel/#boundary-fix), and rerun the full suite before integration |
 | Independent critic or five-agent delegation unavailable | Use the relevant chapter's demonstration/review fallback; explicitly record the missing independent critique or five-agent run |
 | Checkout coding or tests fail | Keep the checkout branch, mark it unfinished and retain the earlier reviewed result; no checkout reference solution is supplied |
 | Checkout publishing or merge blocked | Preserve branch/open PR; mark **verified locally; delivery blocked**. No direct push or substitute local merge into `main` |
@@ -179,9 +181,9 @@ Confirm the printed SHA matches. For another checkpoint, use its full SHA
 below and a fresh directory name. If the commit is unavailable, stop.
 
 1. Connect a new App session to the reference copy. Check its directory and starting commit; activate any required teaching tests there and run the matching checks.
-2. Continue the remaining sequential exercises in that reference session on its current branch, committing reviewed results. For feature recovery, complete Canvas before the query exercise.
+2. Use that reference session only for the blocked task, committing reviewed results. For removal recovery, complete Canvas there too. Do not use the reference clone as the next task's base.
 3. For performance recovery, restore any accepted Canvas UI changes, check startup paths for this copy, and activate all three teaching classes unchanged. Confirm all 12 supplied tests pass before parallel work.
-4. To resume GitHub delivery, apply the reviewed reference changes and any accepted Canvas work in a new worktree based on the participant's **own `main`**. Review the complete diff and rerun tests before the preparation PR. If GitHub is blocked, use the linked local recovery instead.
+4. To resume GitHub delivery, apply the reviewed reference changes and any accepted Canvas work in a new worktree based on the participant's **own `main`**. Review the complete diff and rerun tests, then deliver those recovery changes through a reviewed PR. If GitHub is blocked, use the linked local recovery instead.
 
 **Do not push this clone:** its `origin` is the template, not the personal
 repository. Template-created repositories have independent history; changing
