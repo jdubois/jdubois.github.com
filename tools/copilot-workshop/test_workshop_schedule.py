@@ -18,10 +18,95 @@ def chapter(slug):
 
 
 class WorkshopScheduleTests(unittest.TestCase):
+    def test_setup_explains_repository_instructions_before_running_commands(self):
+        setup = re.sub(r"\s+", " ", chapter("setup"))
+        steps = ["review `AGENTS.md`", "## Understand AGENTS.md",
+                 "## Check the starter", "## Start the application"]
+        positions = [setup.index(text) for text in steps]
+        self.assertEqual(positions, sorted(positions))
+        for text in ["Copilot loads applicable instructions automatically",
+                     "does not run commands or grant tool permissions",
+                     "run all currently activated tests",
+                     "exact, working build, run and test commands",
+                     "tests that need activation",
+                     "Stay short and current",
+                     "you don't need to edit them"]:
+            self.assertIn(text, setup)
+
+    def test_fix_requirements_are_introduced_with_regression_tests(self):
+        investigation = chapter("ticket")
+        self.assertNotIn("## What the fix must achieve", investigation)
+        self.assertIn("## Check the investigation", investigation)
+        self.assertIn("No code should have changed yet.", investigation)
+        skills = chapter("skills")
+        steps = ["## What the fix must achieve",
+                 "## Load the skill, not just its name",
+                 "## Add the regression test"]
+        positions = [skills.index(text) for text in steps]
+        self.assertEqual(positions, sorted(positions))
+        for text in ["quantity 2, total €20", "quantity 3 produces quantity 5",
+                     "Quantities remain 1–99", "rejected input leaves state unchanged",
+                     "Prices and totals come from the server",
+                     "no checkout, stock management, accounts, new dependencies"]:
+            self.assertIn(text, skills)
+
+    def test_workshop_amounts_use_euros_not_cent_amounts(self):
+        for path in HANDBOOK.glob("*.md"):
+            with self.subTest(chapter=path.name):
+                text = path.read_text()
+                self.assertNotRegex(text, r"\b\d+\s+cents\b")
+                self.assertNotRegex(text, r"\$\d|\bUSD\b")
+        for slug in ["ticket", "prompts", "skills", "subagents", "facilitator"]:
+            with self.subTest(euro_examples=slug):
+                self.assertIn("€20", chapter(slug))
+
+    def test_chronicle_availability_is_checked_in_its_own_chapter(self):
+        self.assertNotIn("/chronicle", chapter("setup"))
+        tokens = chapter("tokens")
+        steps = ["## Decide before analyzing history",
+                 "## Open Chronicle if you opted in", "/chronicle",
+                 "Check that the picker appears."]
+        positions = [tokens.index(text) for text in steps]
+        self.assertEqual(positions, sorted(positions))
+        self.assertIn("Chronicle not available.", tokens)
+
+    def test_mcp_connection_is_deferred_to_runtime_exercise(self):
+        setup = chapter("setup")
+        self.assertNotIn("## Connect runtime tools", setup)
+        self.assertNotIn("get_live_activity", setup)
+        self.assertIn("MCP setup comes later", setup)
+        tools = chapter("tools")
+        steps = ["## Start the reviewed shop", "./mvnw spring-boot:run",
+                 "## Connect runtime tools", "**Customize → MCP**",
+                 '`query: "/api/cart"` and `limit: 1`',
+                 "## Reproduce the same workload", "## Ask Copilot for evidence"]
+        positions = [tools.index(text) for text in steps]
+        self.assertEqual(positions, sorted(positions))
+        self.assertIn('"url": "http://127.0.0.1:18765/bootui/api/mcp"', tools)
+        self.assertIn('"tools": ["get_live_activity", "get_request_profile"]', tools)
+
+    def test_setup_starts_session_before_naming_and_opening_files(self):
+        setup = re.sub(r"\s+", " ", chapter("setup"))
+        prompt = setup.split("```copilot ", 1)[1].split("```", 1)[0]
+        for text in ["Analyze this project's tech stack",
+                     "backend, frontend, database and test tooling",
+                     "Do not edit files, install dependencies, start the application or call MCP tools."]:
+            self.assertIn(text, prompt)
+        steps = [
+            "**model picker below the prompt box**",
+            "Send this first prompt to start the session:",
+            "Once the session has started, name the session **Cart: quantity bug**.",
+            "**Open in...** menu at the **top right**",
+            "review `AGENTS.md`",
+        ]
+        positions = [setup.index(text) for text in steps]
+        self.assertEqual(positions, sorted(positions))
+        self.assertIn("open the session's working directory in your editor", setup)
+        self.assertIn("under `.github/skills/` and `.github/mcp.json`", setup)
+
     def test_quantity_reproduction_waits_for_completed_requests(self):
         ticket = re.sub(r"\s+", " ", chapter("ticket"))
-        for text in ["wait for it to finish", "button to re-enable",
-                     "rapid double-click may send only one request",
+        for text in ["click **Reset cart**. Click", "button to re-enable",
                      "waiting for each request to finish"]:
             self.assertIn(text, ticket)
         self.assertIn("waiting for each response", chapter("prompts"))
@@ -131,8 +216,8 @@ class WorkshopScheduleTests(unittest.TestCase):
             with self.subTest(session_guidance=text):
                 self.assertIn(text, investigation)
         prompt = investigation.split("```copilot\n", 1)[1].split("```", 1)[0]
-        for text in ["After resetting the cart", "quantity 1 and total 1000 cents",
-                     "quantity 2\nand total 2000 cents", "Do not edit files yet"]:
+        for text in ["After resetting the cart", "quantity 1 and total €10",
+                     "quantity 2\nand total €20", "Do not edit files yet"]:
             with self.subTest(investigation_prompt=text):
                 self.assertIn(text, prompt)
         self.assertIn("exercise briefs, not GitHub issues", chapter(""))
@@ -380,7 +465,7 @@ class WorkshopScheduleTests(unittest.TestCase):
             with self.subTest(copyable_contract=text):
                 self.assertIn(text, prompt)
         for text in ["rollback", "snapshots", "concurrent duplicate",
-                     "**2000 cents**", "Then squash-merge this checkout PR into main",
+                     "**€20**", "Then squash-merge this checkout PR into main",
                      "published reference checkpoints do not include checkout",
                      "record checkout as unfinished"]:
             with self.subTest(verification=text):
@@ -524,7 +609,8 @@ class WorkshopScheduleTests(unittest.TestCase):
 
     def test_agent_merge_prerequisites_recovery_and_handoff_are_consistent(self):
         setup = chapter("setup")
-        for text in ["GitHub Actions", "create PRs and merge them", "local recovery"]:
+        for text in ["GitHub Actions", "PRs", "Agent Merge",
+                     "default settings", "ask the facilitator"]:
             self.assertIn(text, setup)
         self.assertIn("Agent Merge", chapter(""))
         self.assertIn("Do not let the workers open or merge PRs yet", chapter("parallel"))

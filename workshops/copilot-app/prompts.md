@@ -12,7 +12,7 @@ workshop: true
 ```copilot
 In this shopping-cart repository, reproduce the repeated-add bug:
 reset the cart, then add one €10 Notebook twice, waiting for each response
-before the next click; expect quantity 2 / 2000 cents, actual 1 / 1000.
+before the next click; expect quantity 2 / €20, actual 1 / €10.
 Trace the UI, POST /api/cart/items and persistence path.
 Do not edit yet. Explain the cause, relevant files and smallest testable plan.
 Keep removal and query optimization out of this ticket.

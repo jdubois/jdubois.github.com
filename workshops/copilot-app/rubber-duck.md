@@ -46,7 +46,7 @@ If working in a separate reference checkout, replace `workshop-start` with
 to this checked result, including the quantity fix, removal, Canvas UI
 changes, query optimization and both parallel contributions.
 Look for concrete behavior regressions, missing edge-case coverage,
-incorrect cents/totals and evidence that does not match the code.
+incorrect prices/totals and evidence that does not match the code.
 Keep the existing acceptance criteria. Do not edit files, run the app,
 change branches, commit, push or merge.
 Report each meaningful finding with its file/location, impact, supporting

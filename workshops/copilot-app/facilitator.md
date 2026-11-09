@@ -138,7 +138,7 @@ their counts and captures describe those exact revisions, not today's `main`.
 | Check | Tests | Expected result |
 |---|---:|---|
 | Start, `BaselineTest` | 4 | Pass; repeated addition is not covered |
-| Start, activate `CartContractTest` | 3 | Two failures: quantity 2 vs 1, total 5000 vs 2000 |
+| Start, activate `CartContractTest` | 3 | Two failures: quantity 2 vs 1, total €50 vs €20 |
 | After bug fix, baseline + cart | 7 | Pass |
 | After bug fix, activate `RemoveContractTest` | 3 | Two failures: expected 200, actual 404 |
 | After feature, baseline + cart + removal | 10 | Pass |

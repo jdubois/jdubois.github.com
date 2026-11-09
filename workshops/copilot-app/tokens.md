@@ -50,6 +50,9 @@ Type this in the **App composer, not a terminal**:
 /chronicle
 ```
 
+Check that the picker appears. If Chronicle is unavailable in your build,
+review your workshop transcript locally instead and record **"Chronicle not available."**
+
 After that privacy decision, choose the cost/token-usage tips entry in your
 App's picker. The
 <a href="https://docs.github.com/en/copilot/concepts/copilot-surfaces/github-copilot-app#optimizing-ai-usage-in-the-github-copilot-app" target="_blank">App documentation</a>

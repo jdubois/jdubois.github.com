@@ -33,7 +33,7 @@ Give Copilot these acceptance criteria:
 - Other products and quantities stay unchanged.
 - A missing line returns **404** without changing the cart, including a product
   that exists in the catalogue but has never been added.
-- Keep server prices, integer cents, existing stack and quantity behavior.
+- Keep server prices, the existing money representation, stack and quantity behavior.
 
 ## Specify, generate, preview
 

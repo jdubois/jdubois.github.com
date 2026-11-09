@@ -26,7 +26,7 @@ anything until you have a baseline.
 Use BootUI's **MCP tools in Copilot**, not its browser interface.
 Only the two tools below are needed; use their documented arguments.
 
-## Reproduce the same workload
+## Start the reviewed shop
 
 Check the terminal running the shop. If it is already running from the reviewed
 feature copy, **reuse it**. Otherwise
@@ -36,6 +36,35 @@ reviewed copy:
 ```sh
 ./mvnw spring-boot:run
 ```
+
+## Connect runtime tools
+
+<a href="https://www.julien-dubois.com/boot-ui/" target="_blank">BootUI</a>
+is preinstalled. Its MCP configuration is included in `.github/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "shopping-cart": {
+      "type": "http",
+      "url": "http://127.0.0.1:18765/bootui/api/mcp",
+      "tools": ["get_live_activity", "get_request_profile"]
+    }
+  }
+}
+```
+
+Use **Customize → MCP** to review and trust the repository's MCP configuration,
+then reload it if prompted. If the endpoint is missing, add it there.
+No VS Code configuration, public tunnel or extra MCP server is needed.
+
+With your shop running, ask Copilot to call **`get_live_activity`** with
+`query: "/api/cart"` and `limit: 1`. A tool response, even an empty list, confirms
+the connection works. If it fails, check trust and reload settings before
+continuing. If MCP remains unavailable, ask the facilitator to demonstrate
+the exercise using [the saved reference responses](/workshops/copilot-app/assets/mcp-evidence.json).
+
+## Reproduce the same workload
 
 In another terminal (Windows PowerShell: use **`curl.exe`** instead of `curl`):
 

@@ -70,6 +70,20 @@ location and name before retrying; do not claim that installation alone ran it.
 You can learn the installation process here without changing repositories
 or reinstalling the workshop's skills.
 
+## What the fix must achieve
+
+Use these acceptance criteria to guide the regression tests. Establish the
+failing tests in this chapter; implement the fix in the next one.
+
+- Adding 1 Notebook twice produces one line, quantity 2, total €20.
+- Adding 2 more units to an existing quantity 3 produces quantity 5.
+- Adding a new product still works. Quantities remain 1–99, including
+  the accumulated quantity; rejected input leaves state unchanged.
+- Prices and totals come from the server. Do not patch only the UI.
+
+Keep the scope small: no checkout, stock management, accounts, new dependencies
+or query optimization yet. The later performance ticket is a separate task.
+
 ## Load the skill, not just its name
 
 Stay in **Cart: quantity bug**. Use the installed skill in the App composer:
@@ -110,7 +124,7 @@ them until they are copied into the test source directory.
 Copilot may add tests, but must keep the supplied assertions unchanged.
 
 Expect **3 tests, 2 failures**: expected quantity 2, actual 1; expected total
-5000 cents, actual 2000.
+€50, actual €20.
 The maximum-quantity test passes. Check
 `target/surefire-reports/com.juliendubois.workshop.CartContractTest.txt`.
 These assertion failures are expected. Compilation errors, a missing JDK or

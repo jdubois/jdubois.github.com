@@ -226,7 +226,7 @@ feature branch's directory, restart the changed application:
 
 Ask Copilot to open or reload **http://127.0.0.1:18765** in the Browser canvas.
 Add the €10 Notebook twice: the receipt must show quantity **2** and total
-**2000 cents**, followed by an empty cart. Check visible error feedback for a
+**€20**, followed by an empty cart. Check visible error feedback for a
 failed request, then return to shopping. If Place order is disabled on an empty
 cart, verify the required **409** through HTTP tests; do not enable it just
 for this demonstration. Confirm keyboard access and a narrow
@@ -337,7 +337,7 @@ the orchestrator just verified:
 
 Reload **http://127.0.0.1:18765** in the Browser canvas. Confirm **Place order**
 is present, add the €10 Notebook twice and check the receipt shows quantity **2**
-and **2000 cents**, the cart clears, and returning to shopping works.
+and **€20**, the cart clears, and returning to shopping works.
 Opening a canvas or selecting another repository does not replace a running
 server. Check its owning directory if you still see an older application.
 
