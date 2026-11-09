@@ -16,19 +16,24 @@ reviewed version with clear file ownership.
 ## Bring the reviewed work into main
 {: #update-main}
 
-First, stay in the session where you finished the query fix, normally
-**Cart: query investigation**. After reviewing the completed cart, removal
-and query changes, put those **three completed tickets into `main` through
+Until now, you have worked in **one session on one branch**, saving reviewed
+steps as commits. This chapter introduces separate worktrees for independent
+tasks.
+
+Stay in the **original workshop session** where you finished the query fix.
+After reviewing the completed cart, removal and query changes,
+put those **three completed tickets into `main` through
 one reviewed PR**. This gives both workers a normal, up-to-date starting point.
-Paste this prompt in the query session:
+Paste this prompt in the original workshop session:
 
 ```copilot
 Confirm origin is my own workshop repository, not the template repository.
 Commit only the accepted workshop changes, if not yet committed.
 Fetch origin and show this session's complete diff against origin/main.
 Confirm it includes the quantity fix, removal feature, query optimization
-and all 12 supplied acceptance tests, plus the reviewed Canvas AGENTS.md
-and UI changes. Run ./mvnw -q test and report counts.
+and all baseline and generated cart, removal and query tests,
+plus the reviewed Canvas AGENTS.md and UI changes.
+Run ./mvnw test and report counts.
 Stop if any test fails or an acceptance case is skipped.
 After I review and approve, publish only this session's branch without
 force-pushing and open one PR targeting main for the three completed tickets.
@@ -46,10 +51,10 @@ Do not bypass protections or include unreviewed changes.
 Confirm GitHub reports the PR as Merged.
 ```
 
-**Do not start the workers until the PR is Merged.** In the query session,
+**Do not start the workers until the PR is Merged.** In the original workshop session,
 ask Copilot to fetch `origin/main`, confirm its merged result contains all
-three tickets, the reviewed Canvas instruction/UI changes and the 12 acceptance
-tests, and report the new starting commit.
+three tickets, the reviewed Canvas instruction/UI changes and all earlier
+reviewed tests, and report the new starting commit.
 This includes squash merges; the original ticket commits need not be ancestors.
 Keep the PR link and shared starting commit on the
 [worksheet](/workshops/copilot-app/worksheet/#parallel-handoff).
@@ -130,13 +135,13 @@ assigned task. Review the finding and use the separate correction path below.
 <summary>If a boundary test exposes an application bug</summary>
 
 Keep the test worker's reviewed failing test commit. In the existing
-**Cart: query investigation** session, ask Copilot to prepare a separate
+original workshop session, ask Copilot to prepare a separate
 production-fix feature branch from the shared accepted starting point.
 Give it the exact failing request, expected status and unchanged-state rule.
 Review its plan before permitting edits.
 
 The correction must include its own focused regression test, outside
-`CartBoundaryTest.java`, and preserve the 12 supplied tests. Do not include
+`CartBoundaryTest.java`, and preserve all earlier reviewed tests. Do not include
 either worker's commit or change their files to make the correction pass.
 Review the production diff and full-suite results. If the preparation PR is
 merged, publish and merge this additional correction PR into `main` only after its own review, checks and
@@ -179,7 +184,7 @@ and use **Agent Merge** one PR at a time.
 
 Ask the facilitator for help. Do not bypass protections or continue with
 failing acceptance tests. If GitHub, CI or approvals are unavailable but the
-reviewed local query-fix version passes all 12 tests, ask Copilot to commit
+reviewed local query-fix version passes all earlier reviewed tests, ask Copilot to commit
 only that accepted work and report its actual branch and commit.
 
 Create both isolated worker sessions from **that recorded local branch**

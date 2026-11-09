@@ -4,8 +4,8 @@ title: Investigate with Copilot
 description: "Give Copilot a reproducible bug report with clear expected behavior."
 permalink: /workshops/copilot-app/ticket/
 workshop: true
-next: fusion
-next_title: Modes, effort and permissions
+next: modes
+next_title: Modes and effort
 ---
 
 ## What you will learn
@@ -14,10 +14,10 @@ Give Copilot a clear bug report and ask it to trace the cause before editing cod
 
 ## “I added it twice. There is still only one.”
 
-In the shop, click **Reset cart** and wait for it to finish. Click
-**Add Notebook to cart**, wait for the response and the button to re-enable,
-then click it again. A rapid double-click may send only one request because
-the UI disables buttons while a request is pending.
+In <a href="http://127.0.0.1:18765" target="_blank">the shop running at http://127.0.0.1:18765</a>,
+click **Reset cart**. Click
+**Add Notebook to cart**, wait for the button to re-enable,
+then click it again.
 The Notebook costs €10. The starter shows **quantity 1 / €10**;
 the customer expects **quantity 2 / €20**.
 
@@ -38,33 +38,25 @@ that you created in [setup](/workshops/copilot-app/setup/#open-it-in-copilot-app
 Paste this into that session's composer to investigate without editing yet:
 
 ```copilot
-After resetting the cart, I added the Notebook (1000 cents) twice,
+After resetting the cart, I added the €10 Notebook twice,
 waiting for each request to finish before the next click.
-The shop shows quantity 1 and total 1000 cents; I expect quantity 2
-and total 2000 cents, including after a page reload.
+The shop shows quantity 1 and total €10; I expect quantity 2
+and total €20, including after a page reload.
 Trace adding the same product twice from the shop UI through
 POST /api/cart/items to persisted state. Explain why the quantity
 does not accumulate. Do not edit files yet. Name the relevant
 files and any assumptions that need a test.
 ```
 
-**App tip:** attach or reference the relevant files when you know them, rather
-than pasting the whole repository or every log. Ask for the path from click to
-database, not a generic review of Spring Boot.
+## Check the investigation
 
-## Acceptance criteria
-
-- Adding 1 Notebook twice produces one line, quantity 2, total 2000 cents.
-- Adding 2 more units to an existing quantity 3 produces quantity 5.
-- Adding a new product still works. Quantities remain 1–99, including
-  the accumulated quantity; rejected input leaves state unchanged.
-- Prices and totals come from the server. Do not patch only the UI.
-
-Keep the scope small: no checkout, stock management, accounts, new dependencies
-or query optimization yet. The later performance ticket is a separate task.
+Check that Copilot explains why the quantity is replaced rather than added,
+identifies the relevant files and flags any assumptions that need a test.
+If the explanation is unclear, ask it to clarify before moving on.
+No code should have changed yet.
 
 ## What you have learned
 
 - Describe reproduction steps, the observed result and the expected result in a focused App session.
 - Ask Copilot to trace a request from the UI to the database without making changes, using relevant files instead of the whole repository.
-- Set acceptance criteria and exclusions so Copilot fixes the reported behavior without expanding the task.
+- Check that the investigation explains the cause and identifies relevant files and assumptions without changing code.

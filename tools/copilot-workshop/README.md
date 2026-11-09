@@ -4,13 +4,31 @@ The **only sample-code source** is
 [jdubois/copilot-shopping-cart-workshop](https://github.com/jdubois/copilot-shopping-cart-workshop).
 The template's `main` contains the starter; `reference/v2` contains the current
 solution history, tagged `v2-start`, `v2-bugfix`, `v2-feature`, `v2-performance`.
-No fixture copy, ZIP generator or downloadable source archive is maintained here.
+No application implementation, ZIP generator or downloadable source archive
+is maintained here.
 
 The website owns the handbook, reference receipts and screenshot tooling.
 `assets/references.json` pins the exact published commits for this edition.
 Do not move published tags; use a new edition for fixture changes.
 The original v1 references are retained unchanged. GitHub's active checkpoint-tag
 ruleset prevents updates and deletion; new edition tags can still be created.
+
+## Facilitator reference tests
+
+`reference-tests/` preserves the three former `teaching/` Java tests verbatim
+from template commit `c0ac24920dc16812e2c7187cc95245faffc84316`.
+They are maintainer/facilitator recovery resources, excluded from the Jekyll
+site with the rest of `tools/`, not files to bundle into the learner template.
+Normal exercises generate their own tests from acceptance criteria.
+Keep reviewed learner assertions rather than replacing them with these files.
+The template's `tools/checkpoint-pins.json` pins that same commit as
+`contractSourceRevision`; its verifier reads the original `teaching/` blobs
+from Git history and activates them only in temporary reference worktrees.
+Reference CI requires full Git history, not a checkout of this website.
+
+The immutable historical checkpoints still contain their own `teaching/`
+files for reproducing historical test receipts. Those checkpoints and their
+counts are separate from newly generated learner tests.
 
 ## Validate reference code in its own repository
 

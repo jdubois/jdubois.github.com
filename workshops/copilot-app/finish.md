@@ -74,14 +74,15 @@ suite**, including generated boundary and checkout tests. For local recovery,
 use the preserved result and explicitly record that it is not merged:
 
 ```sh
-./mvnw -q test
+./mvnw test
 ```
 
-The supplied classes contain **12 tests**, with no failures/errors/skips;
-the boundary and checkout tests add further cases. Check the reports for every
-acceptance class, `CartBoundaryTest` and `CheckoutContractTest`;
-no supplied case may be removed. If checkout was blocked, mark its cases as
-not completed rather than treating an earlier 12-test pass as checkout evidence.
+All baseline, generated cart/removal/query, boundary and checkout
+tests must execute with no failures/errors/skips. Report actual counts and
+check the reports for every acceptance class, `CartBoundaryTest` and
+`CheckoutContractTest`; no reviewed case may be removed or weakened.
+If checkout was blocked, mark its cases as not completed rather than treating
+an earlier passing suite as checkout evidence.
 If a ticket or worker remains unfinished, record that explicitly rather than
 presenting partial work as the complete workshop result.
 

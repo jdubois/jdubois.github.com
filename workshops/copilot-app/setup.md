@@ -31,8 +31,8 @@ If a private repository is not available in the picker, use the App's
 Do not paste credentials into prompts. See the
 <a href="https://docs.github.com/en/copilot/get-started/quickstart-copilot-app#connecting-a-repository-or-folder" target="_blank">App's repository connection guide</a>.
 
-Start a session in this repository. Choose **This computer**, **New worktree**
-and **Interactive**, and name the session **Cart: quantity bug**.
+Prepare a session in this repository. Choose **This computer**, **New worktree**
+and **Interactive**.
 
 In the **model picker below the prompt box**, select **Fusion Standard**,
 which automatically chooses a model for each task. If unavailable, choose
@@ -40,20 +40,52 @@ which automatically chooses a model for each task. If unavailable, choose
 switch is shown. Available models depend on your plan and organization settings.
 See <a href="https://docs.github.com/en/copilot/concepts/models/copilot-fusion" target="_blank">how Fusion works</a>.
 
-Review `AGENTS.md`, `.github/skills/` and `.github/mcp.json` before trusting
-repository configuration. The three Java skills are already installed; no
-installation is needed. Their [chapter](/workshops/copilot-app/skills/) covers usage.
+Send this first prompt to start the session:
+
+```copilot
+Analyze this project's tech stack from its source and configuration files.
+Briefly explain the backend, frontend, database and test tooling.
+Do not edit files, install dependencies, start the application or call MCP tools.
+```
+
+Once the session has started, name the session **Cart: quantity bug**.
+Use the **Open in...** menu at the **top right** to open the session's working
+directory in your editor. There, review `AGENTS.md`, the skill instructions
+under `.github/skills/` and `.github/mcp.json` before approving repository
+configuration or using its skills and MCP tools. The three Java skills are
+already installed; no installation is needed.
+Their [chapter](/workshops/copilot-app/skills/) covers usage.
 
 If a file read is denied, stop and review the App's repository-trust or
 file-access request. MCP approval does not grant filesystem access.
-Do not bypass a denial or broaden permissions.
 
-Enable **GitHub Actions** for the included **Shopping-cart checks** workflow.
-Confirm you can push branches, create PRs and merge them, obtain required reviews
-and use **Agent Merge** under your repository's rules. Never weaken policies
-or branch protections. If access or required approval is unavailable, ask the
-facilitator; the [parallel](/workshops/copilot-app/parallel/) and
-[integration](/workshops/copilot-app/integrate/) chapters provide local recovery.
+Your own repository should be ready for **GitHub Actions**, PRs and
+**Agent Merge** with the default settings. If you run into an access or
+approval issue later, ask the facilitator.
+
+## Understand AGENTS.md
+
+`AGENTS.md` is a Markdown file containing project instructions for coding agents.
+Copilot loads applicable instructions automatically, so you don't need to repeat
+the project's commands and conventions in every prompt. It guides Copilot;
+it does not run commands or grant tool permissions.
+
+Open the root `AGENTS.md` in your editor. Find the commands to start the shop,
+run the four baseline tests and run all currently activated tests. Notice the
+project boundaries too: keep the existing stack, preserve acceptance tests
+and let the human manage the running shop.
+
+**For your own projects, a useful AGENTS.md should:**
+
+- Give exact, working build, run and test commands, including required versions
+  and any setup steps. Prefer the project's wrapper, such as `./mvnw`.
+- Explain non-obvious conventions and constraints, such as HTTP tests using
+  random ports and isolated databases.
+- Stay short and current. Link to detailed documentation instead of copying
+  it, and update commands when the workflow changes.
+
+The template already provides these instructions; you don't need to edit them.
+Next, use its baseline-test and startup commands.
 
 ## Check the starter
 
@@ -76,17 +108,16 @@ run it:
 
 ```sh
 java -version
-./mvnw -q -Dtest=BaselineTest test
+./mvnw -Dtest=BaselineTest test
 ```
 
 Expect **4 tests, 0 failures, 0 errors, 0 skipped**. Maven downloads missing
 dependencies. These tests do not yet cover adding the same product twice.
-If `-q` hides the summary, ask Copilot for the exit status and executed counts
-from `target/surefire-reports/`. Silence is not a pass.
 
-## Start one application
+## Start the application
 
-Run this in the **active session's working directory**:
+Click the **terminal icon at the top right** to open a terminal in the
+**current session's worktree**, then run:
 
 ```sh
 ./mvnw spring-boot:run
@@ -105,57 +136,26 @@ Find the composer, mode/model controls and **Changes** view.
 Your worktree is a separate copy: run and preview the code from this session,
 not the repository's original checkout.
 
-### Session handoffs
-{: #session-handoffs}
+Stay in **this session and on its current branch** for the quantity fix,
+removal feature, Canvas and MCP exercises. You don't need a new session,
+a named handoff branch or a switch to `main` between these steps.
+Review each result and ask Copilot to commit only the accepted changes;
+those commits are your checkpoints.
 
-When a chapter asks for a new session, carry forward your reviewed code:
-
-1. Review the changes in the App, then ask Copilot to commit only the changes you approve.
-2. Ask Copilot to create the branch named in that chapter, such as `workshop-quantity`. Do not overwrite an existing branch.
-3. Create the next session with **New worktree** and select that branch as its base. Before editing, ask Copilot to confirm that it starts from the saved commit and has no uncommitted changes.
-
-The **branch name** selects the starting code; the **session title** is just a
-label. If the branch is missing from the picker, continue in the current
-session rather than starting from the default branch. Run Maven commands in
-the active session's working directory; ask Copilot to confirm the path if unsure.
+The [Parallel sessions](/workshops/copilot-app/parallel/) chapter introduces
+separate worktrees when you have independent tasks to run together.
+Until then, run Maven commands from this same session's working directory.
 
 The shop belongs to a particular terminal and source copy. Before running a new
-copy, use **Ctrl+C in the terminal that owns the old shop**, then start the
+version after code changes, use **Ctrl+C in the terminal that owns the shop**, then start the
 reviewed copy using the startup command above. If you cannot identify the owner,
 ask the facilitator; never stop an unknown process to free port 18765.
-
-## Connect runtime tools
-
-<a href="https://www.julien-dubois.com/boot-ui/" target="_blank">BootUI</a>
-is preinstalled. Connect it through [MCP](/workshops/copilot-app/tools/) so
-Copilot can inspect the running shop:
-
-```json
-{
-  "mcpServers": {
-    "shopping-cart": {
-      "type": "http",
-      "url": "http://127.0.0.1:18765/bootui/api/mcp",
-      "tools": ["get_live_activity", "get_request_profile"]
-    }
-  }
-}
-```
-
-Use **Customize → MCP** to review and trust the repository's MCP configuration,
-then reload it if prompted. If the endpoint is missing, add it there.
-No VS Code configuration, public tunnel or extra MCP server is needed.
 
 ## Ready check
 
 The shop opens, baseline tests pass, you can reproduce the two-click bug, and
-you know the active project/session. Type **`/chronicle` in the App composer**
-to check that its picker is available; do not run a history analysis yet.
-With your shop running, ask Copilot to call **`get_live_activity`** with
-`query: "/api/cart"` and `limit: 1`. A tool response, even an empty list, confirms
-the connection works. If it fails, check trust and reload settings before
-continuing. If MCP remains unavailable, ask the facilitator to demonstrate
-the exercise using the reference results.
+you know the active project/session.
+MCP setup comes later, in [Investigate runtime with MCP](/workshops/copilot-app/tools/).
 
 <details markdown="1">
 <summary>Windows and version details</summary>

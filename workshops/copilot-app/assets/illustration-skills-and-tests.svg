@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="800" viewBox="0 0 1440 800" role="img" aria-labelledby="title desc">
   <title id="title">Prove the bug before fixing it.</title>
-  <desc id="desc">Load java-junit guidance, review and run the unchanged supplied CartContractTest, then implement the approved fix and rerun baseline and cart tests. Reference expectations: initially three cart tests with two assertion failures; after the fix all seven supplied baseline and cart tests pass. Missing tools or compilation failures are setup problems, not the expected regression.</desc>
+  <desc id="desc">Load java-junit guidance, generate CartContractTest from the agreed acceptance criteria, review its assertions and run it before changing production code. The regression must expose the quantity bug. After the approved fix, baseline and generated cart tests must pass. Test counts vary. Missing tools or compilation failures are setup problems, not the expected regression.</desc>
   <defs>
     <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto"><path d="m1 1 5 3-5 3" fill="none" stroke="#1d4ed8" stroke-width="1.5"/></marker>
     <style>
@@ -37,20 +37,20 @@
   <text x="609" y="434" font-size="20">Total assertion fails</text>
   <circle cx="580" cy="472" r="13" fill="#fff" stroke="#0f1419" stroke-width="2"/>
   <path d="m574 472 4 4 8-9" stroke="#0f1419" stroke-width="2" fill="none"/>
-  <text x="609" y="479" font-size="20">Quantity limit passes</text>
-  <text x="563" y="541" class="mono">3 supplied tests / 2 failures</text>
+  <text x="609" y="479" font-size="20">Check quantity limits</text>
+  <text x="563" y="541" class="mono">Generated tests / failures</text>
   <path d="M901 402h69" stroke="#1d4ed8" stroke-width="2" marker-end="url(#arrow)"/>
   <rect x="1000" y="234" width="368" height="338" rx="8" fill="#fff" stroke="#1d4ed8" stroke-width="2"/>
   <text x="1028" y="278" font-size="27" font-weight="700">Verify the small fix</text>
   <text x="1028" y="314" class="mono">Baseline + cart contract</text>
   <circle cx="1184" cy="409" r="47" fill="#1d4ed8"/>
   <path d="m1162 410 15 15 29-34" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="1184" y="509" text-anchor="middle" font-size="26" font-weight="700">All 7 supplied tests pass</text>
+  <text x="1184" y="509" text-anchor="middle" font-size="26" font-weight="700">All reviewed tests pass</text>
   <text x="1184" y="541" text-anchor="middle" class="mono">No errors or skipped cases</text>
   <path d="M536 621h832" stroke="#d2d8df"/>
   <text x="536" y="659" class="body">Review the plan and test before production edits.</text>
   <text x="536" y="692" class="mono">Preserve assertions. Inspect the diff. Preview and reload.</text>
   <path d="M72 730h1296" stroke="#e2e6ea"/>
-  <text x="74" y="766" class="mono">Reference expectations / not a participant test report</text>
+  <text x="74" y="766" class="mono">Illustrative workflow / actual test counts vary</text>
   <text x="1366" y="766" text-anchor="end" class="mono">Skills + verification</text>
 </svg>

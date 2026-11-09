@@ -31,7 +31,7 @@ Rehearse with the App build and accounts you will use.
 
 - The three Java skills are repository-bundled; **impeccable** is App-bundled. Demonstrate loading guidance, not reinstalling the workshop's pinned copies.
 - Follow the [Canvas chapter](/workshops/copilot-app/canvas/): review the narrow `AGENTS.md` amendment, startup directory and one human-owned server. Do not remove all project constraints.
-- Try Pick & polish on an observed issue. Save `workshop-feature` **after** the accepted Canvas instruction/UI changes, so the query session inherits them.
+- Keep quantity, removal, Canvas and MCP in one session on its current branch. Commit each reviewed result; introduce separate worktrees only for the parallel tasks.
 
 ### Review and five-subagent checkout
 
@@ -40,7 +40,7 @@ Rehearse with the App build and accounts you will use.
 - Approve the [checkout contract and file ownership](/workshops/copilot-app/subagents/#checkout-contract), then use `/fleet`: one orchestrator, five bounded implementation assignments, no extra worktrees or custom agent profiles.
 - Give each worker its instructions and relevant code. Stage model/service/API dependencies; relay questions when direct messaging is unavailable. Record actual exchanges, not the chapter's example conversation.
 - The orchestrator owns the integrated Maven run. Five assignments can run in smaller batches; do not start five shops, Maven suites or nested fleets.
-- Check the original 12 tests, boundary cases and **new checkout tests**. Verify rollback, immutable receipts, concurrent duplicate requests and replay after new cart items. Restart the changed copy and place an order in the Browser canvas.
+- Check all earlier reviewed tests, boundary cases and **new checkout tests**. Verify rollback, immutable receipts, concurrent duplicate requests and replay after new cart items. Restart the changed copy and place an order in the Browser canvas.
 - After final review and scoped approval, the orchestrator delivers one checkout PR, handles checks/reviews and squash-merges when allowed. Workers never publish or merge. Verify exact merged main and restart the shop from that directory.
 
 ### Evidence and privacy
@@ -76,7 +76,7 @@ Before checkout, the normal path has **three PRs targeting `main`**:
 
 | Order | Required handoff |
 |---|---|
-| 1. Preparation PR | Merge the three accepted tickets, supplied tests and reviewed Canvas instruction/UI changes. Confirm updated `origin/main` before starting workers |
+| 1. Preparation PR | Merge the three accepted tickets, generated tests and reviewed Canvas instruction/UI changes. Confirm updated `origin/main` before starting workers |
 | 2. UI worker PR | Both workers start from that same updated `main`. Review UI repairs with Agent Merge's **Merge pull request** off; authorize this PR only, then confirm **Merged** and passing checks on `main` |
 | 3. Boundary-test PR | Bring updated `main` into the test worker branch. Review its diff and fresh CI, then separately authorize its merge |
 
@@ -104,7 +104,7 @@ a fallback or reference demonstration is not a successful native App exercise.
 | Quantity, removal or query fix | Use a separate pinned copy; see [reference recovery](#reference-recovery) below |
 | Browser, Pick & polish or impeccable | Use the [Canvas fallback](/workshops/copilot-app/canvas/#canvas-recovery); record which interaction was unavailable |
 | MCP connection or baseline | Use [matched reference evidence](/workshops/copilot-app/assets/mcp-evidence.json), clearly labelled as reference, not the participant's App tool calls |
-| Preparation PR blocked | Follow [preparation recovery](/workshops/copilot-app/parallel/#local-recovery) only from an accepted local copy with all 12 supplied tests passing; record `main` as not updated |
+| Preparation PR blocked | Follow [preparation recovery](/workshops/copilot-app/parallel/#local-recovery) only from an accepted local copy with all earlier reviewed tests passing; record `main` as not updated |
 | Worker, CI or Agent Merge blocked | Preserve both branches, disable Agent Merge on open PRs and follow [integration recovery](/workshops/copilot-app/integrate/#local-recovery) in **Cart: boundary tests** |
 | Boundary test reveals a production bug | Keep the test worker test-only. Use the [separate correction path](/workshops/copilot-app/parallel/#boundary-fix), review its regression and rerun the worker tests before integration |
 | Independent critic or five-agent delegation unavailable | Use the relevant chapter's demonstration/review fallback; explicitly record the missing independent critique or five-agent run |
@@ -134,20 +134,27 @@ The [pinned revisions](/workshops/copilot-app/assets/references.json) and
 cover the three earlier tickets, **not checkout**.
 These historical pins also predate current-starter input and keyboard hardening;
 their counts and captures describe those exact revisions, not today's `main`.
+The table uses historical reference tests. In the normal workshop, participants
+generate `CartContractTest`, `RemoveContractTest` and `QueryContractTest`;
+their counts and failures vary. The current learner starter contains no
+ready-made exercise tests.
 
 | Check | Tests | Expected result |
 |---|---:|---|
 | Start, `BaselineTest` | 4 | Pass; repeated addition is not covered |
-| Start, activate `CartContractTest` | 3 | Two failures: quantity 2 vs 1, total 5000 vs 2000 |
+| Start, activate `CartContractTest` | 3 | Two failures: quantity 2 vs 1, total €50 vs €20 |
 | After bug fix, baseline + cart | 7 | Pass |
 | After bug fix, activate `RemoveContractTest` | 3 | Two failures: expected 200, actual 404 |
 | After feature, baseline + cart + removal | 10 | Pass |
 | After feature, activate `QueryContractTest` | 2 | Two failures: 9/17 SELECTs, expected 1 |
 | After performance, all four classes | 12 | Pass |
 
-Future acceptance classes live in `teaching/` until activated in the test
-source directory. Review and commit them before implementation; keep their
-assertions unchanged. Boundary and checkout tests add cases beyond these 12.
+Facilitator test snapshots are maintained separately in the website repository's
+`tools/copilot-workshop/reference-tests/`, excluded from the published site.
+The pinned historical checkpoints below retain their own `teaching/` classes
+for reproducing these recorded counts. Use those files only in a separate
+reference checkout; never replace reviewed learner tests. Boundary and
+checkout tests add cases beyond the historical 12.
 
 ### Recover without losing work
 {: #recover-without-losing-work}
@@ -166,7 +173,7 @@ Confirm the printed SHA matches. For another checkpoint, use its full SHA
 below and a fresh directory name. If the commit is unavailable, stop.
 
 1. Connect a new App session to the reference copy. Check its directory and starting commit; activate any required teaching tests there and run the matching checks.
-2. For quantity-fix recovery, create `git branch workshop-quantity HEAD` before the removal session. For feature recovery, complete Canvas before saving `workshop-feature`.
+2. Continue the remaining sequential exercises in that reference session on its current branch, committing reviewed results. For feature recovery, complete Canvas before the query exercise.
 3. For performance recovery, restore the accepted Canvas instruction/UI changes, checking startup paths for this copy, and activate all three teaching classes unchanged. Confirm all 12 supplied tests pass before parallel work.
 4. To resume GitHub delivery, apply the reviewed reference changes and any accepted Canvas work in a new worktree based on the participant's **own `main`**. Review the complete diff and rerun tests before the preparation PR. If GitHub is blocked, use the linked local recovery instead.
 

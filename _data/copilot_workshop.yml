@@ -4,12 +4,10 @@
   slug: setup/
 - title: Investigate with Copilot
   slug: ticket/
-- title: Modes, effort and permissions
-  slug: fusion/
-- title: Install and use skills
+- title: Modes and effort
+  slug: modes/
+- title: Use a skill to fix the bug
   slug: skills/
-- title: Review and verify changes
-  slug: verify/
 - title: Generate and iterate
   slug: generate/
 - title: Canvas and Pick & polish

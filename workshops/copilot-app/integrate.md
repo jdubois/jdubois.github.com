@@ -153,7 +153,7 @@ Fetch origin and merge the latest origin/main into this test
 worker branch. Keep the PR base main and its head this worker branch.
 Do not reset main or this branch, discard either worker's changes
 or force-push. Show any proposed conflict resolution for approval.
-Run ./mvnw -q test; stop if tests fail or any acceptance case is skipped.
+Run ./mvnw test; stop if tests fail or any acceptance case is skipped.
 Show the updated diff and ask before pushing this branch to update its PR.
 Do not enable Agent Merge or merge the PR yet.
 ```
@@ -166,7 +166,7 @@ Review any repairs with **Merge pull request** still off. Then explicitly ask:
 ```copilot
 Merge this reviewed boundary-test PR into main in my repository
 once the tests job and all required checks and approvals pass.
-Preserve both workers' contributions, the 12 supplied acceptance tests and
+Preserve both workers' contributions, all earlier reviewed tests and
 the boundary tests. Do not bypass protections or change the PR base.
 Ask before any correction outside the test worker's scope.
 ```
@@ -189,10 +189,10 @@ the main branch or changing another session's checkout. Do not create a new
 session or branch, reset anything or push.
 Confirm the checked-out commit equals origin/main and contains both PRs'
 actual merged results, including squash merges.
-Run ./mvnw -q test and report the executed counts and any failures or skips.
+Run ./mvnw test and report the executed counts and any failures or skips.
 ```
 
-The full suite should now contain the original **12 tests plus the new boundary
+The full suite should now contain **all earlier reviewed tests plus the new boundary
 cases**, all executed with no failures/errors/skips. Check the reports for every
 acceptance class and `CartBoundaryTest`; a successful command that ran no tests
 does not verify the change.
@@ -243,7 +243,7 @@ are missing. Do not merge the test branch into itself or apply changes twice.
 If boundary tests needed a separate production correction, include its
 reviewed handoff only if missing; do not implement a new fix in this test worker.
 Ask before resolving a conflict, or if a reviewed handoff cannot be found.
-Run ./mvnw -q test and report all counts, failures and skips.
+Run ./mvnw test and report all counts, failures and skips.
 Do not push, merge remote PRs or enable Agent Merge.
 ```
 
