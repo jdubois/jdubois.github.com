@@ -127,6 +127,24 @@ Keep that terminal open. Open
 <a href="http://127.0.0.1:18765" target="_blank">the shop</a>.
 Ctrl+C in that terminal stops the app. A restart resets data.
 
+**Keep it running while you work in this worktree.** Spring Boot **DevTools**
+automatically restarts the app when the compiled classpath changes, not merely
+when Java source is saved. The workshop's Maven test commands compile Java and
+copy resources. Wait for the app to finish restarting before using the browser;
+recreate sample cart data after a restart.
+
+For UI-only edits without a test run, ask Copilot to copy the changed resources
+from this same worktree:
+
+```sh
+./mvnw compile
+```
+
+Then reload the browser, or have Copilot reload the existing Browser canvas.
+The Canvas exercise includes this refresh in the editing prompt.
+Static HTML, CSS and JavaScript changes do not normally restart the app or
+reset the cart.
+
 Tests have random ports and isolated H2 databases. Never run two persistent
 servers on port 18765 or stop processes by name.
 
@@ -146,10 +164,13 @@ The [Parallel sessions](/workshops/copilot-app/parallel/) chapter introduces
 separate worktrees when you have independent tasks to run together.
 Until then, run Maven commands from this same session's working directory.
 
-The shop belongs to a particular terminal and source copy. Before running a new
-version after code changes, use **Ctrl+C in the terminal that owns the shop**, then start the
-reviewed copy using the startup command above. If you cannot identify the owner,
-ask the facilitator; never stop an unknown process to free port 18765.
+The shop belongs to a particular terminal and source copy. **DevTools does not
+switch worktrees.** When a later exercise moves the running shop to another
+worktree, use **Ctrl+C in the terminal that owns the shop**, then start the
+reviewed copy using the startup command above. A manual restart is also a
+recovery option if compiled changes are not picked up or the server has stopped.
+If you cannot identify the owner, ask the facilitator; never stop an unknown
+process to free port 18765.
 
 ## Ready check
 

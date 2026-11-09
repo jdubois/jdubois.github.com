@@ -43,7 +43,9 @@ Stay in this session and on the current branch, with the committed quantity fix.
 Plan removal from this accepted implementation.
 DELETE /api/cart/items/{productId} returns 200 with the updated cart;
 a missing line returns 404 without changing the cart, including a catalogue
-product never added. Add a Remove button per line. Removing the last line
+product never added. Add a Remove button per line.
+Remove deletes the entire product line and all its units, not just one unit.
+Removing the last line
 leaves zero count/total. Preserve other items, quantities, server prices/totals.
 No new dependencies, checkout or query changes. Do not edit yet.
 ```
@@ -54,7 +56,9 @@ After reviewing the plan, return to **Interactive** and generate tests first:
 /spring-boot-testing
 Generate src/test/java/com/juliendubois/workshop/RemoveContractTest.java
 from our reviewed removal criteria using the existing HTTP test fixtures.
-Cover partial/last removal and missing lines, checking returned and stored state.
+Cover removal of one of two product lines, the last line and missing lines,
+checking returned and stored state. Include a line with quantity 3:
+removal deletes all 3 units and preserves the other product and its quantity.
 Do not retrieve reference tests or solutions, implement removal or change
 earlier tests.
 Show me the assertions for review; after approval, run the tests and confirm
@@ -63,10 +67,11 @@ they demonstrate missing removal behavior before implementing the feature.
 
 ## Canvas and UI feedback
 
-Stay in **the same workshop session, on its current branch**. Use the
-[startup-instruction prompt](/workshops/copilot-app/canvas/#startup-instructions)
-first, then the [Pick & polish prompt](/workshops/copilot-app/canvas/#pick-and-polish)
-on a selected UI element. Commit the reviewed instruction and UI changes,
+Stay in **the same workshop session, on its current branch**.
+[Open the running shop](/workshops/copilot-app/canvas/#browser-preview),
+then invoke **`/impeccable`** with the
+[Pick & polish prompt](/workshops/copilot-app/canvas/#pick-and-polish)
+on a selected UI element. Commit any reviewed UI changes,
 then continue to the query exercise in this same session.
 
 ## Investigate through MCP

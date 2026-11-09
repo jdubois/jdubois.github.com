@@ -18,6 +18,10 @@ skill and iterate on the generated code in the App.
 The quantity bug is fixed. Now build a new feature across the backend and UI,
 then refine it using tests and browser feedback.
 
+**Remove deletes the entire product line, including all its units.**
+For example, removing a line with 3 Notebooks removes all 3, not just one.
+Decreasing quantity is a different feature and is not part of this exercise.
+
 ## Start from the reviewed fix
 
 Continue in **the same workshop session, on its current branch**.
@@ -33,6 +37,7 @@ uncommitted changes. If not, stop. Keep the current session and branch.
 Customers want to remove a product from their cart without affecting the others.
 Plan a small backend and UI implementation with these acceptance criteria:
 - Each cart line has a Remove button.
+- Remove deletes the entire product line and all its units, not just one unit.
 - DELETE /api/cart/items/{productId} returns 200 with the updated cart.
 - Removing the final line leaves an empty cart with zero count and total.
 - Other products and their quantities stay unchanged.
@@ -45,8 +50,12 @@ Do not edit files yet; wait for my review.
 ```
 
 Review the plan in the **plan canvas on the right**. Ask for corrections if
-it omits the UI or an edge case. When the plan is ready, leave planning without
-launching implementation and return to **Interactive** in this same session.
+it omits the UI or an edge case.
+
+We will implement this plan, but **first generate and review tests that catch
+the missing feature**. Return to **Interactive** in this same session without
+launching implementation yet. The next step generates the tests; **Generate
+the backend and UI** then puts the reviewed plan into action.
 
 ## Generate the removal tests
 
@@ -60,6 +69,8 @@ from the removal acceptance criteria in our reviewed plan.
 Use the existing HTTP test fixtures, random ports and isolated H2.
 Cover removing one of two products, removing the final line, and removing
 a missing line, including a catalogue product never added to the cart.
+Include a line with quantity 3 and assert that removal deletes all 3 units,
+while preserving the other product and its quantity.
 Assert HTTP status, returned cart contents, quantities and totals,
 and verify stored state with a subsequent GET /api/cart.
 Generate tests from our criteria; do not retrieve reference tests or solutions.
@@ -92,6 +103,7 @@ Copilot to carry out this reviewed scope with fewer pauses. Send:
 ```copilot
 Implement the removal feature from our reviewed plan, including the DELETE
 endpoint and a working Remove button on each cart line.
+Remove must delete the entire product line, not decrement its quantity.
 Keep all reviewed tests and assertions unchanged.
 Preserve the quantity fix, other cart items, server-calculated totals
 and existing money representation. No new dependencies, checkout or query changes.
@@ -107,17 +119,17 @@ If a test fails, fix the implementation rather than weakening the assertions.
 
 ## Preview and iterate
 
-Stop the old shop with **Ctrl+C in its owning terminal**, then restart from this
-reviewed session's directory:
-
-```sh
-./mvnw spring-boot:run
-```
+Keep the shop running in this session's directory. The combined test run
+compiled the backend changes, so **DevTools** restarts the app automatically.
+Wait for startup to finish in its terminal. If the server is stopped or belongs
+to another worktree, follow the [startup guidance](/workshops/copilot-app/setup/#start-the-application).
 
 Open <a href="http://127.0.0.1:18765" target="_blank">the shop</a>.
-Add a Notebook and another product. Remove the Notebook and check that the other
-product, its quantity and the total remain correct. Remove the last product and
-confirm an empty cart with zero count/total. Reload to check the stored result.
+Add **3 Notebooks** and another product. Click **Remove** on the Notebook line:
+all 3 Notebooks should disappear, while the other product and its quantity stay
+unchanged and the total updates. Reload to confirm the entire Notebook line
+stays removed. Remove the last product and confirm an empty cart with zero
+count/total, including after reload.
 
 <figure>
   <img src="/workshops/copilot-app/assets/cart-feature.png" alt="The generated remove-item reference implementation leaves the Coffee mug in the cart after removing the Notebook." width="1600" height="1000" loading="lazy">
@@ -135,8 +147,9 @@ Rerun the cart and removal tests, then show me the diff before committing.
 ```
 
 Report your actual observation, not the example if it does not happen.
-After a correction, review the diff, rerun the combined test command above,
-restart the shop from this session and repeat the browser checks.
+After a correction, review the diff and rerun the combined test command above.
+Let DevTools finish any automatic restart, reload the browser and repeat the
+browser checks. Recreate sample data if the app restarted.
 
 ## Save the feature and continue
 

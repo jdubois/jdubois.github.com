@@ -45,6 +45,8 @@ If working in a separate reference checkout, replace `workshop-start` with
 /rubber-duck Review the full shopping-cart change from workshop-start
 to this checked result, including the quantity fix, removal, Canvas UI
 changes, query optimization and both parallel contributions.
+For this review only, I approve a read-only independent critic despite the
+starter's no-agents restriction. Keep AGENTS.md and all other restrictions unchanged.
 Look for concrete behavior regressions, missing edge-case coverage,
 incorrect prices/totals and evidence that does not match the code.
 Keep the existing acceptance criteria. Do not edit files, run the app,

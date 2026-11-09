@@ -58,8 +58,9 @@ in this session's existing worktree. Do not replace an existing branch; ask me
 if the name is taken. Preserve worker branches, main and other session checkouts.
 Read AGENTS.md. If needed, propose only a narrow instruction update permitting
 the explicitly approved mock-checkout implementation and five bounded subagents
-on this feature branch. Reserve checkout publishing and merging for the
-orchestrator after separate explicit approval of the integrated result.
+on this feature branch. Only the orchestrator may publish and merge checkout
+after separate explicit approval of the integrated result.
+The five specialists must not publish or merge.
 Preserve existing tests, stack, privacy and approvals.
 Show any instruction diff and wait for approval. Do not implement checkout,
 spawn subagents, push, open PRs or merge yet.
@@ -217,8 +218,13 @@ all **earlier reviewed tests**, boundary tests and **new checkout
 tests** must execute with no failures/errors/skips. The generated checkout
 tests are additional cases, not a new supplied reference checkpoint.
 
-Stop the old shop with **Ctrl+C in its owning terminal**. In this same
-feature branch's directory, restart the changed application:
+If the shop is already running in this session's worktree, **reuse it**:
+the integrated test run compiled the changes, and **DevTools** restarts the
+app automatically. Wait for startup to finish.
+
+If it is still running from another worktree, stop that shop with
+**Ctrl+C in its owning terminal**. Only if the server is not running from this
+feature branch's directory, start it here:
 
 ```sh
 ./mvnw spring-boot:run
@@ -323,13 +329,15 @@ Confirm the checked-out commit equals origin/main. If main has advanced since th
 merge, require passing checks for this revision too, then run ./mvnw test here.
 Confirm all earlier reviewed tests, boundary tests and new checkout tests
 execute without failures, errors or skips.
-Show the absolute directory and shop URL for restarting this verified application.
+Show the absolute directory and shop URL for previewing this verified application.
 Record the checkout PR, merge commit, verified main commit, checks and any blocker.
 ```
 
-The human still owns the one persistent server. Stop the previous shop with
-**Ctrl+C in its owning terminal**, then start the app from the absolute directory
-the orchestrator just verified:
+The human still owns the one persistent server. If it already runs from the
+absolute directory the orchestrator just verified, let **DevTools** reload
+the compiled merged-main changes and wait for startup to finish.
+If it belongs to another worktree, stop it with **Ctrl+C in its owning terminal**.
+Only if it is not running from the verified directory, start it there:
 
 ```sh
 ./mvnw spring-boot:run

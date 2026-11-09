@@ -95,6 +95,7 @@ class WorkshopScheduleTests(unittest.TestCase):
         for text in ["committed quantity fix",
                      "no uncommitted changes", "Remove button",
                      "returns 200 with the updated cart",
+                     "Remove deletes the entire product line and all its units, not just one unit",
                      "empty cart with zero count and total",
                      "Other products and their quantities stay unchanged",
                      "missing line returns 404",
@@ -107,6 +108,7 @@ class WorkshopScheduleTests(unittest.TestCase):
                      "Generate src/test/java/com/juliendubois/workshop/RemoveContractTest.java",
                      "do not retrieve reference tests or solutions",
                      "subsequent GET /api/cart",
+                     "quantity 3", "removal deletes all 3 units",
                      "Do not implement removal, change earlier tests",
                      "wait for my review"]:
             self.assertIn(text, tests)
@@ -121,6 +123,11 @@ class WorkshopScheduleTests(unittest.TestCase):
             with self.subTest(chapter=slug):
                 self.assertNotIn("supplied removal", chapter(slug))
         self.assertIn("```copilot\n/spring-boot-testing", chapter("prompts"))
+        self.assertIn("not decrement its quantity", feature)
+        self.assertIn("Add **3 Notebooks**", feature)
+        prompts = re.sub(r"\s+", " ", chapter("prompts"))
+        self.assertIn("Remove deletes the entire product line and all its units", prompts)
+        self.assertIn("removal deletes all 3 units", prompts)
 
     def test_quantity_fix_is_one_continuous_skill_exercise(self):
         skills = chapter("skills")
@@ -286,12 +293,27 @@ class WorkshopScheduleTests(unittest.TestCase):
     def test_instruction_permissions_are_staged_before_collaboration(self):
         canvas = re.sub(r"\s+", " ", chapter("canvas"))
         prompt = canvas.split("```copilot ", 1)[1].split("```", 1)[0]
-        for text in ["only when its chapter is reached and approved",
-                     "two isolated worktree tasks", "read-only independent critic",
-                     "five bounded checkout subagents", "separate approval",
-                     "publishing and merging", "wait for my approval"]:
-            self.assertIn(text, prompt)
-        self.assertIn("This amendment does not start those tasks", canvas)
+        for text in ["collaboration", "checkout", "subagents", "publish", "merge"]:
+            self.assertNotIn(text, prompt)
+        self.assertLessEqual(len(chapter("canvas").split("```copilot\n", 1)[1]
+                                 .split("```", 1)[0].strip().splitlines()), 10)
+        parallel = re.sub(r"\s+", " ", chapter("parallel"))
+        for text in ["Update only the collaboration rule",
+                     "UI changes in src/main/resources/static/",
+                     "test-only changes in CartBoundaryTest.java",
+                     "Keep checkout and other restrictions unchanged",
+                     "separate approval for publishing and merging",
+                     "wait for my approval", "Do not start workers"]:
+            self.assertIn(text, parallel)
+        self.assertLess(parallel.index("Update only the collaboration rule"),
+                        parallel.index("Commit only the accepted workshop changes"))
+        duck = re.sub(r"\s+", " ", chapter("rubber-duck"))
+        self.assertIn("For this review only, I approve a read-only independent critic", duck)
+        self.assertIn("Keep AGENTS.md and all other restrictions unchanged", duck)
+        agents = re.sub(r"\s+", " ", chapter("subagents"))
+        self.assertIn("narrow instruction update permitting", agents)
+        self.assertIn("explicitly approved mock-checkout implementation", agents)
+        self.assertIn("The five specialists must not publish or merge", agents)
 
     def test_boundary_regressions_have_separate_production_fix_ownership(self):
         parallel = re.sub(r"\s+", " ", chapter("parallel"))
@@ -366,7 +388,7 @@ class WorkshopScheduleTests(unittest.TestCase):
                      "do not prove their generated checkout works"]:
             with self.subTest(visible_requirement=text):
                 self.assertIn(text, visible)
-        for text in ["restore the accepted Canvas instruction/UI changes",
+        for text in ["restore any accepted Canvas UI changes",
                      "all 12 supplied tests pass before parallel work",
                      "participant's **own `main`**",
                      "changing\nthe remote alone does not make reference commits mergeable",
@@ -507,7 +529,7 @@ class WorkshopScheduleTests(unittest.TestCase):
             "Agent Merge and integration", "Rubber duck: critique and decision",
             "Five subagents: mock-checkout implementation", "Chronicle: one better habit"])
         finish = chapter("finish")
-        self.assertIn("startup instructions, Canvas UI changes", finish)
+        self.assertIn("prices, removal, Canvas UI changes", finish)
         self.assertIn("independent critique and checkout branch/commit", finish)
 
     def test_chapters_have_no_deadlines_or_timeboxes(self):
@@ -537,7 +559,7 @@ class WorkshopScheduleTests(unittest.TestCase):
         setup = chapter("setup")
         self.assertIn('annotated tag workshop-start', setup)
         self.assertNotIn("Record that SHA", setup)
-        for slug in ["setup", "skills", "generate", "canvas", "tools"]:
+        for slug in ["setup", "tools", "integrate", "subagents"]:
             with self.subTest(startup_chapter=slug):
                 self.assertIn("\n./mvnw spring-boot:run\n", chapter(slug))
         for path in HANDBOOK.glob("*.md"):
@@ -550,6 +572,31 @@ class WorkshopScheduleTests(unittest.TestCase):
                                           text, re.MULTILINE):
                     self.assertEqual(command, "./mvnw spring-boot:run")
         self.assertNotIn("`workshop-start` SHA", chapter("worksheet"))
+
+    def test_same_worktree_previews_use_devtools_after_compilation(self):
+        setup = re.sub(r"\s+", " ", chapter("setup"))
+        for text in ["compiled classpath", "not merely when Java source is saved",
+                     "Maven test commands compile Java and copy resources",
+                     "./mvnw compile", "DevTools does not switch worktrees",
+                     "Static HTML, CSS and JavaScript"]:
+            self.assertIn(text, setup.replace("**", ""))
+        for slug in ["skills", "generate", "canvas", "tools", "subagents"]:
+            with self.subTest(chapter=slug):
+                self.assertIn("DevTools", chapter(slug))
+        for slug in ["skills", "generate"]:
+            with self.subTest(same_worktree=slug):
+                self.assertNotIn("./mvnw spring-boot:run", chapter(slug))
+                self.assertIn("/setup/#start-the-application", chapter(slug))
+        canvas = re.sub(r"\s+", " ", chapter("canvas"))
+        self.assertIn("server already running from this session's directory", canvas)
+        self.assertIn("run ./mvnw compile", canvas)
+        self.assertIn("does not normally restart the app for static resources", canvas)
+        tools = re.sub(r"\s+", " ", chapter("tools"))
+        self.assertIn("Wait for DevTools before measuring again", tools)
+        self.assertIn("Recreate the exact workload", tools)
+        self.assertNotIn("Restart before measuring again", tools)
+        self.assertIn("**switching worktrees**", chapter("integrate"))
+        self.assertIn("Ctrl+C", chapter("integrate"))
 
     def test_checkout_and_git_bookkeeping_are_app_driven(self):
         setup = chapter("setup")
@@ -570,14 +617,13 @@ class WorkshopScheduleTests(unittest.TestCase):
                 self.assertIn("Commit only the reviewed", chapter(slug))
                 self.assertIn("do not create or switch branches", chapter(slug))
 
-    def test_canvas_preserves_startup_permissions_and_same_session_progress(self):
+    def test_canvas_preserves_preview_scope_and_same_session_progress(self):
         canvas = re.sub(r"\s+", " ", chapter("canvas"))
         for text in [
                 "**the same workshop session, on its current branch**",
-                "Update AGENTS.md only",
-                "human owns the one persistent server", "No payments or authentication",
-                'blanket "no agents" restriction', "Only change src/main/resources/static/",
-                "bundled impeccable skill", "**Pick & polish**",
+                "human-owned server",
+                "Only change src/main/resources/static/",
+                "`/impeccable`", "**Pick & polish**",
                 "If the selected interaction already works well",
                 "includes the quantity fix, removal feature and accepted Canvas changes",
                 "Keep this session and its current branch"]:
@@ -585,8 +631,43 @@ class WorkshopScheduleTests(unittest.TestCase):
                 self.assertIn(text, canvas)
         self.assertNotIn("Create a branch workshop-feature", chapter("generate"))
         self.assertIn("contains all those accepted changes", chapter("tools"))
-        self.assertIn("plus the reviewed Canvas AGENTS.md", chapter("parallel"))
+        self.assertIn("plus any reviewed Canvas UI changes", chapter("parallel"))
         self.assertIn("canvas-recovery", chapter("canvas"))
+        self.assertIn("```copilot\n/impeccable\n", chapter("canvas"))
+        self.assertNotIn("Use the bundled impeccable skill", chapter("canvas"))
+
+    def test_canvas_opens_preview_without_an_instruction_editing_exercise(self):
+        canvas = chapter("canvas")
+        for text in ["AGENTS.md", "project-instructions", "instruction and UI changes"]:
+            self.assertNotIn(text, canvas)
+        self.assertLess(canvas.index("## Open the running shop"),
+                        canvas.index("## Pick one interaction to improve"))
+        self.assertIn("Confirm which source directory owns the running shop", canvas)
+        self.assertIn("Do not start a second server", canvas)
+        self.assertIn("Commit only the reviewed UI changes, if any", canvas)
+        self.assertIn("/canvas/#browser-preview", chapter("prompts"))
+        for slug in ["prompts", "parallel", "facilitator", "finish", "worksheet", "index"]:
+            with self.subTest(surface=slug):
+                self.assertNotIn("/canvas/#project-instructions", chapter(slug))
+                self.assertNotIn("Canvas AGENTS.md", chapter(slug))
+                self.assertNotIn("Canvas instruction/UI changes", chapter(slug))
+
+    def test_canvas_refresh_is_agent_driven_after_approved_edits(self):
+        canvas = re.sub(r"\s+", " ", chapter("canvas"))
+        prompt = canvas.split("## Pick one interaction to improve", 1)[1].split(
+            "```copilot ", 1)[1].split("```", 1)[0]
+        for text in ["wait for my approval",
+                     "After applying an approved correction, run ./mvnw compile",
+                     "in this session's directory",
+                     "reload this existing Browser canvas and verify the change",
+                     "Keep the shop running",
+                     "Report compilation or refresh failures"]:
+            self.assertIn(text, prompt)
+        self.assertLess(prompt.index("wait for my approval"),
+                        prompt.index("After applying an approved correction"))
+        self.assertIn("reload the same Browser canvas automatically", canvas)
+        self.assertNotIn("In a second terminal", canvas)
+        self.assertIn("does not force a server restart", canvas)
 
     def test_rubber_duck_is_read_only_and_corrections_need_a_branch(self):
         duck = re.sub(r"\s+", " ", chapter("rubber-duck"))
@@ -830,9 +911,8 @@ class WorkshopScheduleTests(unittest.TestCase):
             with self.subTest(surface=slug):
                 self.assertIn("checkout PR", chapter(slug))
                 self.assertNotIn("checkout PR is optional", chapter(slug))
-        canvas = re.sub(r"\s+", " ", chapter("canvas"))
-        self.assertIn("only the orchestrator may publish and merge", canvas)
-        self.assertIn("after separate explicit approval", canvas)
+        self.assertIn("Only the orchestrator may publish and merge", agents)
+        self.assertIn("after separate explicit approval", agents)
 
     def test_checkout_verification_uses_merged_main_and_correct_running_copy(self):
         agents = re.sub(r"\s+", " ", chapter("subagents"))

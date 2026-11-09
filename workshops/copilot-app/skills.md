@@ -184,12 +184,10 @@ unrelated cleanup just because the summary sounds convincing.
 
 ## Verify the shop
 
-Stop the persistent app with **Ctrl+C in its owning terminal**, then restart it
-**from this reviewed session's directory**:
-
-```sh
-./mvnw spring-boot:run
-```
+Keep the shop running **from this reviewed session's directory**. The test run
+compiled the fix; **DevTools** restarts the app automatically. Wait for startup
+to finish in its terminal, then reload the browser. If the server is stopped or
+belongs to another worktree, follow the [startup guidance](/workshops/copilot-app/setup/#start-the-application).
 
 Open <a href="http://127.0.0.1:18765" target="_blank">the shop</a>.
 Reset the cart, add the Notebook twice, and reload: quantity **2**, total **€20**.
