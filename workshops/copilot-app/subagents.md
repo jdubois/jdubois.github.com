@@ -82,6 +82,8 @@ feature; the earlier merged `main` and worker branches stay intact.
 | Retry the same request ID | **200**, returning the same stored order; never create another order or clear a later cart |
 | Failure while creating the order | Roll back both order creation and cart clearing; report an error, not success |
 | UI | Place order, visible pending/error states, receipt and return to shopping; retain the request ID when retrying after a lost response |
+| Cart refresh fails | Show uncertain cart state and offer a GET-only refresh; a known receipt must not trigger another order POST |
+| Asynchronous completion | Cart totals, count and status agree with the authoritative cart; receipt totals stay separate; do not steal focus the user moved elsewhere |
 
 The server reads the cart and its prices; the browser does not submit trusted
 line items or totals. Receipt data must not change when the catalogue or cart
@@ -90,6 +92,9 @@ one order, not two successes with different IDs.
 Validate `requestId` first: invalid or missing IDs return 400 even when the
 cart is empty. For a valid ID, check for an existing order before checking
 the cart; a successful retry must not become an empty-cart error.
+Keep an unresolved request ID across reloads. A definitive 400 or 409 retires
+that attempt, but new checkout stays locked until an authoritative cart refresh
+succeeds. Storage failure must be visible, not silently replaced by a new ID.
 
 The current template has `CartService`, `CartRepository` and `CartController`,
 not a separate cart entity. Ask Copilot to inspect your actual implementation
@@ -227,6 +232,27 @@ cart, verify the required **409** through HTTP tests; do not enable it just
 for this demonstration. Confirm keyboard access and a narrow
 viewport. A disabled button alone does not prove server-side duplicate prevention;
 use the HTTP regression results for retry, rollback and concurrency evidence.
+Also move focus to the catalogue while a real response is pending: completion
+must respect that choice. Check the cart's live status as well as its visible
+total, and inspect the complete focus ring during natural Tab scrolling.
+
+<details markdown="1">
+<summary>Make failure and concurrency evidence meaningful</summary>
+
+The transaction boundary must include physical commit, not just the body of
+an annotated Java method. Inject failure after a real write and verify both
+order and cart roll back. For overlap, hold an uncommitted write and establish
+that a second request entered the server; two client futures alone are not proof.
+Compare receipts as parsed wire JSON so Java UUID or numeric node types do not
+create a test-harness mismatch.
+
+If simulating a lost response, let the real server commit, record its response,
+then discard delivery and retry the same ID after reload. Label fault injection;
+never fabricate a successful backend response. Save raw outcomes and viewport
+screenshots before assertions or cleanup, bound the probe, and close each owned
+helper even when another cleanup fails. An incomplete probe is not a pass.
+
+</details>
 
 Review **Changes**, the full starter-to-current result, tests and the running
 checkout before authorizing delivery. Include any corrections from the earlier
@@ -264,6 +290,8 @@ Address CI failures and review feedback only within the approved contract.
 Preserve all original acceptance tests, boundary tests and checkout regressions.
 Wait for the tests job and all required checks and approvals to pass for the
 current PR head. Missing, skipped, queued or failed checks are not a pass.
+Abort delivery if any identity, review or check read fails or times out.
+Never let a merge command run after a failed guard.
 Then squash-merge this checkout PR into main under this approval.
 Do not push directly to main, bypass protections, broaden permissions or delete branches.
 Ask before out-of-scope changes; stop and report unavailable required approval.

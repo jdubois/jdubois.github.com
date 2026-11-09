@@ -114,9 +114,13 @@ from this same session's directory so it serves the changed resources:
 ```
 
 Reload the canvas, add sample products again after the data reset, and check
-the actual result with keyboard
-navigation and a narrow viewport. Confirm removal, quantities and totals
-still work. Run:
+the actual result with keyboard navigation at narrow and desktop widths.
+Use **Tab before manually scrolling**: the whole focus outline, including its
+offset, must remain visible inside both the viewport and any scrolling list.
+A visible button box alone does not prove that its focus ring is unclipped.
+Collect observed defects together, approve one focused correction, then confirm
+the result rather than starting an edit/rebuild loop for every control.
+Confirm removal, quantities and totals still work. Run:
 
 ```sh
 ./mvnw -q -Dtest=BaselineTest,CartContractTest,RemoveContractTest test
