@@ -55,6 +55,18 @@ Record App actions only when their actual responses are available.
 Shop screenshots and saved HTTP captures do not prove an App interaction.
 Run newcomer and experienced pilots, including navigation and recovery.
 
+### Interrupted sessions
+
+Read the actual partial handoff first: source directory/revision, unfinished
+files, executed outcomes and owned helpers. Confirm cleanup before starting
+another preview. A query error with no detailed cause is not proof of an
+authentication failure. After a bounded retry following recovery, stop if the
+same failure repeats; do not create a retry or replacement-agent loop.
+
+If the participant approves a facilitator or single-agent takeover, record the
+execution-method change. Preserve earlier failures and coverage gaps; delivered
+code is not proof that the original independent or native App exercise completed.
+
 </details>
 
 ## Check the delivery handoffs
@@ -99,6 +111,7 @@ a fallback or reference demonstration is not a successful native App exercise.
 | Checkout coding or tests fail | Keep the checkout branch, mark it unfinished and retain the earlier reviewed result; no checkout reference solution is supplied |
 | Checkout publishing or merge blocked | Preserve branch/open PR; mark **verified locally; delivery blocked**. No direct push or substitute local merge into `main` |
 | Checkout merged but checks or preview fail | Record **merged; post-merge verification blocked**. Repairs need a new approved feature branch and PR |
+| Session query error or interruption | Preserve source, branches and partial evidence; an idle session is not completion. Resume only missing work, not the entire rehearsal |
 | Chronicle unavailable or privacy opt-out | Review the workshop transcript without analyzing broader history; mark usage figures unavailable |
 
 **CI:** queued/running means wait; absent, skipped or failed is not a pass.
@@ -119,6 +132,8 @@ or report local integration as Agent Merge completion.
 The [pinned revisions](/workshops/copilot-app/assets/references.json) and
 [recorded checks](/workshops/copilot-app/assets/checkpoint-checks.json)
 cover the three earlier tickets, **not checkout**.
+These historical pins also predate current-starter input and keyboard hardening;
+their counts and captures describe those exact revisions, not today's `main`.
 
 | Check | Tests | Expected result |
 |---|---:|---|
