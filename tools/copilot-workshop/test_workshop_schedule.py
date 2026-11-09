@@ -352,12 +352,13 @@ class WorkshopScheduleTests(unittest.TestCase):
                 self.assertNotIn("v2-start", prompt)
 
     def test_cache_recovery_does_not_discard_design_records(self):
-        canvas = re.sub(r"\s+", " ", chapter("canvas"))
+        recovery = re.sub(r"\s+", " ", chapter("facilitator"))
         for text in ["untracked `.impeccable/hook.cache.json`",
                      "local Git exclude", "review it before approval",
                      "delete the whole directory or ignore all `.impeccable/`",
                      "Keep intentional design records"]:
-            self.assertIn(text, canvas)
+            self.assertIn(text, recovery)
+        self.assertNotIn(".impeccable/hook.cache.json", chapter("canvas"))
 
     def test_agent_evidence_and_empty_checkout_do_not_require_invented_activity(self):
         agents = re.sub(r"\s+", " ", chapter("subagents"))
@@ -580,7 +581,7 @@ class WorkshopScheduleTests(unittest.TestCase):
                      "./mvnw compile", "DevTools does not switch worktrees",
                      "Static HTML, CSS and JavaScript"]:
             self.assertIn(text, setup.replace("**", ""))
-        for slug in ["skills", "generate", "canvas", "tools", "subagents"]:
+        for slug in ["skills", "generate", "tools", "subagents"]:
             with self.subTest(chapter=slug):
                 self.assertIn("DevTools", chapter(slug))
         for slug in ["skills", "generate"]:
@@ -590,7 +591,7 @@ class WorkshopScheduleTests(unittest.TestCase):
         canvas = re.sub(r"\s+", " ", chapter("canvas"))
         self.assertIn("server already running from this session's directory", canvas)
         self.assertIn("run ./mvnw compile", canvas)
-        self.assertIn("does not normally restart the app for static resources", canvas)
+        self.assertIn("Keep the shop running", canvas)
         tools = re.sub(r"\s+", " ", chapter("tools"))
         self.assertIn("Wait for DevTools before measuring again", tools)
         self.assertIn("Recreate the exact workload", tools)
@@ -624,7 +625,7 @@ class WorkshopScheduleTests(unittest.TestCase):
                 "human-owned server",
                 "Only change src/main/resources/static/",
                 "`/impeccable`", "**Pick & polish**",
-                "If Remove already matches Add to cart",
+                "If it already meets these criteria",
                 "includes the quantity fix, removal feature and accepted Canvas changes",
                 "Keep this session and its current branch"]:
             with self.subTest(requirement=text):
@@ -657,34 +658,45 @@ class WorkshopScheduleTests(unittest.TestCase):
         prompt = canvas.split("## Pick one interaction to improve", 1)[1].split(
             "```copilot ", 1)[1].split("```", 1)[0]
         for text in ["wait for my approval",
-                     "After applying an approved correction, run ./mvnw compile",
+                     "After approval, apply it and run ./mvnw compile",
                      "in this session's directory",
-                     "reload this existing Browser canvas and verify the change",
+                     "Reload this existing Browser canvas and verify the result",
                      "Keep the shop running",
-                     "Report compilation or refresh failures"]:
+                     "report compilation or refresh failures"]:
             self.assertIn(text, prompt)
         self.assertLess(prompt.index("wait for my approval"),
-                        prompt.index("After applying an approved correction"))
+                        prompt.index("After approval"))
         self.assertIn("reload the same Browser canvas automatically", canvas)
         self.assertNotIn("In a second terminal", canvas)
-        self.assertIn("does not force a server restart", canvas)
+        self.assertIn("Keep the shop running", prompt)
 
-    def test_canvas_style_request_reuses_add_to_cart_theme(self):
+    def test_canvas_style_request_uses_compact_secondary_button(self):
         canvas = re.sub(r"\s+", " ", chapter("canvas"))
         prompt = canvas.split("## Pick one interaction to improve", 1)[1].split(
             "```copilot ", 1)[1].split("```", 1)[0]
-        for text in ["Style this Remove button as a filled button",
-                     "same visual treatment as Add to cart",
-                     "Reuse the existing button styles and theme tokens",
-                     "hover, focus and disabled states",
-                     "do not introduce a new theme",
-                     "Keep its Remove label, accessible name, keyboard access",
-                     "whole-line DELETE behavior", "Preserve visible focus",
-                     "If Remove already matches Add to cart",
+        for text in ["Make this Remove button more compact",
+                     "use the existing secondary theme color",
+                     "not Add to cart's primary styling",
+                     "Keep its label, accessibility and whole-line DELETE behavior",
+                     "visible keyboard focus", "usable click/tap target",
+                     "If it already meets these criteria",
                      "say no change is needed"]:
             self.assertIn(text, prompt)
         self.assertIn("Compare **Remove** with **Add to cart**", canvas)
+        self.assertIn("Remove should be compact and secondary", canvas)
+        self.assertNotIn("same visual treatment as Add to cart", canvas)
         self.assertIn("removal still deletes the whole product line", canvas)
+        self.assertLessEqual(len(prompt.split()), 110)
+
+    def test_canvas_postprompt_guidance_stays_concise(self):
+        section = chapter("canvas").split("## Pick one interaction to improve", 1)[1]
+        guidance = section.split("```copilot\n", 1)[1].split("```", 1)[1].split(
+            "<details", 1)[0]
+        self.assertLessEqual(len(guidance.split()), 140)
+        self.assertIn("keyboard focus remains fully visible",
+                      re.sub(r"\s+", " ", guidance))
+        self.assertIn("All tests must pass without weakening assertions", guidance)
+        self.assertEqual(section.count("<details"), 1)
 
     def test_rubber_duck_is_read_only_and_corrections_need_a_branch(self):
         duck = re.sub(r"\s+", " ", chapter("rubber-duck"))
