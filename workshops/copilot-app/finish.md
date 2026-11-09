@@ -77,7 +77,7 @@ use the preserved result and explicitly record that it is not merged:
 ./mvnw test
 ```
 
-All baseline, generated cart, supplied removal/query, boundary and checkout
+All baseline, generated cart/removal/query, boundary and checkout
 tests must execute with no failures/errors/skips. Report actual counts and
 check the reports for every acceptance class, `CartBoundaryTest` and
 `CheckoutContractTest`; no reviewed case may be removed or weakened.

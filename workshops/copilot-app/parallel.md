@@ -16,18 +16,22 @@ reviewed version with clear file ownership.
 ## Bring the reviewed work into main
 {: #update-main}
 
-First, stay in the session where you finished the query fix, normally
-**Cart: query investigation**. After reviewing the completed cart, removal
-and query changes, put those **three completed tickets into `main` through
+Until now, you have worked in **one session on one branch**, saving reviewed
+steps as commits. This chapter introduces separate worktrees for independent
+tasks.
+
+Stay in the **original workshop session** where you finished the query fix.
+After reviewing the completed cart, removal and query changes,
+put those **three completed tickets into `main` through
 one reviewed PR**. This gives both workers a normal, up-to-date starting point.
-Paste this prompt in the query session:
+Paste this prompt in the original workshop session:
 
 ```copilot
 Confirm origin is my own workshop repository, not the template repository.
 Commit only the accepted workshop changes, if not yet committed.
 Fetch origin and show this session's complete diff against origin/main.
 Confirm it includes the quantity fix, removal feature, query optimization
-and all baseline, generated cart, supplied removal and query tests,
+and all baseline and generated cart, removal and query tests,
 plus the reviewed Canvas AGENTS.md and UI changes.
 Run ./mvnw test and report counts.
 Stop if any test fails or an acceptance case is skipped.
@@ -47,10 +51,10 @@ Do not bypass protections or include unreviewed changes.
 Confirm GitHub reports the PR as Merged.
 ```
 
-**Do not start the workers until the PR is Merged.** In the query session,
+**Do not start the workers until the PR is Merged.** In the original workshop session,
 ask Copilot to fetch `origin/main`, confirm its merged result contains all
-three tickets, the reviewed Canvas instruction/UI changes and the 12 acceptance
-tests, and report the new starting commit.
+three tickets, the reviewed Canvas instruction/UI changes and all earlier
+reviewed tests, and report the new starting commit.
 This includes squash merges; the original ticket commits need not be ancestors.
 Keep the PR link and shared starting commit on the
 [worksheet](/workshops/copilot-app/worksheet/#parallel-handoff).
@@ -131,7 +135,7 @@ assigned task. Review the finding and use the separate correction path below.
 <summary>If a boundary test exposes an application bug</summary>
 
 Keep the test worker's reviewed failing test commit. In the existing
-**Cart: query investigation** session, ask Copilot to prepare a separate
+original workshop session, ask Copilot to prepare a separate
 production-fix feature branch from the shared accepted starting point.
 Give it the exact failing request, expected status and unchanged-state rule.
 Review its plan before permitting edits.

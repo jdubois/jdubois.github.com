@@ -79,8 +79,8 @@ and let the human manage the running shop.
 
 - Give exact, working build, run and test commands, including required versions
   and any setup steps. Prefer the project's wrapper, such as `./mvnw`.
-- Explain non-obvious conventions and constraints, such as tests that need
-  activation before the test runner can discover them.
+- Explain non-obvious conventions and constraints, such as HTTP tests using
+  random ports and isolated databases.
 - Stay short and current. Link to detailed documentation instead of copying
   it, and update commands when the workflow changes.
 
@@ -136,22 +136,18 @@ Find the composer, mode/model controls and **Changes** view.
 Your worktree is a separate copy: run and preview the code from this session,
 not the repository's original checkout.
 
-### Session handoffs
-{: #session-handoffs}
+Stay in **this session and on its current branch** for the quantity fix,
+removal feature, Canvas and MCP exercises. You don't need a new session,
+a named handoff branch or a switch to `main` between these steps.
+Review each result and ask Copilot to commit only the accepted changes;
+those commits are your checkpoints.
 
-When a chapter asks for a new session, carry forward your reviewed code:
-
-1. Review the changes in the App, then ask Copilot to commit only the changes you approve.
-2. Ask Copilot to create the branch named in that chapter, such as `workshop-quantity`. Do not overwrite an existing branch.
-3. Create the next session with **New worktree** and select that branch as its base. Before editing, ask Copilot to confirm that it starts from the saved commit and has no uncommitted changes.
-
-The **branch name** selects the starting code; the **session title** is just a
-label. If the branch is missing from the picker, continue in the current
-session rather than starting from the default branch. Run Maven commands in
-the active session's working directory; ask Copilot to confirm the path if unsure.
+The [Parallel sessions](/workshops/copilot-app/parallel/) chapter introduces
+separate worktrees when you have independent tasks to run together.
+Until then, run Maven commands from this same session's working directory.
 
 The shop belongs to a particular terminal and source copy. Before running a new
-copy, use **Ctrl+C in the terminal that owns the old shop**, then start the
+version after code changes, use **Ctrl+C in the terminal that owns the shop**, then start the
 reviewed copy using the startup command above. If you cannot identify the owner,
 ask the facilitator; never stop an unknown process to free port 18765.
 

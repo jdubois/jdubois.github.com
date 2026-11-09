@@ -31,7 +31,7 @@ Rehearse with the App build and accounts you will use.
 
 - The three Java skills are repository-bundled; **impeccable** is App-bundled. Demonstrate loading guidance, not reinstalling the workshop's pinned copies.
 - Follow the [Canvas chapter](/workshops/copilot-app/canvas/): review the narrow `AGENTS.md` amendment, startup directory and one human-owned server. Do not remove all project constraints.
-- Try Pick & polish on an observed issue. Save `workshop-feature` **after** the accepted Canvas instruction/UI changes, so the query session inherits them.
+- Keep quantity, removal, Canvas and MCP in one session on its current branch. Commit each reviewed result; introduce separate worktrees only for the parallel tasks.
 
 ### Review and five-subagent checkout
 
@@ -76,7 +76,7 @@ Before checkout, the normal path has **three PRs targeting `main`**:
 
 | Order | Required handoff |
 |---|---|
-| 1. Preparation PR | Merge the three accepted tickets, generated and supplied tests and reviewed Canvas instruction/UI changes. Confirm updated `origin/main` before starting workers |
+| 1. Preparation PR | Merge the three accepted tickets, generated tests and reviewed Canvas instruction/UI changes. Confirm updated `origin/main` before starting workers |
 | 2. UI worker PR | Both workers start from that same updated `main`. Review UI repairs with Agent Merge's **Merge pull request** off; authorize this PR only, then confirm **Merged** and passing checks on `main` |
 | 3. Boundary-test PR | Bring updated `main` into the test worker branch. Review its diff and fresh CI, then separately authorize its merge |
 
@@ -134,8 +134,10 @@ The [pinned revisions](/workshops/copilot-app/assets/references.json) and
 cover the three earlier tickets, **not checkout**.
 These historical pins also predate current-starter input and keyboard hardening;
 their counts and captures describe those exact revisions, not today's `main`.
-The table uses the supplied reference quantity test. In the normal workshop,
-participants generate `CartContractTest`; its count and failures vary.
+The table uses historical reference tests. In the normal workshop, participants
+generate `CartContractTest`, `RemoveContractTest` and `QueryContractTest`;
+their counts and failures vary. The current learner starter contains no
+ready-made exercise tests.
 
 | Check | Tests | Expected result |
 |---|---:|---|
@@ -147,9 +149,12 @@ participants generate `CartContractTest`; its count and failures vary.
 | After feature, activate `QueryContractTest` | 2 | Two failures: 9/17 SELECTs, expected 1 |
 | After performance, all four classes | 12 | Pass |
 
-Reference acceptance classes live in `teaching/` until activated in the test
-source directory. Review and commit them before implementation; keep their
-assertions unchanged. Boundary and checkout tests add cases beyond these 12.
+Facilitator test snapshots are maintained separately in the website repository's
+`tools/copilot-workshop/reference-tests/`, excluded from the published site.
+The pinned historical checkpoints below retain their own `teaching/` classes
+for reproducing these recorded counts. Use those files only in a separate
+reference checkout; never replace reviewed learner tests. Boundary and
+checkout tests add cases beyond the historical 12.
 
 ### Recover without losing work
 {: #recover-without-losing-work}
@@ -168,7 +173,7 @@ Confirm the printed SHA matches. For another checkpoint, use its full SHA
 below and a fresh directory name. If the commit is unavailable, stop.
 
 1. Connect a new App session to the reference copy. Check its directory and starting commit; activate any required teaching tests there and run the matching checks.
-2. For quantity-fix recovery, create `git branch workshop-quantity HEAD` before the removal session. For feature recovery, complete Canvas before saving `workshop-feature`.
+2. Continue the remaining sequential exercises in that reference session on its current branch, committing reviewed results. For feature recovery, complete Canvas before the query exercise.
 3. For performance recovery, restore the accepted Canvas instruction/UI changes, checking startup paths for this copy, and activate all three teaching classes unchanged. Confirm all 12 supplied tests pass before parallel work.
 4. To resume GitHub delivery, apply the reviewed reference changes and any accepted Canvas work in a new worktree based on the participant's **own `main`**. Review the complete diff and rerun tests before the preparation PR. If GitHub is blocked, use the linked local recovery instead.
 

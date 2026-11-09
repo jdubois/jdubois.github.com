@@ -99,7 +99,7 @@ succeeds. Storage failure must be visible, not silently replaced by a new ID.
 The current template has `CartService`, `CartRepository` and `CartController`,
 not a separate cart entity. Ask Copilot to inspect your actual implementation
 before choosing transaction and concurrency boundaries.
-Keep the existing one-SELECT **GET `/api/cart`** budget and supplied query
+Keep the existing one-SELECT **GET `/api/cart`** budget and reviewed query
 tests unchanged when adding checkout reads.
 
 ## Give each subagent a bounded job
@@ -125,7 +125,7 @@ Receipt fields are orderId, requestId, items, itemCount and totalCents;
 item fields are productId, name, priceCents, quantity and lineTotalCents.
 Snapshot server data, create the order and clear the cart atomically.
 Retries, including concurrent ones, must not duplicate orders or clear a later cart.
-Keep all earlier behavior and supplied tests unchanged. No new dependencies,
+Keep all earlier behavior and reviewed tests unchanged. No new dependencies,
 payments, authentication, personal data or external services.
 Assign exact, non-overlapping files to five roles: Order model, Checkout service,
 REST API, UI and Acceptance tests. Identify dependencies and explain how

@@ -29,7 +29,8 @@ is for another project; the workshop's pinned skills are already installed.
 Generate src/test/java/com/juliendubois/workshop/CartContractTest.java
 from the acceptance criteria in our plan, using the existing test fixtures.
 Cover quantity accumulation, totals, new products and rejected input.
-Do not copy the teaching test or change production code or dependencies.
+Do not retrieve reference tests or solutions, or change production code
+or dependencies.
 Explain how you used the skill and show me the diff for review.
 After my approval, run the tests and confirm they expose the quantity bug.
 No new dependencies, Docker, skipped tests or unrelated refactors.
@@ -38,21 +39,35 @@ No new dependencies, Docker, skipped tests or unrelated refactors.
 ## Generate a feature
 
 ```copilot
-Add removal to the accepted cart implementation. Use spring-boot-testing.
+Stay in this session and on the current branch, with the committed quantity fix.
+Plan removal from this accepted implementation.
 DELETE /api/cart/items/{productId} returns 200 with the updated cart;
-a missing line returns 404 without changing the cart. Add a Remove button per line.
-Preserve other products, quantities, server prices and totals.
-Review the plan first, then implement and run the existing tests plus removal tests.
-Keep the query unchanged; that is a later ticket.
+a missing line returns 404 without changing the cart, including a catalogue
+product never added. Add a Remove button per line. Removing the last line
+leaves zero count/total. Preserve other items, quantities, server prices/totals.
+No new dependencies, checkout or query changes. Do not edit yet.
+```
+
+After reviewing the plan, return to **Interactive** and generate tests first:
+
+```copilot
+/spring-boot-testing
+Generate src/test/java/com/juliendubois/workshop/RemoveContractTest.java
+from our reviewed removal criteria using the existing HTTP test fixtures.
+Cover partial/last removal and missing lines, checking returned and stored state.
+Do not retrieve reference tests or solutions, implement removal or change
+earlier tests.
+Show me the assertions for review; after approval, run the tests and confirm
+they demonstrate missing removal behavior before implementing the feature.
 ```
 
 ## Canvas and UI feedback
 
-Stay in **Cart: remove item**. Use the
+Stay in **the same workshop session, on its current branch**. Use the
 [startup-instruction prompt](/workshops/copilot-app/canvas/#startup-instructions)
 first, then the [Pick & polish prompt](/workshops/copilot-app/canvas/#pick-and-polish)
-on a selected UI element. The chapter saves `workshop-feature` only after
-the reviewed instruction and UI changes, so the query session keeps them.
+on a selected UI element. Commit the reviewed instruction and UI changes,
+then continue to the query exercise in this same session.
 
 ## Investigate through MCP
 
@@ -63,6 +78,20 @@ Select the recent GET /api/cart for the eight-product workload;
 read get_request_profile with that returned ID.
 Check that the request matches this workload and explain the product SELECTs.
 No dashboard tour, scans, extra tools, source edits or server restart yet.
+```
+
+After reviewing the evidence, generate the query-budget tests:
+
+```copilot
+/spring-boot-testing
+Generate src/test/java/com/juliendubois/workshop/QueryContractTest.java.
+Require 1 SELECT for completed HTTP GET /api/cart with 8 and 16 distinct
+products. Seed first, clear Hibernate statistics, then record counts immediately
+after the response and before verification queries. Assert all returned cart
+fields and totals against seeded data. Use existing real HTTP/database fixtures.
+Do not retrieve reference tests, change production code or add dependencies.
+Show the assertions for review; after approval, run the tests and confirm
+the query budget fails before optimizing. Test counts may vary.
 ```
 
 ## Parallel worker cards

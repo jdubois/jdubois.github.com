@@ -77,17 +77,16 @@ and ask for help whenever you need it.
 </figure>
 
 1. [Investigate with Copilot](/workshops/copilot-app/ticket/), using a reproducible cart bug.
-2. [Choose modes and effort](/workshops/copilot-app/modes/), then [install and use skills](/workshops/copilot-app/skills/) with the bundled Java guidance and a regression test.
-3. [Review and verify changes](/workshops/copilot-app/verify/) to the repeated-add behavior.
-4. [Generate and iterate](/workshops/copilot-app/generate/) to add item removal.
-5. [Use Canvas and Pick & polish](/workshops/copilot-app/canvas/), with startup instructions and **impeccable**.
-6. [Investigate runtime with MCP](/workshops/copilot-app/tools/), using the N+1 query as the example.
-7. [Merge the three accepted tickets into main, then start two isolated sessions](/workshops/copilot-app/parallel/) to improve the empty-cart experience and add boundary tests.
-8. [Merge PRs with Agent Merge](/workshops/copilot-app/integrate/) into `main`, one worker at a time.
-9. [Review with rubber duck](/workshops/copilot-app/rubber-duck/).
-10. [Coordinate five subagents](/workshops/copilot-app/subagents/) to build mock checkout, then have the orchestrator deliver one reviewed PR and verify the merged app on `main`.
-11. [Improve token usage with Chronicle](/workshops/copilot-app/tokens/) using the workshop sessions.
-12. [Review the full change and hand off](/workshops/copilot-app/finish/#final-review).
+2. [Choose modes and effort](/workshops/copilot-app/modes/), then [use a skill to fix the bug](/workshops/copilot-app/skills/): generate tests, observe the failure, implement, review and verify.
+3. [Generate and iterate](/workshops/copilot-app/generate/) to add item removal.
+4. [Use Canvas and Pick & polish](/workshops/copilot-app/canvas/), with startup instructions and **impeccable**.
+5. [Investigate runtime with MCP](/workshops/copilot-app/tools/), using the N+1 query as the example.
+6. [Merge the three accepted tickets into main, then start two isolated sessions](/workshops/copilot-app/parallel/) to improve the empty-cart experience and add boundary tests.
+7. [Merge PRs with Agent Merge](/workshops/copilot-app/integrate/) into `main`, one worker at a time.
+8. [Review with rubber duck](/workshops/copilot-app/rubber-duck/).
+9. [Coordinate five subagents](/workshops/copilot-app/subagents/) to build mock checkout, then have the orchestrator deliver one reviewed PR and verify the merged app on `main`.
+10. [Improve token usage with Chronicle](/workshops/copilot-app/tokens/) using the workshop sessions.
+11. [Review the full change and hand off](/workshops/copilot-app/finish/#final-review).
 
 ## What you will leave with
 

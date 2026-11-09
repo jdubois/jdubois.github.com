@@ -1,18 +1,18 @@
 ---
 layout: default
-title: Install and use skills
-description: "Understand skill installation and loading, then use the bundled Java guidance to establish a failing regression test."
+title: Use a skill to fix the bug
+description: "Use Java skill guidance to generate regression tests, fix the quantity bug, review the changes and verify the shop."
 permalink: /workshops/copilot-app/skills/
 workshop: true
-next: verify
-next_title: Review and verify changes
+next: generate
+next_title: Generate and iterate
 ---
 
 ## What you will learn
 
-Find and load a relevant skill in Copilot App, understand how to install it
-in another project, and use its guidance to establish a failing regression
-test before implementation.
+Find and load a relevant skill in Copilot App, generate tests that expose the
+bug, then guide the fix, review the changes and verify the result.
+You will also learn how to install skills in another project.
 
 ## What is a skill?
 
@@ -113,7 +113,7 @@ Use the existing JUnit and HTTP test fixtures, random ports and isolated H2.
 Cover repeated additions, adding to an existing quantity, a new product,
 quantity limits and unchanged state after rejected input.
 Assert server-calculated totals as well as quantities.
-Generate the tests rather than copying teaching/CartContractTest.java.
+Generate tests from our criteria; do not retrieve reference tests or solutions.
 Do not change production code, add dependencies or weaken existing tests.
 Show me the test diff and wait for my review before running or committing.
 ```
@@ -138,18 +138,86 @@ or a run with no tests are not evidence of the bug. If everything passes,
 check that the generated tests actually reproduce repeated additions.
 
 Once the reviewed tests demonstrate the bug, ask Copilot to commit only the
-test changes. Keep their assertions unchanged while implementing the fix in
-the next chapter. The `teaching/` quantity test remains a facilitator fallback,
-not the generation exercise; later chapters still use supplied removal and
-query tests.
+test changes. Keep their assertions unchanged while implementing the fix below.
+The starter contains no ready-made exercise tests. The removal and query
+exercises also generate their tests; reference tests are separate facilitator
+resources, not files to copy during this exercise.
 
 If setup or skill loading is blocked, ask the facilitator for help. If you use
 a reference example, note which steps you ran yourself.
 
 <figure>
   <a href="/workshops/copilot-app/assets/illustration-skills-and-tests.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-skills-and-tests.svg" alt="Conceptual testing sequence: load java-junit, generate and review regression tests that fail on the quantity bug, then verify the approved fix with baseline and generated cart tests passing." width="1440" height="800" loading="lazy"></a>
-  <figcaption>Skill guidance supplies the method; executed tests supply the evidence. The final stage previews the next chapter's verification.</figcaption>
+  <figcaption>Use the skill to generate tests, demonstrate the bug, then verify the fix without weakening the assertions.</figcaption>
 </figure>
+
+## Implement the agreed fix
+
+Stay in **Cart: quantity bug**, in **Interactive** mode. You have reviewed the
+plan and observed the failing regression tests. Now authorize the production-fix
+step:
+
+```copilot
+Implement the quantity fix from our reviewed plan.
+Keep the reviewed regression assertions and all existing tests unchanged.
+Preserve validation, server-calculated prices/totals and other cart items.
+Do not add dependencies or implement removal, checkout or query optimization.
+Run ./mvnw -Dtest=BaselineTest,CartContractTest test.
+Show me the changes and test results for review before committing.
+```
+
+The **4 baseline tests and all generated cart tests** must pass, with no
+errors/skips. The total depends on the generated tests. Compare the cart cases
+with the failing run: keep every reviewed assertion and confirm the same
+regressions now pass.
+Check the test command and its output, not just Copilot's summary.
+
+## Review in the App
+
+Open **Changes**. Find the accumulated-quantity change, confirm validation still
+applies to the sum, and inspect every changed file. Review any added tests.
+The generated regression tests should retain the assertions you reviewed.
+
+**App tip:** give file-specific feedback. “Keep `CartRepository.java` unchanged;
+this ticket only fixes quantity accumulation” is actionable. Do not accept
+unrelated cleanup just because the summary sounds convincing.
+
+## Verify the shop
+
+Stop the persistent app with **Ctrl+C in its owning terminal**, then restart it
+**from this reviewed session's directory**:
+
+```sh
+./mvnw spring-boot:run
+```
+
+Open <a href="http://127.0.0.1:18765" target="_blank">the shop</a>.
+Reset the cart, add the Notebook twice, and reload: quantity **2**, total **€20**.
+An App browser canvas can keep the preview beside your work where available;
+a normal browser works too.
+
+<figure>
+  <img src="/workshops/copilot-app/assets/cart-fixed.png" alt="The real repaired shop after two Notebook additions: quantity 2, total €20." width="1600" height="1000" loading="lazy">
+  <figcaption>The reference fix. Run the tests and preview your own version to check the same behavior.</figcaption>
+</figure>
+
+## Save your progress
+
+After reviewing and verifying the fix, ask Copilot:
+
+```copilot
+Commit only the reviewed quantity fix and its test changes, if not yet committed.
+Confirm the working tree is clean and report the saved commit.
+Keep this session and its current branch; do not create or switch branches.
+```
+
+Continue to [Generate and iterate](/workshops/copilot-app/generate/) in
+**this same session, on the same branch**.
+
+If you are stuck, keep your unfinished work and review
+the <a href="https://github.com/jdubois/copilot-shopping-cart-workshop/tree/v2-bugfix" target="_blank">v2-bugfix reference checkpoint</a>
+in a [separate reference checkout](/workshops/copilot-app/facilitator/#recovery).
+Do not overwrite your session.
 
 ## What you have learned
 
@@ -157,3 +225,5 @@ a reference example, note which steps you ran yourself.
 - Ask Copilot to use a specific installed skill and explain how its guidance applies to the current task.
 - Keep the workshop's stack and dependency limits even when a general-purpose skill suggests other tools.
 - Generate regression tests from acceptance criteria, review them in **Changes** and demonstrate the bug before implementing the fix.
+- Guide the fix without weakening the tests, review every changed file and verify that the shop keeps the correct quantity after a reload.
+- Save reviewed work as a commit and continue the next task in the same session and branch.

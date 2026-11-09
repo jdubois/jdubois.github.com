@@ -6,10 +6,8 @@
   slug: ticket/
 - title: Modes and effort
   slug: modes/
-- title: Install and use skills
+- title: Use a skill to fix the bug
   slug: skills/
-- title: Review and verify changes
-  slug: verify/
 - title: Generate and iterate
   slug: generate/
 - title: Canvas and Pick & polish

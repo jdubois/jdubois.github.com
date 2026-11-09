@@ -34,8 +34,9 @@ See the <a href="https://docs.github.com/en/copilot/how-tos/github-copilot-app/w
 ## Teach Copilot how to run this project
 {: #startup-instructions}
 
-Stay in **Cart: remove item**, with the accepted quantity fix and removal
-feature. Use **Interactive**. Read the existing `AGENTS.md` first, then ask:
+Stay in **the same workshop session, on its current branch**, with the accepted
+quantity fix and removal feature. Use **Interactive**.
+Read the existing `AGENTS.md` first, then ask:
 
 ```copilot
 Update AGENTS.md only. Preserve the existing acceptance tests, stack,
@@ -126,7 +127,7 @@ Confirm removal, quantities and totals still work. Run:
 ./mvnw -Dtest=BaselineTest,CartContractTest,RemoveContractTest test
 ```
 
-Expect all baseline, generated cart and supplied removal tests to pass without
+Expect all baseline and generated cart/removal tests to pass without
 removing cases or weakening reviewed assertions.
 Record the selected issue, skill guidance actually used and before/after
 observations on the [worksheet](/workshops/copilot-app/worksheet/).
@@ -155,25 +156,23 @@ Do not install an unrelated canvas, expose a public tunnel or expand permissions
 
 </details>
 
-## Save the reviewed feature for the next session
-{: #feature-handoff}
+## Save your progress
 
 After reviewing the instruction and UI changes, ask Copilot:
 
 ```copilot
 Commit only the reviewed AGENTS.md and UI changes, if not yet committed.
-Create a branch workshop-feature at that accepted commit without switching branches.
-Do not replace an existing branch. Confirm the working tree is clean and
-the handoff includes the quantity fix, removal feature and accepted Canvas changes.
+Confirm the working tree is clean and the saved result includes the
+quantity fix, removal feature and accepted Canvas changes.
+Keep this session and its current branch; do not create or switch branches.
 ```
 
-If that branch already exists from an earlier workshop edition, stop and ask
-Copilot to preserve it and provide a distinct reviewed handoff for the next
-session. Do not silently overwrite it or start the query task from older code.
+Continue to [Investigate runtime with MCP](/workshops/copilot-app/tools/) in
+**this same session, on the same branch**.
 
 ## What you have learned
 
 - Distinguish the running server from the Browser canvas that displays it.
 - Keep startup and bounded workshop permissions in `AGENTS.md`, and run the correct session's checkout.
 - Use Pick & polish and **impeccable** for one observed UI issue, then verify behavior rather than trusting the preview alone.
-- Preserve the accepted instruction and UI changes in the next session's handoff.
+- Commit the accepted instruction and UI changes before continuing in the same session.

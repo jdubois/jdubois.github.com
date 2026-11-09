@@ -5,7 +5,7 @@ description: "Use Plan mode, set task boundaries and review the approach before 
 permalink: /workshops/copilot-app/modes/
 workshop: true
 next: skills
-next_title: Install and use skills
+next_title: Use a skill to fix the bug
 ---
 
 ## What you will learn
@@ -22,7 +22,7 @@ beside the composer; the conversation and working directory stay the same.
 | Mode | When to use it |
 |---|---|
 | **Plan** | Ask Copilot to investigate and propose an approach, then review it before implementation. Use it now to plan the quantity fix. |
-| **Interactive** | Work with Copilot step by step, giving feedback and reviewing actions. Use it for the next chapters' tests and fix. |
+| **Interactive** | Work with Copilot step by step, giving feedback and reviewing actions. Use it for the next chapter's tests and fix. |
 | **Autopilot** | Let Copilot carry out a clearly scoped task with fewer pauses. Try it later, after agreeing on the feature, permissions and completion criteria. |
 
 Mode and permissions are separate. Autopilot does not mean you have authorized
@@ -81,10 +81,9 @@ Leave planning without launching implementation and return to **Interactive**
 in this same session. If the App presents a plan-approval screen, choose the
 option that returns to the session without implementing the plan.
 
-Continue to [Install and use skills](/workshops/copilot-app/skills/) to add and
-run the regression tests. Production code stays unchanged until those tests
-show the bug; [Review and verify changes](/workshops/copilot-app/verify/) then
-guides implementation of the agreed fix.
+Continue to [Use a skill to fix the bug](/workshops/copilot-app/skills/).
+Production code stays unchanged until the generated tests show the bug;
+then implement, review and verify the fix in that same chapter.
 
 ## What you have learned
 

@@ -1,14 +1,15 @@
 """Keep one workshop without duration labels, chapter timings or alternate routes."""
 from pathlib import Path
+import hashlib
 import re
 import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 HANDBOOK = ROOT / "workshops/copilot-app"
-SEQUENCE = ["", "setup", "ticket", "modes", "skills", "verify", "generate",
+SEQUENCE = ["", "setup", "ticket", "modes", "skills", "generate",
             "canvas", "tools", "parallel", "integrate", "rubber-duck",
             "subagents", "tokens", "finish"]
-EXERCISES = {"ticket", "modes", "skills", "verify", "generate",
+EXERCISES = {"ticket", "modes", "skills", "generate",
              "canvas", "tools", "parallel", "integrate", "rubber-duck",
              "subagents", "tokens", "finish"}
 
@@ -18,6 +19,127 @@ def chapter(slug):
 
 
 class WorkshopScheduleTests(unittest.TestCase):
+    def test_reference_tests_are_preserved_only_as_maintainer_resources(self):
+        source_blobs = {
+            "CartContractTest.java": "ba7918c297408c058721c6a653363ad374ebf6aa",
+            "RemoveContractTest.java": "d58825a26eba0721f91e716a9ea6d7e2f6b79a15",
+            "QueryContractTest.java": "198b27cdc3558a4a55441e67ecc8eaaa13a6a4b9",
+        }
+        directory = ROOT / "tools/copilot-workshop/reference-tests"
+        self.assertEqual({path.name for path in directory.glob("*.java")},
+                         set(source_blobs))
+        for name, blob in source_blobs.items():
+            with self.subTest(reference=name):
+                content = (directory / name).read_bytes()
+                header = f"blob {len(content)}\0".encode()
+                self.assertEqual(hashlib.sha1(header + content).hexdigest(), blob)
+        maintenance = (ROOT / "tools/copilot-workshop/README.md").read_text()
+        self.assertIn("c0ac24920dc16812e2c7187cc95245faffc84316", maintenance)
+        self.assertIn("excluded from the Jekyll", maintenance)
+
+    def test_query_tests_are_generated_with_an_explicit_measurement_boundary(self):
+        tools = re.sub(r"\s+", " ", chapter("tools"))
+        prompt = tools.split("## Generate the query-budget tests", 1)[1].split(
+            "```copilot ", 1)[1].split("```", 1)[0]
+        for text in ["/spring-boot-testing",
+                     "Generate src/test/java/com/juliendubois/workshop/QueryContractTest.java",
+                     "8 and 16 distinct products", "exactly 1 SELECT",
+                     "completed HTTP GET /api/cart response",
+                     "Seed each cart first, then clear the statistics",
+                     "before any verification queries",
+                     "product IDs, names, prices, quantities, line totals",
+                     "real HTTP requests and database access",
+                     "do not retrieve reference tests or solutions",
+                     "Do not optimize production code"]:
+            self.assertIn(text, prompt)
+        self.assertIn("generated test count may vary", tools)
+        self.assertNotIn("Expect **2 failures**", tools)
+        self.assertIn("all generated cart, removal and query tests", tools)
+        for path in HANDBOOK.glob("*.md"):
+            if path.stem == "facilitator":
+                continue
+            with self.subTest(chapter=path.name):
+                self.assertNotIn("teaching/", path.read_text())
+                self.assertNotIn("teaching test", path.read_text())
+                self.assertNotIn("supplied query", path.read_text())
+
+    def test_sequential_exercises_keep_one_session_and_branch(self):
+        setup = re.sub(r"\s+", " ", chapter("setup"))
+        self.assertIn("this session and on its current branch", setup)
+        self.assertIn("those commits are your checkpoints", setup)
+        for slug in ["setup", "skills", "generate", "canvas", "tools", "prompts"]:
+            with self.subTest(chapter=slug):
+                text = chapter(slug)
+                self.assertNotIn("workshop-quantity", text)
+                self.assertNotIn("workshop-feature", text)
+                self.assertNotIn("Create a branch", text)
+        for slug in ["generate", "canvas", "tools"]:
+            self.assertIn("same workshop session, on its current branch", chapter(slug))
+        for slug in ["skills", "canvas"]:
+            self.assertIn("Keep this session and its current branch", chapter(slug))
+        parallel = re.sub(r"\s+", " ", chapter("parallel"))
+        self.assertIn("one session on one branch", parallel)
+        self.assertIn("original workshop session", parallel)
+        self.assertIn("two project sessions with **isolated worktrees**", parallel)
+
+    def test_removal_feature_flows_from_plan_to_generated_tests_and_iteration(self):
+        feature = re.sub(r"\s+", " ", chapter("generate"))
+        steps = ["## Start from the reviewed fix",
+                 "Send this prompt to start planning the feature:",
+                 "Review the plan in the **plan canvas on the right**",
+                 "## Generate the removal tests", "## Generate the backend and UI",
+                 "## Preview and iterate", "## Save the feature and continue"]
+        positions = [feature.index(text) for text in steps]
+        self.assertEqual(positions, sorted(positions))
+        planning = feature.split("```copilot ", 1)[1].split("```", 1)[0]
+        for text in ["committed quantity fix",
+                     "no uncommitted changes", "Remove button",
+                     "returns 200 with the updated cart",
+                     "empty cart with zero count and total",
+                     "Other products and their quantities stay unchanged",
+                     "missing line returns 404",
+                     "catalogue product that has never been added",
+                     "Do not edit files yet"]:
+            self.assertIn(text, planning)
+        tests = feature.split("## Generate the removal tests", 1)[1].split(
+            "```copilot ", 1)[1].split("```", 1)[0]
+        for text in ["/spring-boot-testing",
+                     "Generate src/test/java/com/juliendubois/workshop/RemoveContractTest.java",
+                     "do not retrieve reference tests or solutions",
+                     "subsequent GET /api/cart",
+                     "Do not implement removal, change earlier tests",
+                     "wait for my review"]:
+            self.assertIn(text, tests)
+        for text in ["must fail before implementation",
+                     "no fixed test or failure count",
+                     "Keep all reviewed tests and assertions unchanged",
+                     "Report your actual observation",
+                     "repeat the browser checks", "**this same session**"]:
+            self.assertIn(text, feature)
+        self.assertNotIn("Expect **3 tests, 2 failures**", feature)
+        for slug in ["generate", "tools", "canvas", "parallel", "finish"]:
+            with self.subTest(chapter=slug):
+                self.assertNotIn("supplied removal", chapter(slug))
+        self.assertIn("```copilot\n/spring-boot-testing", chapter("prompts"))
+
+    def test_quantity_fix_is_one_continuous_skill_exercise(self):
+        skills = chapter("skills")
+        steps = ["## Use the skill with /java-junit",
+                 "## Generate the regression tests",
+                 "must fail on the unfixed application",
+                 "## Implement the agreed fix",
+                 "## Review in the App", "## Verify the shop",
+                 "## Save your progress",
+                 "## What you have learned"]
+        positions = [skills.index(text) for text in steps]
+        self.assertEqual(positions, sorted(positions))
+        self.assertIn("next: generate", skills)
+        self.assertIn("Keep the reviewed regression assertions", skills)
+        self.assertFalse((HANDBOOK / "verify.md").exists())
+        for path in HANDBOOK.glob("*.md"):
+            with self.subTest(chapter=path.name):
+                self.assertNotIn("/workshops/copilot-app/verify/", path.read_text())
+
     def test_quantity_regressions_are_generated_before_production_edits(self):
         skills = re.sub(r"\s+", " ", chapter("skills"))
         prompt = skills.split("## Generate the regression tests", 1)[1].split(
@@ -27,14 +149,14 @@ class WorkshopScheduleTests(unittest.TestCase):
                      "existing JUnit and HTTP test fixtures",
                      "quantity limits and unchanged state after rejected input",
                      "Assert server-calculated totals",
-                     "rather than copying teaching/CartContractTest.java",
+                     "do not retrieve reference tests or solutions",
                      "Do not change production code",
                      "wait for my review before running or committing"]:
             self.assertIn(text, prompt)
         self.assertIn("must fail on the unfixed application", skills)
         self.assertIn("do not expect a fixed count", skills)
         self.assertNotIn("Expect **3 tests, 2 failures**", skills)
-        self.assertIn("4 baseline tests and all generated cart tests", chapter("verify"))
+        self.assertIn("4 baseline tests and all generated cart tests", chapter("skills"))
         for slug in ["generate", "tools", "parallel", "integrate", "subagents", "finish"]:
             with self.subTest(chapter=slug):
                 self.assertNotRegex(chapter(slug), r"\b12 (?:supplied )?tests\b")
@@ -62,7 +184,7 @@ class WorkshopScheduleTests(unittest.TestCase):
                      "Production code stays unchanged"]:
             self.assertIn(text, modes)
         self.assertIn("in **Interactive** mode", chapter("skills"))
-        self.assertIn("Now authorize the production-fix", chapter("verify"))
+        self.assertIn("Now authorize the production-fix", chapter("skills"))
 
     def test_setup_explains_repository_instructions_before_running_commands(self):
         setup = re.sub(r"\s+", " ", chapter("setup"))
@@ -74,7 +196,7 @@ class WorkshopScheduleTests(unittest.TestCase):
                      "does not run commands or grant tool permissions",
                      "run all currently activated tests",
                      "exact, working build, run and test commands",
-                     "tests that need activation",
+                     "random ports and isolated databases",
                      "Stay short and current",
                      "you don't need to edit them"]:
             self.assertIn(text, setup)
@@ -181,7 +303,7 @@ class WorkshopScheduleTests(unittest.TestCase):
             self.assertIn(text, worker)
         correction = parallel.split('id="boundary-fix"', 1)[1].split(
             "</details>", 1)[0]
-        for text in ["existing **Cart: query investigation**",
+        for text in ["original workshop session",
                      "separate production-fix feature branch",
                      "outside `CartBoundaryTest.java`", "preserve all earlier reviewed tests",
                      "Do not include either worker's commit",
@@ -283,8 +405,7 @@ class WorkshopScheduleTests(unittest.TestCase):
             "setup": "Set up your App workspace",
             "ticket": "Investigate with Copilot",
             "modes": "Modes and effort",
-            "skills": "Install and use skills",
-            "verify": "Review and verify changes",
+            "skills": "Use a skill to fix the bug",
             "generate": "Generate and iterate",
             "canvas": "Canvas and Pick & polish",
             "tools": "Investigate runtime with MCP",
@@ -416,7 +537,7 @@ class WorkshopScheduleTests(unittest.TestCase):
         setup = chapter("setup")
         self.assertIn('annotated tag workshop-start', setup)
         self.assertNotIn("Record that SHA", setup)
-        for slug in ["setup", "verify", "generate", "canvas", "tools"]:
+        for slug in ["setup", "skills", "generate", "canvas", "tools"]:
             with self.subTest(startup_chapter=slug):
                 self.assertIn("\n./mvnw spring-boot:run\n", chapter(slug))
         for path in HANDBOOK.glob("*.md"):
@@ -444,24 +565,22 @@ class WorkshopScheduleTests(unittest.TestCase):
                 continue
             with self.subTest(chapter=path.name):
                 self.assertIsNone(commands.search(path.read_text()))
-        for slug, branch in [
-                ("verify", "workshop-quantity"),
-                ("canvas", "workshop-feature")]:
-            with self.subTest(handoff=branch):
-                self.assertIn(f"Create a branch {branch}", chapter(slug))
-                self.assertIn("Do not replace an existing branch", chapter(slug))
+        for slug in ["skills", "canvas"]:
+            with self.subTest(checkpoint=slug):
+                self.assertIn("Commit only the reviewed", chapter(slug))
+                self.assertIn("do not create or switch branches", chapter(slug))
 
-    def test_canvas_preserves_startup_permissions_and_next_session_handoff(self):
+    def test_canvas_preserves_startup_permissions_and_same_session_progress(self):
         canvas = re.sub(r"\s+", " ", chapter("canvas"))
         for text in [
-                "**Cart: remove item**", "Update AGENTS.md only",
+                "**the same workshop session, on its current branch**",
+                "Update AGENTS.md only",
                 "human owns the one persistent server", "No payments or authentication",
                 'blanket "no agents" restriction', "Only change src/main/resources/static/",
                 "bundled impeccable skill", "**Pick & polish**",
                 "If the selected interaction already works well",
-                "Create a branch workshop-feature",
                 "includes the quantity fix, removal feature and accepted Canvas changes",
-                "Do not silently overwrite it"]:
+                "Keep this session and its current branch"]:
             with self.subTest(requirement=text):
                 self.assertIn(text, canvas)
         self.assertNotIn("Create a branch workshop-feature", chapter("generate"))
@@ -550,7 +669,7 @@ class WorkshopScheduleTests(unittest.TestCase):
     def test_parallel_prompts_are_inline_and_assigned_to_named_sessions(self):
         parallel = chapter("parallel")
         self.assertNotIn("/workshops/copilot-app/prompts/#parallel", parallel)
-        self.assertIn("**Cart: query investigation**", parallel)
+        self.assertIn("**original workshop session**", parallel)
         self.assertIn("Both prompts are below", parallel)
         self.assertIn("These tasks touch different files", parallel)
         for heading, prompt in [
