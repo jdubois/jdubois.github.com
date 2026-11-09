@@ -59,28 +59,23 @@ existing theme:
 
 ```copilot
 /impeccable
-Style this Remove button as a filled button using the same visual treatment
-as Add to cart. Reuse the existing button styles and theme tokens for colors,
-typography, spacing, hover, focus and disabled states; do not introduce a new theme.
-Keep its Remove label, accessible name, keyboard access and whole-line DELETE
-behavior. Preserve visible focus and usability on a narrow screen.
-Only change src/main/resources/static/. No backend, dependencies,
-test changes or whole-page redesign. Explain the smallest proposed change
-before editing; wait for my approval.
-After applying an approved correction, run ./mvnw compile in this session's
-directory, then reload this existing Browser canvas and verify the change.
-Keep the shop running. Report compilation or refresh failures instead of
-claiming the preview is updated.
-If Remove already matches Add to cart and meets these requirements,
-say no change is needed instead of inventing a defect.
+Make this Remove button more compact and use the existing secondary theme color,
+not Add to cart's primary styling. Keep its label, accessibility and whole-line
+DELETE behavior, with visible keyboard focus and a usable click/tap target.
+Only change src/main/resources/static/. No backend, dependencies or test changes.
+Propose the change and wait for my approval.
+After approval, apply it and run ./mvnw compile in this session's directory.
+Reload this existing Browser canvas and verify the result. Keep the shop running;
+report compilation or refresh failures. If it already meets these criteria,
+say no change is needed.
 ```
 
 Approve the change, then review **Changes** and let Copilot
 **reload the same Browser canvas automatically**.
 
-Compare **Remove** with **Add to cart**: the filled style should match and the
-label stay unchanged. Check keyboard focus remains fully visible, including in
-a scrolling cart, at desktop and narrow widths.
+Compare **Remove** with **Add to cart**: Remove should be compact and secondary,
+while Add to cart stays primary. Keep the label unchanged and check keyboard focus
+remains fully visible, including in a scrolling cart, at desktop and narrow widths.
 Confirm removal still deletes the whole product line, including all its units,
 while other products, quantities and totals remain correct. Run:
 
