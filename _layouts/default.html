@@ -81,31 +81,7 @@
 
         <main id="main" class="container" role="main" tabindex="-1">
 
-            {% if page.workshop %}
-            <div class="workshop-layout">
-                <aside>
-                    <div class="workshop-desktop-nav">{% include copilot-workshop-nav.html %}</div>
-                    <details class="workshop-mobile-nav">
-                        <summary>Workshop chapters</summary>
-                        {% include copilot-workshop-nav.html %}
-                    </details>
-                </aside>
-                <article class="workshop-content">
-                    <header class="workshop-heading">
-                        <h1>{{ page.title }}</h1>
-                        <p>{{ page.description }}</p>
-                    </header>
-                    {{ content }}
-                    {% if page.next %}
-                    <nav class="workshop-next" aria-label="Next chapter">
-                        <a href="/workshops/copilot-app/{{ page.next }}/{% if page.next_anchor %}#{{ page.next_anchor }}{% endif %}">Next: {{ page.next_title }} <span aria-hidden="true">&rarr;</span></a>
-                    </nav>
-                    {% endif %}
-                </article>
-            </div>
-            {% else %}
             {{ content }}
-            {% endif %}
 
         </main> <!-- /container -->
 

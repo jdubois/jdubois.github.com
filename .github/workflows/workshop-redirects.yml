@@ -1,0 +1,50 @@
+name: Workshop redirects
+
+on:
+  push:
+    paths:
+      - "workshops/copilot-app/**"
+      - "conferences.html"
+      - "_layouts/**"
+      - "_includes/analytics-consent.html"
+      - "_config.yml"
+      - "Gemfile"
+      - "Gemfile.lock"
+      - "js/analytics.js"
+      - "tools/test-analytics.mjs"
+      - "tools/test-workshop-migration.mjs"
+      - ".github/workflows/workshop-redirects.yml"
+  pull_request:
+    paths:
+      - "workshops/copilot-app/**"
+      - "conferences.html"
+      - "_layouts/**"
+      - "_includes/analytics-consent.html"
+      - "_config.yml"
+      - "Gemfile"
+      - "Gemfile.lock"
+      - "js/analytics.js"
+      - "tools/test-analytics.mjs"
+      - "tools/test-workshop-migration.mjs"
+      - ".github/workflows/workshop-redirects.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  redirects:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Build website
+        run: bundle exec jekyll build --destination tools/.build/workshop-migration --quiet
+      - name: Verify workshop redirects and shared analytics
+        run: node --test tools/test-workshop-migration.mjs tools/test-analytics.mjs

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Page moved</title>
+        <link rel="canonical" href="{{ page.redirect.to | escape }}">
+        <meta name="robots" content="noindex">
+        <script>
+            var destination = {{ page.redirect.to | jsonify }};
+            if (destination.startsWith('https://www.julien-dubois.com/github-copilot-app-java-workshop/')) {
+                destination += window.location.search + window.location.hash;
+            }
+            window.location.replace(destination);
+        </script>
+        <noscript>
+            <meta http-equiv="refresh" content="0; url={{ page.redirect.to | escape }}">
+        </noscript>
+    </head>
+    <body>
+        <h1>This page has moved</h1>
+        <p><a href="{{ page.redirect.to | escape }}">Continue to the new location.</a></p>
+    </body>
+</html>

@@ -1,6 +1,7 @@
 _site/
 .jdtls-workspace/
 .impeccable/
+tools/.build/
 tools/copilot-workshop/node_modules/
 tools/copilot-workshop/.build/
 tools/copilot-workshop/.build-verification.log

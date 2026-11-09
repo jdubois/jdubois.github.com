@@ -5,6 +5,12 @@ choice through `_includes/analytics-consent.html` and `js/analytics.js`.
 Analytics loads only after acceptance, including consent already given on
 another page of the same origin.
 
+The Copilot App workshop at `/github-copilot-app-java-workshop/` is published
+from `jdubois/github-copilot-app-java-workshop`. It uses the same GA4 property
+and `jdubois-analytics-consent` localStorage key so the visitor's choice applies
+across both sites on `https://www.julien-dubois.com`. Workshop redirects do not
+load analytics; the destination page handles consent and tracking.
+
 ## Events
 
 - `slide_view`: the initial visible slide and each slide navigation.

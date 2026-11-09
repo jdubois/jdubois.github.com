@@ -23,6 +23,7 @@
 - Install deps: `bundle install`
 - Run locally: `./serve.sh` (runs `bundle exec jekyll serve --livereload`).
 - Run analytics regression tests: `node --test tools/test-analytics.mjs`.
+- Check workshop redirects: `bundle exec jekyll build --destination tools/.build/workshop-migration --quiet && node --test tools/test-workshop-migration.mjs`.
 - Keep agent instructions, technical documentation, and design context excluded from the Jekyll build in `_config.yml`.
 
 ## Content & assets
@@ -40,6 +41,7 @@
 - Keep `README.md` limited to a short personal website introduction and the published website link.
 - Follow `conferences/AGENTS.md` when working on conference decks.
 - See `docs/analytics.md` for GA4 event definitions and reporting setup.
+- Copilot App workshop content, theme and validation tools live in `jdubois/github-copilot-app-java-workshop`, under `workshop/`. This website keeps the conferences links and legacy workshop redirects only.
 
 ## Design Context
 - **`PRODUCT.md`** (repo root) — design strategy: register (`brand`), users, purpose, brand personality, anti-references, and design principles. Read it before UX or content decisions.
