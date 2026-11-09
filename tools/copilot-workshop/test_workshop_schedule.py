@@ -5,10 +5,10 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 HANDBOOK = ROOT / "workshops/copilot-app"
-SEQUENCE = ["", "setup", "ticket", "fusion", "skills", "verify", "generate",
+SEQUENCE = ["", "setup", "ticket", "modes", "skills", "verify", "generate",
             "canvas", "tools", "parallel", "integrate", "rubber-duck",
             "subagents", "tokens", "finish"]
-EXERCISES = {"ticket", "fusion", "skills", "verify", "generate",
+EXERCISES = {"ticket", "modes", "skills", "verify", "generate",
              "canvas", "tools", "parallel", "integrate", "rubber-duck",
              "subagents", "tokens", "finish"}
 
@@ -18,6 +18,52 @@ def chapter(slug):
 
 
 class WorkshopScheduleTests(unittest.TestCase):
+    def test_quantity_regressions_are_generated_before_production_edits(self):
+        skills = re.sub(r"\s+", " ", chapter("skills"))
+        prompt = skills.split("## Generate the regression tests", 1)[1].split(
+            "```copilot ", 1)[1].split("```", 1)[0]
+        for text in ["Generate src/test/java/com/juliendubois/workshop/CartContractTest.java",
+                     "acceptance criteria and test approach we just reviewed",
+                     "existing JUnit and HTTP test fixtures",
+                     "quantity limits and unchanged state after rejected input",
+                     "Assert server-calculated totals",
+                     "rather than copying teaching/CartContractTest.java",
+                     "Do not change production code",
+                     "wait for my review before running or committing"]:
+            self.assertIn(text, prompt)
+        self.assertIn("must fail on the unfixed application", skills)
+        self.assertIn("do not expect a fixed count", skills)
+        self.assertNotIn("Expect **3 tests, 2 failures**", skills)
+        self.assertIn("4 baseline tests and all generated cart tests", chapter("verify"))
+        for slug in ["generate", "tools", "parallel", "integrate", "subagents", "finish"]:
+            with self.subTest(chapter=slug):
+                self.assertNotRegex(chapter(slug), r"\b12 (?:supplied )?tests\b")
+
+    def test_learner_maven_commands_keep_test_output_visible(self):
+        for path in HANDBOOK.glob("*.md"):
+            with self.subTest(chapter=path.name):
+                self.assertNotRegex(path.read_text(),
+                                    r"(?:\./mvnw|\.\\mvnw\.cmd)[^\n]*\s-q\b")
+
+    def test_modes_explain_same_session_and_test_first_handoff(self):
+        modes = re.sub(r"\s+", " ", chapter("modes"))
+        steps = ["## Match autonomy to the task", "## Choose effort deliberately",
+                 "## Plan the quantity fix",
+                 "Switch to **Plan** in this same session",
+                 "## Review the plan, then prepare to write tests",
+                 "return to **Interactive**"]
+        positions = [modes.index(text) for text in steps]
+        self.assertEqual(positions, sorted(positions))
+        self.assertNotIn("## Check permissions", modes)
+        for text in ["**No new session or worktree is needed.**",
+                     "| **Plan** |", "| **Interactive** |", "| **Autopilot** |",
+                     "**do not start the whole implementation yet**",
+                     "without implementing the plan",
+                     "Production code stays unchanged"]:
+            self.assertIn(text, modes)
+        self.assertIn("in **Interactive** mode", chapter("skills"))
+        self.assertIn("Now authorize the production-fix", chapter("verify"))
+
     def test_setup_explains_repository_instructions_before_running_commands(self):
         setup = re.sub(r"\s+", " ", chapter("setup"))
         steps = ["review `AGENTS.md`", "## Understand AGENTS.md",
@@ -33,22 +79,26 @@ class WorkshopScheduleTests(unittest.TestCase):
                      "you don't need to edit them"]:
             self.assertIn(text, setup)
 
-    def test_fix_requirements_are_introduced_with_regression_tests(self):
+    def test_fix_requirements_are_introduced_when_planning(self):
         investigation = chapter("ticket")
         self.assertNotIn("## What the fix must achieve", investigation)
         self.assertIn("## Check the investigation", investigation)
         self.assertIn("No code should have changed yet.", investigation)
-        skills = chapter("skills")
-        steps = ["## What the fix must achieve",
-                 "## Load the skill, not just its name",
-                 "## Add the regression test"]
-        positions = [skills.index(text) for text in steps]
+        modes = chapter("modes")
+        steps = ["### Acceptance criteria",
+                 "Switch to **Plan** in this same session", "```copilot"]
+        positions = [modes.index(text) for text in steps]
         self.assertEqual(positions, sorted(positions))
         for text in ["quantity 2, total €20", "quantity 3 produces quantity 5",
                      "Quantities remain 1–99", "rejected input leaves state unchanged",
                      "Prices and totals come from the server",
                      "no checkout, stock management, accounts, new dependencies"]:
-            self.assertIn(text, skills)
+            self.assertIn(text, modes)
+        self.assertIn("/workshops/copilot-app/modes/#acceptance-criteria",
+                      chapter("skills"))
+        self.assertIn("permalink: /workshops/copilot-app/modes/", modes)
+        self.assertNotIn("/workshops/copilot-app/fusion/", modes)
+        self.assertIn("Do not edit files yet; wait for my review.", modes)
 
     def test_workshop_amounts_use_euros_not_cent_amounts(self):
         for path in HANDBOOK.glob("*.md"):
@@ -133,7 +183,7 @@ class WorkshopScheduleTests(unittest.TestCase):
             "</details>", 1)[0]
         for text in ["existing **Cart: query investigation**",
                      "separate production-fix feature branch",
-                     "outside `CartBoundaryTest.java`", "preserve the 12 supplied tests",
+                     "outside `CartBoundaryTest.java`", "preserve all earlier reviewed tests",
                      "Do not include either worker's commit",
                      "own review, checks and merge approval",
                      "updated `origin/main`", "Do not proceed while",
@@ -232,7 +282,7 @@ class WorkshopScheduleTests(unittest.TestCase):
         expected = {
             "setup": "Set up your App workspace",
             "ticket": "Investigate with Copilot",
-            "fusion": "Modes, effort and permissions",
+            "modes": "Modes and effort",
             "skills": "Install and use skills",
             "verify": "Review and verify changes",
             "generate": "Generate and iterate",
@@ -264,13 +314,20 @@ class WorkshopScheduleTests(unittest.TestCase):
                      "Installation makes the skill available",
                      "Neither grants new tool permissions",
                      "keep its existing pinned copies unchanged",
-                     "**Cart: quantity bug**", "```copilot\nUse java-junit",
+                     "**Cart: quantity bug**", "```copilot\n/java-junit",
                      ".github/skills/java-junit/SKILL.md",
-                     "Report which skill guidance you actually read",
+                     "report which guidance you loaded",
                      "gh skills install github/awesome-copilot java-junit --pin",
                      "{: #skills-are-already-installed}"]:
             with self.subTest(skills_requirement=text):
                 self.assertIn(text, skills)
+        for text in ["you don't need to paste them again",
+                     "requirements to test assertions",
+                     "propose regression",
+                     "which assertions would check each requirement",
+                     "Do not edit files or implement the fix yet."]:
+            self.assertIn(text, skills)
+        self.assertIn("```copilot\n/java-junit", chapter("prompts"))
 
     def test_exercises_have_app_learning_goals_and_recap(self):
         for path in HANDBOOK.glob("*.md"):
@@ -545,7 +602,7 @@ class WorkshopScheduleTests(unittest.TestCase):
                 "## Verify the combined application",
                 "Leave the test PR's Agent Merge off.",
                 "**Done when:** the UI PR's status is **Merged**",
-                "original **12 tests plus the new boundary",
+                "**all earlier reviewed tests plus the new boundary",
                 "all required checks and approvals pass",
                 "Do not reset main or this branch"]:
             with self.subTest(requirement=text):
@@ -669,7 +726,7 @@ class WorkshopScheduleTests(unittest.TestCase):
                 "Do not move another worktree, reset branches, delete refs or edit",
                 "checked-out commit equals origin/main",
                 "If main has advanced", "passing checks for this revision too",
-                "original 12 supplied tests, boundary tests and new checkout tests",
+                "all earlier reviewed tests, boundary tests and new checkout tests",
                 "absolute directory and shop URL",
                 "Ctrl+C in its owning terminal", "Opening a canvas",
                 "does not replace a running server",

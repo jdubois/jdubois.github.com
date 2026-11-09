@@ -160,7 +160,7 @@ Snapshot server prices and quantities. Create the stored order and clear
 the cart atomically; failure leaves it intact. Concurrent or later retries
 must not duplicate orders or clear a later cart.
 Keep Spring Boot, H2, vanilla JavaScript, original response fields and all
-supplied acceptance tests. No payments, authentication, personal data,
+earlier reviewed tests. No payments, authentication, personal data,
 new dependencies, agent profiles or further nested agents.
 Workers edit only assigned files. Schedule dependencies, and coordinate
 interface questions through available messaging; otherwise relay them.
@@ -171,7 +171,7 @@ Stop and ask before expanding scope or resolving conflicting ownership.
 Workers must not run Maven, start/stop the shop, change branches, commit,
 push, open PRs or merge. You own the integrated test run, not five workers.
 Wait for all five workers to finish and confirm no worker is still writing files.
-Then review the combined diff and run ./mvnw -q test.
+Then review the combined diff and run ./mvnw test.
 Confirm BaselineTest, CartContractTest, RemoveContractTest, QueryContractTest,
 CartBoundaryTest and new CheckoutContractTest execute without failures or skips.
 Fix actionable failures within the approved ownership; never weaken tests.
@@ -213,7 +213,7 @@ demonstrate collaboration.
 Check that the UI and API use the same fields and errors, data transactions
 match the clearing rule, and tests cover failure, snapshots, concurrent duplicate
 submissions and replay after new items have been added. Check the test reports:
-the original **12 supplied tests**, earlier boundary tests and **new checkout
+all **earlier reviewed tests**, boundary tests and **new checkout
 tests** must execute with no failures/errors/skips. The generated checkout
 tests are additional cases, not a new supplied reference checkpoint.
 
@@ -320,8 +320,8 @@ Check out the exact latest origin/main commit for verification in this same work
 If main is checked out elsewhere, use a detached verification checkout here.
 Do not move another worktree, reset branches, delete refs or edit this checkout.
 Confirm the checked-out commit equals origin/main. If main has advanced since the
-merge, require passing checks for this revision too, then run ./mvnw -q test here.
-Confirm the original 12 supplied tests, boundary tests and new checkout tests
+merge, require passing checks for this revision too, then run ./mvnw test here.
+Confirm all earlier reviewed tests, boundary tests and new checkout tests
 execute without failures, errors or skips.
 Show the absolute directory and shop URL for restarting this verified application.
 Record the checkout PR, merge commit, verified main commit, checks and any blocker.

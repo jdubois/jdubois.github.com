@@ -50,7 +50,7 @@ Show me the diff and wait for approval before committing.
 Review **Changes**, then ask Copilot to commit only this acceptance test and run:
 
 ```sh
-./mvnw -q -Dtest=RemoveContractTest test
+./mvnw -Dtest=RemoveContractTest test
 ```
 
 On the repaired shop expect **3 tests, 2 failures**: DELETE still returns 404
@@ -61,12 +61,12 @@ work, or Autopilot after approving the task's scope and permissions. Review all 
 changes, not only the Java endpoint.
 
 ```sh
-./mvnw -q -Dtest=BaselineTest,CartContractTest,RemoveContractTest test
+./mvnw -Dtest=BaselineTest,CartContractTest,RemoveContractTest test
 ```
 
-The supplied classes contain **10 tests**, all green; additional tests may
-increase the count without replacing the supplied cases. Review the feature,
-then ask Copilot:
+The **4 baseline tests, all generated cart tests and 3 supplied removal tests**
+must pass. Keep every earlier case and reviewed assertion; report the actual
+count rather than expecting a fixed total. Review the feature, then ask Copilot:
 
 ```copilot
 Commit only the reviewed removal feature and its test changes, if not yet committed.

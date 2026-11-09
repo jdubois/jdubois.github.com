@@ -70,71 +70,84 @@ location and name before retrying; do not claim that installation alone ran it.
 You can learn the installation process here without changing repositories
 or reinstalling the workshop's skills.
 
-## What the fix must achieve
+## Use the skill with /java-junit
 
-Use these acceptance criteria to guide the regression tests. Establish the
-failing tests in this chapter; implement the fix in the next one.
+Stay in **Cart: quantity bug**, in **Interactive** mode. Your plan and its
+[acceptance criteria](/workshops/copilot-app/modes/#acceptance-criteria)
+are already in this conversation; you don't need to paste them again.
+The criteria describe the expected behavior. Now ask Copilot to connect those
+requirements to test assertions: for example, adding the €10 Notebook twice
+needs assertions for quantity **2** and total **€20**.
 
-- Adding 1 Notebook twice produces one line, quantity 2, total €20.
-- Adding 2 more units to an existing quantity 3 produces quantity 5.
-- Adding a new product still works. Quantities remain 1–99, including
-  the accumulated quantity; rejected input leaves state unchanged.
-- Prices and totals come from the server. Do not patch only the UI.
-
-Keep the scope small: no checkout, stock management, accounts, new dependencies
-or query optimization yet. The later performance ticket is a separate task.
-
-## Load the skill, not just its name
-
-Stay in **Cart: quantity bug**. Use the installed skill in the App composer:
+Type **`/java-junit`** in the App composer to invoke the installed skill,
+then include the task in the same message:
 
 ```copilot
-Use java-junit to review the repeated-add acceptance criteria.
-Read .github/skills/java-junit/SKILL.md and any relevant bundled references.
-Identify the assertions needed and explain one skill rule that applies.
-Report which skill guidance you actually read. Do not edit or implement yet.
+/java-junit
+Use the acceptance criteria in our quantity-fix plan to propose regression
+tests. Explain which assertions would check each requirement, including
+quantity accumulation, server-calculated totals and rejected input.
+Explain one skill rule that applies and report which guidance you loaded.
+Do not edit files or implement the fix yet.
 ```
+
+Check Copilot's response: it should explain the proposed coverage and how it used
+the skill, not just repeat the skill's name. The skill instructions live in
+`.github/skills/java-junit/SKILL.md`.
 
 **App tip:** load the skill needed for the current task, not every installed skill
 on every turn. General skill advice does not override this
 workshop's **H2, no-Docker, no-new-dependency** boundary. If a skill recommends
 Testcontainers or a different database, retain H2 and explain that constraint.
 
-## Add the regression test
+## Generate the regression tests
 
-Ask the agent to propose a regression first. Then ask it to activate the
-supplied acceptance test in the **active session**:
+Review the proposed assertions, then ask Copilot to generate the tests in the
+**same session**:
 
 ```copilot
-Copy teaching/CartContractTest.java unchanged into
-src/test/java/com/juliendubois/workshop/.
-Do not implement the fix or change other files.
-Show me the diff and wait for approval before committing.
+/java-junit
+Generate src/test/java/com/juliendubois/workshop/CartContractTest.java
+from the acceptance criteria and test approach we just reviewed.
+Use the existing JUnit and HTTP test fixtures, random ports and isolated H2.
+Cover repeated additions, adding to an existing quantity, a new product,
+quantity limits and unchanged state after rejected input.
+Assert server-calculated totals as well as quantities.
+Generate the tests rather than copying teaching/CartContractTest.java.
+Do not change production code, add dependencies or weaken existing tests.
+Show me the test diff and wait for my review before running or committing.
 ```
 
-Review **Changes**, then ask Copilot to commit only this acceptance test and run:
+Open **Changes** and review the generated assertions against the criteria.
+They must expect the correct behavior, not encode the current bug. For example,
+two Notebook additions must expect quantity **2** and total **€20**.
+Ask Copilot to explain any assertion you don't understand, then run:
 
 ```sh
-./mvnw -q -Dtest=CartContractTest test
+./mvnw -Dtest=CartContractTest test
 ```
 
-PowerShell: use `.\mvnw.cmd`.
-The `teaching/` directory holds tests for later exercises; Maven does not run
-them until they are copied into the test source directory.
-Copilot may add tests, but must keep the supplied assertions unchanged.
-
-Expect **3 tests, 2 failures**: expected quantity 2, actual 1; expected total
-€50, actual €20.
-The maximum-quantity test passes. Check
+PowerShell: use `.\mvnw.cmd`. Read the Maven summary and, if needed,
 `target/surefire-reports/com.juliendubois.workshop.CartContractTest.txt`.
-These assertion failures are expected. Compilation errors, a missing JDK or
-a run with no tests are setup problems to resolve.
+
+**The repeated-add regression must fail on the unfixed application.** Check
+that the failure shows the quantity or total mismatch caused by the bug.
+The test count depends on what Copilot generated; do not expect a fixed count
+or number of failures. Compilation errors, a missing JDK, HTTP setup failures
+or a run with no tests are not evidence of the bug. If everything passes,
+check that the generated tests actually reproduce repeated additions.
+
+Once the reviewed tests demonstrate the bug, ask Copilot to commit only the
+test changes. Keep their assertions unchanged while implementing the fix in
+the next chapter. The `teaching/` quantity test remains a facilitator fallback,
+not the generation exercise; later chapters still use supplied removal and
+query tests.
 
 If setup or skill loading is blocked, ask the facilitator for help. If you use
 a reference example, note which steps you ran yourself.
 
 <figure>
-  <a href="/workshops/copilot-app/assets/illustration-skills-and-tests.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-skills-and-tests.svg" alt="Conceptual testing sequence: load java-junit, establish the supplied cart regression with 3 tests and 2 expected failures, then verify the approved fix with all 7 supplied baseline and cart tests passing." width="1440" height="800" loading="lazy"></a>
+  <a href="/workshops/copilot-app/assets/illustration-skills-and-tests.svg" target="_blank"><img src="/workshops/copilot-app/assets/illustration-skills-and-tests.svg" alt="Conceptual testing sequence: load java-junit, generate and review regression tests that fail on the quantity bug, then verify the approved fix with baseline and generated cart tests passing." width="1440" height="800" loading="lazy"></a>
   <figcaption>Skill guidance supplies the method; executed tests supply the evidence. The final stage previews the next chapter's verification.</figcaption>
 </figure>
 
@@ -143,4 +156,4 @@ a reference example, note which steps you ran yourself.
 - Distinguish installed skills from loaded guidance, and install complete pinned folders in another project without replacing the workshop's copies.
 - Ask Copilot to use a specific installed skill and explain how its guidance applies to the current task.
 - Keep the workshop's stack and dependency limits even when a general-purpose skill suggests other tools.
-- Review a supplied test in **Changes**, commit it before implementation and distinguish an expected assertion failure from a setup problem.
+- Generate regression tests from acceptance criteria, review them in **Changes** and demonstrate the bug before implementing the fix.

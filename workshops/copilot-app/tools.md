@@ -113,7 +113,7 @@ Show me the diff and wait for approval before committing.
 Review **Changes**, then ask Copilot to commit only this acceptance test and run:
 
 ```sh
-./mvnw -q -Dtest=QueryContractTest test
+./mvnw -Dtest=QueryContractTest test
 ```
 
 Expect **2 failures** before optimization: **9 and 17 SELECTs** at 8 and 16
@@ -123,11 +123,12 @@ fields, quantities and totals. No global eager loading or dependency changes.
 Run the combined suite:
 
 ```sh
-./mvnw -q -Dtest=BaselineTest,CartContractTest,RemoveContractTest,QueryContractTest test
+./mvnw -Dtest=BaselineTest,CartContractTest,RemoveContractTest,QueryContractTest test
 ```
 
-The supplied classes contain **12 tests**, all green. Added tests may increase
-that count; none of the supplied cases may disappear or be skipped.
+The **4 baseline tests, all generated cart tests, 3 supplied removal tests and
+2 supplied query tests** must pass. Report the actual count; no earlier case
+may disappear, be skipped or have its reviewed assertions weakened.
 
 **Restart before measuring again.** Commit the reviewed fix, stop the old app
 in its terminal and start the reviewed copy with the same startup command above.

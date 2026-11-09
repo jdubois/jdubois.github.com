@@ -4,8 +4,8 @@ title: Investigate with Copilot
 description: "Give Copilot a reproducible bug report with clear expected behavior."
 permalink: /workshops/copilot-app/ticket/
 workshop: true
-next: fusion
-next_title: Modes, effort and permissions
+next: modes
+next_title: Modes and effort
 ---
 
 ## What you will learn

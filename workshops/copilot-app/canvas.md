@@ -123,10 +123,11 @@ the result rather than starting an edit/rebuild loop for every control.
 Confirm removal, quantities and totals still work. Run:
 
 ```sh
-./mvnw -q -Dtest=BaselineTest,CartContractTest,RemoveContractTest test
+./mvnw -Dtest=BaselineTest,CartContractTest,RemoveContractTest test
 ```
 
-Expect the supplied **10 tests** to pass without removing cases.
+Expect all baseline, generated cart and supplied removal tests to pass without
+removing cases or weakening reviewed assertions.
 Record the selected issue, skill guidance actually used and before/after
 observations on the [worksheet](/workshops/copilot-app/worksheet/).
 

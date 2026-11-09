@@ -27,8 +27,9 @@ Confirm origin is my own workshop repository, not the template repository.
 Commit only the accepted workshop changes, if not yet committed.
 Fetch origin and show this session's complete diff against origin/main.
 Confirm it includes the quantity fix, removal feature, query optimization
-and all 12 supplied acceptance tests, plus the reviewed Canvas AGENTS.md
-and UI changes. Run ./mvnw -q test and report counts.
+and all baseline, generated cart, supplied removal and query tests,
+plus the reviewed Canvas AGENTS.md and UI changes.
+Run ./mvnw test and report counts.
 Stop if any test fails or an acceptance case is skipped.
 After I review and approve, publish only this session's branch without
 force-pushing and open one PR targeting main for the three completed tickets.
@@ -136,7 +137,7 @@ Give it the exact failing request, expected status and unchanged-state rule.
 Review its plan before permitting edits.
 
 The correction must include its own focused regression test, outside
-`CartBoundaryTest.java`, and preserve the 12 supplied tests. Do not include
+`CartBoundaryTest.java`, and preserve all earlier reviewed tests. Do not include
 either worker's commit or change their files to make the correction pass.
 Review the production diff and full-suite results. If the preparation PR is
 merged, publish and merge this additional correction PR into `main` only after its own review, checks and
@@ -179,7 +180,7 @@ and use **Agent Merge** one PR at a time.
 
 Ask the facilitator for help. Do not bypass protections or continue with
 failing acceptance tests. If GitHub, CI or approvals are unavailable but the
-reviewed local query-fix version passes all 12 tests, ask Copilot to commit
+reviewed local query-fix version passes all earlier reviewed tests, ask Copilot to commit
 only that accepted work and report its actual branch and commit.
 
 Create both isolated worker sessions from **that recorded local branch**

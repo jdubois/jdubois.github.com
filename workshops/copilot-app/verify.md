@@ -15,23 +15,26 @@ saving a branch for the next task.
 
 ## Implement the agreed fix
 
-Approve the small plan, then ask for implementation. Keep the failing assertions
-unchanged. Ask it to run:
+Stay in **Cart: quantity bug**, in **Interactive** mode. You have reviewed the
+plan and observed the failing regression tests. Now authorize the production-fix
+step and ask Copilot to implement it. Keep the failing assertions unchanged.
+Ask it to run:
 
 ```sh
-./mvnw -q -Dtest=BaselineTest,CartContractTest test
+./mvnw -Dtest=BaselineTest,CartContractTest test
 ```
 
-The supplied classes contain **7 tests**, all green, with no errors/skips.
-Additional tests in those classes can increase the count; keep all supplied
-cases and judge by their execution and zero failures, not an exact total.
+The **4 baseline tests and all generated cart tests** must pass, with no
+errors/skips. The total depends on the generated tests. Compare the cart cases
+with the failing run: keep every reviewed assertion and confirm the same
+regressions now pass.
 Check the test command and its output, not just Copilot's summary.
 
 ## Review in the App
 
 Open **Changes**. Find the accumulated-quantity change, confirm validation still
 applies to the sum, and inspect every changed file. Review any added tests.
-The supplied acceptance test should still match its teaching copy.
+The generated regression tests should retain the assertions you reviewed.
 
 **App tip:** give file-specific feedback. “Keep `CartRepository.java` unchanged;
 this ticket only fixes quantity accumulation” is actionable. Do not accept

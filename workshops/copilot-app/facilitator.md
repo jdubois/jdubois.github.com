@@ -40,7 +40,7 @@ Rehearse with the App build and accounts you will use.
 - Approve the [checkout contract and file ownership](/workshops/copilot-app/subagents/#checkout-contract), then use `/fleet`: one orchestrator, five bounded implementation assignments, no extra worktrees or custom agent profiles.
 - Give each worker its instructions and relevant code. Stage model/service/API dependencies; relay questions when direct messaging is unavailable. Record actual exchanges, not the chapter's example conversation.
 - The orchestrator owns the integrated Maven run. Five assignments can run in smaller batches; do not start five shops, Maven suites or nested fleets.
-- Check the original 12 tests, boundary cases and **new checkout tests**. Verify rollback, immutable receipts, concurrent duplicate requests and replay after new cart items. Restart the changed copy and place an order in the Browser canvas.
+- Check all earlier reviewed tests, boundary cases and **new checkout tests**. Verify rollback, immutable receipts, concurrent duplicate requests and replay after new cart items. Restart the changed copy and place an order in the Browser canvas.
 - After final review and scoped approval, the orchestrator delivers one checkout PR, handles checks/reviews and squash-merges when allowed. Workers never publish or merge. Verify exact merged main and restart the shop from that directory.
 
 ### Evidence and privacy
@@ -76,7 +76,7 @@ Before checkout, the normal path has **three PRs targeting `main`**:
 
 | Order | Required handoff |
 |---|---|
-| 1. Preparation PR | Merge the three accepted tickets, supplied tests and reviewed Canvas instruction/UI changes. Confirm updated `origin/main` before starting workers |
+| 1. Preparation PR | Merge the three accepted tickets, generated and supplied tests and reviewed Canvas instruction/UI changes. Confirm updated `origin/main` before starting workers |
 | 2. UI worker PR | Both workers start from that same updated `main`. Review UI repairs with Agent Merge's **Merge pull request** off; authorize this PR only, then confirm **Merged** and passing checks on `main` |
 | 3. Boundary-test PR | Bring updated `main` into the test worker branch. Review its diff and fresh CI, then separately authorize its merge |
 
@@ -104,7 +104,7 @@ a fallback or reference demonstration is not a successful native App exercise.
 | Quantity, removal or query fix | Use a separate pinned copy; see [reference recovery](#reference-recovery) below |
 | Browser, Pick & polish or impeccable | Use the [Canvas fallback](/workshops/copilot-app/canvas/#canvas-recovery); record which interaction was unavailable |
 | MCP connection or baseline | Use [matched reference evidence](/workshops/copilot-app/assets/mcp-evidence.json), clearly labelled as reference, not the participant's App tool calls |
-| Preparation PR blocked | Follow [preparation recovery](/workshops/copilot-app/parallel/#local-recovery) only from an accepted local copy with all 12 supplied tests passing; record `main` as not updated |
+| Preparation PR blocked | Follow [preparation recovery](/workshops/copilot-app/parallel/#local-recovery) only from an accepted local copy with all earlier reviewed tests passing; record `main` as not updated |
 | Worker, CI or Agent Merge blocked | Preserve both branches, disable Agent Merge on open PRs and follow [integration recovery](/workshops/copilot-app/integrate/#local-recovery) in **Cart: boundary tests** |
 | Boundary test reveals a production bug | Keep the test worker test-only. Use the [separate correction path](/workshops/copilot-app/parallel/#boundary-fix), review its regression and rerun the worker tests before integration |
 | Independent critic or five-agent delegation unavailable | Use the relevant chapter's demonstration/review fallback; explicitly record the missing independent critique or five-agent run |
@@ -134,6 +134,8 @@ The [pinned revisions](/workshops/copilot-app/assets/references.json) and
 cover the three earlier tickets, **not checkout**.
 These historical pins also predate current-starter input and keyboard hardening;
 their counts and captures describe those exact revisions, not today's `main`.
+The table uses the supplied reference quantity test. In the normal workshop,
+participants generate `CartContractTest`; its count and failures vary.
 
 | Check | Tests | Expected result |
 |---|---:|---|
@@ -145,7 +147,7 @@ their counts and captures describe those exact revisions, not today's `main`.
 | After feature, activate `QueryContractTest` | 2 | Two failures: 9/17 SELECTs, expected 1 |
 | After performance, all four classes | 12 | Pass |
 
-Future acceptance classes live in `teaching/` until activated in the test
+Reference acceptance classes live in `teaching/` until activated in the test
 source directory. Review and commit them before implementation; keep their
 assertions unchanged. Boundary and checkout tests add cases beyond these 12.
 

@@ -25,9 +25,13 @@ from loading. Its [installation section](/workshops/copilot-app/skills/#install-
 is for another project; the workshop's pinned skills are already installed.
 
 ```copilot
-Use java-junit to review CartContractTest against the acceptance criteria.
-Show the skill guidance you actually read. Do not change the supplied test.
-Run its three tests and identify the intended failures before fixing code.
+/java-junit
+Generate src/test/java/com/juliendubois/workshop/CartContractTest.java
+from the acceptance criteria in our plan, using the existing test fixtures.
+Cover quantity accumulation, totals, new products and rejected input.
+Do not copy the teaching test or change production code or dependencies.
+Explain how you used the skill and show me the diff for review.
+After my approval, run the tests and confirm they expose the quantity bug.
 No new dependencies, Docker, skipped tests or unrelated refactors.
 ```
 
